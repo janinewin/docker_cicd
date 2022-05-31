@@ -1,0 +1,41 @@
+version: '3.9'
+services:
+  webapi:
+    container_name: fastapi
+    build:
+      context: .
+      dockerfile: dockerfile-fastapi
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/server/app
+    command: ["app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    networks:
+      - backend
+
+  database:
+    image: postgres:14.2
+    restart: on-failure  
+    healthcheck:
+      test: ["CMD", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./database/:/docker-entrypoint-initdb.d/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - APP_DB_USER=goldenspice
+      - APP_DB_PASS=whatsupdawg
+      - APP_DB_NAME=gangstadb
+    networks:
+      - backend
+
+  adminer:
+    image: adminer:4.8.1 
+
+networks:
+  backend:
+    driver: bridge
