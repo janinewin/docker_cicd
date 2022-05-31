@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+
+  #TODO: REPLACE DABATASE SERVICE WITH ACTUAL MOVIES DATABASE SERVICE - until then we mock it
+  database:
+    image: postgres:14
+    restart: always
+    volumes:
+      # - ./database/data:/var/lib/postgresql/data
+      - ./database/init/:/docker-entrypoint-initdb.d/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - DB_NAME=airlines # REPLACE WITH ACTUAL MOVIES DB WHEN READY
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+
+  metabase:
+      image: metabase/metabase
+      restart: always
+      volumes:
+        - ./metabase-data:/metabase-data
+      environment:
+       - MB_DB_FILE=/metabase-data/metabase.db
+      ports:
+        - 3000:3000
+      depends_on: 
+        - database
