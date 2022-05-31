@@ -37,7 +37,7 @@ airflow connections add 'postgres_connection' \
 
 As you can see, we use the Airflow command line interface to create a connection named `postgres_connection` that stores our database connection's configurations.
 
-Apart from that, the dockerfile and the docker-compose are the same as the ones you created in the setup exercise, and we have already started the pyproject.toml for you (you will have to update it).
+Apart from that, the dockerfile and the docker-compose are the same as the ones you created in the setup exercise, and we have already prepared the pyproject.toml for you.
 
 Make sure your terminal is in the current exercise folder and let's start by creating a local Airflow database for pytest by running:
 
@@ -81,7 +81,7 @@ You need four tasks:
 
 - A `PythonOperator` with a `task_id` named `transform` that should trigger the `transform` function with the proper arguments.
 
-- A `PythonOperator` with a `task_id` named `load` that should trigger the `load` function with the proper arguments. As explained in the Setup Instructions, you should pass a `PostgresHook` instance to the load function, and this instance should be setup with the proper `postgres_conn_id` (the one that you created). **Be careful**, you will have to install a new package to use the `PostgresHook`.
+- A `PythonOperator` with a `task_id` named `load` that should trigger the `load` function with the proper arguments. As explained in the Setup Instructions, you should pass a `PostgresHook` instance to the load function, and this instance should be setup with the proper `postgres_conn_id` (the one that you created).
 
 
 We have already added the `transform` and `load` functions signatures, but again: **for this part, you don't have to fill the functions but only to create the Airflow tasks that will call them.**
@@ -111,7 +111,7 @@ No need, to restart docker-compose when you change the DAG code, just refresh yo
 If you want to see what is inside your Airflow database you need:
 - to have your docker-compose running
 - to open a new terminal and run the following comment:
-  - ```psql -h localhost -U airflow_user -d airflow_database``` (and provide the password you defined in your .env)
+  - ```psql -h localhost -U airflow -d db``` (and provide the password you defined in your .env)
 
 
 If you want to see what is inside the test database that we use you can run:
