@@ -29,6 +29,7 @@ services:
         volumes:
             - ./dags:/opt/airflow/dags
             - ./data:/opt/airflow/data
+            - ./logs:/opt/airflow/logs
 
     webserver:
         build: .
@@ -46,6 +47,7 @@ services:
         volumes:
             - ./dags:/opt/airflow/dags
             - ./data:/opt/airflow/data
+            - ./logs:/opt/airflow/logs
         ports:
             - "8080:8080"
         healthcheck:

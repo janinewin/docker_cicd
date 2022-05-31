@@ -26,7 +26,7 @@ def test_docker_compose():
         'AIRFLOW__CORE__EXECUTOR=LocalExecutor',
         'AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:$POSTGRES_PASSWORD@postgres:5432/db'
     ]
-    assert scheduler.get('volumes') == ['./dags:/opt/airflow/dags', './data:/opt/airflow/data']
+    assert scheduler.get('volumes') == ['./dags:/opt/airflow/dags', './data:/opt/airflow/data', './logs:/opt/airflow/logs']
 
     webserver = docker_compose_data.get('services', {}).get('webserver', {})
     assert webserver.get('build') == '.'
@@ -40,7 +40,7 @@ def test_docker_compose():
         'POSTGRES_PASSWORD=$POSTGRES_PASSWORD',
         'POSTGRES_USER=airflow'
     ]
-    assert webserver.get('volumes') == ['./dags:/opt/airflow/dags', './data:/opt/airflow/data']
+    assert webserver.get('volumes') == ['./dags:/opt/airflow/dags', './data:/opt/airflow/data', './logs:/opt/airflow/logs']
     assert webserver.get('ports') == ['8080:8080']
     assert webserver.get('healthcheck', {}).get('test') == ['CMD-SHELL', '[ -f /home/airflow/airflow-webserver.pid ]']
     assert webserver.get('healthcheck', {}).get('interval') == '30s'
