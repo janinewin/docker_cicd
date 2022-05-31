@@ -1,25 +1,19 @@
-# OS generated files #
-######################
-.DS_Store
-__MACOSX
-
-# Jupiter Notebook #
-.pytest_cache
-__pycache__
-*checkpoint.ipynb
-*.ipynb_checkpoints
-
-# inteliJ #
-.idea
-*.gz
-*PKG-INFO
-*.egg-info
+# datasets
 *.csv
-*.zip
-mlruns
 *.sqlite
-# IDE #
-*.vscode
 
-# Challengify - test challengification files
-*_challengify*
+# File system
+.DS_Store
+
+# packages
+__pycache__/
+.ipynb_checkpoints
+*.egg-info/
+.pytest_cache
+.vscode/*
+
+#virtual env
+.venv/*
+
+#env files
+.*env*

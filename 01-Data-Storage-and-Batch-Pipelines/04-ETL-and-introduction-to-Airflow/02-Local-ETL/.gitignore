@@ -1,0 +1,7 @@
+*.json
+!**/tests/data/**
+airflow.cfg
+airflow.db
+webserver_config.py
+logs/**
+database/*

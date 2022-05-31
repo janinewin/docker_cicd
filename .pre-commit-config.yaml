@@ -1,0 +1,28 @@
+repos:
+
+-   repo: https://github.com/asottile/reorder_python_imports.git
+    rev: v1.7.0
+    hooks:
+    - id: reorder-python-imports
+
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v1.2.3
+    hooks:
+    - id: flake8
+      args: ['--max-line-length', '160']
+      exclude: node-modules
+
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+    - id: check-json
+    - id: check-merge-conflict
+    - id: check-xml
+    - id: check-yaml
+    - id: debug-statements
+    - id: detect-private-key
+    - id: pretty-format-json
+      args: ['--autofix', '--indent=2', '--no-sort-keys']
+    - id: sort-simple-yaml
+    - id: trailing-whitespace
+    - id: end-of-file-fixer
