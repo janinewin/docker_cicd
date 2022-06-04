@@ -32,3 +32,12 @@ Hint : those are the breaking rows:
   - Line 35669 (ID = 249260)
 3. We were flexible in the way we were loading data : strings were loaded either as a `VARCHAR(50)` or as `TEXT`. In reality, `adult` and `movies` should be `BOOLEAN` : change the data type of those 2 columns to `BOOLEAN`
 
+### `ratings.csv`
+Follow the same steps as for the `movies_metadata.csv` file
+1. Create the corresponding table. The columns should be named differently than in the csv (camelCase is not a standard way of naming fields in tables. snake_case is preferred)
+  - user_id
+  - movie_id
+  - rating
+  - timestamp
+2. Load the data from the csv in the destination table (it should take a while : the file is almost 1GB large and contains more than 26 million rows)
+3. The `timestamp` column is in a format called "epoch". Check what it means online, and, in a column called `created_at_utc`, load its equivalent in more readable `YYYY-MM-DD HH:MI:SS` format.
