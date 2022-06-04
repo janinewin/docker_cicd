@@ -1,5 +1,6 @@
 # datasets
 *.csv
+!teacher.csv
 *.sqlite
 
 # File system
@@ -10,10 +11,10 @@ __pycache__/
 .ipynb_checkpoints
 *.egg-info/
 .pytest_cache
-.vscode/*
-
+*.vscode/*
 #virtual env
 .venv/*
 
 #env files
 .*env*
+.vscode/
