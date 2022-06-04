@@ -1,4 +1,3 @@
-
 ## High Level Description 
 
 You'll reproduce the steps done in `00-Setup-Exercice` but with some more complex files. The goal is to have a database structure ready to then execute SQL queries on it in the `01-SQL-Basics`, `02-SQL-Advanced`, `03-SQL-More-Advanced` sections
