@@ -1,0 +1,5 @@
+ALTER TABLE movies_metadata ALTER COLUMN adult TYPE BOOLEAN USING adult::BOOLEAN;
+ALTER TABLE movies_metadata ALTER COLUMN video TYPE BOOLEAN USING video::BOOLEAN;
+
+
+
