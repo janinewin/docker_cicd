@@ -1,7 +1,7 @@
-ALTER TABLE ratings ADD COLUMN created_at_utc TIMESTAMP;
+ALTER TABLE ratings ADD COLUMN IF NOT EXISTS created_at_utc TIMESTAMP;
 INSERT INTO ratings (
   created_at_utc
 )
 SELECT 
-  TO_TIMESTAMP(timestamp) AS created_at_utc
+  TO_TIMESTAMP(timestamp)
 FROM ratings;

@@ -39,4 +39,4 @@ Follow the same steps as for the `movies_metadata.csv` file
   - rating
   - timestamp
 2. Load the data from the csv in the destination table (it should take a while : the file is almost 1GB large and contains more than 26 million rows)
-3. The `timestamp` column is in a format called "epoch". Check what it means online, and, in a column called `created_at_utc`, load its equivalent in more readable `YYYY-MM-DD HH:MI:SS` format.
+3. The `timestamp` column is in a format called "epoch". Check what it means online, and, in a column called `created_at_utc`, load its equivalent in more readable `YYYY-MM-DD HH:MI:SS` format. (The query should take ~5-6 minutes to run)
