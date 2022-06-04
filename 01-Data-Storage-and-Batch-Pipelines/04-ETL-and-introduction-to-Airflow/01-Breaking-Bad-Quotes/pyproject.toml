@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "04-ETL-and-introduction-to-Airflow/01-Breaking-Bad-Quotes"
+name = "01-Data-Storage-and-Batch-Pipeline/04-ETL-and-introduction-to-Airflow/01-Breaking-Bad-Quotes"
 version = "0.1.0"
 description = "Data engineering bootcamp by Le Wagon"
 authors = ["S. Saunier <seb@lewagon.org>"]
 
 [tool.poetry.dependencies]
 python = "^3.8.12"
-apache-airflow = "2.2.5"
+apache-airflow = "2.3.0"
 psycopg2-binary = "^2.9.3"
 
 [tool.poetry.dev-dependencies]
