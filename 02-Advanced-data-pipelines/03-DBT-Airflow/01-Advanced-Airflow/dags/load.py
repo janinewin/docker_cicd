@@ -3,19 +3,18 @@ import os
 
 import pandas as pd
 from airflow import DAG
+from airflow.models.taskinstance import TaskInstance
 from airflow.operators.python import PythonOperator
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.sensors.external_task import ExternalTaskSensor
-from sqlalchemy import create_engine
 
 AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
 
 
-def load_to_database(input_file: str, hook: PostgresHook, task_instance):
-    uri = hook.get_uri()
+def load_to_database(input_file: str, hook: PostgresHook, task_instance: TaskInstance):
     df = pd.read_parquet(input_file)
     task_instance.xcom_push('number_of_inserted_rows', len(df.index))
-    df.to_sql(name='trips', con=create_engine(uri), index=False, if_exists='append')
+    df.to_sql(name='trips', con=hook.get_conn(), index=False, if_exists='append')
 
 
 def display_number_of_inserted_rows(task_instance):
@@ -32,7 +31,6 @@ default_args = {
 with DAG(
         'load',
         default_args=default_args,
-        description='A simple DAG to create a local etl',
         schedule_interval='@monthly',
 ) as dag:
 

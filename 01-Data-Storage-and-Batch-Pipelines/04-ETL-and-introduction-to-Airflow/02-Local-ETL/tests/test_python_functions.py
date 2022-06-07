@@ -74,7 +74,7 @@ def test_transform():
 
 def test_load_to_database():
     hook = SqliteHook(sqlite_conn_id='sqlite_connection')
-    hook.run(sql="""DROP TABLE IF EXISTS swedified_jokes;""")
+    hook.run(sql="DROP TABLE IF EXISTS swedified_jokes;")
     hook.run(sql="""CREATE TABLE swedified_jokes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 joke VARCHAR NOT NULL,

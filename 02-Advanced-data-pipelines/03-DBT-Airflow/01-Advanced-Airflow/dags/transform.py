@@ -49,7 +49,6 @@ with DAG(
             'start_date': '2021-06-01',
             'end_date': '2021-12-31'
         },
-        description='A simple DAG to create a local etl',
         schedule_interval='@monthly',
 ) as dag:
 
