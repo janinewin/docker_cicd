@@ -4,4 +4,4 @@ airflow.db
 webserver_config.py
 logs/*
 database/**
-data/bronze/*.parquet
+data/*/*.parquet

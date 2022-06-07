@@ -1,6 +1,7 @@
 import datetime
 import os.path
 
+import pytest
 from airflow import DAG
 from airflow.hooks.sqlite_hook import SqliteHook
 from airflow.models import DagBag
@@ -10,6 +11,7 @@ from airflow.utils.types import DagRunType
 from dags import load
 from pendulum.datetime import DateTime
 from pendulum.tz.timezone import Timezone
+from testfixtures import log_capture
 
 
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
@@ -84,12 +86,8 @@ class TestLoadDag:
                 task.downstream_list)) == []
 
 
-def test_display_number_of_inserted_rows():
-    pass
-
-
-def test_load_to_database():
-    now = datetime.datetime.now(datetime.timezone.utc)
+@pytest.fixture
+def dag():
     start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
 
     with DAG(
@@ -106,23 +104,63 @@ def test_load_to_database():
             op_kwargs=dict(input_file='tests/data/dataframe.parquet', hook=hook)
         )
 
-        dagrun = dag.create_dagrun(
-            state=DagRunState.RUNNING,
-            execution_date=now,
-            start_date=start_date,
-            run_type=DagRunType.MANUAL,
+        PythonOperator(
+            task_id="display_number_of_inserted_rows",
+            dag=dag,
+            python_callable=load.display_number_of_inserted_rows,
         )
 
-        ti = dagrun.get_task_instance(task_id='load_to_database')
-        ti.task = dag.get_task(task_id='load_to_database')
-        connection = hook.get_conn()
-        cursor = connection.cursor()
+    return dag
 
-        hook.run(sql="DROP TABLE IF EXISTS trips;")
-        assert ti.xcom_pull(task_ids=['load_to_database'], key='number_of_inserted_rows') == []
-        ti.run(ignore_ti_state=True)
 
-        assert cursor.execute("SELECT COUNT(*) FROM trips;").fetchall()[0][0] == 2
-        assert cursor.execute("SELECT trip_distance FROM trips;").fetchall() == [(1,), (2,)]
-        assert cursor.execute("SELECT total_amount FROM trips;").fetchall() == [(3,), (4,)]
-        assert ti.xcom_pull(task_ids=['load_to_database'], key='number_of_inserted_rows') == [2]
+@log_capture()
+def test_display_number_of_inserted_rows(capture, dag):
+    now = datetime.datetime.now(datetime.timezone.utc)
+    start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
+
+    dagrun = dag.create_dagrun(
+        state=DagRunState.RUNNING,
+        execution_date=now,
+        start_date=start_date,
+        run_type=DagRunType.MANUAL,
+    )
+
+    ti = dagrun.get_task_instance(task_id='display_number_of_inserted_rows')
+    ti.task = dag.get_task(task_id='display_number_of_inserted_rows')
+
+    ti_load = dagrun.get_task_instance(task_id='load_to_database')
+    ti_load.task = dag.get_task(task_id='load_to_database')
+
+    ti_load.xcom_push('number_of_inserted_rows', 3)
+    ti.run(ignore_ti_state=True)
+    capture.check_present(
+        ('root', 'INFO', '3 trips have been inserted'),
+    )
+
+
+def test_load_to_database(dag):
+    now = datetime.datetime.now(datetime.timezone.utc)
+    start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
+
+    dagrun = dag.create_dagrun(
+        state=DagRunState.RUNNING,
+        execution_date=now,
+        start_date=start_date,
+        run_type=DagRunType.MANUAL,
+    )
+
+    ti = dagrun.get_task_instance(task_id='load_to_database')
+    ti.task = dag.get_task(task_id='load_to_database')
+
+    hook = SqliteHook(sqlite_conn_id='sqlite_connection')
+    connection = hook.get_conn()
+    cursor = connection.cursor()
+
+    hook.run(sql="DROP TABLE IF EXISTS trips;")
+    assert ti.xcom_pull(task_ids=['load_to_database'], key='number_of_inserted_rows') == []
+    ti.run(ignore_ti_state=True)
+
+    assert cursor.execute("SELECT COUNT(*) FROM trips;").fetchall()[0][0] == 2
+    assert cursor.execute("SELECT trip_distance FROM trips;").fetchall() == [(1,), (2,)]
+    assert cursor.execute("SELECT total_amount FROM trips;").fetchall() == [(3,), (4,)]
+    assert ti.xcom_pull(task_ids=['load_to_database'], key='number_of_inserted_rows') == [2]

@@ -19,7 +19,7 @@ def load_to_database(input_file: str, hook: PostgresHook, task_instance: TaskIns
 
 def display_number_of_inserted_rows(task_instance):
     number_of_inserted_rows = task_instance.xcom_pull(task_ids=['load_to_database'], key='number_of_inserted_rows')
-    logging.info(f"{number_of_inserted_rows[0]} have been inserted")
+    logging.info(f"{number_of_inserted_rows[0]} trips have been inserted")
 
 
 default_args = {
