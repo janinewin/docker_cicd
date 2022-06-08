@@ -1,4 +1,7 @@
+import csv
 import os
+from typing import List
+import uuid
 
 from fastapi import FastAPI
 
@@ -30,12 +33,10 @@ app = FastAPI()
 app.settings = load_settings()
 print(f"Loaded settings {app.settings}")
 
-@app.get("/latest-comments/")
-async def latest_comments(n: int=DEFAULT_N) -> models.LatestCommentsResponse:
+
+def new_comments(n: int=DEFAULT_N) -> List[models.Comment]:
     """
-    API endpoints returning a JSON of `n` latest comments
     """
-    n = max(1, min(n, MAX_N))
     movie_ids_str = helper.fetch_random_lines(
         n=n,
         total=app.settings.n_movies,
@@ -56,5 +57,41 @@ async def latest_comments(n: int=DEFAULT_N) -> models.LatestCommentsResponse:
             comment=comment,
             rating=rating
         ))
+    return comments
 
-    return models.LatestCommentsResponse(comments=comments)
+
+@app.get("/latest-comments/")
+async def latest_comments(n: int=DEFAULT_N) -> models.LatestCommentsResponse:
+    """
+    API endpoints returning a JSON of `n` latest comments
+    """
+    n = max(1, min(n, MAX_N))
+    return models.LatestCommentsResponse(comments=new_comments(n=n))
+
+
+@app.get("/dump-csv/")
+async def dump_csv(n: int):
+    """
+    API endpoints returning a JSON of `n` latest comments
+    """
+    fp = f"/tmp/{uuid.uuid4()}.csv"
+
+    i = 1
+    with open(fp, "w") as f:
+        fieldnames = ["id", "movie_id", "rating", "comment"]
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+
+        idx = 1
+        for _ in range(n // DEFAULT_N):
+            comments: List[models.Comment] = new_comments(DEFAULT_N)
+            for comment in comments:
+                writer.writerow({
+                    "id": idx,
+                    "movie_id": comment.movie_id,
+                    "comment": comment.comment,
+                    "rating": comment.rating
+                })
+                idx += 1
+
+    return {"fp": fp}
