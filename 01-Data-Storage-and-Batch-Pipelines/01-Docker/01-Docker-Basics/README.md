@@ -127,8 +127,8 @@ This tasks illustrates the concept of caching and unwanted dependencies installe
 Using the Dockerfile written in task 1
 
 1. Refactor the Dockerfile to use a single layer to install your dependencies
-2. Disable the installation of recommended packages when using `apt install` using the flag `--no-install-recommends` [Link to apt documentation](https://manpages.ubuntu.com/manpages/xenial/man8/apt-get.8.html)
-3. Disable the installation of  when using `pip install` with the flag `--no-cache-dir` [Link to pip caching documentation](https://pip.pypa.io/en/stable/topics/caching/)
+2. Disable the installation of recommended packages when using `apt-get install` using the flag `--no-install-recommends` [Link to apt documentation](https://manpages.ubuntu.com/manpages/xenial/man8/apt-get.8.html)
+3. Disable the caching of packaging downloads and builds when using `pip install` with the flag `--no-cache-dir` [Link to pip caching documentation](https://pip.pypa.io/en/stable/topics/caching/)
 4. Clean up apt lists using the following command `rm -rf /var/lib/apt/lists/*` [Link to apt-get documentation](https://manpages.ubuntu.com/manpages/xenial/man8/apt-get.8.html)
 5. Build image using the tag `base-image-fastapi-ubuntu:test`
 6. Run container to make sure it’s functional -- it should start the fastapi server listening on the localhost interface and port 8000 - Head to localhost:8000 you should see `Hello World`
@@ -149,7 +149,13 @@ Using the previous Dockerfile in task 2 do the following:
 
 1. Update the Dockerfile to use python:3.8.12 as a base image, you may need to remove some of the installations you’ve done in it, since now python and pip come with it.
 2. We are going to use [poetry](https://python-poetry.org/) to handle all the dependencies and package management for python, instead of using the traditional `pip` and `requirements.txt` to install our packages.
-To do so in the `RUN` 
+To do so:
+- Replace all the previously added pip packages using poetry
+```
+poetry add <package>
+```
+This will generete 2 files a `poetry.toml` & `poetry.lock` defining your dependency tree 
+- in the `RUN` 
 ```
 #add the following lines
     pip install --no-cache-dir poetry \ 
