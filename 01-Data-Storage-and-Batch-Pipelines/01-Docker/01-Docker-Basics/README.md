@@ -58,8 +58,8 @@ This message shows that your installation appears to be working correctly.
 - Text/Code editor - VSCode
 - Working github setup
 - Working GCP setup with docker authentication
-    1. Enable container registry: [Link](https://cloud.google.com/container-registry/docs/enable-service)
-    2. Authentication using gcloud credentials helper: [Link](https://cloud.google.com/container-registry/docs/advanced-authentication#gcloud-helper)
+    1. Enable container registry: [Link](https://cloud.google.com/artifact-registry/docs/docker/authentication)
+    2. Authentication using gcloud credentials helper: [Link](https://cloud.google.com/artifact-registry/docs/docker/authentication#gcloud-helper)
 
 
 
@@ -106,10 +106,10 @@ app.main:app --host 0.0.0.0 --port 8000
 docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest <your_image_name:tag>
 ```
 13. Inspect the layers, check the image size, check the wasted space.
-14. Push image to remote hub: [Link](https://cloud.google.com/container-registry/docs/pushing-and-pulling#pushing_an_image_to_a_registry)
+14. Push image to remote hub: [Link](https://cloud.google.com/artifact-registry/docs/docker/pushing-and-pulling)
     1. Retag the image with the registry name
     ```
-    docker tag <source-image> <hostname/project-id/image:tag>
+    docker tag <source-image> <LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY/image:tag>
     ```
     2. Push retagged image to container registry
     ```
