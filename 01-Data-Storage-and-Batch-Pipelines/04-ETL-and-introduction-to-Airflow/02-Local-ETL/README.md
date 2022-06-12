@@ -47,7 +47,7 @@ make init_db
 
 It should create the three same files as for the previous exercise, and an Airflow connection to this database (that will be used in the tests only). If you inspect the test files, you could see that we use an sqlite database to test your functions and not a PostgreSQL as you use for your Airflow instance. We do that, because a sqlite database is much lighter and is stored in a simple file, which makes the tests easier to setup.
 
-As before, Create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
+As before, create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
 
 Take time to open the `dags/local_etl.py` and discover the functions signatures that we have added to help you.
 

@@ -30,7 +30,7 @@ It should create three files in your project:
 
 These files are created at your project level thanks to the `AIRFLOW_HOME=${PWD}` from the `make` command. You won't interact with those files, but they are required to setup the test environment. You will see that we often override the the value of `AIRFLOW_HOME` (default value is `~/airflow`) to `${PWD}`. This is required as you will have different Airflow instances running on your laptop (one per exercise) and don't want to mix their databases.
 
-As before, Create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
+As before, create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
 
 Take time to open the `dags/breaking_bad_quote.py` and discover the functions' signatures that we have added to help you.
 

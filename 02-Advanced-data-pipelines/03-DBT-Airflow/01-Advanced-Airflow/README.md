@@ -1,111 +1,109 @@
-# Breaking Bad Quotes Handler
+# Advanced Airflow
 
 ### Introduction
 
-In this challenge, you will learn how to create a simple Airflow DAG.
+In this challenge, you will implement another ETL by using advanced Airflow concepts (Sensor, xcom, BranchOperator).
 
-The goal is to have a DAG running every five minutes that will:
-- request a generator of breaking bad quotes
-- save the received quote (only if this quote has not been saved yet)
+The goal is to have three DAGs running every month that will:
+- get the monthly New York City Taxi and Limousine Commission (NYC-TLC) data
+- filter the data based on the month to only keep outliers
+- load them into your PostgreSQL database
 
-For the quotes generator, you will use this api: https://breakingbadquotes.xyz/
-
-For the saving system, you will use a CSV file. This kind of files could be considered as databases in development environments. (https://en.wikipedia.org/wiki/Comma-separated_values)
-
-We split the instructions in four parts to help you create the needed DAG.
+To get the NYC-TLC data, you will use their public s3 bucket.
+For the saving system, you will use the parquet format this time. This type is very popular in the Data Engineering world to store large amount of data without taking too much space. (https://fr.wikipedia.org/wiki/Apache_Parquet)
 
 ### Setup Instructions
 
-The `Dockerfile` and the `docker-compose.yml` are the same as the ones you created in the setup exercise (we just set the `AIRFLOW__CORE__LOAD_EXAMPLES`to `false`), and we have already prepared the `pyproject.toml` for you.
+The `Dockerfile` and the `docker-compose.yml` are the same as the ones you used in the first week and we have already prepared the `pyproject.toml` for you.
 
 Make sure your terminal is in the current exercise folder and let's start by initiating a local Airflow database that will be used by `pytest` by running:
+
 ```
 make init_db
 ```
 
-It should create three files in your project:
-- airflow.db
-- airflow.cfg
-- webserver_config.py
+As before, create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
 
-These files are created at your project level thanks to the `AIRFLOW_HOME=${PWD}` from the `make` command. You won't interact with those files, but they are required to setup the test environment. You will see that we often override the the value of `AIRFLOW_HOME` (default value is `~/airflow`) to `${PWD}`. This is required as you will have different Airflow instances running on your laptop (one per exercise) and don't want to mix their databases.
+For this exercise, the process is a bit different, as you will have to create three DAGs.
 
-As before, Create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
+## Extract DAG Instructions
 
-Take time to open the `dags/breaking_bad_quote.py` and discover the functions' signatures that we have added to help you.
-
-## DAG Instructions
-
-First, let's focus on creating the proper DAG configuration (no tasks or python functions needed for now).
+First, let's focus on creating the extract DAG.
 
 You need to create a DAG with the following requirements:
-- it should be named `breaking_bad_quotes`
-- it should have a start date equal to yesterday
-- it should have a description saying `A simple DAG to store breaking bad quotes`
-- it should not catchup the missing runs
-- it should be scheduled to run every 5 minutes
-- it should run no matter if the previous runs failed
+- it should be named `extract`
+- it should depends on past
+- it should starts at `2021-06-01` and ends at `2021-12-31`
+- it should run every month
+
+Then, you need one task:
+- a BashOperator named `get_parquet_data` that will curl monthly data from a s3 bucket and store it locally. The s3 bucket is designed like this `https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_2021-06.parquet` (use [airflow_variable] (https://airflow.apache.org/docs/apache-airflow/stable/templates-ref.html) to generate the date dynamically). You should save the parquet file in your bronze folder under the name `yellow_tripdata_2021-06` (use `airflow_variable` as well).
+
 
 Once, you are confident with your code run:
+
 ```
-make test_dag_config
+make test_extract_dag
 ```
 
-If you have some `Airflow Depreciation warnings` in your tests this is normal, you should just make sure not to have errors.
+If this is not done yet, open an Airflow instance locally to download the data and move to the next part.
 
-## Tasks Instructions
+## Transform DAG Instructions
 
-Then, you have to create the tasks that your DAG will use.
+It's time to create the transform DAG. The main goal of this DAG is to read the parquet file you saved in bronze and two apply a specific operation based on the month corresponding to the data. If the month is odd you will only keep the long trips, otherwise you will keep the expensive ones.
 
-As we want your quotes to be saved in a specific CSV file, your DAG needs a task to create the file if it doesn't
-exist. Then, it will need another task to request a quote and save it if this is a new one.
+Regarding the DAG configurations, reuse the same arguments as for the `extract` one, just name this one `transform`.
 
-You thus need two tasks:
-- a [PythonOperator](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/python.html) with a `task_id` named `create_file_if_not_exist` that should trigger the `create_file_if_not_exist` function with the proper arguments
-- a `PythonOperator` with a `task_id` named `get_quote_and_save_if_new` that should trigger the `get_quote_and_save_if_new` function with the proper arguments
+As we want our `transform` DAG to run only once the `extract` one is done, you will have to use a [sensor] (https://airflow.apache.org/docs/apache-airflow/stable/concepts/sensors.html).
 
-To help you, we have already added the `create_file_if_not_exist` and `get_quote_and_save_if_new` functions signatures, but be careful:
+You need four tasks:
+- a [ExternalTaskSensor](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/external_task_sensor.html) with a `task_id` named `extract_sensor` that should wait for the DAG `extract` to be in a success state, and check its state every 10 seconds for a maximum of 10 minutes (after that it should timeout)
+- a [BranchPythonOperator] (https://airflow.apache.org/docs/apache-airflow/1.10.6/concepts.html?highlight=branch+operator#branching) with a `task_id` named `is_month_odd` that should trigger the `is_month_odd` function with the proper arguments
+- a `PythonOperator` with a `task_id` named `filter_long_trips` that should trigger the `filter_long_trips` function with the proper arguments (set the `distance` argument to `100`)
+- a `PythonOperator` with a `task_id` named `filter_expensive_trips` that should trigger the `filter_expensive_trips` function with the proper arguments (set the `amount` argument to `500`)
+
+
+To help you, we have already added the `is_month_odd`, `filter_long_trips` and `filter_expensive_trips` functions signatures, but be careful:
 **for this part, you don't have to fill the functions but only to create the Airflow tasks that will call them.**
 
-We want your quotes to be saved to `data/quotes.csv`. Depending on whether you run the Airflow DAG or the tests, the CSV will be located at different places (`$PWD` or `/opt/airflow/`).
-**To have both, your DAG running and your tests being green, you have to use the `AIRFLOW_HOME` environment variable to build the path**.
-Indeed, this environment variable will take different values based on the environment (`/opt/airflow/` when running the DAG and `$PWD` when running the tests).
+We want your filtered parquet files to be saved as `silver/yellow_tripdata_2021-06.parquet` (adapt the date based on the execution date of course).
 
 The second task should be triggered only once the first one succeeds.
 
-Once you are confident with your code run:
-```
-make test_tasks_configs
-```
+The third or fourth task should be triggered based on the return of the second one.
 
-Once you passed the tests, create the docker image (only needed once):
-```
-docker-compose build --no-cache
-```
 
-Then run your docker-compose:
+Then, as for the previous week, you have to fill the functions that we have created for you in the proper order and nce, you are confident with your code run:
+
 ```
-docker-compose up --force-recreate --remove-orphans
+make test_transform_dag
 ```
 
-Finally, open http://localhost:8080/home to see how your DAG looks.
+## Load DAG Instructions
 
-You should see your two tasks. Turn the dag on and see what happens! It should be all green as your tasks called functions that do not do anything for now.
+Finally, you will have to create the `load` DAG.
 
-## Python Functions Instructions
+Regarding the DAG configurations, reuse the same arguments as before and just name your DAG `load`.
 
-To help you, we have already added the signature of 5 functions. This is now your turn to implement them in the current order. You should not have to create any other python functions but will probably have to read the followings documentations:
-- https://docs.python.org/3.8/library/csv.html
-- https://fr.python-requests.org/en/latest/
+As we want your `load` DAG to run only once the `transform` one is done, you will have to use a `sensor` again.
 
-Do not hesitate to manually trigger the DAG to see what your code does.
-No need to restart your `docker-compose` when you change the DAG code, just refresh your browser.
+You need three tasks:
+- a [ExternalTaskSensor](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/external_task_sensor.html) with a `task_id` named `transform_sensor` that should wait for the DAG `transform` to be in a success state, and check its state every 10 seconds for a maximum of 10 minutes (after that it should timeout)
+- a `PythonOperator` with a `task_id` named `load_to_database` that should trigger the `load_to_database` function with the proper arguments
+- a `PythonOperator` with a `task_id` named `display_number_of_inserted_rows` that should trigger the `display_number_of_inserted_rows` function with the proper arguments
 
-If you need to restart from a clean base, you can empty your local `data/quotes.csv` file (it is synced with the one that Airflow uses).
 
-Once you are confident with your code run:
+To help you, we have already added the `load_to_database` and `display_number_of_inserted_rows`.
+
+We want your filtered parquet files to be saved as `silver/yellow_tripdata_2021-06.parquet` (adapt the date based on the execution date of course).
+
+The second task should be triggered only once the first one succeeds.
+
+The third one should be triggered only once the the second one succeeds.
+
+
+Then, as for the previous week, you have to fill the functions that we have created for you in the proper order and nce, you are confident with your code run:
+
 ```
-make test_python_functions
+make test_load_dag
 ```
-
-Now, you should be able to trigger the DAG, see green results and have your `quotes.csv` being filled.

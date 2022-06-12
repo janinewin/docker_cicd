@@ -40,7 +40,7 @@ with DAG(
         schedule_interval='@monthly',
 ) as dag:
 
-    filtered_data_file = f"{AIRFLOW_HOME}/data/silver/yellow_tripdata_" + "{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
+    filtered_data_file = f"{AIRFLOW_HOME}/data/silver/yellow_tripdata_" + "{{ ds[:7] }}.parquet"
 
     wait_for_transform_task = ExternalTaskSensor(
         task_id="transform_sensor",

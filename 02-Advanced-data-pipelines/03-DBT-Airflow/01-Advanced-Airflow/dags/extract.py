@@ -17,8 +17,8 @@ with DAG(
         schedule_interval='@monthly',
 ) as dag:
 
-    url = "https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
-    file_path = f"{AIRFLOW_HOME}/data/bronze/yellow_tripdata_" + "{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
+    url = "https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_{{ ds[:7] }}.parquet"
+    file_path = f"{AIRFLOW_HOME}/data/bronze/yellow_tripdata_" + "{{ ds[:7] }}.parquet"
 
     get_parquet_data_task = BashOperator(
         task_id='get_parquet_data',

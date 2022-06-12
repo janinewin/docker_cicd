@@ -1,6 +1,10 @@
 import os
 
+from airflow.hooks.sqlite_hook import SqliteHook
 from airflow.models import DagBag
+from airflow.models.taskinstance import TaskInstance
+from airflow.utils.state import DagRunState
+from airflow.utils.types import DagRunType
 from pendulum.datetime import DateTime
 from pendulum.tz.timezone import Timezone
 
@@ -34,6 +38,25 @@ class TestExtractDag:
         task = dag.get_task('get_parquet_data')
 
         assert task.__class__.__name__ == 'BashOperator'
-        url = "https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
-        file_path = "/opt/airflow/data/bronze/yellow_tripdata_" + "{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
-        assert task.bash_command == f'curl {url} > {file_path}'
+
+        hook = SqliteHook(sqlite_conn_id='sqlite_connection')
+        start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
+
+        for month in [6, 7]:
+            hook.run("delete from dag_run")
+            execution_date = DateTime(2021, month, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
+
+            dagrun = dag.create_dagrun(
+                state=DagRunState.RUNNING,
+                execution_date=execution_date,
+                start_date=start_date,
+                run_type=DagRunType.MANUAL,
+                data_interval=(execution_date, start_date)
+            )
+
+            ti = TaskInstance(task, run_id=dagrun.run_id)
+            ti.dry_run()
+
+            url = f"https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_2021-0{month}.parquet"
+            file_path = f"/opt/airflow/data/bronze/yellow_tripdata_2021-0{month}.parquet"
+            assert ti.task.bash_command == f'curl {url} > {file_path}'

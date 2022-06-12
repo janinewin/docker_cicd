@@ -1,20 +1,23 @@
 import os
 
-import pandas as pd
+from airflow.hooks.sqlite_hook import SqliteHook
 from airflow.models import DagBag
+from airflow.models.taskinstance import TaskInstance
+from airflow.utils.state import DagRunState
+from airflow.utils.types import DagRunType
 from dags import transform
 from pendulum.datetime import DateTime
 from pendulum.tz.timezone import Timezone
 
+
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
 os.environ["AIRFLOW_HOME"] = "/opt/airflow"
-SUFFIX_FOR_TRIP_DATA_FILES = "yellow_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
 
 
 class TestTransformDag:
 
-    input_file = f"/opt/airflow/data/bronze/{SUFFIX_FOR_TRIP_DATA_FILES}"
-    output_file = f"/opt/airflow/data/silver/{SUFFIX_FOR_TRIP_DATA_FILES}"
+    hook = SqliteHook(sqlite_conn_id='sqlite_connection')
+    start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
     dagbag = DagBag(dag_folder=DAG_BAG, include_examples=False)
 
     def test_dag_config(self):
@@ -25,7 +28,7 @@ class TestTransformDag:
         assert dag.catchup is True
         assert dag.default_args == {
             'depends_on_past': True,
-            'start_date': DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC')),
+            'start_date': self.start_date,
             'end_date': DateTime(2021, 12, 31, 0, 0, 0, tzinfo=Timezone('UTC'))
         }
 
@@ -33,7 +36,7 @@ class TestTransformDag:
         dag = self.dagbag.get_dag(dag_id="transform")
 
         assert list(map(lambda task: task.task_id, dag.tasks)) == [
-            'extract_sensor', 'check_if_month_is_odd', 'filter_long_trips',
+            'extract_sensor', 'is_month_odd', 'filter_long_trips',
             'filter_expensive_trips'
         ]
 
@@ -49,11 +52,11 @@ class TestTransformDag:
         assert list(map(lambda task: task.task_id, task.upstream_list)) == []
         assert list(
             map(lambda task: task.task_id,
-                task.downstream_list)) == ['check_if_month_is_odd']
+                task.downstream_list)) == ['is_month_odd']
 
-    def test_check_if_month_is_odd_task(self):
+    def test_is_month_odd_task(self):
         dag = self.dagbag.get_dag(dag_id="transform")
-        task = dag.get_task('check_if_month_is_odd')
+        task = dag.get_task('is_month_odd')
 
         assert task.__class__.__name__ == 'BranchPythonOperator'
         assert task.python_callable.__name__ == 'is_month_odd'
@@ -72,12 +75,29 @@ class TestTransformDag:
 
         assert task.__class__.__name__ == 'PythonOperator'
         assert task.python_callable.__name__ == 'filter_long_trips'
-        assert task.op_kwargs == {
-            'input_file': self.input_file,
-            'output_file': self.output_file,
-            'distance': 100,
-        }
-        assert list(map(lambda task: task.task_id, task.upstream_list)) == ['check_if_month_is_odd']
+
+        for month in [6, 7]:
+            self.hook.run("DELETE FROM dag_run")
+            execution_date = DateTime(2021, month, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
+
+            dagrun = dag.create_dagrun(
+                state=DagRunState.RUNNING,
+                execution_date=execution_date,
+                start_date=self.start_date,
+                run_type=DagRunType.MANUAL,
+                data_interval=(execution_date, self.start_date)
+            )
+
+            ti = TaskInstance(task, run_id=dagrun.run_id)
+            ti.dry_run()
+
+            assert ti.task.op_kwargs == {
+                'input_file': f"/opt/airflow/data/bronze/yellow_tripdata_2021-0{month}.parquet",
+                'output_file': f"/opt/airflow/data/silver/yellow_tripdata_2021-0{month}.parquet",
+                'distance': 100,
+            }
+
+        assert list(map(lambda task: task.task_id, task.upstream_list)) == ['is_month_odd']
         assert list(
             map(lambda task: task.task_id,
                 task.downstream_list)) == []
@@ -88,12 +108,29 @@ class TestTransformDag:
 
         assert task.__class__.__name__ == 'PythonOperator'
         assert task.python_callable.__name__ == 'filter_expensive_trips'
-        assert task.op_kwargs == {
-            'input_file': self.input_file,
-            'output_file': self.output_file,
-            'amount': 500,
-        }
-        assert list(map(lambda task: task.task_id, task.upstream_list)) == ['check_if_month_is_odd']
+
+        for month in [6, 7]:
+            self.hook.run("DELETE FROM dag_run")
+            execution_date = DateTime(2021, month, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
+
+            dagrun = dag.create_dagrun(
+                state=DagRunState.RUNNING,
+                execution_date=execution_date,
+                start_date=self.start_date,
+                run_type=DagRunType.MANUAL,
+                data_interval=(execution_date, self.start_date)
+            )
+
+            ti = TaskInstance(task, run_id=dagrun.run_id)
+            ti.dry_run()
+
+            assert ti.task.op_kwargs == {
+                'input_file': f"/opt/airflow/data/bronze/yellow_tripdata_2021-0{month}.parquet",
+                'output_file': f"/opt/airflow/data/silver/yellow_tripdata_2021-0{month}.parquet",
+                'amount': 500,
+            }
+
+        assert list(map(lambda task: task.task_id, task.upstream_list)) == ['is_month_odd']
         assert list(
             map(lambda task: task.task_id,
                 task.downstream_list)) == []
@@ -105,26 +142,21 @@ def remove_temp_file(temp_file):
 
 
 def assert_dataframe_has_all_values(df):
-    assert list(df.columns.values) == ['trip_distance', 'total_amount', 'tpep_pickup_datetime']
+    assert list(df.columns.values) == ['trip_distance', 'total_amount']
     assert list(df['trip_distance'].values) == [1, 2]
     assert list(df['total_amount'].values) == [3, 4]
-    assert list(df['tpep_pickup_datetime'].values) == [
-        pd.Timestamp('2021-06-01 06:24:00'), pd.Timestamp('2021-06-08 06:24:00')
-    ]
 
 
 def assert_dataframe_has_second_values(df):
-    assert list(df.columns.values) == ['trip_distance', 'total_amount', 'tpep_pickup_datetime']
+    assert list(df.columns.values) == ['trip_distance', 'total_amount']
     assert list(df['trip_distance'].values) == [2]
     assert list(df['total_amount'].values) == [4]
-    assert list(df['tpep_pickup_datetime'].values) == [pd.Timestamp('2021-06-08 06:24:00')]
 
 
 def assert_dataframe_has_no_values(df):
-    assert list(df.columns.values) == ['trip_distance', 'total_amount', 'tpep_pickup_datetime']
+    assert list(df.columns.values) == ['trip_distance', 'total_amount']
     assert list(df['trip_distance'].values) == []
     assert list(df['total_amount'].values) == []
-    assert list(df['tpep_pickup_datetime'].values) == []
 
 
 def test_is_month_odd():

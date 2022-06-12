@@ -155,14 +155,12 @@ def test_load_to_database(dag):
     ti.task = dag.get_task(task_id='load_to_database')
 
     hook = SqliteHook(sqlite_conn_id='sqlite_connection')
-    connection = hook.get_conn()
-    cursor = connection.cursor()
 
     hook.run(sql="DROP TABLE IF EXISTS trips;")
     assert ti.xcom_pull(task_ids=['load_to_database'], key='number_of_inserted_rows') == []
     ti.run(ignore_ti_state=True)
 
-    assert cursor.execute("SELECT COUNT(*) FROM trips;").fetchall()[0][0] == 2
-    assert cursor.execute("SELECT trip_distance FROM trips;").fetchall() == [(1,), (2,)]
-    assert cursor.execute("SELECT total_amount FROM trips;").fetchall() == [(3,), (4,)]
+    assert hook.run("SELECT COUNT(*) FROM trips;").fetchall()[0][0] == 2
+    assert hook.run("SELECT trip_distance FROM trips;").fetchall() == [(1,), (2,)]
+    assert hook.run("SELECT total_amount FROM trips;").fetchall() == [(3,), (4,)]
     assert ti.xcom_pull(task_ids=['load_to_database'], key='number_of_inserted_rows') == [2]

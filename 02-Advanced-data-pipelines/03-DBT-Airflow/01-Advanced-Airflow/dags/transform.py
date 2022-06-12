@@ -52,8 +52,8 @@ with DAG(
         schedule_interval='@monthly',
 ) as dag:
 
-    raw_data_file = f"{AIRFLOW_HOME}/data/bronze/yellow_tripdata_" + "{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
-    filtered_data_file = f"{AIRFLOW_HOME}/data/silver/yellow_tripdata_" + "{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
+    raw_data_file = f"{AIRFLOW_HOME}/data/bronze/yellow_tripdata_" + "{{ ds[:7] }}.parquet"
+    filtered_data_file = f"{AIRFLOW_HOME}/data/silver/yellow_tripdata_" + "{{ ds[:7] }}.parquet"
 
     wait_for_extract = ExternalTaskSensor(
         task_id="extract_sensor",
@@ -64,8 +64,8 @@ with DAG(
         timeout=60*10,
     )
 
-    check_if_month_is_odd_task = BranchPythonOperator(
-        task_id="check_if_month_is_odd",
+    is_month_odd_task = BranchPythonOperator(
+        task_id="is_month_odd",
         dag=dag,
         python_callable=is_month_odd,
         op_kwargs={
@@ -87,4 +87,4 @@ with DAG(
                        output_file=filtered_data_file, amount=500),
     )
 
-    wait_for_extract >> check_if_month_is_odd_task >> [filter_expensive_trips_task, filter_long_trips_task]
+    wait_for_extract >> is_month_odd_task >> [filter_expensive_trips_task, filter_long_trips_task]

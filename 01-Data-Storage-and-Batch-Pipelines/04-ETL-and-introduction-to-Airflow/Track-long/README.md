@@ -26,7 +26,7 @@ Make sure your terminal is in the current exercise folder and let's start by cre
 make init_db
 ```
 
-As before, Create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
+As before, create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
 
 Take time to open the `dags/long_track.py` and discover the functions signatures that we have added to help you.
 
