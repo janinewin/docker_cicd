@@ -30,7 +30,6 @@ class TestTasksConfigs:
         task = dag.get_task('create_swedified_jokes_table')
 
         assert task.__class__.__name__ == 'PostgresOperator'
-
         assert task.sql == """CREATE TABLE IF NOT EXISTS swedified_jokes (
                 id SERIAL PRIMARY KEY,
                 joke VARCHAR NOT NULL,
@@ -48,6 +47,7 @@ class TestTasksConfigs:
 
         assert task.__class__.__name__ == 'BashOperator'
         data_url = 'https://api.chucknorris.io/jokes/random'
+
         for day in range(1, 2):
             self.hook.run("DELETE FROM dag_run")
             execution_date = DateTime(2022, 1, day, 0, 0, 0, tzinfo=Timezone('UTC'))

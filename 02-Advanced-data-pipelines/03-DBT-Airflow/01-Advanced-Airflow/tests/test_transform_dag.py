@@ -76,7 +76,7 @@ class TestTransformDag:
         assert task.__class__.__name__ == 'PythonOperator'
         assert task.python_callable.__name__ == 'filter_long_trips'
 
-        for month in [6, 7]:
+        for month in range(6, 7):
             self.hook.run("DELETE FROM dag_run")
             execution_date = DateTime(2021, month, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
 
@@ -109,7 +109,7 @@ class TestTransformDag:
         assert task.__class__.__name__ == 'PythonOperator'
         assert task.python_callable.__name__ == 'filter_expensive_trips'
 
-        for month in [6, 7]:
+        for month in range(6, 7):
             self.hook.run("DELETE FROM dag_run")
             execution_date = DateTime(2021, month, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
 

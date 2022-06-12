@@ -20,7 +20,7 @@ make test_files_and_folders
 
 ## Setup dockerfile
 
-Then, you need to create the Dockerfile that will be used by your `webserver` and `scheduler` services.
+Then, you need to create the Dockerfile that will be used by your `webserver` and `scheduler` services. There are a lot of ways to build it but to help you through this task we make our tests very strict such that we can ensure that you all reach the exact same point to start the exercises of the day (that's why you could have a setup that works but that does not pass the test).
 
 The main requirements to respect are:
 - [setting the `AIRFLOW_HOME` environment variable](https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html?highlight=airflow_home#envvar-AIRFLOW_HOME)
@@ -31,12 +31,12 @@ You could use an Airflow image to start our Dockerfile but we will keep it as si
 
 In so doing, let's start by creating a `Dockerfile`, make it start from a `python:3.8.12-slim` image, and add the usual `DEBIAN_FRONTEND` argument and `PYTHONUNBUFFERED` environment variable set to `noninteractive` and `1`. Then, set the environment variable `AIRFLOW_HOME` to `/opt/airflow` and use it as your `WORKDIR`.
 
-Now, it's time for you to have a look to the `scripts/entrypoint.sh` file that we have created for you. First, you should see a block of code that checks whether PostgreSQL is ready or not. Then you should see three Airflow commands that:
+Now, it's time for you to take a look at the `scripts/entrypoint.sh` file that we have created for you. First, you should see a block of code that checks whether PostgreSQL is ready or not. Then you should see three Airflow commands that:
 - update the Airflow database
 - create an Airflow user
 - [start an Airflow `webserver` instance](https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html#webserver)
 
-Your Airflow `webserver` will have to run this file. To be able to run this file, your webserver must know the `psql` command that comes from the `postgresql` package. As we want you to have the version 14, [the install is a bit more complex](https://techviewleo.com/how-to-install-postgresql-database-on-ubuntu/) than usual, which is why we will provide it to you. To properly install the `postgresql-14` package you will have to add the following lines to your Dockerfile:
+As your Airflow `webserver` will run this file it has to know the `psql` command that comes from the `postgresql` package. As we want you to have the version 14, [the install is a bit more complex](https://techviewleo.com/how-to-install-postgresql-database-on-ubuntu/) than usual, which is why we will provide it to you. To properly install the `postgresql-14` package you will have to add the following lines to your Dockerfile:
 
 ```
 RUN apt-get update \
@@ -54,7 +54,7 @@ Let's go back to your Dockerfile and add two new commands (after the one we prov
 - a copy of the `scripts` folder
 - a bash command to make `scripts/entrypoint.sh` runnable
 
-Finally, you will have to setup `poetry`. Start by copying the `pyproject.toml` and the `poetry.lock` files. Then, add a bash command that run three consecutive steps to upgrade pip, install poetry and finally install poetry packages without the dev packages.
+Finally, you will have to setup `poetry`. Start by adding a command to copy the `pyproject.toml` and the `poetry.lock` files to the docker container. Then, add a bash command that run three consecutive steps to upgrade pip, install poetry and finally install poetry packages without the dev packages.
 
 To recap the previous explanations you should have the following 10 commands:
 - a `python:3.8.12-slim` image

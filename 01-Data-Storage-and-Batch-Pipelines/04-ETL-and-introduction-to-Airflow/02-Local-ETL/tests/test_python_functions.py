@@ -48,9 +48,9 @@ def test_write_jokes_to_json():
     )
 
     with open(temp_file, 'r') as file:
-        jokes = json.load(file)
-        assert joke == jokes['joke']
-        assert swedified_joke == jokes['swedified_joke']
+        saved_joke = json.load(file)
+        assert joke == saved_joke['joke']
+        assert swedified_joke == saved_joke['swedified_joke']
 
 
 def test_double_single_quote():
@@ -67,9 +67,9 @@ def test_transform():
     local_etl.transform('tests/data/joke_with_single_quote.json', temp_file)
 
     with open(temp_file, 'r') as file:
-        jokes = json.load(file)
-        assert jokes['joke'] == "A diff between your code and Chuck Norris''s is infinite."
-        assert jokes['swedified_joke'] == "En skillnad mellan din kod och Chuck Norris \u00e4r o\u00e4ndlig."
+        joke = json.load(file)
+        assert joke['joke'] == "A diff between your code and Chuck Norris''s is infinite."
+        assert joke['swedified_joke'] == "En skillnad mellan din kod och Chuck Norris \u00e4r o\u00e4ndlig."
 
 
 def test_load_to_database():
@@ -80,15 +80,14 @@ def test_load_to_database():
                 joke VARCHAR NOT NULL,
                 swedified_joke VARCHAR NOT NULL
             );""")
-    connection = hook.get_conn()
-    cursor = connection.cursor()
-    assert cursor.execute("SELECT COUNT(*) FROM swedified_jokes;").fetchall()[0][0] == 0
+
+    assert hook.get_records("SELECT COUNT(*) FROM swedified_jokes;")[0][0] == 0
     local_etl.load('tests/data/swedified_joke.json', hook)
-    assert cursor.execute("SELECT COUNT(*) FROM swedified_jokes;").fetchall()[0][0] == 1
+    assert hook.get_records("SELECT COUNT(*) FROM swedified_jokes;")[0][0] == 1
     joke = "Chuck Norris doesn't use a microwave to pop his popcorn. He simply sits the package on the counter " \
            "and the kernals jump in fear of a round house kick"
     swedified_joke = "Chuck Norris använder inte en mikrovågsugn för att poppa sin popcorn.Han sitter helt " \
                      "enkelt paketet på räknaren och kernalerna hoppar i rädsla för en rund husspark"
-    assert cursor.execute("SELECT * FROM swedified_jokes;").fetchall()[0] == (1, joke, swedified_joke)
+    assert hook.get_records("SELECT * FROM swedified_jokes;")[0] == (1, joke, swedified_joke)
     local_etl.load('tests/data/swedified_joke.json', hook)
-    assert cursor.execute("SELECT COUNT(*) FROM swedified_jokes;").fetchall()[0][0] == 2
+    assert hook.get_records("SELECT COUNT(*) FROM swedified_jokes;")[0][0] == 2

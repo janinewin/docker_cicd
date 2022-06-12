@@ -43,7 +43,7 @@ def transform(joke_file: str, swedified_joke_file: str) -> None:
     """
     Uses the read_from_json, translate_joke_to_swedish,
     double_single_quote and write_jokes_to_json functions to
-    transform your data as expected.
+    transform your data as expected and save it.
     """
     pass  # YOUR CODE HERE
 

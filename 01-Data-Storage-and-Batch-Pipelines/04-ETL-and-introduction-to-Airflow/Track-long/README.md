@@ -13,7 +13,7 @@ In the exercise 2, we built a local ETL infrastructure with Apache Airflow. In t
 The students will:
 
 1. add Airflow to the current Docker-compose
-2. write a script that fetches comments from the past 5 minutes. (`GET /api/all-comments-since/<timestamp>`)
+2. write a script that fetches n comments from the past 5 minutes
 3. add a table to the DB for these comments (movie_id + comment data columns)
 4. load the comments in the DB
 
@@ -49,7 +49,7 @@ make test_dag_config
 
 ## Tasks Instructions
 
-Then, we want you to create the tasks that your DAG will use. This time we will create less tasks, that will do more things.
+Then, we want you to create the tasks that your DAG will use. This time we will create less tasks that will do more things.
 
 You need two tasks:
 

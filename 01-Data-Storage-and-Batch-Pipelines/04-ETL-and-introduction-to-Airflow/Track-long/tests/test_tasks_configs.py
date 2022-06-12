@@ -4,8 +4,6 @@ from airflow.models import DagBag
 
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
 
-AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
-
 
 class TestTasksConfigs:
 

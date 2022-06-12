@@ -9,15 +9,16 @@ AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
 COMMENTS_API_ROOT = os.getenv("COMMENTS_API_ROOT", "http://dev.sapiologie.com:8008/latest-comments/")
 
 
-def get_last_comments(number_of_comments: int) -> dict:
+def get_last_comments(number_of_comments: int) -> list:
     """
-    Calls COMMENTS_API_ROOT to get the last n comments
+    Calls http://dev.sapiologie.com:8008/latest-comments/?n=number_of_comments to
+    get the last `number_of_comments` comments
     and returns the 'comments' field of the answer.
     """
     pass  # YOUR CODE HERE
 
 
-def double_single_quote(comment: str):
+def double_single_quote(comment: str) -> str:
     """
     Returns the `comment` with all single quotes
     replaced by two single quotes (not a double quote).

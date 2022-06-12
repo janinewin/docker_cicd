@@ -42,7 +42,7 @@ class TestExtractDag:
         hook = SqliteHook(sqlite_conn_id='sqlite_connection')
         start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
 
-        for month in [6, 7]:
+        for month in range(6, 7):
             hook.run("delete from dag_run")
             execution_date = DateTime(2021, month, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
 
