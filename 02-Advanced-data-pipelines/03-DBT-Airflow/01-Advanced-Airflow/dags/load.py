@@ -11,10 +11,16 @@ from airflow.sensors.external_task import ExternalTaskSensor
 AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
 
 
+def create_connection_from_hook(hook):
+    if hook.__class__.__name__ == 'PostgresHook':
+        return hook.get_sqlalchemy_engine()
+    return hook.get_conn()
+
+
 def load_to_database(input_file: str, hook: PostgresHook, task_instance: TaskInstance):
     df = pd.read_parquet(input_file)
     task_instance.xcom_push('number_of_inserted_rows', len(df.index))
-    df.to_sql(name='trips', con=hook.get_conn(), index=False, if_exists='append')
+    df.to_sql(name='trips', con=create_connection_from_hook(hook), index=False, if_exists='append')
 
 
 def display_number_of_inserted_rows(task_instance):

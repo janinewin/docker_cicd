@@ -1,11 +1,11 @@
-import os.path
+import os
 
 from airflow.models import DagBag
 from pendulum.datetime import DateTime
 from pendulum.tz.timezone import Timezone
 
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
-AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
+os.environ["AIRFLOW_HOME"] = "/opt/airflow"
 
 
 class TestExtractDag:
@@ -35,5 +35,5 @@ class TestExtractDag:
 
         assert task.__class__.__name__ == 'BashOperator'
         url = "https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
-        file_path = f"{AIRFLOW_HOME}/data/bronze/yellow_tripdata_" + "{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
+        file_path = "/opt/airflow/data/bronze/yellow_tripdata_" + "{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
         assert task.bash_command == f'curl {url} > {file_path}'

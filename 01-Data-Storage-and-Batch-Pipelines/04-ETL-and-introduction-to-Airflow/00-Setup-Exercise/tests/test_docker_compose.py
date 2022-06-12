@@ -24,7 +24,7 @@ def test_docker_compose():
     assert scheduler.get('depends_on') == ['postgres']
     assert scheduler.get('environment') == [
         'AIRFLOW__CORE__EXECUTOR=LocalExecutor',
-        'AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:$POSTGRES_PASSWORD@postgres:5432/db'
+        'AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:$POSTGRES_PASSWORD@postgres:5432/db'
     ]
     assert scheduler.get('volumes') == ['./dags:/opt/airflow/dags', './data:/opt/airflow/data', './logs:/opt/airflow/logs']
 
@@ -35,7 +35,7 @@ def test_docker_compose():
     assert webserver.get('depends_on') == ['postgres', 'scheduler']
     assert webserver.get('environment') == [
         'AIRFLOW__CORE__EXECUTOR=LocalExecutor',
-        'AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:$POSTGRES_PASSWORD@postgres:5432/db',
+        'AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:$POSTGRES_PASSWORD@postgres:5432/db',
         'POSTGRES_DB=db',
         'POSTGRES_PASSWORD=$POSTGRES_PASSWORD',
         'POSTGRES_USER=airflow'

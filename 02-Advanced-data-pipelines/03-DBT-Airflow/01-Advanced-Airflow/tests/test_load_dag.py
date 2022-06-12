@@ -1,5 +1,5 @@
 import datetime
-import os.path
+import os
 
 import pytest
 from airflow import DAG
@@ -15,7 +15,7 @@ from testfixtures import log_capture
 
 
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
-AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
+os.environ["AIRFLOW_HOME"] = "/opt/airflow"
 
 
 class TestLoadDag:
@@ -62,7 +62,7 @@ class TestLoadDag:
         assert task.__class__.__name__ == 'PythonOperator'
         assert task.python_callable.__name__ == 'load_to_database'
 
-        filtered_data_file = f"{AIRFLOW_HOME}/data/silver/yellow_tripdata_" + "{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
+        filtered_data_file = "/opt/airflow/data/silver/yellow_tripdata_" + "{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
         assert list(task.op_kwargs.keys()) == ['input_file', 'hook']
         assert task.op_kwargs['input_file'] == filtered_data_file
         assert task.op_kwargs['hook'].__class__.__name__ == 'PostgresHook'
@@ -123,6 +123,7 @@ def test_display_number_of_inserted_rows(capture, dag):
         execution_date=now,
         start_date=start_date,
         run_type=DagRunType.MANUAL,
+        data_interval=(now, start_date)
     )
 
     ti = dagrun.get_task_instance(task_id='display_number_of_inserted_rows')
@@ -147,6 +148,7 @@ def test_load_to_database(dag):
         execution_date=now,
         start_date=start_date,
         run_type=DagRunType.MANUAL,
+        data_interval=(now, start_date)
     )
 
     ti = dagrun.get_task_instance(task_id='load_to_database')

@@ -100,13 +100,13 @@ For your scheduler service, you need:
 - to use the `dockerfile` that you just created (use the build keyword)
 - to restart on `failure`
 - to start only once postgres is ready
-- 2 environment variables: `AIRFLOW__CORE__EXECUTOR` and `AIRFLOW__CORE__SQL_ALCHEMY_CONN` equal to `LocalExecutor` and `postgresql+psycopg2://airflow:$POSTGRES_PASSWORD@postgres:5432/db`
+- 2 environment variables: `AIRFLOW__CORE__EXECUTOR` and `AIRFLOW__DATABASE__SQL_ALCHEMY_CONN` equal to `LocalExecutor` and `postgresql+psycopg2://airflow:$POSTGRES_PASSWORD@postgres:5432/db`
 - 3 volumes to sync our `dags`, `data` and `logs` folders with Airflow ones (they should be stored at `/opt/airflow` on Airflow side)
 - to run the command `poetry run airflow scheduler` at start
 
 You noticed that we set our `AIRFLOW__CORE__EXECUTOR` to `LocalExecutor` as we wanted the lightest version of Airflow, but in production you would use other values (https://airflow.apache.org/docs/apache-airflow/stable/executor/index.html).
 
-You also noticed that we defined the `AIRFLOW__CORE__SQL_ALCHEMY_CONN` environment variable that will allow Airflow to connect to our PostgreSQL database. Have a look at the documentation to see all available environment variables (https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html)
+You also noticed that we defined the `AIRFLOW__DATABASE__SQL_ALCHEMY_CONN` environment variable that will allow Airflow to connect to our PostgreSQL database. Have a look at the documentation to see all available environment variables (https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html)
 
 ### Webserver service
 

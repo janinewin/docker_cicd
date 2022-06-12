@@ -1,20 +1,20 @@
-import os.path
+import os
 
+import pandas as pd
 from airflow.models import DagBag
 from dags import transform
 from pendulum.datetime import DateTime
 from pendulum.tz.timezone import Timezone
 
-
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
-AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
+os.environ["AIRFLOW_HOME"] = "/opt/airflow"
 SUFFIX_FOR_TRIP_DATA_FILES = "yellow_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
 
 
 class TestTransformDag:
 
-    input_file = f"{AIRFLOW_HOME}/data/bronze/{SUFFIX_FOR_TRIP_DATA_FILES}"
-    output_file = f"{AIRFLOW_HOME}/data/silver/{SUFFIX_FOR_TRIP_DATA_FILES}"
+    input_file = f"/opt/airflow/data/bronze/{SUFFIX_FOR_TRIP_DATA_FILES}"
+    output_file = f"/opt/airflow/data/silver/{SUFFIX_FOR_TRIP_DATA_FILES}"
     dagbag = DagBag(dag_folder=DAG_BAG, include_examples=False)
 
     def test_dag_config(self):
@@ -105,21 +105,26 @@ def remove_temp_file(temp_file):
 
 
 def assert_dataframe_has_all_values(df):
-    assert list(df.columns.values) == ['trip_distance', 'total_amount']
+    assert list(df.columns.values) == ['trip_distance', 'total_amount', 'tpep_pickup_datetime']
     assert list(df['trip_distance'].values) == [1, 2]
     assert list(df['total_amount'].values) == [3, 4]
+    assert list(df['tpep_pickup_datetime'].values) == [
+        pd.Timestamp('2021-06-01 06:24:00'), pd.Timestamp('2021-06-08 06:24:00')
+    ]
 
 
 def assert_dataframe_has_second_values(df):
-    assert list(df.columns.values) == ['trip_distance', 'total_amount']
+    assert list(df.columns.values) == ['trip_distance', 'total_amount', 'tpep_pickup_datetime']
     assert list(df['trip_distance'].values) == [2]
     assert list(df['total_amount'].values) == [4]
+    assert list(df['tpep_pickup_datetime'].values) == [pd.Timestamp('2021-06-08 06:24:00')]
 
 
 def assert_dataframe_has_no_values(df):
-    assert list(df.columns.values) == ['trip_distance', 'total_amount']
+    assert list(df.columns.values) == ['trip_distance', 'total_amount', 'tpep_pickup_datetime']
     assert list(df['trip_distance'].values) == []
     assert list(df['total_amount'].values) == []
+    assert list(df['tpep_pickup_datetime'].values) == []
 
 
 def test_is_month_odd():

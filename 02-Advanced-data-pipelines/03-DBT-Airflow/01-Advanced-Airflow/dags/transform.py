@@ -10,6 +10,10 @@ from airflow.sensors.external_task import ExternalTaskSensor
 AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
 
 
+def is_month_odd(ds_nodash: str) -> bool:
+    return "filter_expensive_trips" if int(ds_nodash[6:8]) % 2 == 0 else "filter_long_trips"
+
+
 def read_parquet_file(input_file: str) -> pd.DataFrame:
     return pd.read_parquet(input_file)
 
@@ -38,10 +42,6 @@ def filter_expensive_trips(input_file: str, output_file: str, amount: int) -> No
     save_dataframe_to_parquet(df, output_file)
 
 
-def is_month_odd(ds_nodash: str) -> bool:
-    return "filter_expensive_trips" if int(ds_nodash[6:8]) % 2 == 0 else "filter_long_trips"
-
-
 with DAG(
         'transform',
         default_args={
@@ -52,7 +52,6 @@ with DAG(
         schedule_interval='@monthly',
 ) as dag:
 
-    data_url = 'https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_{{ ds_nodash }}.parquet'
     raw_data_file = f"{AIRFLOW_HOME}/data/bronze/yellow_tripdata_" + "{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
     filtered_data_file = f"{AIRFLOW_HOME}/data/silver/yellow_tripdata_" + "{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
 
