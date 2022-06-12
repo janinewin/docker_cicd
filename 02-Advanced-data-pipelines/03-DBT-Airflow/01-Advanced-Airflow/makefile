@@ -4,7 +4,7 @@ install:
 	poetry install
 
 init_db:
-	poetry run airflow db init; chmod +x tests/init_connections.sh; poetry run tests/init_connections.sh; echo 'Succesfully created db and connection'
+	export AIRFLOW_HOME=${PWD}; poetry run airflow db init; chmod +x tests/init_connections.sh; poetry run tests/init_connections.sh; echo 'Succesfully created db and connection'
 
 test_extract_dag:
 	AIRFLOW_HOME=${PWD} poetry run pytest -v tests/test_extract_dag.py

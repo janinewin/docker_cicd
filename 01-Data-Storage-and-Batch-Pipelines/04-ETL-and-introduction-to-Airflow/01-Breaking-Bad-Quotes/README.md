@@ -19,6 +19,7 @@ We split the instructions in four parts to help you create the needed DAG.
 The `Dockerfile` and the `docker-compose.yml` are the same as the ones you created in the setup exercise (we just set the `AIRFLOW__CORE__LOAD_EXAMPLES`to `false`), and we have already prepared the `pyproject.toml` for you.
 
 Make sure your terminal is in the current exercise folder and let's start by initiating a local Airflow database that will be used by `pytest` by running:
+
 ```
 make init_db
 ```
@@ -67,9 +68,7 @@ You thus need two tasks:
 To help you, we have already added the `create_file_if_not_exist` and `get_quote_and_save_if_new` functions signatures, but be careful:
 **for this part, you don't have to fill the functions but only to create the Airflow tasks that will call them.**
 
-We want your quotes to be saved to `data/quotes.csv`. Depending on whether you run the Airflow DAG or the tests, the CSV will be located at different places (`$PWD` or `/opt/airflow/`).
-**To have both, your DAG running and your tests being green, you have to use the `AIRFLOW_HOME` environment variable to build the path**.
-Indeed, this environment variable will take different values based on the environment (`/opt/airflow/` when running the DAG and `$PWD` when running the tests).
+We want your quotes to be saved to `data/quotes.csv`.
 
 The second task should be triggered only once the first one succeeds.
 

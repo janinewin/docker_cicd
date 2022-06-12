@@ -1,7 +1,7 @@
 import os.path
 
+import pendulum
 from airflow.models import DagBag
-from airflow.utils.dates import days_ago
 
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
 
@@ -16,6 +16,6 @@ class TestDagConfig:
         assert dag.schedule_interval == '@daily'
         assert dag.default_args == {
             'depends_on_past': True,
-            'start_date': days_ago(5)
+            'start_date': pendulum.today('UTC').add(days=-5)
         }
         assert self.dagbag.import_errors == {}
