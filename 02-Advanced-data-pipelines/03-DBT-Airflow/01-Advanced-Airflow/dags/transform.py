@@ -10,33 +10,59 @@ from airflow.sensors.external_task import ExternalTaskSensor
 AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
 
 
-def is_month_odd(ds_nodash: str) -> bool:
+def is_month_odd(ds_nodash: str) -> str:
+    """
+    Returns filter_expensive_trips if the month date is odd, filter_long_trips otherwise.
+    Date should be formatted like YYYY-MM-DD.
+    """
     return "filter_expensive_trips" if int(ds_nodash[6:8]) % 2 == 0 else "filter_long_trips"
 
 
 def read_parquet_file(input_file: str) -> pd.DataFrame:
+    """
+    Reads the parquet file using pandas and returns the corresponding DataFrame.
+    """
     return pd.read_parquet(input_file)
 
 
 def get_trips_longer_than(df, distance: int) -> pd.DataFrame:
+    """
+    Returns df with only rows for which the 'trip_distance'
+    is greater than the `distance`
+    """
     return df[df['trip_distance'] > distance]
 
 
 def get_trips_more_expensive_than(df, amount: int) -> pd.DataFrame:
+    """
+    Returns df with only rows for which the 'total_amount'
+    is greater than the `amount`
+    """
     return df[df['total_amount'] > amount]
 
 
 def save_dataframe_to_parquet(df, output_file: str) -> None:
+    """
+    Save df to parquet into a file named `output_file`.
+    """
     df.to_parquet(output_file)
 
 
 def filter_long_trips(input_file: str, output_file: str, distance: int) -> None:
+    """
+    Reuses read_parquet_file, get_trips_longer_than and save_dataframe_to_parquet
+    functions to get the data from bronze, filter it and save it to silver.
+    """
     df = read_parquet_file(input_file)
     df = get_trips_longer_than(df, distance)
     save_dataframe_to_parquet(df, output_file)
 
 
 def filter_expensive_trips(input_file: str, output_file: str, amount: int) -> None:
+    """
+    Reuses read_parquet_file, get_trips_more_expensive_than and save_dataframe_to_parquet
+    functions to get the data from bronze, filter it and save it to silver.
+    """
     df = read_parquet_file(input_file)
     df = get_trips_more_expensive_than(df, amount)
     save_dataframe_to_parquet(df, output_file)

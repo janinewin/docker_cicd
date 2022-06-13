@@ -10,7 +10,7 @@ The goal is to have three DAGs running every month that will:
 - load them into your PostgreSQL database
 
 To get the NYC-TLC data, you will use their public s3 bucket.
-For the saving system, you will use the parquet format this time. This type is very popular in the Data Engineering world to store large amount of data without taking too much space. (https://fr.wikipedia.org/wiki/Apache_Parquet)
+For the saving system, you will use the parquet format which is very popular in the Data Engineering world to store large amount of data without taking too much space. (https://fr.wikipedia.org/wiki/Apache_Parquet)
 
 ### Setup Instructions
 
@@ -24,7 +24,7 @@ make init_db
 
 As before, create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
 
-For this exercise, the process is a bit different, as you will have to create three DAGs.
+For this exercise, the process is a bit different as you will have to create three DAGs.
 
 ## Extract DAG Instructions
 
@@ -37,7 +37,7 @@ You need to create a DAG with the following requirements:
 - it should run every month
 
 Then, you need one task:
-- a BashOperator named `get_parquet_data` that will curl monthly data from a s3 bucket and store it locally. The s3 bucket is designed like this `https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_2021-06.parquet` (use [airflow_variable] (https://airflow.apache.org/docs/apache-airflow/stable/templates-ref.html) to generate the date dynamically). You should save the parquet file in your bronze folder under the name `yellow_tripdata_2021-06` (use `airflow_variable` as well).
+- a BashOperator named `get_parquet_data` that will curl monthly data from a s3 bucket and store it locally. The s3 bucket is designed like this `https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_YYYY-MM.parquet` (use [airflow_variable] (https://airflow.apache.org/docs/apache-airflow/stable/templates-ref.html) to generate the date dynamically). You should save the parquet file in your bronze folder under the name `yellow_tripdata_YYYY-MM`.
 
 
 Once, you are confident with your code run:
@@ -52,7 +52,7 @@ If this is not done yet, open an Airflow instance locally to download the data a
 
 It's time to create the transform DAG. The main goal of this DAG is to read the parquet file you saved in bronze and two apply a specific operation based on the month corresponding to the data. If the month is odd you will only keep the long trips, otherwise you will keep the expensive ones.
 
-Regarding the DAG configurations, reuse the same arguments as for the `extract` one, just name this one `transform`.
+Regarding the DAG configurations, reuse the same arguments as for the `extract` one, just name the DAG `transform`.
 
 As we want our `transform` DAG to run only once the `extract` one is done, you will have to use a [sensor] (https://airflow.apache.org/docs/apache-airflow/stable/concepts/sensors.html).
 
@@ -66,14 +66,14 @@ You need four tasks:
 To help you, we have already added the `is_month_odd`, `filter_long_trips` and `filter_expensive_trips` functions signatures, but be careful:
 **for this part, you don't have to fill the functions but only to create the Airflow tasks that will call them.**
 
-We want your filtered parquet files to be saved as `silver/yellow_tripdata_2021-06.parquet` (adapt the date based on the execution date of course).
+We want your filtered parquet files to be saved as `silver/yellow_tripdata_YYYY-MM.parquet`.
 
 The second task should be triggered only once the first one succeeds.
 
 The third or fourth task should be triggered based on the return of the second one.
 
 
-Then, as for the previous week, you have to fill the functions that we have created for you in the proper order and nce, you are confident with your code run:
+Then, as for the previous week, you have to fill the functions that we have created for you in the proper order and once, you are confident with your code run:
 
 ```
 make test_transform_dag
