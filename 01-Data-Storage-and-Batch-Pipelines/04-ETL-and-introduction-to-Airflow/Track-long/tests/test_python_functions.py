@@ -33,17 +33,16 @@ def test_load_to_database():
                 comment VARCHAR NOT NULL,
                 rating INTEGER NOT NULL
             );""")
-    connection = hook.get_conn()
-    cursor = connection.cursor()
-    assert cursor.execute("SELECT COUNT(*) FROM comments;").fetchall()[0][0] == 0
+    assert hook.get_records("SELECT COUNT(*) FROM comments;")[0][0] == 0
+
     long_track.load_to_database(comments['comments'], hook)
-    assert cursor.execute("SELECT COUNT(*) FROM comments;").fetchall()[0][0] == 3
-    inserted_comments = cursor.execute("SELECT * FROM comments;").fetchall()
+    assert hook.get_records("SELECT COUNT(*) FROM comments;")[0][0] == 3
+    inserted_comments = hook.get_records("SELECT * FROM comments;")
     assert inserted_comments[0] == (1, 1, 'Comment 1 of movie 1', 4)
     assert inserted_comments[1] == (2, 1, 'Comment 2 of movie 1', 3)
     assert inserted_comments[2] == (3, 2, 'Comment 1 of movie 2', 3)
     long_track.load_to_database(comments['comments'], hook)
-    assert cursor.execute("SELECT COUNT(*) FROM comments;").fetchall()[0][0] == 6
+    assert hook.get_records("SELECT COUNT(*) FROM comments;")[0][0] == 6
 
 
 def test_get_and_insert_last_comments(responses):
@@ -64,19 +63,16 @@ def test_get_and_insert_last_comments(responses):
                 comment VARCHAR NOT NULL,
                 rating INTEGER NOT NULL
             );""")
-    connection = hook.get_conn()
-    cursor = connection.cursor()
-    assert cursor.execute("SELECT COUNT(*) FROM comments;").fetchall()[0][0] == 0
+    assert hook.get_records("SELECT COUNT(*) FROM comments;")[0][0] == 0
 
     long_track.get_and_insert_last_comments(hook)
-
     assert len(responses.calls) == 1
-    assert cursor.execute("SELECT COUNT(*) FROM comments;").fetchall()[0][0] == 5
-    inserted_comments = cursor.execute("SELECT * FROM comments;").fetchall()
+    assert hook.get_records("SELECT COUNT(*) FROM comments;")[0][0] == 5
+    inserted_comments = hook.get_records("SELECT * FROM comments;")
     assert inserted_comments[0] == (1, 1, 'Comment 1 of movie 1', 4)
     assert inserted_comments[1] == (2, 1, 'Comment 2 of movie 1', 3)
     assert inserted_comments[2] == (3, 2, 'Comment 1 of movie 2', 3)
     assert inserted_comments[3] == (4, 2, 'Comment 2 of movie 2', 1)
     assert inserted_comments[4] == (5, 2, 'Comment 3 of movie 2', 5)
     long_track.load_to_database(comments['comments'], hook)
-    assert cursor.execute("SELECT COUNT(*) FROM comments;").fetchall()[0][0] == 10
+    assert hook.get_records("SELECT COUNT(*) FROM comments;")[0][0] == 10

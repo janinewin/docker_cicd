@@ -19,6 +19,7 @@ We split the instructions in four parts to help you create the needed DAG.
 The `Dockerfile` and the `docker-compose.yml` are the same as the ones you created in the setup exercise (we just set the `AIRFLOW__CORE__LOAD_EXAMPLES`to `false`), and we have already prepared the `pyproject.toml` for you.
 
 Make sure your terminal is in the current exercise folder and let's start by initiating a local Airflow database that will be used by `pytest` by running:
+
 ```
 make init_db
 ```
@@ -30,7 +31,7 @@ It should create three files in your project:
 
 These files are created at your project level thanks to the `AIRFLOW_HOME=${PWD}` from the `make` command. You won't interact with those files, but they are required to setup the test environment. You will see that we often override the the value of `AIRFLOW_HOME` (default value is `~/airflow`) to `${PWD}`. This is required as you will have different Airflow instances running on your laptop (one per exercise) and don't want to mix their databases.
 
-As before, Create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
+As before, create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
 
 Take time to open the `dags/breaking_bad_quote.py` and discover the functions' signatures that we have added to help you.
 
@@ -67,9 +68,7 @@ You thus need two tasks:
 To help you, we have already added the `create_file_if_not_exist` and `get_quote_and_save_if_new` functions signatures, but be careful:
 **for this part, you don't have to fill the functions but only to create the Airflow tasks that will call them.**
 
-We want your quotes to be saved to `data/quotes.csv`. Depending on whether you run the Airflow DAG or the tests, the CSV will be located at different places (`$PWD` or `/opt/airflow/`).
-**To have both, your DAG running and your tests being green, you have to use the `AIRFLOW_HOME` environment variable to build the path**.
-Indeed, this environment variable will take different values based on the environment (`/opt/airflow/` when running the DAG and `$PWD` when running the tests).
+We want your quotes to be saved to `data/quotes.csv`.
 
 The second task should be triggered only once the first one succeeds.
 
