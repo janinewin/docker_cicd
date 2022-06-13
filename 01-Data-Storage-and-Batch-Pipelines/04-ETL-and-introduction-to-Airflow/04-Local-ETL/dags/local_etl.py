@@ -35,6 +35,7 @@ def double_single_quote(joke: str):
     """
     Returns the `joke` with all single quotes
     replaced by two single quotes (not a double quote).
+    This is needed to load data into PostgreSQL.
     """
     pass  # YOUR CODE HERE
 

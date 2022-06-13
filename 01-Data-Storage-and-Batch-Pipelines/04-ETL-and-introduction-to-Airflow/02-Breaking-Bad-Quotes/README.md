@@ -8,20 +8,20 @@ The goal is to have a DAG running every five minutes that will:
 - request a generator of breaking bad quotes
 - save the received quote (only if this quote has not been saved yet)
 
-For the quotes generator, you will use this api: https://breakingbadquotes.xyz/
+For the quotes generator, you will use this [api](https://breakingbadquotes.xyz/).
 
-For the saving system, you will use a CSV file. This kind of files could be considered as databases in development environments. (https://en.wikipedia.org/wiki/Comma-separated_values)
+For the saving system, you will use a CSV file. [This kind of files could be considered as databases in development environments](https://en.wikipedia.org/wiki/Comma-separated_values).
 
 We split the instructions in four parts to help you create the needed DAG.
 
 ### Setup Instructions
 
-The `Dockerfile` and the `docker-compose.yml` are the same as the ones you created in the setup exercise (we just set the `AIRFLOW__CORE__LOAD_EXAMPLES`to `false`), and we have already prepared the `pyproject.toml` for you.
+The `Dockerfile` and the `docker-compose.yml` are the same as the ones you created in the setup exercise (we just set the `AIRFLOW__CORE__LOAD_EXAMPLES` to `false`), and have prepared the `pyproject.toml` for you.
 
 Make sure your terminal is in the current exercise folder and let's start by initiating a local Airflow database that will be used by `pytest` by running:
 
 ```
-make init_db
+$ make init_db
 ```
 
 It should create three files in your project:
@@ -49,7 +49,7 @@ You need to create a DAG with the following requirements:
 
 Once, you are confident with your code run:
 ```
-make test_dag_config
+$ make test_dag_config
 ```
 
 If you have some `Airflow Depreciation warnings` in your tests this is normal, you should just make sure not to have errors.
@@ -58,8 +58,7 @@ If you have some `Airflow Depreciation warnings` in your tests this is normal, y
 
 Then, you have to create the tasks that your DAG will use.
 
-As we want your quotes to be saved in a specific CSV file, your DAG needs a task to create the file if it doesn't
-exist. Then, it will need another task to request a quote and save it if this is a new one.
+As we want your quotes to be saved in a specific CSV file, your DAG needs a task to create the file. Then, it needs another task to request a quote and save it if this is a new one.
 
 You thus need two tasks:
 - a [PythonOperator](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/python.html) with a `task_id` named `create_file_if_not_exist` that should trigger the `create_file_if_not_exist` function with the proper arguments
@@ -74,28 +73,28 @@ The second task should be triggered only once the first one succeeds.
 
 Once you are confident with your code run:
 ```
-make test_tasks_configs
+$ make test_tasks_configs
 ```
 
 Once you passed the tests, create the docker image (only needed once):
 ```
-docker-compose build --no-cache
+$ docker-compose build --no-cache
 ```
 
-Then run your docker-compose:
+Then start your docker-compose:
 ```
-docker-compose up --force-recreate --remove-orphans
+$ docker-compose up --force-recreate --remove-orphans
 ```
 
-Finally, open http://localhost:8080/home to see how your DAG looks.
+Finally, open [your localhost](http://localhost:8080/home) to see how your DAG looks.
 
 You should see your two tasks. Turn the dag on and see what happens! It should be all green as your tasks called functions that do not do anything for now.
 
 ## Python Functions Instructions
 
 To help you, we have already added the signature of 5 functions. This is now your turn to implement them in the current order. You should not have to create any other python functions but will probably have to read the followings documentations:
-- https://docs.python.org/3.8/library/csv.html
-- https://fr.python-requests.org/en/latest/
+- [https://docs.python.org/3.8/library/csv.html](https://docs.python.org/3.8/library/csv.html)
+- [https://fr.python-requests.org/en/latest/](https://fr.python-requests.org/en/latest/)
 
 Do not hesitate to manually trigger the DAG to see what your code does.
 No need to restart your `docker-compose` when you change the DAG code, just refresh your browser.
@@ -104,7 +103,7 @@ If you need to restart from a clean base, you can empty your local `data/quotes.
 
 Once you are confident with your code run:
 ```
-make test_python_functions
+$ make test_python_functions
 ```
 
 Now, you should be able to trigger the DAG, see green results and have your `quotes.csv` being filled.

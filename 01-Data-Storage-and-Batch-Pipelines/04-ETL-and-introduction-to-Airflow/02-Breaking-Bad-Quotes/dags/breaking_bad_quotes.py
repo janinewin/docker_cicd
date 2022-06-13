@@ -9,7 +9,8 @@ AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
 
 def create_file_if_not_exist(quotes_file: str) -> None:
     """
-    Checks that the `quotes_file` exists and creates it otherwise.
+    Creates the `quotes_file` if it doesn't exists, does nothing
+    otherwise.
     """
     pass  # YOUR CODE HERE
 

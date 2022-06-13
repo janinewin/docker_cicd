@@ -31,8 +31,6 @@ def test_dockerfile(dockerfile_validation):
         if command.cmd == 'RUN':
             s = re.sub(r'\s+', ' ', command.value[0])
             assert s == validation[1]
-        elif command.value[0] == 'PATH':
-            assert '='.join(command.value) == validation[1]
         elif len(command.flags) != 0:
             assert ' '.join([' '.join(command.flags), ' '.join(command.value)]) == validation[1]
         else:
