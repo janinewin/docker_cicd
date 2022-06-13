@@ -16,4 +16,4 @@ test_load_dag:
 	AIRFLOW_HOME=${PWD} poetry run pytest -v tests/test_load_dag.py
 
 test:
-	export AIRFLOW_HOME=${PWD}; make init_db; poetry run pytest -v
+	make init_db; AIRFLOW_HOME=${PWD} poetry run pytest -v

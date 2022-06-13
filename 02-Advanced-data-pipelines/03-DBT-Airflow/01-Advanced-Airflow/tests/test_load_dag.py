@@ -5,6 +5,7 @@ import pytest
 from airflow import DAG
 from airflow.hooks.sqlite_hook import SqliteHook
 from airflow.models import DagBag
+from airflow.models.taskinstance import TaskInstance
 from airflow.operators.python import PythonOperator
 from airflow.utils.state import DagRunState
 from airflow.utils.types import DagRunType
@@ -58,15 +59,31 @@ class TestLoadDag:
     def test_load_to_database_task(self):
         dag = self.dagbag.get_dag(dag_id="load")
         task = dag.get_task('load_to_database')
+        hook = SqliteHook(sqlite_conn_id='sqlite_connection')
+        start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
 
         assert task.__class__.__name__ == 'PythonOperator'
         assert task.python_callable.__name__ == 'load_to_database'
 
-        filtered_data_file = "/opt/airflow/data/silver/yellow_tripdata_" + "{{ execution_date.strftime(\'%Y-%m\') }}.parquet"
-        assert list(task.op_kwargs.keys()) == ['input_file', 'hook']
-        assert task.op_kwargs['input_file'] == filtered_data_file
-        assert task.op_kwargs['hook'].__class__.__name__ == 'PostgresHook'
-        assert task.op_kwargs['hook'].postgres_conn_id == 'postgres_connection'
+        for month in range(6, 7):
+            hook.run("DELETE FROM dag_run")
+            execution_date = DateTime(2021, month, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
+
+            dagrun = dag.create_dagrun(
+                state=DagRunState.RUNNING,
+                execution_date=execution_date,
+                start_date=start_date,
+                run_type=DagRunType.MANUAL,
+                data_interval=(execution_date, start_date)
+            )
+
+            ti = TaskInstance(task, run_id=dagrun.run_id)
+            ti.dry_run()
+            filtered_data_file = f"/opt/airflow/data/silver/yellow_tripdata_2021-0{month}.parquet"
+            assert list(ti.task.op_kwargs.keys()) == ['input_file', 'hook']
+            assert ti.task.op_kwargs['input_file'] == filtered_data_file
+            assert ti.task.op_kwargs['hook'].__class__.__name__ == 'PostgresHook'
+            assert ti.task.op_kwargs['hook'].postgres_conn_id == 'postgres_connection'
 
         assert list(map(lambda task: task.task_id, task.upstream_list)) == ['transform_sensor']
         assert list(
@@ -89,6 +106,7 @@ class TestLoadDag:
 @pytest.fixture
 def dag():
     start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
+    hook = SqliteHook(sqlite_conn_id='sqlite_connection')
 
     with DAG(
         dag_id="load",
@@ -96,7 +114,6 @@ def dag():
         default_args={"start_date": start_date},
     ) as dag:
 
-        hook = SqliteHook(sqlite_conn_id='sqlite_connection')
         PythonOperator(
             task_id="load_to_database",
             dag=dag,
@@ -117,6 +134,9 @@ def dag():
 def test_display_number_of_inserted_rows(capture, dag):
     now = datetime.datetime.now(datetime.timezone.utc)
     start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
+    hook = SqliteHook(sqlite_conn_id='sqlite_connection')
+
+    hook.run("DELETE FROM xcom;")
 
     dagrun = dag.create_dagrun(
         state=DagRunState.RUNNING,
@@ -142,6 +162,7 @@ def test_display_number_of_inserted_rows(capture, dag):
 def test_load_to_database(dag):
     now = datetime.datetime.now(datetime.timezone.utc)
     start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
+    hook = SqliteHook(sqlite_conn_id='sqlite_connection')
 
     dagrun = dag.create_dagrun(
         state=DagRunState.RUNNING,
@@ -154,13 +175,12 @@ def test_load_to_database(dag):
     ti = dagrun.get_task_instance(task_id='load_to_database')
     ti.task = dag.get_task(task_id='load_to_database')
 
-    hook = SqliteHook(sqlite_conn_id='sqlite_connection')
-
-    hook.run(sql="DROP TABLE IF EXISTS trips;")
+    hook.run("DROP TABLE IF EXISTS trips;")
+    hook.run("DELETE FROM task_instance;")
     assert ti.xcom_pull(task_ids=['load_to_database'], key='number_of_inserted_rows') == []
     ti.run(ignore_ti_state=True)
 
-    assert hook.run("SELECT COUNT(*) FROM trips;").fetchall()[0][0] == 2
-    assert hook.run("SELECT trip_distance FROM trips;").fetchall() == [(1,), (2,)]
-    assert hook.run("SELECT total_amount FROM trips;").fetchall() == [(3,), (4,)]
+    assert hook.get_records("SELECT COUNT(*) FROM trips;")[0][0] == 2
+    assert hook.get_records("SELECT trip_distance FROM trips;") == [(1,), (2,)]
+    assert hook.get_records("SELECT total_amount FROM trips;") == [(3,), (4,)]
     assert ti.xcom_pull(task_ids=['load_to_database'], key='number_of_inserted_rows') == [2]
