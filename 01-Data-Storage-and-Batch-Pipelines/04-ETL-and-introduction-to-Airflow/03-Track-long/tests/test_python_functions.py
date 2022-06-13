@@ -48,7 +48,7 @@ def test_load_to_database():
 def test_get_and_insert_last_comments(responses):
     with open('tests/data/comments.json', 'r') as file:
         comments = json.load(file)
-    comments['comments'].append({'movie_id': 2, 'comment': 'Comment 2 of movie 2', 'rating': 1})
+    comments['comments'].append({'movie_id': 2, 'comment': "Comment 2 of movie 2 with a single quote '", 'rating': 1})
     comments['comments'].append({'movie_id': 2, 'comment': 'Comment 3 of movie 2', 'rating': 5})
 
     responses.add(responses.GET,
@@ -72,7 +72,7 @@ def test_get_and_insert_last_comments(responses):
     assert inserted_comments[0] == (1, 1, 'Comment 1 of movie 1', 4)
     assert inserted_comments[1] == (2, 1, 'Comment 2 of movie 1', 3)
     assert inserted_comments[2] == (3, 2, 'Comment 1 of movie 2', 3)
-    assert inserted_comments[3] == (4, 2, 'Comment 2 of movie 2', 1)
+    assert inserted_comments[3] == (4, 2, "Comment 2 of movie 2 with a single quote '", 1)
     assert inserted_comments[4] == (5, 2, 'Comment 3 of movie 2', 5)
     long_track.load_to_database(comments['comments'], hook)
     assert hook.get_records("SELECT COUNT(*) FROM comments;")[0][0] == 10

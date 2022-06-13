@@ -29,7 +29,7 @@ def double_single_quote(comment: str) -> str:
 def load_to_database(comments: list, hook) -> None:
     """
     Iterates over the comments, uses double_single_quote function
-    to clean each comment and loads it into
+    to clean each comment and loads them into
     the PostgreSQL database using the PostgresHook.
     """
     pass  # YOUR CODE HERE
