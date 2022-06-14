@@ -34,7 +34,7 @@ By the end of this exercise you should be able to:
 - Understand the concept of volumes
 - Understand the concept of networking
 - Know how to create a functional docker compose stack
-- Be familiar with the docker compose CLI
+- Be familiar with the docker compose CLI˚v˚v
 
 
 ## Setup
@@ -117,6 +117,7 @@ docker compose -f docker-compose-2.yml build
 docker compose -f docker-compose-2.yml up
 docker container ls
 docker network ls
+docker inspect <network-id>
 ```
 5. Access your webserver it should display a new `hello world`
 6. Teardown the stack 
@@ -131,15 +132,19 @@ We want to achieve two goals here:
 - Connect the server and the database by properly assigning the database to the network, creating a dependency on the web server with the database, properly constructing the url to reach the database inside the docker compose stack
 
 Please do the following:
-1. Create a second service for the relational database, based on the postgreSQL 14.2 image
-2. Set the restart policy to `on-failure` 
-3. Let's add a small health check to periodically check if our DB is alive, we'll use a small command to so do relying on [pg_isready](https://www.postgresql.org/docs/current/app-pg-isready.html). Adjust the parameters to **run it every 5s with a 5s timeout and 5 retries**
+1. We are now using the `app` folder instead of `app-no-database`, change the mounted dir accordingly in the docker compose file 
+2. Create a second service for the relational database, based on the postgreSQL 14.2 image
+3. Set the restart policy to `on-failure` 
+4. Let's add a small health check to periodically check if our DB is alive, we'll use a small command to so do relying on [pg_isready](https://www.postgresql.org/docs/current/app-pg-isready.html). Adjust the parameters to **run it every 5s with a 5s timeout and 5 retries**
 ```
     # Check if postgres is ready
     pg_isready -U postgres
 ```
-4. We prepared a small script for you to create a new custom DB using your env vars. To use it mount the volume `./database` into the following container dir `/docker-entrypoint-initdb.d/` why this specific dir ? The postgres image will run the scripts contained in this specific dir at [initializtion time](https://hub.docker.com/_/postgres)
-5. Setup the environment variables, postgres has default credentials, we will use them to create our own admin user and our own database
+5. We prepared a small script for you to create a new custom DB using your env vars. To use it mount the volume `./database` into the following container dir `/docker-entrypoint-initdb.d/` why this specific dir ? 
+    - The postgres image will run the scripts contained in this specific dir at [initializtion time](https://hub.docker.com/_/postgres)
+    - Change the script's permission to make it executable on your system `chmod +x database/01-init.sh`
+We need to make 
+6. Setup the environment variables, postgres has default credentials, we will use them to create our own admin user and our own database
 ```
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=postgres
@@ -147,11 +152,11 @@ Please do the following:
     - APP_DB_PASS=whatsupdawg
     - APP_DB_NAME=gangstadb
 ```
-6. Expose port 5432
-7. Add network `backend` to the service
-8. We need to set a dependency order, to do so add a `depends_on` instruction to the webapi service, so it depends on the database service
+7. Expose port 5432
+8. Add network `backend` to the service
+9. We need to set a dependency order, to do so add a `depends_on` instruction to the webapi service, so it depends on the database service
 
-9. Build and run the docker compose stack
+10. Build and run the docker compose stack
 ```
 Validate the docker file
 docker compose -f docker-compose-3.yml config
@@ -160,5 +165,5 @@ docker compose -f docker-compose-3.yml up
 docker container ls
 docker network ls
 ```
-10. Access your webserver it should not work and scream at you because can't connect to the DB
-11. While the stack is running, update the `database.py` file with the right connection string, save the file ( it will reload the server ), now access again the endpoint. Voila!
+11. Access your webserver it should not work and scream at you because can't connect to the DB
+12. While the stack is running, update the `database.py` file with the right connection string, save the file ( it will reload the server ), now access again the endpoint. Voila!
