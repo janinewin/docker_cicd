@@ -37,8 +37,22 @@ def fetch_random_lines(n: int, total: int, fp: str) -> List[str]:
     values = []
     with open(fp) as f:
         for jump in jumps:
-            for _ in range(max(0, jump -1)):
+            for _ in range(max(0, jump - 1)):
                 next(f)
+            values.append(next(f))
+
+    return values
+
+
+def fetch_consecutive_lines(n: int, start: int, fp: str) -> List[str]:
+    """
+    Fetches `n` lines after `start` skipped lines
+    """
+    values = []
+    with open(fp) as f:
+        for _ in range(start):
+            next(f)
+        for _ in range(max(0, n)):
             values.append(next(f))
 
     return values
@@ -57,5 +71,5 @@ def get_comment_sentiment_from_row(row: str):
     The sentiment is at the end of the CSV, either "positive" or "negative" (both 8 characters long)
     """
     sentiment = row[-8:]
-    comment = row[0:-9]
+    comment = row[1:-11]
     return comment, sentiment
