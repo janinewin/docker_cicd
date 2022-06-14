@@ -1,3 +1,0 @@
-SELECT *
-FROM INFORMATION_SCHEMA.TABLES
-WHERE table_schema = 'public'
