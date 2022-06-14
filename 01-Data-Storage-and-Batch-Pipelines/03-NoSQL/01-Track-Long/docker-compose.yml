@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  database:
+    image: postgres:14.2
+    restart: on-failure  
+    healthcheck:
+      test: ["CMD", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./data/db/:/var/lib/postgresql/data/
+      - ./data/db_files/:/files/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - APP_DB_USER=goldenspice
+      - APP_DB_PASS=whatsupdawg
+      - APP_DB_NAME=gangstadb
+    networks:
+      - backend
+
+  adminer:
+    image: adminer:4.8.1 
+
+networks:
+  backend:
+    driver: bridge
