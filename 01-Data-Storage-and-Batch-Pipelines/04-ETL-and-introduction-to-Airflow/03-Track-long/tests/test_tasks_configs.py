@@ -10,13 +10,13 @@ class TestTasksConfigs:
     dagbag = DagBag(dag_folder=DAG_BAG, include_examples=False)
 
     def test_tasks(self):
-        dag = self.dagbag.get_dag(dag_id="long_track")
+        dag = self.dagbag.get_dag(dag_id="track_long")
         assert list(map(lambda task: task.task_id, dag.tasks)) == [
             'create_comments_table', 'get_and_insert_last_comments'
         ]
 
     def test_create_comments_task(self):
-        dag = self.dagbag.get_dag(dag_id="long_track")
+        dag = self.dagbag.get_dag(dag_id="track_long")
         task = dag.get_task('create_comments_table')
 
         assert task.__class__.__name__ == 'PostgresOperator'
@@ -34,7 +34,7 @@ class TestTasksConfigs:
                         task.downstream_list)) == ['get_and_insert_last_comments']
 
     def test_get_and_insert_last_comments_task(self):
-        dag = self.dagbag.get_dag(dag_id="long_track")
+        dag = self.dagbag.get_dag(dag_id="track_long")
         task = dag.get_task('get_and_insert_last_comments')
 
         assert task.__class__.__name__ == 'PythonOperator'
