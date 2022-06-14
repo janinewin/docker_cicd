@@ -22,7 +22,7 @@ $ make test_files_and_folders
 
 ### Context and Objectives
 
-You need to create the Dockerfile that will be used by your `webserver` and `scheduler` services. There are a lot of ways to build it, but to help you through this task, we made our tests very strict such that we can be sure that you all reach the same point to start the exercises of the day (that's why you could have a setup that works but that does not pass the test).
+You need to create the Dockerfile that will be used by your `webserver` and `scheduler` services. There are a lot of ways to build it, but we made our tests very strict to ensure that you all reach the same point to start the exercises of the day (that's why you could have a setup that works but that does not pass the test).
 
 The main requirements to respect will be to:
 - [set the `AIRFLOW_HOME` environment variable](https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html?highlight=airflow_home#envvar-AIRFLOW_HOME)
@@ -36,10 +36,10 @@ You could use an Airflow image to start our Dockerfile but we will keep it as li
 We will help you to build your Dockerfile through 10 instructions that you will have to implement.
 
 Let's start by creating a `Dockerfile` and make it start from a `python:3.8.12-slim` image (1).
-As for your first day set the `DEBIAN_FRONTEND` argument to `noninteractive` (2) and the `PYTHONUNBUFFERED` environment variable to `1` (3).
-Then, set the environment variable `AIRFLOW_HOME` to `/opt/airflow` (4) and set your `WORKDIR` on it (5).
+As for your first day, set the `DEBIAN_FRONTEND` argument to `noninteractive` (2) and the `PYTHONUNBUFFERED` environment variable to `1` (3).
+Then, set the environment variable `AIRFLOW_HOME` to `/opt/airflow` (4) and move your `WORKDIR` on it (5).
 
-Now, it's time for you to take a look at the `scripts/entrypoint.sh` file that we have created for you. First, you should see a block of code that checks whether PostgreSQL is ready or not. Then you should see three Airflow commands that:
+Now, it's time for you to take a look at the `scripts/entrypoint.sh` file that we have created for you. First, you should see a block of code that checks whether PostgreSQL is ready or not, then you should see three Airflow commands that:
 - update the Airflow database
 - create an Airflow user
 - [start an Airflow `webserver` instance](https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html#webserver)
@@ -84,9 +84,9 @@ $ make test_dockerfile
 
 ## Setup the docker-compose.yml
 
-As explained above, you will create a light docker-compose with the minimal requirements, but do not hesitate to take a look to the official docker-compose.yml of Airflow here: https://github.com/apache/airflow/blob/main/docs/apache-airflow/start/docker-compose.yaml
+As explained above, you will create a light docker-compose with the minimal requirements, but do not hesitate to take a look to the official docker-compose.yml of Airflow [here](https://github.com/apache/airflow/blob/main/docs/apache-airflow/start/docker-compose.yaml)
 
-First, let's create a `docker-compose.yml` file and read the following sections to add the three required services:
+Let's create a `docker-compose.yml` file and read the following sections to add the three required services:
 - postgres
 - an Airflow scheduler
 - an Airflow webserver
@@ -94,7 +94,7 @@ First, let's create a `docker-compose.yml` file and read the following sections 
 ### Postgres service
 
 For your PostgreSQL service (name it postgres), you need:
-- a `postgres:14 image`
+- a `postgres:14` image
 - 3 environment variables: `POSTGRES_DB`, `POSTGRES_PASSWORD` and `POSTGRES_USER` equal to `db`, `$POSTGRES_PASSWORD` and `airflow`
 - a volumes to store PostgreSQL data into a local folder named database (`./database/:/var/lib/postgresql/data`)
 - a [`healthcheck`](https://marcopeg.com/docker-compose-healthcheck/) with an `interval of 5 seconds` and `5 potential retries` that checks that your database is ready (`["CMD", "pg_isready -d db -U airflow"]`)
@@ -113,9 +113,9 @@ For your scheduler service, you need:
 - 3 volumes to sync our `dags`, `data` and `logs` folders with Airflow ones (they should be stored at the `/opt/airflow` level on Airflow side)
 - to run the command `poetry run airflow scheduler` at start
 
-You noticed that we set your `AIRFLOW__CORE__EXECUTOR` to `LocalExecutor` as we wanted you to use the lightest version of Airflow, but in production you would use other values (https://airflow.apache.org/docs/apache-airflow/stable/executor/index.html).
+You noticed that we set your `AIRFLOW__CORE__EXECUTOR` to `LocalExecutor` as we wanted you to use a light Airflow, but in production you would use other [values](https://airflow.apache.org/docs/apache-airflow/stable/executor/index.html).
 
-You also noticed that you defined the `AIRFLOW__DATABASE__SQL_ALCHEMY_CONN` environment variable that will allow Airflow to connect to your PostgreSQL database. Have a look at the documentation to see all available environment variables (https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html)
+You also noticed that you defined the `AIRFLOW__DATABASE__SQL_ALCHEMY_CONN` environment variable that will allow Airflow to connect to your PostgreSQL database. [Have a look at the documentation to see all available environment variables](https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html)
 
 ### Webserver service
 
@@ -129,14 +129,16 @@ For your scheduler service, you need:
 - a mapping of the `port 8080` to your `port 8080` (this will allow you to locally get the Airflow UI)
 - a `healthcheck` with a `interval of 30 seconds`, `a timeout of 30s` and `3 potential retries` that checks that Airflow webserver is ready (`["CMD-SHELL", "[-f /home/airflow/airflow-webserver.pid]"]`)
 
+Once you are confident with what you've done, run the tests:
+
 ```
 $ make test_docker_compose
 ```
 
-At that point you should be able to run the following command (that will force rebuild the image of your Dockerfile and recreate your docker-compose):
+At that point, you should be able to run the following command (that will force rebuild the image of your Dockerfile and recreate your docker-compose):
 
 ```
 $ docker-compose up --force-recreate --remove-orphans --build
 ```
 
-and visit http://localhost:8080/home. Have a look to the `scripts/entrypoint.sh` to find the login and password to use! You should see all Airflow DAG examples, do not hesitate to play a bit with them to get familiar with Airflow UI.
+and visit [localhost](http://localhost:8080/home). Have a look to the `scripts/entrypoint.sh` to find the login and password to use! You should see all Airflow DAG examples, do not hesitate to play a bit with them to get familiar with Airflow UI.

@@ -63,20 +63,6 @@ You should see your four tasks. Turn the dag on and see what happens! It should 
 
 To help you, we have already added the signature of 6 functions. This is now your turn to implement them in the current order.
 
-Do not hesitate to manually trigger the DAG to see what your code does.
-No need, to restart docker-compose when you change the DAG code, just refresh your browser.
-
-If you want to see what is inside your Airflow database you need:
-- to have your docker-compose running
-- to open a new terminal and run the following comment:
-  - `$ psql -h localhost -U airflow -d db` (provide the password you defined in your `.env`)
-
-
-If you want to see what is inside the test database that we use you can run:
-```
-$ sqlite3 $PWD/airflow.db
-```
-
 Once you are confident with your code run:
 ```
 $ make test_python_functions

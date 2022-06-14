@@ -6,28 +6,20 @@ So far we have:
 - loaded a data schema mapping the [the movies dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset)
 - added a Jupyter lab environment to interact with the datasets and propose a new normalized SQL schema
 
-In today's track long exercise, we'll create a small ETL to load every 5 minutes new comments about the movies that we have loaded into the database.
+In today's track long exercise, we'll create a small ETL to load every 5 minutes new comments about the movies that we have previously added to the database.
 
 ## Desired outcome
 
 In this challenge, you will create a local E(xtract)T(ransform)L(oad).
 
 The goal is to have a DAG running every five minutes that will:
-- fetche 5 comments from the past 5 minutes (Extract)
-- double single quote (Transform)
-- insert it into your PostgreSQL database (Load)
+- fetch 5 comments from the past 5 minutes (Extract)
+- replace every single quote by two single quotes (Transform)
+- insert comments into your PostgreSQL database (Load)
 
 For the comments, you will use this [home made API](http://dev.sapiologie.com:8008/latest-comments) that takes one url argument (`n`) to get the desired number of comments you want. For instance, if you want to retrieve the last 5 comments, call: `http://dev.sapiologie.com:8008/latest-comments/?n=5`
 
 The reason why you will have to double the single quote is to respect PostgreSQL constraint.
-
-Make sure your terminal is in the current exercise folder and let's start by creating a local Airflow database for `pytest` by running:
-
-```
-$ make init_db
-```
-
-As before, create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
 
 ### Setup Instructions
 
@@ -62,14 +54,14 @@ It should create the three same files as for the previous exercise and an Airflo
 
 As before, create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
 
-Take time to open the `dags/long_track.py` and discover the functions signatures that we have added to help you.
+Take time to open the `dags/track_long.py` and discover the functions signatures that we have added to help you.
 
 ## DAG Instructions
 
 First, let's focus on creating the proper DAG configuration (no tasks or python functions needed for now).
 
 You need to create a dag with the following requirements:
-- it should be named `long_track`
+- it should be named `track_long`
 - it should have a start date equal to yesterday
 - it should have a description saying `A simple to DAG to fetch and load last movies' comments`
 - it should not catchup the missing runs
@@ -92,7 +84,7 @@ You need two tasks:
 
 As explained in the Setup Instructions, you should pass a `PostgresHook` instance to the `get_and_insert_last_comments` function, and this hook should be setup with the proper `postgres_conn_id` (the one that you created).
 
-We have already added the `get_and_insert_last_comments` function signatures, but again: **for this part, you don't have to fill the functions but only to create the Airflow tasks that will call them.**
+We have already added the `get_and_insert_last_comments` function signature, but again: **for this part, you don't have to fill the function but only to create the Airflow tasks that will call it.**
 
 The second task should be triggered only after the first one's success.
 
@@ -108,7 +100,7 @@ You should see your four tasks. Turn the dag on and see what happens! It should 
 
 ## Python Functions Instructions
 
-As for the previous exercise, we have added the signatures of 4 functions. This is your turn to implement them in the current order.
+As for the previous exercise, we have added the signatures of 4 functions. This is your turn to implement them in the current order. As describe in the functions signatures, this DAG is not idempotent, but this is on purpose, we will address that aspect during the livecode.
 
 Do not hesitate to manually trigger the DAG to see what your code does.
 No need, to restart docker-compose when you change the DAG code, just refresh your browser.

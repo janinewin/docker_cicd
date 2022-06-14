@@ -54,6 +54,8 @@ def load(swedified_joke_file: str, hook: PostgresHook) -> None:
     Uses read_from_json function to get the contents
     of `swedified_joke_file`. Then, loads it into
     the PostgreSQL database using the PostgresHook.
+    It is not idempotent as it will insert the same comments if we
+    trigger the same task twice, but this is what we want.
     """
     pass  # YOUR CODE HERE
 
