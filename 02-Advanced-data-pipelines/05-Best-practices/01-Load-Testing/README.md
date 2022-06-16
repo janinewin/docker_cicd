@@ -40,7 +40,7 @@ Using the documentation, add the following snippet to your docker compose file. 
      - "8089:8089"
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/locust.py --master
+    command: -f /mnt/locust/locust.py --master -H http://01-load-testing-webapi-1:8000
   
   worker:
     image: locustio/locust
@@ -48,6 +48,8 @@ Using the documentation, add the following snippet to your docker compose file. 
       - ./:/mnt/locust
     command: -f /mnt/locust/locust.py --worker --master-host master
 ```
+You can adjust the host `-H http://01-load-testing-webapi-1:8000` as needed for Locust depending on your container and service name
+
 
 **3. Build and test**
 - Build the stack `docker compose -f docker-compose-task-1.yml build`
@@ -81,7 +83,7 @@ task: kill_the_server - GET /oom/
 - Head to localhost:8089 -> This is the locust interface
 - Configure the load test host. It should be in the form of:
 ```
-http://01-load-testing-webapi-:8000
+http://01-load-testing-webapi-1:8000
 http://<your-service-name>:<export_port>
 ```
 Let's find the server breaking point; API failures are expected since the logic has an issue on purpose.
@@ -218,14 +220,14 @@ error_file handler
 ```
 Class: logging.FileHandler
 formatter: Generic
-args: ('/app/logs/error.log',) -> this is where our error log file will be output
+args: ('/app/app/logs/error.log',) -> this is where our error log file will be output
 ```
 
 access_file handler 
 ```
 Class: logging.FileHandler
 formatter: Generic
-args: ('/app/logs/access.log',) -> this is where our access log file will be output
+args: ('/app/app/logs/access.log',) -> this is where our access log file will be output
 ```
 
 Your logging configuration should now be ready to be used.
@@ -235,7 +237,7 @@ To use this configuration for our stack, we need to pass the location of our con
 Add 2 more environment vars to the docker compose file
 
 ``` - LOG_LEVEL=DEBUG
-    - GUNICORN_CMD_ARGS=--log-config /app/logging.conf
+    - GUNICORN_CMD_ARGS=--log-config /app/app/logging.conf
 ```
 
 This will adjust the logging level to `DEBUG` and tell Gunicorn where to find our logs
@@ -253,20 +255,14 @@ logger.error("this is an error message")
 now that we have our logs, we can use one of the most useful commands while groveling through the logs: `grep` 
 >grep searches the input files for lines containing a match to a given pattern list. When it finds a match in a line, it copies the line to standard output (by default), or whatever other sort of output you have requested with options.
 
-1. Find all the errors in the log file, sort them and count all the duplicates using `grep`, `sort`, `uniq`
+1. Find all the errors in the log file, sort them
 ```
-grep "STR_TO_LOOK_FOR" <file> | sort | uniq -c | sort -rn
+grep "STR_TO_LOOK_FOR" <file> | sort 
 ```
 2. Find all the failing requests in the access log (status code != 200) OR find the most frequently called endpoint
-
-grep "ERROR" /tmp/file | sort | uniq -c | sort -r:
-
-
-grep "ERROR" /tmp/file\ # select only ERROR string
-| sort\ # order
-| uniq -c\ #  count duplicate items
-| sort -rn # reverse order and use numeric sort
-
+```
+    grep -v -e 200  <file> # -v is invert match and -e is pattern matching
+```
 
 ## Task 4: Monitoring
 
