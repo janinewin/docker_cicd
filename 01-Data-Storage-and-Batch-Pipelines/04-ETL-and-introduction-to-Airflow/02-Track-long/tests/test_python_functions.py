@@ -26,8 +26,8 @@ def test_load_to_database():
         comments = json.load(file)
 
     hook = SqliteHook(sqlite_conn_id='sqlite_connection')
-    hook.run(sql="""DROP TABLE IF EXISTS comments;""")
-    hook.run(sql="""CREATE TABLE comments (
+    hook.run("DROP TABLE IF EXISTS comments;")
+    hook.run("""CREATE TABLE comments (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 movie_id INTEGER NOT NULL,
                 comment VARCHAR NOT NULL,
@@ -56,8 +56,8 @@ def test_get_and_insert_last_comments(responses):
                   json=comments)
 
     hook = SqliteHook(sqlite_conn_id='sqlite_connection')
-    hook.run(sql="""DROP TABLE IF EXISTS comments;""")
-    hook.run(sql="""CREATE TABLE comments (
+    hook.run("DROP TABLE IF EXISTS comments;")
+    hook.run("""CREATE TABLE comments (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 movie_id INTEGER NOT NULL,
                 comment VARCHAR NOT NULL,

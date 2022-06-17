@@ -1,25 +1,25 @@
 # Week 1 - Day 4 - Track-long exercise
 
-So far we have:
+So farIn the previous track-long sessions, we have:
 
 - set up a base `docker-compose` with `PostgreSQL`, `FastAPI` and `Adminer`
 - loaded a data schema mapping the [the movies dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset)
 - added a Jupyter lab environment to interact with the datasets and propose a new normalized SQL schema
 
-In today's track long exercise, we'll create a small ETL to load every 5 minutes new comments about the movies that we have previously added to the database.
+In today's track long exercise, we'll create a small ETL to load new comments about the movies that we have previously added to the database.
 
 ## Desired outcome
 
 In this challenge, you will create a local E(xtract)T(ransform)L(oad).
 
 The goal is to have a DAG running every five minutes that will:
-- fetch 5 comments from the past 5 minutes (Extract)
+- fetch 5 comments from an API (Extract)
 - replace every single quote by two single quotes (Transform)
 - insert comments into your PostgreSQL database (Load)
 
-For the comments, you will use this [home made API](http://dev.sapiologie.com:8008/latest-comments) that takes one url argument (`n`) to get the desired number of comments you want. For instance, if you want to retrieve the last 5 comments, call: `http://dev.sapiologie.com:8008/latest-comments/?n=5`
+For the comments, you will use this [home made API](http://dev.sapiologie.com:8008/latest-comments) that takes one url argument (`n`) and return the corresponding number of comments. For instance, if you want to retrieve the last 5 comments, call: [http://dev.sapiologie.com:8008/latest-comments/?n=5](http://dev.sapiologie.com:8008/latest-comments/?n=5)
 
-The reason why you will have to double the single quote is to respect PostgreSQL constraint.
+PS: The reason why you will have to double the single quote is to respect PostgreSQL constraint.
 
 ### Setup Instructions
 

@@ -43,7 +43,7 @@ class TestExtractDag:
         start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
 
         for month in range(6, 7):
-            hook.run("delete from dag_run")
+            hook.run("DELETE FROM dag_run")
             execution_date = DateTime(2021, month, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
 
             dagrun = dag.create_dagrun(

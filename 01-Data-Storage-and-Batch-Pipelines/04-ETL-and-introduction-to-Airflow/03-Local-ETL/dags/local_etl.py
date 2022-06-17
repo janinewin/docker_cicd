@@ -61,6 +61,7 @@ def load(swedified_joke_file: str, hook: PostgresHook) -> None:
 
 
 with DAG(
+        'local_etl',
         # YOUR CODE HERE
 ) as dag:
     pass  # YOUR CODE HERE
