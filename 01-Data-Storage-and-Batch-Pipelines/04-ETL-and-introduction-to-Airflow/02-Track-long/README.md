@@ -1,6 +1,6 @@
 # Week 1 - Day 4 - Track-long exercise
 
-So farIn the previous track-long sessions, we have:
+In the previous track-long sessions, you have:
 
 - set up a base `docker-compose` with `PostgreSQL`, `FastAPI` and `Adminer`
 - loaded a data schema mapping the [the movies dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset)
