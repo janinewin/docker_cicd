@@ -48,7 +48,7 @@ class TestTransformDag:
         assert task.external_dag_id == 'extract'
         assert task.allowed_states == ["success"]
         assert task.poke_interval == 10
-        assert task.timeout == 60*10
+        assert task.timeout == 60 * 10
         assert list(map(lambda task: task.task_id, task.upstream_list)) == []
         assert list(
             map(lambda task: task.task_id,
@@ -60,9 +60,26 @@ class TestTransformDag:
 
         assert task.__class__.__name__ == 'BranchPythonOperator'
         assert task.python_callable.__name__ == 'is_month_odd'
-        assert task.op_kwargs == {
-            'date': "{{ ds_nodash }}"
-        }
+
+        for month in range(6, 7):
+            self.hook.run("DELETE FROM dag_run")
+            execution_date = DateTime(2021, month, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
+
+            dagrun = dag.create_dagrun(
+                state=DagRunState.RUNNING,
+                execution_date=execution_date,
+                start_date=self.start_date,
+                run_type=DagRunType.MANUAL,
+                data_interval=(execution_date, self.start_date)
+            )
+
+            ti = TaskInstance(task, run_id=dagrun.run_id)
+            ti.dry_run()
+
+            assert ti.task.op_kwargs == {
+                'date': f"20210{month}01"
+            }
+
         assert list(map(lambda task: task.task_id, task.upstream_list)) == ['extract_sensor']
         downstream_list = list(map(lambda task: task.task_id, task.downstream_list))
         assert len(downstream_list) == 2

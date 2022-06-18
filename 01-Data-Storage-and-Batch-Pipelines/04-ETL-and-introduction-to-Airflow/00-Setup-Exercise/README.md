@@ -84,7 +84,7 @@ $ make test_dockerfile
 
 ## Setup the docker-compose.yml
 
-As explained above, you will create a light docker-compose with the minimal requirements, but do not hesitate to take a look to the official docker-compose.yml of Airflow [here](https://github.com/apache/airflow/blob/main/docs/apache-airflow/start/docker-compose.yaml)
+As explained above, you will create a light docker-compose with the minimal requirements, but do not hesitate to take a look to the official docker-compose.yml of Airflow [here](https://github.com/apache/airflow/blob/main/docs/apache-airflow/start/docker-compose.yaml).
 
 Let's create a `docker-compose.yml` file and read the following sections to add the three required services:
 - postgres
@@ -110,7 +110,7 @@ For your scheduler service, you need:
 - to restart on `failure`
 - to start only once postgres is ready
 - 2 environment variables: `AIRFLOW__CORE__EXECUTOR` and `AIRFLOW__DATABASE__SQL_ALCHEMY_CONN` equal to `LocalExecutor` and `postgresql+psycopg2://airflow:$POSTGRES_PASSWORD@postgres:5432/db`
-- 3 volumes to sync our `dags`, `data` and `logs` folders with Airflow ones (they should be stored at the `/opt/airflow` level on Airflow side)
+- 3 volumes to sync your `dags`, `data` and `logs` folders with Airflow ones (they should be stored at the `/opt/airflow` level on Airflow side)
 - to run the command `poetry run airflow scheduler` at start
 
 You noticed that we set your `AIRFLOW__CORE__EXECUTOR` to `LocalExecutor` as we wanted you to use a light Airflow, but in production you would use other [values](https://airflow.apache.org/docs/apache-airflow/stable/executor/index.html).

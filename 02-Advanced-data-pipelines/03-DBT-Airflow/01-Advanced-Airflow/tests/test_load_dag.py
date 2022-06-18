@@ -50,7 +50,7 @@ class TestLoadDag:
         assert task.external_dag_id == 'transform'
         assert task.allowed_states == ["success"]
         assert task.poke_interval == 10
-        assert task.timeout == 60*10
+        assert task.timeout == 60 * 10
         assert list(map(lambda task: task.task_id, task.upstream_list)) == []
         assert list(
             map(lambda task: task.task_id,
@@ -130,6 +130,33 @@ def dag():
     return dag
 
 
+def test_load_to_database(dag):
+    now = datetime.datetime.now(datetime.timezone.utc)
+    start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
+    hook = SqliteHook(sqlite_conn_id='sqlite_connection')
+
+    dagrun = dag.create_dagrun(
+        state=DagRunState.RUNNING,
+        execution_date=now,
+        start_date=start_date,
+        run_type=DagRunType.MANUAL,
+        data_interval=(now, start_date)
+    )
+
+    ti = dagrun.get_task_instance(task_id='load_to_database')
+    ti.task = dag.get_task(task_id='load_to_database')
+
+    hook.run("DROP TABLE IF EXISTS trips;")
+    hook.run("DELETE FROM task_instance;")
+    assert ti.xcom_pull(task_ids=['load_to_database'], key='number_of_inserted_rows') == []
+    ti.run(ignore_ti_state=True)
+
+    assert hook.get_records("SELECT COUNT(*) FROM trips;")[0][0] == 2
+    assert hook.get_records("SELECT trip_distance FROM trips;") == [(1,), (2,)]
+    assert hook.get_records("SELECT total_amount FROM trips;") == [(3,), (4,)]
+    assert ti.xcom_pull(task_ids=['load_to_database'], key='number_of_inserted_rows') == [2]
+
+
 @log_capture()
 def test_display_number_of_inserted_rows(capture, dag):
     now = datetime.datetime.now(datetime.timezone.utc)
@@ -157,30 +184,3 @@ def test_display_number_of_inserted_rows(capture, dag):
     capture.check_present(
         ('root', 'INFO', '3 trips have been inserted'),
     )
-
-
-def test_load_to_database(dag):
-    now = datetime.datetime.now(datetime.timezone.utc)
-    start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone('UTC'))
-    hook = SqliteHook(sqlite_conn_id='sqlite_connection')
-
-    dagrun = dag.create_dagrun(
-        state=DagRunState.RUNNING,
-        execution_date=now,
-        start_date=start_date,
-        run_type=DagRunType.MANUAL,
-        data_interval=(now, start_date)
-    )
-
-    ti = dagrun.get_task_instance(task_id='load_to_database')
-    ti.task = dag.get_task(task_id='load_to_database')
-
-    hook.run("DROP TABLE IF EXISTS trips;")
-    hook.run("DELETE FROM task_instance;")
-    assert ti.xcom_pull(task_ids=['load_to_database'], key='number_of_inserted_rows') == []
-    ti.run(ignore_ti_state=True)
-
-    assert hook.get_records("SELECT COUNT(*) FROM trips;")[0][0] == 2
-    assert hook.get_records("SELECT trip_distance FROM trips;") == [(1,), (2,)]
-    assert hook.get_records("SELECT total_amount FROM trips;") == [(3,), (4,)]
-    assert ti.xcom_pull(task_ids=['load_to_database'], key='number_of_inserted_rows') == [2]
