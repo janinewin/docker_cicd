@@ -5,7 +5,7 @@ This little FastAPI app exposes one endpoint on port 8000, `/latest-comments?n=n
 It grabs random comments and sentiments from the [large movie review dataset](http://ai.stanford.edu/~amaas/data/sentiment/) and random movie IDs from an extracted list of IDs from [the movies dataset](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=movies_metadata.csv), mixes both and returns the following payload (below an example)
 
 ```
-curl http://127.0.0.1:8000/latest-comments/?n=2 | jq
+curl http://127.0.0.1:8000/latest-comments?n=2 | jq
 ```
 
 ```[javascript]
@@ -31,7 +31,7 @@ curl http://127.0.0.1:8000/latest-comments/?n=2 | jq
 
 - Run `make build` to build the Docker image.
 - `docker run --rm -p 8000:8000 lewagon/moviecomment:0.1.0` to run it locally
-- `curl http://localhost:8000/latest-comments/?n=34` to fetch 34 random comments.
+- `curl http://localhost:8000/latest-comments?n=34` to fetch 34 random comments.
 
 ### Locally
 
