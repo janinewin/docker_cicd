@@ -17,7 +17,7 @@ The goal is to have a DAG running every five minutes that will:
 - replace every single quote by two single quotes (Transform)
 - insert comments into your PostgreSQL database (Load)
 
-For the comments, you will use this [home made API](http://dev.sapiologie.com:8008/latest-comments) that takes one url argument (`n`) and return the corresponding number of comments. For instance, if you want to retrieve the last 5 comments, call: [http://dev.sapiologie.com:8008/latest-comments/?n=5](http://dev.sapiologie.com:8008/latest-comments/?n=5)
+For the comments, you will use this [home made API](https://moviecomment-zxzcpvr6hq-ew.a.run.app/latest-comments) that takes one url argument (`n`) and return the corresponding number of comments. For instance, if you want to retrieve the last 5 comments, call: [https://moviecomment-zxzcpvr6hq-ew.a.run.app/latest-comments?n=5](https://moviecomment-zxzcpvr6hq-ew.a.run.app/latest-comments?n=5)
 
 PS: The reason why you will have to double the single quote is to respect PostgreSQL constraint.
 

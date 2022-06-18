@@ -6,12 +6,12 @@ from airflow.providers.postgres.hooks.postgres import PostgresHook
 # IMPORT YOUR PACKAGES HERE
 
 AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
-COMMENTS_API_ROOT = os.getenv("COMMENTS_API_ROOT", "http://dev.sapiologie.com:8008/latest-comments/")
+COMMENTS_API_ROOT = os.getenv("COMMENTS_API_ROOT", "https://moviecomment-zxzcpvr6hq-ew.a.run.app/latest-comments")
 
 
 def get_last_comments(number_of_comments: int) -> list:
     """
-    Calls http://dev.sapiologie.com:8008/latest-comments/?n=number_of_comments to
+    Calls https://moviecomment-zxzcpvr6hq-ew.a.run.app/latest-comments?n=number_of_comments to
     get the last `number_of_comments` comments
     and returns the 'comments' field of the answer.
     """
