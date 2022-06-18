@@ -1,3 +1,5 @@
+import base64
+import json
 import os
 from typing import Any, Dict, List
 
@@ -11,8 +13,10 @@ def get_client():
     Returns a BigQuery client, assuming the credentials are stored in a JSON file located at the value
     of the environment variable `GCP_CREDS_JSON`
     """
-    credentials = service_account.Credentials.from_service_account_file(
-        os.environ.get("GCP_CREDS_JSON", "/settings/gcp.json"), scopes=["https://www.googleapis.com/auth/cloud-platform"]
+    creds_dict = json.loads(base64.b64decode(os.environ.get("GCP_CREDS_JSON_BASE64")))
+
+    credentials = service_account.Credentials.from_service_account_info(
+        creds_dict, scopes=["https://www.googleapis.com/auth/cloud-platform"]
     )
 
     return bigquery.Client(credentials=credentials, project=credentials.project_id)
