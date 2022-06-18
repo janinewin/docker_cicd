@@ -3,6 +3,14 @@
 !teacher.csv
 *.sqlite
 
+# Database folders - in 02-SQL
+*data/
+*.data/
+
+# DBT logs
+dbt.log 
+*target/
+
 # File system
 .DS_Store
 
@@ -12,10 +20,11 @@ __pycache__/
 *.egg-info/
 .pytest_cache
 *.vscode/*
+
 #virtual env
 .venv/*
 
 #env files
-.*env*
+*.env
 .vscode/
 *.log
