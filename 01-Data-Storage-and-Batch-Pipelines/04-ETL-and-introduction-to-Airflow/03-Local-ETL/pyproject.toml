@@ -5,7 +5,7 @@ description = ""
 authors = ["S. Saunier <seb@lewagon.org>"]
 
 [tool.poetry.dependencies]
-python = "^3.8.12"
+python = "^3.8"
 apache-airflow = "2.3.0"
 apache-airflow-providers-postgres = "4.1.0"
 googletrans = "4.0.0rc1"
