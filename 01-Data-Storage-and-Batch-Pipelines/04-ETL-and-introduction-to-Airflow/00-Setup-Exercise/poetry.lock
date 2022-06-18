@@ -216,7 +216,7 @@ zendesk = ["apache-airflow-providers-zendesk"]
 
 [[package]]
 name = "apache-airflow-providers-ftp"
-version = "2.1.2"
+version = "3.0.0"
 description = "Provider for Apache Airflow. Implements apache-airflow-providers-ftp package"
 category = "main"
 optional = false
@@ -224,7 +224,7 @@ python-versions = "~=3.7"
 
 [[package]]
 name = "apache-airflow-providers-http"
-version = "2.1.2"
+version = "3.0.0"
 description = "Provider for Apache Airflow. Implements apache-airflow-providers-http package"
 category = "main"
 optional = false
@@ -235,7 +235,7 @@ requests = ">=2.26.0"
 
 [[package]]
 name = "apache-airflow-providers-imap"
-version = "2.2.3"
+version = "3.0.0"
 description = "Provider for Apache Airflow. Implements apache-airflow-providers-imap package"
 category = "main"
 optional = false
@@ -243,7 +243,7 @@ python-versions = "~=3.7"
 
 [[package]]
 name = "apache-airflow-providers-sqlite"
-version = "2.1.3"
+version = "3.0.0"
 description = "Provider for Apache Airflow. Implements apache-airflow-providers-sqlite package"
 category = "main"
 optional = false
@@ -303,7 +303,7 @@ tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>
 
 [[package]]
 name = "babel"
-version = "2.10.1"
+version = "2.10.3"
 description = "Internationalization utilities"
 category = "main"
 optional = false
@@ -322,7 +322,7 @@ python-versions = "*"
 
 [[package]]
 name = "cachelib"
-version = "0.7.0"
+version = "0.8.0"
 description = "A collection of cache libraries in the same API interface."
 category = "main"
 optional = false
@@ -341,7 +341,7 @@ attrs = ">=20"
 
 [[package]]
 name = "certifi"
-version = "2022.5.18.1"
+version = "2022.6.15"
 description = "Python package for providing Mozilla's CA Bundle."
 category = "main"
 optional = false
@@ -391,7 +391,7 @@ PyYAML = ">=3.11"
 
 [[package]]
 name = "colorama"
-version = "0.4.4"
+version = "0.4.5"
 description = "Cross-platform colored terminal text."
 category = "main"
 optional = false
@@ -831,7 +831,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 
 [[package]]
 name = "importlib-resources"
-version = "5.7.1"
+version = "5.8.0"
 description = "Read resources from Python packages"
 category = "main"
 optional = false
@@ -1538,8 +1538,8 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.8.12"
-content-hash = "e1f8d7bf5b0dc6b1159c124530bfe3632ae52ae5133d31c592028c11b631383c"
+python-versions = "^3.8"
+content-hash = "63b5452a714decf0aaa52a05249d19bd8b713a2eb50a721ac0b287545baceffa"
 
 [metadata.files]
 alembic = [
@@ -1555,20 +1555,20 @@ apache-airflow = [
     {file = "apache_airflow-2.3.0-py3-none-any.whl", hash = "sha256:14f98e404804597ed7cfceff12072d04e59583bdbbd8f541d22fd512a10aa247"},
 ]
 apache-airflow-providers-ftp = [
-    {file = "apache-airflow-providers-ftp-2.1.2.tar.gz", hash = "sha256:a8c97c4e69ee3db1a543f2124f8415e951c9a3a9037321be069f2ce594f8aa3c"},
-    {file = "apache_airflow_providers_ftp-2.1.2-py3-none-any.whl", hash = "sha256:550b60e994024454ebb33a34d0ee486d0b9ccab6a7b6e381c0d4bcbe976423e9"},
+    {file = "apache-airflow-providers-ftp-3.0.0.tar.gz", hash = "sha256:ed6079c23945717a2c98204857c2b23ea843f1c3e983cf3bd076f184f5365fea"},
+    {file = "apache_airflow_providers_ftp-3.0.0-py3-none-any.whl", hash = "sha256:1d61306597ac234f7e724bf42e10f084b04756ddf3e1cdcdf5af44b5ede5ff01"},
 ]
 apache-airflow-providers-http = [
-    {file = "apache-airflow-providers-http-2.1.2.tar.gz", hash = "sha256:5f04226bcd5627037d3e903dcb0c0b744cedc903f68d7eeda25c37e8d6d26f36"},
-    {file = "apache_airflow_providers_http-2.1.2-py3-none-any.whl", hash = "sha256:559b88f2498f9d9745da05baa2c4e14fd83915c4b9f274a1d9854a0b849908ab"},
+    {file = "apache-airflow-providers-http-3.0.0.tar.gz", hash = "sha256:e83bc4ba55b81dae353de2b5f431fec66f48eed61474afae8a1580e2374fa0ab"},
+    {file = "apache_airflow_providers_http-3.0.0-py3-none-any.whl", hash = "sha256:3ad9d15908eda184a7f5b841c0912340f51380aeeb2171d4afd34c460313c4b6"},
 ]
 apache-airflow-providers-imap = [
-    {file = "apache-airflow-providers-imap-2.2.3.tar.gz", hash = "sha256:c71a384ac89a2e6930fee1bc85d1e241524c0d5ff7fe0d59365362cbb35b5088"},
-    {file = "apache_airflow_providers_imap-2.2.3-py3-none-any.whl", hash = "sha256:e4bc0d84283470913c84b51284e3fbe004ead3509d632e2fa79433f4ba2ee117"},
+    {file = "apache-airflow-providers-imap-3.0.0.tar.gz", hash = "sha256:deb631f2b3a62e74ed60ad67da699ada1bb9456c96469842a1be3d14683492cb"},
+    {file = "apache_airflow_providers_imap-3.0.0-py3-none-any.whl", hash = "sha256:4139b04e84a40cd4b3204e6fd87f360253e2f2dc877c1f132bd0bd379cdcc918"},
 ]
 apache-airflow-providers-sqlite = [
-    {file = "apache-airflow-providers-sqlite-2.1.3.tar.gz", hash = "sha256:ace6ee49817a69d353f5ff7120594c0ecfae7471a730787ab661cf16528d103c"},
-    {file = "apache_airflow_providers_sqlite-2.1.3-py3-none-any.whl", hash = "sha256:270c5a6ae81425a2728c6e04f84eff4d2276ed04e7b0beadc115bf64b55692af"},
+    {file = "apache-airflow-providers-sqlite-3.0.0.tar.gz", hash = "sha256:519aae61c790400ac82b160cd779b6bb68e7af8bb099bc91bbf970e22731fe2b"},
+    {file = "apache_airflow_providers_sqlite-3.0.0-py3-none-any.whl", hash = "sha256:fb292c8d5e0557410ae95b70972768b5a409c4d3c84a611d53b22cd1c1f89187"},
 ]
 apispec = [
     {file = "apispec-3.3.2-py2.py3-none-any.whl", hash = "sha256:a1df9ec6b2cd0edf45039ef025abd7f0660808fa2edf737d3ba1cf5ef1a4625b"},
@@ -1587,23 +1587,23 @@ attrs = [
     {file = "attrs-20.3.0.tar.gz", hash = "sha256:832aa3cde19744e49938b91fea06d69ecb9e649c93ba974535d08ad92164f700"},
 ]
 babel = [
-    {file = "Babel-2.10.1-py3-none-any.whl", hash = "sha256:3f349e85ad3154559ac4930c3918247d319f21910d5ce4b25d439ed8693b98d2"},
-    {file = "Babel-2.10.1.tar.gz", hash = "sha256:98aeaca086133efb3e1e2aad0396987490c8425929ddbcfe0550184fdc54cd13"},
+    {file = "Babel-2.10.3-py3-none-any.whl", hash = "sha256:ff56f4892c1c4bf0d814575ea23471c230d544203c7748e8c68f0089478d48eb"},
+    {file = "Babel-2.10.3.tar.gz", hash = "sha256:7614553711ee97490f732126dc077f8d0ae084ebc6a96e23db1482afabdb2c51"},
 ]
 blinker = [
     {file = "blinker-1.4.tar.gz", hash = "sha256:471aee25f3992bd325afa3772f1063dbdbbca947a041b8b89466dc00d606f8b6"},
 ]
 cachelib = [
-    {file = "cachelib-0.7.0-py3-none-any.whl", hash = "sha256:80fa73dda398672329dab6c8e9e9bad03fd36dc4da40d911d7de308c91e8481e"},
-    {file = "cachelib-0.7.0.tar.gz", hash = "sha256:df254f3b900dc8684d8ebdd146c731ddb45edc6233a6cf7e3e834c949f360726"},
+    {file = "cachelib-0.8.0-py3-none-any.whl", hash = "sha256:efb94456a4cf91669c4b6e82833b43d20c45e3c2ba8384841854c79cc7175565"},
+    {file = "cachelib-0.8.0.tar.gz", hash = "sha256:e358f6f82cf633891f0dbd3996e300b4657716ac44b301df33b9cb2cfd6eea6d"},
 ]
 cattrs = [
     {file = "cattrs-1.10.0-py3-none-any.whl", hash = "sha256:35dd9063244263e63bd0bd24ea61e3015b00272cead084b2c40d788b0f857c46"},
     {file = "cattrs-1.10.0.tar.gz", hash = "sha256:211800f725cdecedcbcf4c753bbd22d248312b37d130f06045434acb7d9b34e1"},
 ]
 certifi = [
-    {file = "certifi-2022.5.18.1-py3-none-any.whl", hash = "sha256:f1d53542ee8cbedbe2118b5686372fb33c297fcd6379b050cca0ef13a597382a"},
-    {file = "certifi-2022.5.18.1.tar.gz", hash = "sha256:9c5705e395cd70084351dd8ad5c41e65655e08ce46f2ec9cf6c2c08390f71eb7"},
+    {file = "certifi-2022.6.15-py3-none-any.whl", hash = "sha256:fe86415d55e84719d75f8b69414f6438ac3547d2078ab91b67e779ef69378412"},
+    {file = "certifi-2022.6.15.tar.gz", hash = "sha256:84c85a9078b11105f04f3036a9482ae10e4621616db313fe045dd24743a0820d"},
 ]
 cffi = [
     {file = "cffi-1.15.0-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:c2502a1a03b6312837279c8c1bd3ebedf6c12c4228ddbad40912d671ccc8a962"},
@@ -1670,8 +1670,8 @@ clickclick = [
     {file = "clickclick-20.10.2.tar.gz", hash = "sha256:4efb13e62353e34c5eef7ed6582c4920b418d7dedc86d819e22ee089ba01802c"},
 ]
 colorama = [
-    {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},
-    {file = "colorama-0.4.4.tar.gz", hash = "sha256:5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b"},
+    {file = "colorama-0.4.5-py2.py3-none-any.whl", hash = "sha256:854bf444933e37f5824ae7bfc1e98d5bce2ebe4160d46b5edf346a89358e99da"},
+    {file = "colorama-0.4.5.tar.gz", hash = "sha256:e6c6b4334fc50988a639d9b98aa429a0b57da6e17b9a44f0451f930b6967b7a4"},
 ]
 colorlog = [
     {file = "colorlog-4.8.0-py2.py3-none-any.whl", hash = "sha256:3dd15cb27e8119a24c1a7b5c93f9f3b455855e0f73993b1c25921b2f646f1dcd"},
@@ -1870,8 +1870,8 @@ importlib-metadata = [
     {file = "importlib_metadata-4.11.4.tar.gz", hash = "sha256:5d26852efe48c0a32b0509ffbc583fda1a2266545a78d104a6f4aff3db17d700"},
 ]
 importlib-resources = [
-    {file = "importlib_resources-5.7.1-py3-none-any.whl", hash = "sha256:e447dc01619b1e951286f3929be820029d48c75eb25d265c28b92a16548212b8"},
-    {file = "importlib_resources-5.7.1.tar.gz", hash = "sha256:b6062987dfc51f0fcb809187cffbd60f35df7acb4589091f154214af6d0d49d3"},
+    {file = "importlib_resources-5.8.0-py3-none-any.whl", hash = "sha256:7952325ffd516c05a8ad0858c74dff2c3343f136fe66a6002b2623dd1d43f223"},
+    {file = "importlib_resources-5.8.0.tar.gz", hash = "sha256:568c9f16cb204f9decc8d6d24a572eeea27dacbb4cee9e6b03a8025736769751"},
 ]
 inflection = [
     {file = "inflection-0.5.1-py2.py3-none-any.whl", hash = "sha256:f38b2b640938a4f35ade69ac3d053042959b62a0f1076a5bbaa1b9526605a8a2"},
