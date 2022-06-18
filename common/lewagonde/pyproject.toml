@@ -2,7 +2,7 @@
 name = "lewagonde"
 version = "0.1.0"
 description = ""
-authors = ["Selim <selimyoussry@gmail.com>"]
+authors = ["S. Saunier <seb@lewagon.org>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
