@@ -5,7 +5,7 @@ description = "Data engineering bootcamp by Le Wagon"
 authors = ["S. Saunier <seb@lewagon.org>"]
 
 [tool.poetry.dependencies]
-python = "^3.8.12"
+python = "^3.8"
 apache-airflow = "2.3.0"
 psycopg2-binary = "^2.9.3"
 
