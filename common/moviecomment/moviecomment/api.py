@@ -60,7 +60,7 @@ def new_comments(n: int=DEFAULT_N) -> List[models.Comment]:
     return comments
 
 
-@app.get("/latest-comments/")
+@app.get("/latest-comments")
 async def latest_comments(n: int=DEFAULT_N) -> models.LatestCommentsResponse:
     """
     API endpoints returning a JSON of `n` latest comments
@@ -69,7 +69,7 @@ async def latest_comments(n: int=DEFAULT_N) -> models.LatestCommentsResponse:
     return models.LatestCommentsResponse(comments=new_comments(n=n))
 
 
-@app.get("/dump-csv/")
+@app.get("/dump-csv")
 async def dump_csv(n: int):
     """
     API endpoints returning a JSON of `n` latest comments

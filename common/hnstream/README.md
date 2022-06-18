@@ -48,7 +48,12 @@ WHERE table_name="<insert table name here>"
 
 ## How to use
 
-Set the environment variable `GCP_CREDS_JSON` and store your GCP JSON credentials with BigQuery access at that path.
+Encode your GCP JSON credentials with BigQuery access to base64  and store this value to the environment variable `GCP_CREDS_JSON_BASE64`. Here's a one-liner to do it `export GCP_CREDS_JSON_BASE64=$(eval base64 -i /path/to/gcp-creds.json)`.
+
+- Build the container with `make build`
+- Run it with `docker run --rm -e GCP_CREDS_JSON_BASE64=<base 64 encoded GCP credentials JSON file> -p 50051:50051 lewagon/hnstream:0.1.0`
+- The server is now accessible on your server/machine's port 50051
+- You can access it with a generated client. Test it with `poetry run python client.py` on your machine.
 
 **Create a client, run a query and return a Pandas DataFrame**
 ```

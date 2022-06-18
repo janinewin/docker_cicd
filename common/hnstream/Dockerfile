@@ -18,7 +18,7 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /server/hnstream
+WORKDIR /server
 
 RUN make genproto
 

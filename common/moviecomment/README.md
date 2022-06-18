@@ -5,7 +5,7 @@ This little FastAPI app exposes one endpoint on port 8000, `/latest-comments?n=n
 It grabs random comments and sentiments from the [large movie review dataset](http://ai.stanford.edu/~amaas/data/sentiment/) and random movie IDs from an extracted list of IDs from [the movies dataset](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=movies_metadata.csv), mixes both and returns the following payload (below an example)
 
 ```
-curl http://127.0.0.1:8000/latest-comments/?n=2 | jq
+curl http://127.0.0.1:8000/latest-comments?n=2 | jq
 ```
 
 ```[javascript]
@@ -36,7 +36,7 @@ curl http://127.0.0.1:8000/latest-comments/?n=2 | jq
 ### Locally
 
 - `poetry install`
-- Create a data directory `DATASETS_DIR` and download the files [movies](https://sapiologie-s3-prod-public.s3.fr-par.scw.cloud/le-wagon/movie_ids.csv.gz) and [comments](https://sapiologie-s3-prod-public.s3.fr-par.scw.cloud/le-wagon/imdb_comments_dataset.csv.gz)
+- Create a data directory `DATASETS_DIR` and download the files [movies](https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/movies/csvs/movie_ids.csv.gz) and [comments](https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/movies/csvs/imdb_comments_dataset.csv.gz)
 - Export the environment variable `DATASETS_DIR=<set the value for DATASETS_DIR where you put the files>`
 - `poetry run uvicorn moviecomment.api:app`
 

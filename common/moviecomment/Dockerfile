@@ -20,8 +20,8 @@ RUN apt-get update \
 
 RUN mkdir -p /datasets \
   && cd /datasets \
-  && wget https://sapiologie-s3-prod-public.s3.fr-par.scw.cloud/le-wagon/movie_ids.csv.gz -O ./movie_ids.csv.gz \
-  && wget https://sapiologie-s3-prod-public.s3.fr-par.scw.cloud/le-wagon/imdb_comments_dataset.csv.gz -O ./imdb_comments_dataset.csv.gz \
+  && wget https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/movies/csvs/movie_ids.csv.gz -O ./movie_ids.csv.gz \
+  && wget https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/movies/csvs/imdb_comments_dataset.csv.gz -O ./imdb_comments_dataset.csv.gz \
   && gunzip movie_ids.csv.gz \
   && gunzip imdb_comments_dataset.csv.gz
 
