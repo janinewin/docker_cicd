@@ -12,7 +12,7 @@ def get_client():
     of the environment variable `GCP_CREDS_JSON`
     """
     credentials = service_account.Credentials.from_service_account_file(
-        os.environ.get("GCP_CREDS_JSON"), scopes=["https://www.googleapis.com/auth/cloud-platform"]
+        os.environ.get("GCP_CREDS_JSON", "/settings/gcp.json"), scopes=["https://www.googleapis.com/auth/cloud-platform"]
     )
 
     return bigquery.Client(credentials=credentials, project=credentials.project_id)

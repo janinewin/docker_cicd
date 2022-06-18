@@ -31,12 +31,12 @@ curl http://127.0.0.1:8000/latest-comments/?n=2 | jq
 
 - Run `make build` to build the Docker image.
 - `docker run --rm -p 8000:8000 lewagon/moviecomment:0.1.0` to run it locally
-- `curl http://localhost:8000/latest-comments?n=34` to fetch 34 random comments.
+- `curl http://localhost:8000/latest-comments/?n=34` to fetch 34 random comments.
 
 ### Locally
 
 - `poetry install`
-- Create a data directory `DATASETS_DIR` and download the files [movies](https://sapiologie-s3-prod-public.s3.fr-par.scw.cloud/le-wagon/movie_ids.csv.gz) and [comments](https://sapiologie-s3-prod-public.s3.fr-par.scw.cloud/le-wagon/imdb_comments_dataset.csv.gz)
+- Create a data directory `DATASETS_DIR` and download the files [movies](https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/movies/csvs/movie_ids.csv.gz) and [comments](https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/movies/csvs/imdb_comments_dataset.csv.gz)
 - Export the environment variable `DATASETS_DIR=<set the value for DATASETS_DIR where you put the files>`
 - `poetry run uvicorn moviecomment.api:app`
 

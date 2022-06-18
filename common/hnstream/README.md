@@ -50,6 +50,11 @@ WHERE table_name="<insert table name here>"
 
 Set the environment variable `GCP_CREDS_JSON` and store your GCP JSON credentials with BigQuery access at that path.
 
+- Build the container with `make build`
+- Run it with `docker run --rm -v /path/to/your/gcp/creds.json:/settings/gcp.json:ro -p 50051:50051 lewagon/hnstream:0.1.0`
+- The server is now accessible on your server/machine's port 50051
+- You can access it with a generated client. Test it with `poetry run python client.py` on your machine.
+
 **Create a client, run a query and return a Pandas DataFrame**
 ```
 from hnstream import bq
