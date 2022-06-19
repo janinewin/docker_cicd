@@ -7,13 +7,6 @@ install:
 
 	#Track long dataset
 	curl --output ./02-Track-long/database/init/postgres-movies-no-owner-w01d04.sql.gz https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/movies/w1d3/postgres-movies-no-owner-w01d04.sql.gz
-
-	echo "Installing poetry dependencies"
-	poetry install
-
-	echo "Copying poetry files to appropriate locations"
-	cp ./pyproject.toml ./poetry.lock ./00-Setup-Exercise/
-	cp ./pyproject.toml ./poetry.lock ./01-Streamlit/
 	
 	echo "Setup done"
 	
