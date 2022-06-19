@@ -1,4 +1,6 @@
-install:
+install: install-poetry allow-envrc
+
+install-poetry:
 	find . -name pyproject.toml -exec sh -c 'echo $$(exec dirname {}) && cd $$(exec dirname {}) && poetry install' \;
 
 update:
