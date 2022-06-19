@@ -1,5 +1,8 @@
 import os
 
+from airflow import DAG
+from airflow.providers.postgres.hooks.postgres import PostgresHook
+
 # IMPORT YOUR PACKAGES HERE
 
 AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")

@@ -1,3 +1,14 @@
+import os
+from sqlite3 import Connection
+from typing import Union
+
+import pandas as pd
+from airflow import DAG
+from airflow.hooks.sqlite_hook import SqliteHook
+from airflow.models.taskinstance import TaskInstance
+from airflow.providers.postgres.hooks.postgres import PostgresHook
+from sqlalchemy.engine.base import Engine
+
 # IMPORT YOUR PACKAGES HERE
 
 AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")

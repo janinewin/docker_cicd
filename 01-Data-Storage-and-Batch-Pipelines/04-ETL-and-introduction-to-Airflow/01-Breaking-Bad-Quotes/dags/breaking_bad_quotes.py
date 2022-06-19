@@ -1,3 +1,7 @@
+import os
+
+from airflow import DAG
+
 # IMPORT YOUR PACKAGES HERE
 
 AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
