@@ -1,1 +1,0 @@
-# Apache Beam programming model
