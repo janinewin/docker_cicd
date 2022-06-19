@@ -1,3 +1,5 @@
+include ../../../make.inc
+
 .PHONY: docs install test supertest
 
 define BROWSER_PYSCRIPT

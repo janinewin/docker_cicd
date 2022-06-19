@@ -1,7 +1,6 @@
-.PHONY: install test_docker_compose test_dockerfile test_files_and_folders test
+include ../../../make.inc
 
-install:
-	poetry install
+.PHONY: install test_docker_compose test_dockerfile test_files_and_folders test
 
 test_docker_compose:
 	poetry run pytest -v tests/test_docker_compose.py
@@ -11,6 +10,3 @@ test_dockerfile:
 
 test_files_and_folders:
 	poetry run pytest -v tests/test_files_and_folders.py
-
-test:
-	poetry run pytest -v

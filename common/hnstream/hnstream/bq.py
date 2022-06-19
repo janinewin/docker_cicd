@@ -15,9 +15,7 @@ def get_client():
     """
     creds_dict = json.loads(base64.b64decode(os.environ.get("GCP_CREDS_JSON_BASE64")))
 
-    credentials = service_account.Credentials.from_service_account_info(
-        creds_dict, scopes=["https://www.googleapis.com/auth/cloud-platform"]
-    )
+    credentials = service_account.Credentials.from_service_account_info(creds_dict, scopes=["https://www.googleapis.com/auth/cloud-platform"])
 
     return bigquery.Client(credentials=credentials, project=credentials.project_id)
 

@@ -1,11 +1,8 @@
 import os
 
-from airflow import DAG
-from airflow.providers.postgres.hooks.postgres import PostgresHook
-
 # IMPORT YOUR PACKAGES HERE
 
-AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
+AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
 COMMENTS_API_ROOT = os.getenv("COMMENTS_API_ROOT", "https://moviecomment-zxzcpvr6hq-ew.a.run.app/latest-comments")
 
 
@@ -46,7 +43,7 @@ def get_and_insert_last_comments(hook: PostgresHook) -> str:
 
 
 with DAG(
-        'track_long',
-        # YOUR CODE HERE
+    "track_long",
+    # YOUR CODE HERE
 ) as dag:
     pass  # YOUR CODE HERE

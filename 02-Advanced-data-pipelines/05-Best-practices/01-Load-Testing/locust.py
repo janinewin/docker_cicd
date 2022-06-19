@@ -1,6 +1,8 @@
-import time
 import random
-from locust import between, task, FastHttpUser
+import time
+
+from locust import FastHttpUser, between, task
+
 
 class WagonFakeUser(FastHttpUser):
     pass  # YOUR CODE HERE

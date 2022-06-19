@@ -1,17 +1,6 @@
-import os
-from sqlite3 import Connection
-from typing import Union
-
-import pandas as pd
-from airflow import DAG
-from airflow.hooks.sqlite_hook import SqliteHook
-from airflow.models.taskinstance import TaskInstance
-from airflow.providers.postgres.hooks.postgres import PostgresHook
-from sqlalchemy.engine.base import Engine
-
 # IMPORT YOUR PACKAGES HERE
 
-AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
+AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
 
 
 def create_connection_from_hook(hook: Union[SqliteHook, PostgresHook]) -> Union[Engine, Connection]:
@@ -37,7 +26,7 @@ def display_number_of_inserted_rows(task_instance: TaskInstance):
 
 
 with DAG(
-        'load',
-        # YOUR CODE HERE
+    "load",
+    # YOUR CODE HERE
 ) as dag:
     pass  # YOUR CODE HERE

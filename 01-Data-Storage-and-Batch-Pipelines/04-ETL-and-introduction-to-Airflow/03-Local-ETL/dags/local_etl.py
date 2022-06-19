@@ -1,11 +1,6 @@
-import os
-
-from airflow import DAG
-from airflow.providers.postgres.hooks.postgres import PostgresHook
-
 # IMPORT YOUR PACKAGES HERE
 
-AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
+AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
 
 
 def read_from_json(joke_file: str) -> dict:
@@ -61,7 +56,7 @@ def load(swedified_joke_file: str, hook: PostgresHook) -> None:
 
 
 with DAG(
-        'local_etl',
-        # YOUR CODE HERE
+    "local_etl",
+    # YOUR CODE HERE
 ) as dag:
     pass  # YOUR CODE HERE

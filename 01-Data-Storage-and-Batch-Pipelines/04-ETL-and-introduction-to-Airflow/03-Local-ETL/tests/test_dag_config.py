@@ -13,9 +13,6 @@ class TestDagConfig:
     def test_dag_config(self):
         assert self.dagbag.import_errors == {}
         dag = self.dagbag.get_dag(dag_id="local_etl")
-        assert dag.schedule_interval == '@daily'
-        assert dag.default_args == {
-            'depends_on_past': True,
-            'start_date': pendulum.today('UTC').add(days=-5)
-        }
+        assert dag.schedule_interval == "@daily"
+        assert dag.default_args == {"depends_on_past": True, "start_date": pendulum.today("UTC").add(days=-5)}
         assert self.dagbag.import_errors == {}

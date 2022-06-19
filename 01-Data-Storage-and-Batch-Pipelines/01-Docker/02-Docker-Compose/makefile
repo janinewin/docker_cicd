@@ -1,10 +1,6 @@
+include ../../../make.inc
+
 .PHONY: install test testTask1 testTask2 testTask3
-
-install:
-	poetry install
-
-test:
-	poetry run pytest
 
 testTask1:
 	docker compose -f docker-compose-1.yml config

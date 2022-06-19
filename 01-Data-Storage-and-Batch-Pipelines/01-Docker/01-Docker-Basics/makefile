@@ -1,7 +1,6 @@
-.PHONY: install test testTask1 testTask2 testTask3
+include ../../../make.inc
 
-install:
-	poetry install
+.PHONY: install test testTask1 testTask2 testTask3
 
 #Build tasks
 buildTask1:
@@ -18,18 +17,18 @@ buildTask3-2:
 
 # Run tasks
 runTask1:
-	docker run --rm -it -p 8000:8000 base-image-fastapi-ubuntu-fat:test 
+	docker run --rm -it -p 8000:8000 base-image-fastapi-ubuntu-fat:test
 
 runTask2:
 	docker run --rm -it -p 8000:8000 base-image-fastapi-ubuntu:test
 
 runTask3-1:
 	docker run --rm -it -p 8000:8000 base-image-fastapi-fat:dev
-	
+
 runTask3-2:
 	docker run --rm -it -p 8000:8000 base-image-fastapi:dev
 
-# Test Tasks 
+# Test Tasks
 # Build the image before testing maybe overkill?
 test: buildTask1 buildTask2 buildTask3-1 buildTask3-2
 	poetry run pytest
@@ -40,7 +39,7 @@ testTask1: buildTask1
 testTask2: buildTask2
 	poetry run pytest -k TestTask2
 
-testTask3-1: buildTask3-1 
+testTask3-1: buildTask3-1
 	poetry run pytest tests/test_task_3.py::TestTask3::test_dockerfile_task_3_1
 
 testTask3-2: buildTask3-2

@@ -1,11 +1,9 @@
+include ../../make.inc
+
 IMG=lewagon/hnstream:0.1.0
 
 build:
 	docker build -t $(IMG) .
-
-format:
-	poetry run black .
-	poetry run isort .
 
 proto1:
 	@poetry run python -m grpc_tools.protoc -I./proto --python_out=./hnstream/pyproto --grpc_python_out=./hnstream/pyproto ./proto/server.proto

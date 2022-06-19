@@ -1,25 +1,36 @@
 import argparse
 import ast
-import pathlib
 import os
+import pathlib
 from typing import Dict, List, Tuple
 
 import pandas as pd
 
-
 MOVIES_METADATA_NORMALIZED_COLUMNS = [
-        "adult", "budget", "homepage", "id", "imdb_id", "original_language", "original_title",
-        "overview", "popularity", "poster_path", "release_date", "revenue", "runtime", "status",
-        "tagline", "title", "video", "vote_average", "vote_count"
+    "adult",
+    "budget",
+    "homepage",
+    "id",
+    "imdb_id",
+    "original_language",
+    "original_title",
+    "overview",
+    "popularity",
+    "poster_path",
+    "release_date",
+    "revenue",
+    "runtime",
+    "status",
+    "tagline",
+    "title",
+    "video",
+    "vote_average",
+    "vote_count",
 ]
 
-TAGS_COLUMNS = [
-    "name", "value"
-]
+TAGS_COLUMNS = ["name", "value"]
 
-TAGS_MAP_COLUMNS = [
-    "movie_id", "tag_name", "tag_value"
-]
+TAGS_MAP_COLUMNS = ["movie_id", "tag_name", "tag_value"]
 
 
 def int_or_zero(v):
@@ -28,11 +39,13 @@ def int_or_zero(v):
     """
     return int(v) if not pd.isna(v) and (isinstance(v, float) or isinstance(v, int)) else 0
 
+
 def float_or_zero(v):
     """
     Cast a value to `float` or 0.0
     """
     return float(v) if not pd.isna(v) and (isinstance(v, float) or isinstance(v, int)) else 0.0
+
 
 def bool_or_false(v):
     """
@@ -49,7 +62,7 @@ def load_and_clean_movies(movies_metadata_csv_fp: str) -> pd.DataFrame:
 
     # Keep only integer `id` rows
     movie_id_int = movies_df["id"].str.isnumeric()
-    
+
     # Cast vote_count as integer
     movies_df["vote_count"] = movies_df["vote_count"].apply(int_or_zero)
 
@@ -58,7 +71,7 @@ def load_and_clean_movies(movies_metadata_csv_fp: str) -> pd.DataFrame:
 
     # Cast budget as float
     movies_df["budget"] = movies_df["budget"].apply(float_or_zero)
-    
+
     return movies_df.loc[movie_id_int, :].reset_index()
 
 
@@ -80,7 +93,7 @@ def extract_tags(id_column: pd.Series, links_column: pd.Series, identifier_key: 
     """
     The list columns are always a list of Python `dict` with two keys, an ID ("id" or "iso_...") which we call `identifier_key,
     and a name which we call `value_key`.
-    
+
     Args:
       - `id_columns`: the column with the movie ID, as a `pandas.Series`
       - `links_column`: the column with the Python lists, which we call "links"
@@ -117,7 +130,7 @@ def make_tags_df(tag_name_and_values: Dict[str, List[str]]):
       - `tag_name_and_values`: dictionary where
         - the key is the name of the tag, like "production_country"
         - the value is the list of unique tags like ["United States", "Zambia"]
-    
+
     Returns:
       - a `pandas.DataFrame` with columns `["name", "value"]`
     """
@@ -194,7 +207,4 @@ def parse_args():
 
 if __name__ == "__main__":
     _args = parse_args()
-    movies_to_new_tables(
-        raw_movies_metadata_csv_fp=_args.movies,
-        output_dir=_args.out
-    )
+    movies_to_new_tables(raw_movies_metadata_csv_fp=_args.movies, output_dir=_args.out)
