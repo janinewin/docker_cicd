@@ -252,7 +252,7 @@ Previously we installed our own version of python, pip and other dependencies. T
 ## Interesting tools
 ✨ [Haskell Dockerdile Linter](https://github.com/hadolint/hadolint)
 
-🛠 [Container Sttructure Tests](https://github.com/GoogleContainerTools/)container-structure-test
+🛠 [Container Structure Tests](https://github.com/GoogleContainerTools/container-structure-test)
 
 🤿 [dive](https://github.com/wagoodman/dive)
 
