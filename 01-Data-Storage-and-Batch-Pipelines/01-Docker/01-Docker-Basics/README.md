@@ -84,7 +84,7 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
     You could save space deleting the files and directories in `/var/lib/apt/lists/`.
     </details>
 1. Push image to [Artifact Registry](https://cloud.google.com/artifact-registry/docs/docker/pushing-and-pulling)
-    1. Set the following variables with your own:
+    1. Set the following variables in your terminal:
         ```bash
         LOCATION=europe-west1
         HOSTNAME="$LOCATION-docker.pkg.dev"
@@ -113,7 +113,7 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
     - Find your repo name with `gcloud artifacts repositories list`
     - Find your `IMAGE_NAME` and `IMAGE_TAG` with `docker images`
     </details>
-1. Free port 8000 by stopping the running uvicorn server with `CTRL` + `c`
+1. Tear down the server by using the shortcut `CTRL` + `c`
 
 **🧪 Test your code with `make testTask1`**
 
@@ -146,16 +146,16 @@ This tasks illustrates the concept of caching and unwanted dependencies installe
     <details>
       <summary markdown='span'>💡 Hints</summary>
 
-    You can launch these 2 instructions:
+    Instead of running these 2 instructions separately:
     ```dockerfile
     RUN apt-get update
     RUN apt-get -y upgrade
     ```
-    chaining them:
+    You have to combine them into a single instruction:
     ```dockerfile
     RUN apt-get update && apt-get -y upgrade
     ```
-    You can also launch a chain of instructions on several lines:
+    You can also launch use `\ &&` to break up the instruction in several lines:
     ```dockerfile
     RUN apt-get update \
         && apt-get -y upgrade
@@ -167,8 +167,7 @@ This tasks illustrates the concept of caching and unwanted dependencies installe
 1. Build image using the tag `base-image-fastapi-ubuntu:test`
     <details>
       <summary markdown='span'>💡 Hint</summary>
-
-    Look at your `Makefile`, you should easily find a command to do so.
+        Use the docker command or look at your `Makefile`, you should easily find a command to do so.
     </details>
 1. Run container to make sure it’s functional -- it should start the fastapi server listening on the localhost interface and port 8000 - Head to [localhost:8000](http://localhost:3000) you should see `Hello World`
 1. Inspect size and layers using `dive`
@@ -179,8 +178,7 @@ This tasks illustrates the concept of caching and unwanted dependencies installe
 1. Push image to remote hub
     <details>
       <summary markdown='span'>💡 Hint</summary>
-
-    Be careful, the image name differs from task 1
+        Be careful, the image name differs from task 1
     </details>
 
 **🧪 Test your code with `make testTask2`**
@@ -194,7 +192,7 @@ Previously we installed our own version of python, pip and other dependencies. T
 
 **❓ Enhance the performance of your image**
 
-1. Copy the content of `dockerfile-task-2` into `dockerfile-task-3-1`
+1. Using the content of `dockerfile-task-2` do the following taks in `dockerfile-task-3-1`
 1. Update the `dockerfile-task-3` to use python:3.8.12 as a base image, you may need to remove some of the installations you’ve done in it, since now python and pip come with it.
 1. We are going to use [poetry](https://python-poetry.org/) to handle all the dependencies and package management for python, instead of using the traditional `pip` and `requirements.txt` to install our packages. To do so:
     1. Replace all the previously added pip packages using poetry
@@ -235,7 +233,7 @@ Previously we installed our own version of python, pip and other dependencies. T
 **❓ Shrink your image size**
 
 1. Copy the content of `dockerfile-task-3-1` into `dockerfile-task-3-2`
-1. Now switch to python:3.8.12-slim base image
+1. Now switch to `python:3.8.12-slim` base image
 1. Build image using the tag `base-image-fastapi:dev`
 1. Run container to make sure it’s functional
 1. Inspect size and layers using dive
