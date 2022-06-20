@@ -26,37 +26,12 @@ By the end of this exercise you should be able to:
 - Build, run & push docker images
 - Use GCP container registry
 
-## Setup
-For this exercise you will need:
-
-- Working docker installation
-- Run the following command:
-    ```bash
-    $ docker run hello-world
-    ```
-    Expected output:
-    ```bash
-    Unable to find image 'hello-world:latest' locally
-    latest: Pulling from library/hello-world
-    7050e35b49f5: Pull complete
-    Digest: sha256:80f31da1ac7b312ba29d65080fddf797dd76acfb870e677f390d5acba9741b17
-    Status: Downloaded newer image for hello-world:latest
-    Hello from Docker!
-    This message shows that your installation appears to be working correctly.
-    ```
-- Text/Code editor - VSCode
-- Working GitHub setup
-- Working GCP setup with docker authentication
-  - Enable [Artifact Registry](https://cloud.google.com/artifact-registry/docs/docker/authentication)
-  - Authentication using [gcloud credentials helper](https://cloud.google.com/artifact-registry/docs/docker/authentication#gcloud-helper)
-
 ## Task 1 - Layers 🥞
 This task illustrates the concept of layers. We will purposely write a bad Dockerfile to highlight the internal structure of an image.
 
+**❗️Only for the following exercise use separate “RUN” for each command you write.**
 
-**Only for the following exercise use separate “RUN” for each command you write.**
-
-Write a single Dockerfile with the following requirements:
+❓Write a single Dockerfile with the following requirements:
 
 1. Based on ubuntu 20.04
 1. Add `ARG DEBIAN_FRONTEND=noninteractive` note: **Do not use ENV as this would persist after the build and would impact your containers, children images**
@@ -100,7 +75,7 @@ Write a single Dockerfile with the following requirements:
 1. Head to [localhost:8000](http://localhost:8000) you should see `Hello World`
 1. Inspect size and layers using [dive](https://github.com/wagoodman/dive)
     ```bash
-    docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest <your_image_name:tag>
+    docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest base-image-fastapi-ubuntu-fat:test
     ```
 1. Inspect the layers, check the image size, check the wasted space.
     <details>
@@ -109,18 +84,51 @@ Write a single Dockerfile with the following requirements:
     You could save space deleting the files and directories in `/var/lib/apt/lists/`.
     </details>
 1. Push image to [Artifact Registry](https://cloud.google.com/artifact-registry/docs/docker/pushing-and-pulling)
-    1. Retag the image with the registry name
+    1. Set the following variables with your own:
+        ```bash
+        LOCATION=europe-west1
+        HOSTNAME="$LOCATION-docker.pkg.dev"
+        PROJECT_ID=kevin-bootcamp
+        REPOSITORY=docker-hub
+        IMAGE_NAME=base-image-fastapi-ubuntu-fat
+        IMAGE_TAG=test
         ```
-        docker tag <source-image> <LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY/image:tag>
+    1. Retag the image with the registry name
+        ```bash
+        docker tag "$IMAGE_NAME:$IMAGE_TAG" "$HOSTNAME/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:$IMAGE_TAG"
         ```
     1. Push retagged image to container registry
-        ```
-        docker push <hostname/project-id/image:tag>
+        ```bash
+        docker push "$HOSTNAME/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:$IMAGE_TAG"
         ```
     1. Check image is present in the registry
+        ```bash
+        gcloud container images list-tags  "$HOSTNAME/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME"
         ```
-        gcloud container images list-tags  <hostname/project-id/image:tag>
-        ```
+    <details>
+      <summary markdown='span'>💡 Hint</summary>
+
+    - Find your repo `LOCATION` with `cat ~/.docker/config.json`
+    - Find your `PROJECT_ID` with `gcloud projects list`
+    - Find your repo name with `gcloud artifacts repositories list`
+    - Find your `IMAGE_NAME` and `IMAGE_TAG` with `docker images`
+    </details>
+
+**🧪 Test your code with `make testTask1`**
+
+**🏁 Save your work in progress on GitHub**
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+```bash
+git status
+git add dockerfile-task-1
+git commit --message 'complete task 1'
+git push origin main
+```
+
+</details>
 
 ## Task 2 - Caching 👻 - easy wins
 
