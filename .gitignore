@@ -4,11 +4,11 @@
 *.sqlite
 
 # Database folders - in 02-SQL
-*data/
+02-SQL/**/data/
 *.data/
 
 # DBT logs
-dbt.log 
+dbt.log
 *target/
 
 # File system
