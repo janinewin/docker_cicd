@@ -15,7 +15,7 @@ To do so we will teach you how to:
 - Analyse the content and construction of a docker image
 - Spin up/down containers
 - Access containers & execute commands inside containers using the CLI
-- Push images to remote docker hubs (DockerHub, GCP image registry)
+- Push images to remote docker hubs (DockerHub, GCP Artifact Registry)
 
 ## End goal
 By the end of this exercise you should be able to:
@@ -50,7 +50,7 @@ For this exercise you will need:
   - Enable [Artifact Registry](https://cloud.google.com/artifact-registry/docs/docker/authentication)
   - Authentication using [gcloud credentials helper](https://cloud.google.com/artifact-registry/docs/docker/authentication#gcloud-helper)
 
-## Task 1: Layers 🥞
+## Task 1 - Layers 🥞
 This task illustrates the concept of layers. We will purposely write a bad Dockerfile to highlight the internal structure of an image.
 
 
@@ -86,14 +86,29 @@ Write a single Dockerfile with the following requirements:
     app.main:app --host 0.0.0.0 --port 8000
     ```
 1. Build image using the tag `base-image-fastapi-ubuntu-fat:test`
+    <details>
+      <summary markdown='span'>💡 Hint</summary>
+
+    We provided you with the `make buildTask1` command (cf `Makefile`)
+    </details>
 1. Run container to make sure it’s functional -- it should start the fastapi server listening on the localhost interface and port 8000
-1. Head to localhost:8000 you should see `Hello World`
+    <details>
+      <summary markdown='span'>💡 Hint</summary>
+
+    Look at your `Makefile`, you should easily find a command to do so.
+    </details>
+1. Head to [localhost:8000](http://localhost:8000) you should see `Hello World`
 1. Inspect size and layers using [dive](https://github.com/wagoodman/dive)
     ```bash
     docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest <your_image_name:tag>
     ```
 1. Inspect the layers, check the image size, check the wasted space.
-1. Push image to remote hub: [Link](https://cloud.google.com/artifact-registry/docs/docker/pushing-and-pulling)
+    <details>
+      <summary markdown='span'>💡 Hint</summary>
+
+    You could save space deleting the files and directories in `/var/lib/apt/lists/`.
+    </details>
+1. Push image to [Artifact Registry](https://cloud.google.com/artifact-registry/docs/docker/pushing-and-pulling)
     1. Retag the image with the registry name
         ```
         docker tag <source-image> <LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY/image:tag>
@@ -107,7 +122,7 @@ Write a single Dockerfile with the following requirements:
         gcloud container images list-tags  <hostname/project-id/image:tag>
         ```
 
-## Task 2: Caching 👻 - easy wins
+## Task 2 - Caching 👻 - easy wins
 
 This tasks illustrates the concept of caching and unwanted dependencies installed via regular commands. When doing a simple `apt install` or `pip install` by default those package managers install quality of life dependencies to make any developement work easy. To reduce the size of a docker image, one can easily trim down the fat by installing **only** what's necessary and using as fewer layers as possible.
 
@@ -128,7 +143,7 @@ Using the Dockerfile written in task 1
 
 
 
-## Task 3: The importance of a base image 🖼
+## Task 3 - The importance of a base image 🖼
 
 This tasks elaborates on the concept of a base image and how it can be used in real life scenarios to spin up images/containers easily and efficiently.
 Previously we installed our own version of python, pip and other dependencies. The community already built many robusts base images. Using the right base image can save time, space and headaches.
@@ -174,7 +189,7 @@ Using the previous Dockerfile in task 2 do the following:
 1. Push the slim image to remote hub
 
 
-## Interesting tools:
+## Interesting tools
 ✨ https://github.com/hadolint/hadolint
 
 🛠 https://github.com/GoogleContainerTools/container-structure-test
