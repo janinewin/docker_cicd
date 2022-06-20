@@ -113,10 +113,11 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
     - Find your repo name with `gcloud artifacts repositories list`
     - Find your `IMAGE_NAME` and `IMAGE_TAG` with `docker images`
     </details>
+1. Free port 8000 by stopping the running uvicorn server with `CTRL` + `c`
 
 **🧪 Test your code with `make testTask1`**
 
-**🏁 Save your work in progress on GitHub**
+**💾 Save your work in progress on GitHub**
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
@@ -170,7 +171,7 @@ This tasks illustrates the concept of caching and unwanted dependencies installe
     Look at your `Makefile`, you should easily find a command to do so.
     </details>
 1. Run container to make sure it’s functional -- it should start the fastapi server listening on the localhost interface and port 8000 - Head to [localhost:8000](http://localhost:3000) you should see `Hello World`
-1. Inspect size and layers using Dive
+1. Inspect size and layers using `dive`
     ```bash
     docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest base-image-fastapi-ubuntu:test
     ```
@@ -184,26 +185,28 @@ This tasks illustrates the concept of caching and unwanted dependencies installe
 
 **🧪 Test your code with `make testTask2`**
 
-**🏁 Save your work in progress on GitHub**
+**💾 Save your work in progress on GitHub**
 
 ## Task 3 - The importance of a base image 🖼
 
 This tasks elaborates on the concept of a base image and how it can be used in real life scenarios to spin up images/containers easily and efficiently.
 Previously we installed our own version of python, pip and other dependencies. The community already built many robusts base images. Using the right base image can save time, space and headaches.
-Using the previous Dockerfile in task 2 do the following:
 
-1. Update the Dockerfile to use python:3.8.12 as a base image, you may need to remove some of the installations you’ve done in it, since now python and pip come with it.
+**❓ Enhance the performance of your image**
+
+1. Copy the content of `dockerfile-task-2` into `dockerfile-task-3-1`
+1. Update the `dockerfile-task-3` to use python:3.8.12 as a base image, you may need to remove some of the installations you’ve done in it, since now python and pip come with it.
 1. We are going to use [poetry](https://python-poetry.org/) to handle all the dependencies and package management for python, instead of using the traditional `pip` and `requirements.txt` to install our packages. To do so:
     1. Replace all the previously added pip packages using poetry
-        ```dockerfile
+        ```bash
         poetry add <package>
         ```
         This will generete 2 files a `poetry.toml` & `poetry.lock` defining your dependency tree
     1. Update the `RUN` command:
         ```dockerfile
         #add the following lines
-        pip install --no-cache-dir poetry \
-        poetry install --no-dev \
+        pip install --no-cache-dir poetry
+        poetry install --no-dev
 
         #Remove all of the manual python package installations via pip
         ```
@@ -216,21 +219,35 @@ Using the previous Dockerfile in task 2 do the following:
     uvicorn app.main:app --host 0.0.0.0 --port 8000
     ```
 1. Build image using the tag `base-image-fastapi-fat:test`
-1. Run container to make sure it’s functional -- it should start the fastapi server listening on the localhost interface and port 8000 - Head to localhost:8000 you should see `Hello World`
-1. Inspect size and layers using [dive](https://github.com/wagoodman/dive)
+1. Run container to make sure it’s functional -- it should start the fastapi server listening on the localhost interface and port 8000 - Head to [localhost:8000](http:localhost:8000) you should see `Hello World`
+1. Inspect size and layers using `dive`
     ```bash
     docker run --rm -it /var/run/docker.sock:/var/run/docker.soc wagoodman/dive:latest <your_image_name:tag>
     ```
 1. Inspect the layers, check the image size, check the wasted space.
-1. Now switch to python:3.8.12-slim
+
+**🧪 Test your code with `make testTask3-1`**
+
+**💾 Save your work in progress on GitHub**
+
+---
+
+**❓ Shrink your image size**
+
+1. Copy the content of `dockerfile-task-3-1` into `dockerfile-task-3-2`
+1. Now switch to python:3.8.12-slim base image
 1. Build image using the tag `base-image-fastapi:dev`
-1. Inspect size and layers using [dive](https://github.com/wagoodman/dive)
-    ```
+1. Run container to make sure it’s functional
+1. Inspect size and layers using dive
+    ```bash
     docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest <your_image_name:tag>
     ```
 1. Inspect the layers, check the image size, check the wasted space.
 1. Push the slim image to remote hub
 
+**🧪 Test your code with `make testTask3-2`**
+
+**💾 Save your work in progress on GitHub**
 
 ## Interesting tools
 ✨ https://github.com/hadolint/hadolint
