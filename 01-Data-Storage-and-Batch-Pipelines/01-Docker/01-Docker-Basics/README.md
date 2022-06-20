@@ -250,10 +250,10 @@ Previously we installed our own version of python, pip and other dependencies. T
 **💾 Save your work in progress on GitHub**
 
 ## Interesting tools
-✨ https://github.com/hadolint/hadolint
+✨ [Haskell Dockerdile Linter](https://github.com/hadolint/hadolint)
 
-🛠 https://github.com/GoogleContainerTools/container-structure-test
+🛠 [Container Sttructure Tests](https://github.com/GoogleContainerTools/)container-structure-test
 
-🤿 https://github.com/wagoodman/dive
+🤿 [dive](https://github.com/wagoodman/dive)
 
-🍰 https://github.com/asottile/dockerfile
+🍰 [dockerfile parsing API](https://github.com/asottile/dockerfile)
