@@ -31,16 +31,16 @@ runTask3-2:
 # Test Tasks
 # Build the image before testing maybe overkill?
 test: buildTask1 buildTask2 buildTask3-1 buildTask3-2
-	poetry run pytest
+	PYTHONDONTWRITEBYTECODE=1 poetry run pytest -v --color=yes
 
 testTask1: buildTask1
-	poetry run  pytest -k TestTask1
+	PYTHONDONTWRITEBYTECODE=1 poetry run pytest -v --color=yes -k TestTask1
 
 testTask2: buildTask2
-	poetry run pytest -k TestTask2
+	PYTHONDONTWRITEBYTECODE=1 poetry run pytest -v --color=yes -k TestTask2
 
 testTask3-1: buildTask3-1
-	poetry run pytest tests/test_task_3.py::TestTask3::test_dockerfile_task_3_1
+	PYTHONDONTWRITEBYTECODE=1 poetry run pytest -v --color=yes tests/test_task_3.py::TestTask3::test_dockerfile_task_3_1
 
 testTask3-2: buildTask3-2
-	poetry run pytest tests/test_task_3.py::TestTask3::test_dockerfile_task_3_2
+	PYTHONDONTWRITEBYTECODE=1 poetry run pytest -v --color=yes tests/test_task_3.py::TestTask3::test_dockerfile_task_3_2
