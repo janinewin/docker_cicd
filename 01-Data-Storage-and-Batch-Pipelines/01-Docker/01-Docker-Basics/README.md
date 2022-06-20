@@ -31,7 +31,7 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
 
 **❗️Only for the following exercise use separate “RUN” for each command you write.**
 
-❓Write a single Dockerfile with the following requirements:
+**❓Write a single Dockerfile with the following requirements:**
 
 1. Based on ubuntu 20.04
 1. Add `ARG DEBIAN_FRONTEND=noninteractive` note: **Do not use ENV as this would persist after the build and would impact your containers, children images**
