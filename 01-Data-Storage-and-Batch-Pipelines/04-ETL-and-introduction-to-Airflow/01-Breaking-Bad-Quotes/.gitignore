@@ -1,0 +1,7 @@
+airflow.cfg
+airflow.db
+webserver_config.py
+database/**
+logs/**
+!**/.gitkeep
+!**/tests/data/*
