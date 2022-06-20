@@ -2,23 +2,23 @@ import pytest
 from yaml import load
 from yaml.loader import SafeLoader
 
+
 class TestTask1:
-    
     def test_docker_compose(self):
         keys_to_check = [
-            'webapi',
-            'build',
-            'context',
-            'dockerfile',
-            'restart',
-            'ports',
-            'volumes',
-            'master',
-            'worker',
+            "webapi",
+            "build",
+            "context",
+            "dockerfile",
+            "restart",
+            "ports",
+            "volumes",
+            "master",
+            "worker",
         ]
 
         def get_keys(d, keys=None):
-            keys = keys or []  
+            keys = keys or []
             if isinstance(d, dict):
                 keys += d.keys()
                 _ = [get_keys(x, keys) for x in d.values()]
@@ -26,9 +26,8 @@ class TestTask1:
                 _ = [get_keys(x, keys) for x in d]
             return list(set(keys))
 
-        with open('docker-compose-task-1.yml') as f:
+        with open("docker-compose-task-1.yml") as f:
             docker_compose_data = load(f, SafeLoader)
-            
+
             keys = get_keys(docker_compose_data)
             assert all(item in keys for item in keys_to_check)
-            

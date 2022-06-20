@@ -1,13 +1,13 @@
 import pytest
-from yaml import load, dump
+from yaml import dump, load
 from yaml.loader import SafeLoader
 
 
 class TestTask3:
-    
     @pytest.fixture
     def docker_validation(self):
-        return load("""
+        return load(
+            """
             version: '3.9'
             services:
                 webapi:
@@ -50,22 +50,15 @@ class TestTask3:
             networks:
                 backend:
                     driver: bridge
-            """
-        , SafeLoader)
+            """,
+            SafeLoader,
+        )
 
     def test_docker_compose(self, docker_validation):
-        keys_to_check = [
-            'webapi',
-            'container_name',
-            'restart',
-            'ports',
-            'networks',
-            'environment',
-            'volumes'
-        ]
+        keys_to_check = ["webapi", "container_name", "restart", "ports", "networks", "environment", "volumes"]
 
         def get_keys(d, keys=None):
-            keys = keys or []  
+            keys = keys or []
             if isinstance(d, dict):
                 keys += d.keys()
                 _ = [get_keys(x, keys) for x in d.values()]
@@ -73,9 +66,8 @@ class TestTask3:
                 _ = [get_keys(x, keys) for x in d]
             return list(set(keys))
 
-        with open('docker-compose-3.yml') as f:
+        with open("docker-compose-3.yml") as f:
             docker_compose_data = load(f, SafeLoader)
-            
+
             keys = get_keys(docker_compose_data)
             assert all(item in keys for item in keys_to_check)
-            

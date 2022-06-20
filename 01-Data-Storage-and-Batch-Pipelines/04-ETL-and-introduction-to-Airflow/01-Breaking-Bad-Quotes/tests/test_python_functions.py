@@ -10,7 +10,7 @@ def remove_temp_file(temp_file):
 
 
 def test_create_file_if_not_exist_with_new_file():
-    temp_file = 'tests/temp/quotes.csv'
+    temp_file = "tests/temp/quotes.csv"
     remove_temp_file(temp_file)
 
     assert os.path.isfile(temp_file) is False
@@ -19,7 +19,7 @@ def test_create_file_if_not_exist_with_new_file():
 
 
 def test_create_file_if_not_exist_with_existing_file():
-    temp_file = 'tests/temp/quotes.csv'
+    temp_file = "tests/temp/quotes.csv"
     remove_temp_file(temp_file)
 
     breaking_bad_quotes.create_file_if_not_exist(temp_file)
@@ -30,70 +30,60 @@ def test_create_file_if_not_exist_with_existing_file():
 
 def test_get_quote(responses):
     response = {"quote": "Fake quote", "author": "Walter White"}
-    responses.add(responses.GET,
-                  "https://breaking-bad.lewagon.com/v1/quotes",
-                  json=response)
+    responses.add(responses.GET, "https://breaking-bad.lewagon.com/v1/quotes", json=response)
     quote = breaking_bad_quotes.get_quote()
     assert len(responses.calls) == 1
-    assert quote == response['quote']
+    assert quote == response["quote"]
 
 
 def test_is_quote_new_with_new_quote():
-    temp_file = 'tests/temp/quotes.csv'
+    temp_file = "tests/temp/quotes.csv"
     remove_temp_file(temp_file)
     breaking_bad_quotes.create_file_if_not_exist(temp_file)
 
-    assert breaking_bad_quotes.is_quote_new(temp_file, 'New quote') is True
+    assert breaking_bad_quotes.is_quote_new(temp_file, "New quote") is True
 
 
 def test_is_quote_new_with_existing_quote():
-    assert breaking_bad_quotes.is_quote_new('tests/data/existing_quote.csv',
-                                            'Existing quote') is False
+    assert breaking_bad_quotes.is_quote_new("tests/data/existing_quote.csv", "Existing quote") is False
 
 
 def test_save_quote():
-    temp_file = 'tests/temp/quotes.csv'
+    temp_file = "tests/temp/quotes.csv"
     remove_temp_file(temp_file)
     breaking_bad_quotes.create_file_if_not_exist(temp_file)
 
-    breaking_bad_quotes.save_quote(temp_file, 'Fake quote')
-    with open(temp_file, 'r') as file:
+    breaking_bad_quotes.save_quote(temp_file, "Fake quote")
+    with open(temp_file, "r") as file:
         csvreader = csv.reader(file)
         assert [row[0] for row in csvreader] == ["Fake quote"]
 
 
 def test_get_quote_and_save_if_new_with_new_quote(responses):
-    temp_file = 'tests/temp/quotes.csv'
+    temp_file = "tests/temp/quotes.csv"
     remove_temp_file(temp_file)
     breaking_bad_quotes.create_file_if_not_exist(temp_file)
 
     response = {"quote": "Fake quote", "author": "Walter White"}
-    responses.add(responses.GET,
-                  "https://breaking-bad.lewagon.com/v1/quotes",
-                  json=response)
+    responses.add(responses.GET, "https://breaking-bad.lewagon.com/v1/quotes", json=response)
     breaking_bad_quotes.get_quote_and_save_if_new(temp_file)
-    with open(temp_file, 'r') as file:
+    with open(temp_file, "r") as file:
         csvreader = csv.reader(file)
         assert [row[0] for row in csvreader] == ["Fake quote"]
 
 
 def test_get_quote_and_save_if_new_with_existing_quote(responses):
-    temp_file = 'tests/temp/quotes.csv'
+    temp_file = "tests/temp/quotes.csv"
     remove_temp_file(temp_file)
     breaking_bad_quotes.create_file_if_not_exist(temp_file)
 
     response = {"quote": "Fake quote 1", "author": "Walter White"}
-    responses.add(responses.GET,
-                  "https://breaking-bad.lewagon.com/v1/quotes",
-                  json=response)
+    responses.add(responses.GET, "https://breaking-bad.lewagon.com/v1/quotes", json=response)
     breaking_bad_quotes.get_quote_and_save_if_new(temp_file)
     response = {"quote": "Fake quote 2", "author": "Walter White"}
-    responses.add(responses.GET,
-                  "https://breaking-bad.lewagon.com/v1/quotes",
-                  json=response)
+    responses.add(responses.GET, "https://breaking-bad.lewagon.com/v1/quotes", json=response)
     breaking_bad_quotes.get_quote_and_save_if_new(temp_file)
     breaking_bad_quotes.get_quote_and_save_if_new(temp_file)
-    with open(temp_file, 'r') as file:
+    with open(temp_file, "r") as file:
         csvreader = csv.reader(file)
-        assert [row[0]
-                for row in csvreader] == ["Fake quote 1", "Fake quote 2"]
+        assert [row[0] for row in csvreader] == ["Fake quote 1", "Fake quote 2"]

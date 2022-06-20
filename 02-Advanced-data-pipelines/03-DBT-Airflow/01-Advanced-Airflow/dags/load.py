@@ -11,7 +11,7 @@ from sqlalchemy.engine.base import Engine
 
 # IMPORT YOUR PACKAGES HERE
 
-AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
+AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
 
 
 def create_connection_from_hook(hook: Union[SqliteHook, PostgresHook]) -> Union[Engine, Connection]:
@@ -37,7 +37,7 @@ def display_number_of_inserted_rows(task_instance: TaskInstance):
 
 
 with DAG(
-        'load',
-        # YOUR CODE HERE
+    "load",
+    # YOUR CODE HERE
 ) as dag:
     pass  # YOUR CODE HERE

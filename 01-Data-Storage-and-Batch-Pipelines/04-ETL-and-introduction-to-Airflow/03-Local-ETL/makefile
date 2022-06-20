@@ -1,7 +1,6 @@
-.PHONY: install init_db test_dag_config test_tasks_configs test_python_functions test
+include ../../../make.inc
 
-install:
-	poetry install
+.PHONY: install init_db test_dag_config test_tasks_configs test_python_functions test
 
 init_db:
 	export AIRFLOW_HOME=${PWD}; poetry run airflow db init; chmod +x tests/scripts/init_connections.sh; poetry run tests/scripts/init_connections.sh; echo 'Succesfully created db and connection'

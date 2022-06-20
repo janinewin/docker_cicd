@@ -1,10 +1,10 @@
-from concurrent import futures
 import logging
+from concurrent import futures
 
 import grpc
 
-from hnstream.pyproto import server_pb2, server_pb2_grpc
 from hnstream import bq, queries
+from hnstream.pyproto import server_pb2, server_pb2_grpc
 
 
 class Hnstreamer(server_pb2_grpc.HnstreamerServicer):
@@ -49,6 +49,6 @@ def serve():
     server.wait_for_termination()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     logging.basicConfig()
     serve()

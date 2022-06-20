@@ -12,7 +12,7 @@ import grpc
 from hnstream.pyproto import server_pb2, server_pb2_grpc
 
 
-def run(host: str, q: str="comments", unix_time: int=0, limit: int=20):
+def run(host: str, q: str = "comments", unix_time: int = 0, limit: int = 20):
     """
     Example
     """
@@ -36,7 +36,7 @@ def parse_args():
     return parser.parse_args()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     logging.basicConfig()
     _args = parse_args()
     run(q=_args.q, host=_args.host, unix_time=_args.unix_time, limit=_args.limit)

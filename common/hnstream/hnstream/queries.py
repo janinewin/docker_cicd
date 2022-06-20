@@ -32,9 +32,9 @@ def all_after(table: str, unix_time: int, limit: int = DEFAULT_LIMIT):
     LIMIT {limit}
     """
     query_parameters = [bigquery.ScalarQueryParameter("time", "INT64", unix_time)]
-    
+
     return query, query_parameters
- 
+
 
 def stories_after(unix_time: int, limit: int = DEFAULT_LIMIT):
     """

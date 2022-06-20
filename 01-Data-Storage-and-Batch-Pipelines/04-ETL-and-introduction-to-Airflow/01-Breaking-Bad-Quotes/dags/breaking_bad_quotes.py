@@ -4,7 +4,7 @@ from airflow import DAG
 
 # IMPORT YOUR PACKAGES HERE
 
-AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
+AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
 
 
 def create_file_if_not_exist(quotes_file: str) -> None:
@@ -47,7 +47,7 @@ def get_quote_and_save_if_new(quotes_file: str) -> None:
 
 
 with DAG(
-        'breaking_bad_quotes',
-        # YOUR CODE HERE
+    "breaking_bad_quotes",
+    # YOUR CODE HERE
 ) as dag:
     pass  # YOUR CODE HERE

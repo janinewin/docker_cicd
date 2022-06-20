@@ -5,7 +5,7 @@ from airflow import DAG
 
 # IMPORT YOUR PACKAGES HERE
 
-AIRFLOW_HOME = os.getenv('AIRFLOW_HOME')
+AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
 
 
 def is_month_odd(ds_nodash: str) -> str:
@@ -63,7 +63,7 @@ def filter_expensive_trips(input_file: str, output_file: str, amount: int) -> No
 
 
 with DAG(
-        'transform',
-        # YOUR CODE HERE
+    "transform",
+    # YOUR CODE HERE
 ) as dag:
     pass  # YOUR CODE HERE
