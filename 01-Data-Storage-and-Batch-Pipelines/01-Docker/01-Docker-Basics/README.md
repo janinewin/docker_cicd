@@ -31,7 +31,7 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
 
 **❗️Only for the following exercise use separate “RUN” for each command you write.**
 
-**❓Write a single Dockerfile with the following requirements:**
+**❓Write a single Dockerfile (use `dockerfile-task-1`) with the following requirements:**
 
 1. Based on ubuntu 20.04
 1. Add `ARG DEBIAN_FRONTEND=noninteractive` note: **Do not use ENV as this would persist after the build and would impact your containers, children images**
@@ -106,7 +106,7 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
         gcloud container images list-tags  "$HOSTNAME/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME"
         ```
     <details>
-      <summary markdown='span'>💡 Hint</summary>
+      <summary markdown='span'>💡 Hints</summary>
 
     - Find your repo `LOCATION` with `cat ~/.docker/config.json`
     - Find your `PROJECT_ID` with `gcloud projects list`
@@ -122,9 +122,13 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
   <summary markdown='span'>💡 Hint</summary>
 
 ```bash
+# Check which files changed
 git status
+# Add the modified files to the commit
 git add dockerfile-task-1
+# Write the commit with a meaningful message
 git commit --message 'complete task 1'
+# Push your changes on GitHub
 git push origin main
 ```
 
@@ -132,24 +136,55 @@ git push origin main
 
 ## Task 2 - Caching 👻 - easy wins
 
-This tasks illustrates the concept of caching and unwanted dependencies installed via regular commands. When doing a simple `apt install` or `pip install` by default those package managers install quality of life dependencies to make any developement work easy. To reduce the size of a docker image, one can easily trim down the fat by installing **only** what's necessary and using as fewer layers as possible.
+This tasks illustrates the concept of caching and unwanted dependencies installed via regular commands. When doing a simple `apt install` or `pip install` by default those package managers install quantity of life dependencies to make any development work easy. To reduce the size of a docker image, one can easily trim down the fat by installing **only** what's necessary and using as fewer layers as possible.
 
-Using the Dockerfile written in task 1
+**❓ Refactor the Dockerfile written in task 1 to save some space**
 
-1. Refactor the Dockerfile to use a single layer to install your dependencies
-1. Disable the installation of recommended packages when using `apt-get install` using the flag `--no-install-recommends` [Link to apt documentation](https://manpages.ubuntu.com/manpages/xenial/man8/apt-get.8.html)
-1. Disable the caching of packaging downloads and builds when using `pip install` with the flag `--no-cache-dir` [Link to pip caching documentation](https://pip.pypa.io/en/stable/topics/caching/)
-1. Clean up apt lists using the following command `rm -rf /var/lib/apt/lists/*` [Link to apt-get documentation](https://manpages.ubuntu.com/manpages/xenial/man8/apt-get.8.html)
+1. Copy the content of `dockerfile-task-1` into `dockerfile-task-2`
+1. Refactor the `dockerfile-task-2` to use a single layer to install your dependencies
+    <details>
+      <summary markdown='span'>💡 Hints</summary>
+
+    You can launch these 2 instructions:
+    ```dockerfile
+    RUN apt-get update
+    RUN apt-get -y upgrade
+    ```
+    chaining them:
+    ```dockerfile
+    RUN apt-get update && apt-get -y upgrade
+    ```
+    You can also launch a chain of instructions on several lines:
+    ```dockerfile
+    RUN apt-get update \
+        && apt-get -y upgrade
+    ```
+    </details>
+1. Disable the installation of recommended packages when using `apt-get install` using the flag `--no-install-recommends` 👉 [apt documentation](https://manpages.ubuntu.com/manpages/xenial/man8/apt-get.8.html)
+1. Disable the caching of packaging downloads and builds when using `pip install` with the flag `--no-cache-dir` 👉 [pip caching documentation](https://pip.pypa.io/en/stable/topics/caching/)
+1. Clean up apt lists using the following command `rm -rf /var/lib/apt/lists/*`
 1. Build image using the tag `base-image-fastapi-ubuntu:test`
-1. Run container to make sure it’s functional -- it should start the fastapi server listening on the localhost interface and port 8000 - Head to localhost:8000 you should see `Hello World`
-1. Inspect size and layers using [dive](https://github.com/wagoodman/dive)
+    <details>
+      <summary markdown='span'>💡 Hint</summary>
+
+    Look at your `Makefile`, you should easily find a command to do so.
+    </details>
+1. Run container to make sure it’s functional -- it should start the fastapi server listening on the localhost interface and port 8000 - Head to [localhost:8000](http://localhost:3000) you should see `Hello World`
+1. Inspect size and layers using Dive
     ```bash
-    docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest <your_image_name:tag>
+    docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest base-image-fastapi-ubuntu:test
     ```
 1. Inspect the layers, check the image size, check the wasted space.
 1. Push image to remote hub
+    <details>
+      <summary markdown='span'>💡 Hint</summary>
 
+    Be careful, the image name differs from task 1
+    </details>
 
+**🧪 Test your code with `make testTask2`**
+
+**🏁 Save your work in progress on GitHub**
 
 ## Task 3 - The importance of a base image 🖼
 
