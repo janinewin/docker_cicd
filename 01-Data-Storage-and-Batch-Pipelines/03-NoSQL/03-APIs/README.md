@@ -36,6 +36,28 @@ In the `Serialization` exercise, we've talked about two dualities:
 
 We'll build simple APIs, then more complex ones, for both formats.
 
+### Let's discover the Python packages we'll use
+
+Open the `pyproject.toml` file. We use Poetry for Python packages management. If you haven't already, [read up about the pyproject.toml file](https://python-poetry.org/docs/pyproject/). 
+
+In this exercise, we care mostly about these lines:
+
+```
+pandas = "^1.4.2"
+```
+to load CSVs (cf. `Serialization` exercise).
+
+```
+fastapi = "^0.78.0"
+uvicorn = {extras = ["standard"], version = "^0.17.6"}
+```
+for the JSON HTTP API.
+
+```
+grpcio-tools = "^1.46.3"
+```
+for the Protobuf + gRPC part.
+
 ## Let's write our JSON HTTP API ⛏️
 
 Let's start simple, we want to return the current hour `h`, minute `m`, second `s`, broken down in a JSON that looks like this.
