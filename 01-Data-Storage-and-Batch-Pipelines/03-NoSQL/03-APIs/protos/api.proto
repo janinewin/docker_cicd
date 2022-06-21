@@ -4,15 +4,11 @@ syntax = "proto3";
 service Api {
   // Get time
   // rpc ...
-  // $CODE_BEGIN
-  rpc GetTime (TimeRequest) returns (TimeResponse) {}
-  // $CODE_END
+  // Your code here
 
   // Get rural population percentage
   // rpc ...
-  // $CODE_BEGIN
-  rpc GetRuralPopulationPercentage (RuralRequest) returns (RuralResponse) {}
-  // $CODE_END
+  // Your code here
 }
 
 // We use an empty `TimeRequest`, so if your API evolves later we can add to it
@@ -21,25 +17,17 @@ message TimeRequest {
 
 // The request message containing the user's name.
 message TimeResponse {
-  // $CODE_BEGIN
-  int64 h = 1; 
-  int64 m = 2; 
-  int64 s = 3; 
-  // $CODE_END
+  // int64 ... ?
+  // Your code here
 }
 
 
 // RuralRequest is the query for the rural app
 message RuralRequest {
-  // $CODE_BEGIN
-  int64 year = 1; 
-  string country = 2;
-  // $CODE_END
+  // Your code here
 }
 
 // RuralQuery is the response for the rural app
 message RuralResponse {
-  // $CODE_BEGIN
-  double value = 1;
-  // $CODE_END
+  // Your code here
 }
