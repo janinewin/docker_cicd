@@ -242,6 +242,17 @@ Now in VSCode you should see all the CSVs showing up. The file names are a bit h
 
 Run `make test`, the first test should pass.
 
+### Let's discover the Python packages we'll use
+
+Open the `pyproject.toml` file. We use Poetry for Python packages management. If you haven't already, [read up about the pyproject.toml file](https://python-poetry.org/docs/pyproject/). In this exercise, we care mostly about these two lines:
+
+```toml
+pandas = "^1.4.2"
+pyarrow = "^8.0.0"
+```
+
+We'll install the [pandas](https://pandas.pydata.org/) package to deal with tabular data (like CSVs) and [pyarrow](https://arrow.apache.org/docs/python/index.html) to deal with Parquet files.
+
 ### Clean up the CSV
 
 A bit of cleanup is unfortunately necessary, look at the first lines of the file.
