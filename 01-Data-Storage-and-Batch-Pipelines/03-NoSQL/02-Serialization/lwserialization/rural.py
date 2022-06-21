@@ -23,18 +23,21 @@ def load_rural_csv():
 
 def explore_columns():
     # Add n_columns = <your answer>
+    n_columns = 0
     pass  # YOUR CODE HERE
     return n_columns
 
 
 def explore_size():
     # Add size = <your answer>
+    size = 0
     pass  # YOUR CODE HERE
     return size
 
 
 def explore_countries():
     # Add countries = <your answer>
+    countries = 0
     pass  # YOUR CODE HERE
     return countries
 
