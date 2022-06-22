@@ -5,6 +5,7 @@ compile-proto: compile-proto-1 compile-proto-2-linux
 compile-proto-macos: compile-proto-1 compile-proto-2-macos
 
 compile-proto-1:
+	@echo "Compiled the files into lwapi/api_pb2.py and lwapi/api_pb2_grpc.py"
 	poetry run python -m grpc_tools.protoc -I./protos/ --python_out=./lwapi/ --grpc_python_out=./lwapi/ ./protos/api.proto
 
 compile-proto-2-linux:
