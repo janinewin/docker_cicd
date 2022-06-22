@@ -111,7 +111,106 @@ Once this is running, run `curl http://localhost:8000` in your terminal, what do
 
 ## Now Protobuf + gRPC 🔧
 
-TODO protobuf + gRPC.
+Protobuf, by its "compiled" nature, is a different beast 🐈.
+
+🚸 **I thought Python wasn't compiled, what are you talking about?**
+
+Here, by compilation, we mean there is an extra step required to go from the `.proto` file definition to Python code. Take a look at the generated files
+
+- `lwapi/api_pb2.py` which contains the Protobuf structures
+- `lwapi/api_pb2_grpc.py` which contains the gRPC services.
+
+That probably doesn't make sense just yet. Let's deconstruct the pieces. For the record, we're following our own simpler version of the [gRPC Python tutorial](https://grpc.io/docs/languages/python/basics/). You might want to take a look anyways, as that is the official reference.
+
+### It starts with a `proto` file
+
+All the messages exchanged within our gRPC service are Protobuf messages. And these messages are defined in the `protos/api.proto` file (pre-filled for you), in the `message <> {...}` blocks.
+
+An example from the official doc
+```proto
+// Points are represented as latitude-longitude pairs in the E7 representation
+// (degrees multiplied by 10**7 and rounded to the nearest integer).
+// Latitudes should be in the range +/- 90 degrees and longitude should be in
+// the range +/- 180 degrees (inclusive).
+message Point {
+  int32 latitude = 1;
+  int32 longitude = 2;
+}
+```
+
+These protobuf messages define what are the inputs and outputs of any API that uses them.
+
+Now, we also define the API endpoints in the protobuf message, by defining a `service` block, with `rpc` lines. Each `rpc` line is like a new function that can be called on the API. Here is an example from [the official tutorial](https://github.com/grpc/grpc/blob/v1.46.3/examples/protos/helloworld.proto).
+
+```proto
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+```
+
+Once the protobuf file is well defined, we need to compile it into actual "semi-finished" code. We've written this for you, run `make compile-proto`.
+
+This compilation step 
+1. writes the message definitions to be used by Python
+2. writes the API glue code
+
+Cool 👌.
+
+**There is one last step, fill in the logic!**
+
+And for that, look at these instructions 👇.
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  If you need extra explanations, take the time to read the [official "Introduction to gRPC"](https://grpc.io/docs/what-is-grpc/introduction/).
+  Even after finishing this exercise, it's worth a second read.
+</details>
+
+
+### Back to the code
+
+Then, like we defined an API service signature for the FastAPI app, we define
+
+- the endpoint: `/time` for the the HTTP API, here this is the `rpc` service name
+- the input type: here this is an empty message `TimeRequest` already filled out
+- the response type: a JSON dictionary for the HTTP API, here the `TimeResponse` message you have to fill out.
+
+**Task: fill out the `TimeResponse` message**
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  - It needs to map what you've done in the return of `def time():`.
+  - Except that you need to give a type `int64` to each of the fields.
+  - Tip: each field needs to have a unique number, which increments every time. Check the `message Point` above, note the `=1`, then `=2`, then `=3`.
+</details>
+
+**Task: fill out the `GetTime` service endpoint**
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  - Look at how this is done in the [official tutorial](https://github.com/grpc/grpc/blob/v1.46.3/examples/protos/route_guide.proto#L25)
+  - Something like `rpc GetTime(...) returns (...) {}`
+</details>
+
+**Task: recompile the protos**
+
+We've already added the command for that in the `Makefile`: `make compile-proto`.
+
+**Task: fill out the service code!**
+
+In `lwapi/protorcp.py`, you'll need to fill out the `GetTime(...)` method of the `Api` class. Again, this mimics what we've done earlier in the HTTP API ; just this time it's a `TimeResponse` instance that is returned.
+
+**Task: test it!**
+
+To put this all together, we've created the server and client code for you to test.
+
+- In one terminal, run `poetry run python protorpc_server.py`, this runs a server on a default port 50051.
+- In a second terminal, run `poetry run python protorpc_client.py`, this tests a client against this server ✌️.
 
 ## Pimp your APIs! 🍕
 
@@ -131,10 +230,18 @@ In your FastAPI app, add a `GET` endpoint `GET /country/:country/year/:year` tha
 
 ### And now in gRPC
 
-- Add 2 Protobuf messages
-  - A query `RuralQuery` that has a `Country` and `Year` field
-  - And a response `RuralResponse` that has one field `RuralPopulationPercentage`
-- Add an `rpc` endpoint in the `service Lewagon` that takes the `RuralQuery` as input and returns a `RuralResponse`
-- Now implement the request in Python.
+If you've reached this part, congratulations. You should have all the ingredients to make your gRPC API fancier. A few steps to follow, as a guide:
 
-TODO protobuf + gRPC.
+1. **Task 1**. Add 2 Protobuf messages
+  - A query `RuralRequest` that has a `country` and a `year` field.
+  - And a response `RuralResponse` that has one field `value`.
+
+2. **Task 2**. Still in the `protos/api.proto` file. Add an `rpc` endpoint in the `service Api` that takes the `RuralRequest` as input and returns a `RuralResponse`.
+
+3. **Task 3**. Recompile the Protobuf code with `make compile-proto` to generate the latest stubs (the 2 `lwapi/api_pb2*.py` files)
+
+4. **Task 4**. Now implement the request in Python in `lwapi/protorpc.py`.
+
+5. **Task 5**. Run the new server.
+
+6. **Task 6**. Adapt the `protorpc_client.py` file to test the request. 👏
