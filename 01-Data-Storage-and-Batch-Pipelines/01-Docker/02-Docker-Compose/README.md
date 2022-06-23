@@ -134,12 +134,14 @@ We want to achieve two goals here:
     - Change the script's permission to make it executable on your system `chmod +x database/01-init.sh`
 We need to make
 1. Setup the [environment](https://docs.docker.com/compose/compose-file/#environment) variables, postgres has default credentials, we will use them to create our own admin user and our own database
-    ```yml
+    ```yaml
+
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=postgres
     - APP_DB_USER=goldenspice
     - APP_DB_PASS=whatsupdawg
     - APP_DB_NAME=gangstadb
+
     ```
 1. [Expose](https://docs.docker.com/compose/compose-file/#expose) port 5432
 1. Add network `backend` to the service
