@@ -13,7 +13,7 @@ CREATE TABLE ratings (
 
 CREATE TABLE movies_metadata (
     adult                   BOOLEAN
-  , budget                  INT
+  , budget                  FLOAT
   , homepage                TEXT
   , id                      INT
   , imdb_id                 VARCHAR(50)

@@ -1,28 +1,40 @@
 version: '3.9'
+# Below we have a map of all the services, each service is a Docker container that starts when we do 'docker-compose up'
 services:
+  # The first service, and most important, is the Postgres database
   database:
+    # We pick a recent, stable version from https://hub.docker.com/_/postgres, can you find it?
     image: postgres:14.3
+    # If it crashes, restart it
     restart: on-failure  
+    # That's an optional healthcheck for Docker Compose to know if things are fine
     healthcheck:
       test: ["CMD", "pg_isready -U postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
+    # Databases are about managing data right?
+    # So between restarts of the database, we should keep its data
+    # For that, we need to map the data IN the Docker image (what comes after the colon :)
+    # To a directory on your server
+    # ./db-data:/var/lib/postgresql/data/ means "I want ./db-data on my server to be the /var/lib/postgresql/data/ folder in the Docker image"
     volumes:
       - ./db-data/:/var/lib/postgresql/data/
-      - ./data/:/files/
+      # :ro means read only, the container will be able to read this directory, but not write to it
+      - ./data/:/files/:ro
+    # To pass configuration at runtime (ie. when we run the container)
+    # environment variables are super handy!
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-      - APP_DB_USER=goldenspice
-      - APP_DB_PASS=whatsupdawg
-      - APP_DB_NAME=gangstadb
-    networks:
-      - backend
-
+  
+  # We add adminer, a simple way to interact with our Postgres database from the browser
   adminer:
-    image: adminer:4.8.1 
-
-networks:
-  backend:
-    driver: bridge
+    # Can you find the image here https://hub.docker.com/_/adminer/ ?
+    image: adminer:4.8.1
+    # Adminer runs a small server, on port 8080
+    # By default, we can't access it outside of the Docker network
+    # To access it, we do a "port mapping", below is one:
+    ports:
+      # This means, I want port 8089 on my server to map to port 8080 on my Docker image
+      - 8089:8080

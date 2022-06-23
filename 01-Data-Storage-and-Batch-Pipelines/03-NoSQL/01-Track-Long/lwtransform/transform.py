@@ -122,11 +122,11 @@ def extract_lists(movies_df: pd.DataFrame) -> pd.DataFrame:
     """
     Turns the 'string list' columns into actual Python lists.
     """
-    movies_df["genres_list"] = movies_df["genres"].apply(parse_list_column)
-    movies_df["production_companies_list"] = movies_df["production_companies"].apply(parse_list_column)
-    movies_df["production_countries_list"] = movies_df["production_countries"].apply(parse_list_column)
-    movies_df["spoken_languages_list"] = movies_df["spoken_languages"].apply(parse_list_column)
-    return movies_df
+    genres_list = movies_df["genres"].apply(parse_list_column)
+    production_companies_list = movies_df["production_companies"].apply(parse_list_column)
+    production_countries_list = movies_df["production_countries"].apply(parse_list_column)
+    spoken_languages_list = movies_df["spoken_languages"].apply(parse_list_column)
+    return genres_list, production_companies_list, production_countries_list, spoken_languages_list 
 
 
 def make_tags_df(tag_name_and_values: Dict[str, List[str]]):
@@ -163,13 +163,19 @@ def make_tags_map_df(tag_name_and_values: Dict[str, pd.DataFrame]):
     return final_df
 
 
-def make_new_tables(movies_df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def make_new_tables(original_movies_df: pd.DataFrame, genres_list, production_companies_list, production_countries_list, spoken_languages_list) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Given the cleaned `movies_df`, concatenates the new flat `tags` and `tags_map` DataFrame
 
     Returns:
       - Tuple `(tags_df, tags_map_df)`
     """
+    movies_df = original_movies_df.copy()
+    movies_df["genres_list"] = genres_list
+    movies_df["production_companies_list"] = production_companies_list
+    movies_df["production_countries_list"] = production_countries_list
+    movies_df["spoken_languages_list"] = spoken_languages_list
+
     mapping = [
         {"col": "genres_list", "key": "id", "val": "name", "name": "genre"},
         {"col": "production_companies_list", "key": "id", "val": "name", "name": "production_company"},
@@ -190,17 +196,27 @@ def make_new_tables(movies_df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame
     return tags_df, tags_map_df
 
 
+def save_new_tables_to_csvs(output_dir: str, tags_df: pd.DataFrame, tags_map_df: pd.DataFrame, original_movies_df: pd.DataFrame):
+    """
+    Store the newly created tables to the right place
+    """
+    tags_df.to_csv(os.path.join(output_dir, "tags.csv"), index=False, columns=TAGS_COLUMNS)
+    tags_map_df.to_csv(os.path.join(output_dir, "tags_map.csv"), index=False, columns=TAGS_MAP_COLUMNS)
+    original_movies_df.to_csv(os.path.join(output_dir, "movies_metadata_normalized.csv"), index=False, columns=MOVIES_METADATA_NORMALIZED_COLUMNS)
+
+
 def movies_to_new_tables(raw_movies_metadata_csv_fp: str, output_dir: str):
     """
     Takes the raw movies metadata CSV, cleans it, breaks it down into
     """
     pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
-    movies_df = extract_lists(load_and_clean_movies(raw_movies_metadata_csv_fp))
-    tags_df, tags_map_df = make_new_tables(movies_df)
+    original_movies_df = load_and_clean_movies(raw_movies_metadata_csv_fp)
+    genres_list, production_companies_list, production_countries_list, spoken_languages_list = extract_lists(original_movies_df)
+    tags_df, tags_map_df = make_new_tables(original_movies_df, genres_list, production_companies_list, production_countries_list, spoken_languages_list)
 
     # Store the `movies_metadata_normalized.csv`, `tags.csv` and `tags_map.csv` files in the `output_dir` by adding code below 
-    # -- Add your code here
-    pass
+    pass  # YOUR CODE HERE
+
 
 def parse_args():
     parser = argparse.ArgumentParser()
