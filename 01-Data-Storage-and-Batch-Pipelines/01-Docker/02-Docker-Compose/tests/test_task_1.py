@@ -47,4 +47,12 @@ class TestTask1:
             docker_compose_data = load(f, SafeLoader)
 
             keys = get_keys(docker_compose_data)
-            assert all(item in keys for item in keys_to_check)
+
+            # Instruction 10 introduces `image` vs `build`
+            if 'image' in keys:
+                keys_to_check.append('image')
+                for element in ["build", "context", "dockerfile"]:
+                    keys_to_check.remove(element)
+
+            for item in keys_to_check:
+                assert item in keys, f"Expected `{item}` element in the docker-compose file"

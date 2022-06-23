@@ -38,6 +38,8 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
 1. Add `ENV PYTHONUNBUFFERED 1` this forces the stdout and stderr streams to be unbuffered. [Explanation](https://stackoverflow.com/questions/59812009/what-is-the-use-of-pythonunbuffered-in-docker-file)
 1. Installing python 3.8.12 from [deadsnake ppa](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa)
     ```dockerfile
+    # Upgrade package list
+    apt-get update
     #install required dependencies
     apt-get -y install software-properties-common
     # Add PPA to system's source list
@@ -51,7 +53,7 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
     ```dockerfile
     apt-get install -y python3-pip
     ```
-1. Install fastapi (0.78.0), SQLAchemy (1.4.36) and, Alembic (1.7.7), uvicorn[standard] (0.17.6)
+1. Install fastapi (0.78.0), SQLAlchemy (1.4.36) and, Alembic (1.7.7), uvicorn[standard] (0.17.6)
 1. Create `WORKDIR` server
 1. Copying the complete current directory into the working directory `/server`
 1. Expose port 8000 to be able to access the server from outside of the container
@@ -195,11 +197,16 @@ Previously we installed our own version of python, pip and other dependencies. T
 1. Using the content of `dockerfile-task-2` do the following taks in `dockerfile-task-3-1`
 1. Update the `dockerfile-task-3` to use python:3.8.12 as a base image, you may need to remove some of the installations you’ve done in it, since now python and pip come with it.
 1. We are going to use [poetry](https://python-poetry.org/) to handle all the dependencies and package management for python, instead of using the traditional `pip` and `requirements.txt` to install our packages. To do so:
-    1. Replace all the previously added pip packages using poetry
+    1. Replace all the previously added pip packages using poetry running in your terminal
         ```bash
         poetry add <package>
         ```
-        This will generete 2 files a `poetry.toml` & `poetry.lock` defining your dependency tree
+        This will generate 2 files `pyproject.toml` & `poetry.lock` defining your dependency tree
+        <details>
+          <summary markdown='span'>ℹ️</summary>
+
+        You should get a `No dependencies to install or update` message, because we already provide you with the 2 configuration files `pyproject.toml` & `poetry.lock` 👌.
+        </details>
     1. Update the `RUN` command:
         ```dockerfile
         #add the following lines
