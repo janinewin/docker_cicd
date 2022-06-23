@@ -59,5 +59,5 @@ class TestTask2:
             docker_compose_data = load(f, SafeLoader)
 
             keys = get_keys(docker_compose_data)
-
-            assert all(item in keys for item in keys_to_check)
+            for item in keys_to_check:
+                assert item in keys, f"Expected {item} element in the docker-compose file"

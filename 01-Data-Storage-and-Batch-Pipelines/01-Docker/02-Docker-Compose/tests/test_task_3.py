@@ -28,7 +28,7 @@ class TestTask3:
 
                 database:
                     image: postgres:14.2
-                    restart: on-failure  
+                    restart: on-failure
                     healthcheck:
                         test: ["CMD", "pg_isready -U postgres"]
                         interval: 5s
@@ -70,4 +70,5 @@ class TestTask3:
             docker_compose_data = load(f, SafeLoader)
 
             keys = get_keys(docker_compose_data)
-            assert all(item in keys for item in keys_to_check)
+            for item in keys_to_check:
+                assert item in keys, f"Expected {item} element in the docker-compose file"

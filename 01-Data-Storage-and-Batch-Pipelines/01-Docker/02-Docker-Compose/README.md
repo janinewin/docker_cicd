@@ -38,6 +38,9 @@ By the end of this exercise you should be able to:
 
 The previously created `base-fastapi:dev` image stored in your Google container registry.
 
+you can also use this base image
+`europe-west9-docker.pkg.dev/subtle-creek-348507/data-engineering-docker/base-image-fastapi:dev`
+
 
 ## Task 1 - Services 🤲
 This first task consists in creating your first service in your multi-container application. We will spin up the web API service that relies on the fastapi base image you previously built.
@@ -46,10 +49,10 @@ We also want to mount a directory inside the container that will point to our ap
 **❓ Create the web API service**
 
 1. Open the `docker-compose-1.yml` file
-1. Create a docker compose service named `webapi` with a container name `fastapi` building the docker file included in this exercise named `dockerfile-fastapi`
+1. Create a docker compose service named `webapi` with a [container name](https://docs.docker.com/compose/compose-file/#container_name) `fastapi` building the docker file included in this exercise named `dockerfile-fastapi`
 1. Adjust the [restart policy](https://docs.docker.com/config/containers/start-containers-automatically/) to be `on-failure`
-1. Expose the port 8000 so you can access your container from outside
-1. Create a volume mounting the directory `./app-no-database` into the container's directory `/server/app`
+1. Expose the [port](https://docs.docker.com/compose/compose-file/#ports) 8000 so you can access your container from outside
+1. Create a [volume](https://docs.docker.com/compose/compose-file/#volumes) mounting the directory `./app-no-database` into the container's directory `/server/app`
 1. Override the container's command adding the `--reload` flag to restart the fastapi server on file changes
     ```bash
     uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
@@ -65,9 +68,12 @@ We also want to mount a directory inside the container that will point to our ap
 1. Access your webserver it should display a new `hello world`
 1. Teardown the stack
     ```bash
-    docker compose -f docker-compose-1.yml down
+    docker-compose -f docker-compose-1.yml down
     ```
-1. Now replace the local dockerfile used to build the stack by the remote image you previously built `base-fastapi:dev`, remember to use the proper url to reference it.
+    **🧪 Test your code with `make testTask1`**
+
+    **💾 Save your work in progress on GitHub**
+1. Now replace the local dockerfile used to build the stack by the remote [image](https://docs.docker.com/compose/compose-file/#image) you previously built `base-image-fastapi:dev`, remember to use the proper url to reference it.
 1. Repeat steps 6&&
 1. Enjoy!
 
@@ -83,8 +89,8 @@ Remember that in networking (in or outside of docker) you should be very conserv
 **❓Create a docker network of type bridge and have our webapi service be part of this network.**
 
 1. Copy the content of `docker-compose-1.yml` into `docker-compose-2.yml`
-1. Create a custom network named `backend`
-1. Assign the type bridge to the driver
+1. Create a custom [network](https://docs.docker.com/compose/compose-file/#networks) named `backend`
+1. Assign the type bridge to the [driver](https://docs.docker.com/compose/networking/)
 1. Update the webapi service to connect to the newly created network
 1. Build and run the docker compose stack
     ```bash
@@ -101,6 +107,7 @@ Remember that in networking (in or outside of docker) you should be very conserv
     ```bash
     docker compose -f docker-compose-2.yml down
     ```
+
 **🧪 Test your code with `make testTask2`**
 
 **💾 Save your work in progress on GitHub**
@@ -108,7 +115,7 @@ Remember that in networking (in or outside of docker) you should be very conserv
 ## Task 3 - Database Service 🗄
 Now that you have a solid backbone for the docker compose stack we can start adding one more service, a database service based on PostgreSQL.
 We want to achieve two goals here:
-- Configure the database properly by setting up a user, password and an actual database inside the container, using environement variables or a `.env` file
+- Configure the database properly by setting up a user, password and an actual database inside the container, using environment variables or a `.env` file
 - Connect the server and the database by properly assigning the database to the network, creating a dependency on the web server with the database, properly constructing the url to reach the database inside the docker compose stack
 
 **❓ Add a database service**
@@ -117,26 +124,26 @@ We want to achieve two goals here:
 1. We are now using the `app` folder instead of `app-no-database`, change the mounted dir accordingly in the docker compose file
 1. Create a second service for the relational database, based on the postgreSQL 14.2 image
 1. Set the restart policy to `on-failure`
-1. Let's add a small health check to periodically check if our DB is alive, we'll use a small command to so do relying on [pg_isready](https://www.postgresql.org/docs/current/app-pg-isready.html). Adjust the parameters to **run it every 5s with a 5s timeout and 5 retries**
+1. Let's add a small [health check](https://docs.docker.com/compose/compose-file/#healthcheck) to periodically check if our DB is alive, we'll use a small command to so do relying on [pg_isready](https://www.postgresql.org/docs/current/app-pg-isready.html). Adjust the parameters to **run it every 5s with a 5s timeout and 5 retries**
     ```bash
     # Check if postgres is ready
     pg_isready -U postgres
     ```
 1. We prepared a small script for you to create a new custom DB using your env vars. To use it mount the volume `./database` into the following container dir `/docker-entrypoint-initdb.d/` why this specific dir ?
-    - The postgres image will run the scripts contained in this specific dir at [initializtion time](https://hub.docker.com/_/postgres)
+    - The postgres image will run the scripts contained in this specific dir at [initialization time](https://hub.docker.com/_/postgres)
     - Change the script's permission to make it executable on your system `chmod +x database/01-init.sh`
 We need to make
-1. Setup the environment variables, postgres has default credentials, we will use them to create our own admin user and our own database
+1. Setup the [environment](https://docs.docker.com/compose/compose-file/#environment) variables, postgres has default credentials, we will use them to create our own admin user and our own database
     ```yaml
-    - POSTGRES_USER=postgres
-    - POSTGRES_PASSWORD=postgres
-    - APP_DB_USER=goldenspice
-    - APP_DB_PASS=whatsupdawg
-    - APP_DB_NAME=gangstadb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - APP_DB_USER=goldenspice
+      - APP_DB_PASS=whatsupdawg
+      - APP_DB_NAME=gangstadb
     ```
-1. Expose port 5432
+1. [Expose](https://docs.docker.com/compose/compose-file/#expose) port 5432
 1. Add network `backend` to the service
-1. We need to set a dependency order, to do so add a `depends_on` instruction to the webapi service, so it depends on the database service
+1. We need to set a dependency order, to do so add a [`depends_on` instruction](https://docs.docker.com/compose/compose-file/#depends_on) to the webapi service, so it depends on the database service
 1. Build and run the docker compose stack
     ```bash
     # Validate the docker file
