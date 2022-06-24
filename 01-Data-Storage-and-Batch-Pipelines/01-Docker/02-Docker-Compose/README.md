@@ -31,7 +31,7 @@ By the end of this exercise you should be able to:
 - Understand the concept of volumes
 - Understand the concept of networking
 - Know how to create a functional docker compose stack
-- Be familiar with the docker compose CLI˚v˚v
+- Be familiar with the docker compose CLI
 
 
 ## Prerequisite
@@ -65,7 +65,7 @@ We also want to mount a directory inside the container that will point to our ap
     docker compose -f docker-compose-1.yml up
     docker container ls
     ```
-1. Access your webserver it should display a new `hello world`
+1. Access your webserver, it should display a new `hello world`
 1. Teardown the stack
     ```bash
     docker-compose -f docker-compose-1.yml down
@@ -84,7 +84,7 @@ We also want to mount a directory inside the container that will point to our ap
 ## Task 2 - Networking 🌉
 When creating a docker compose stack, by default Docker will create a single network of type bridge associated with your docker compose stack with a name `<app_directory>_default`. Each container part of this network can reach out to each other using their container name (if absent use the service name).
 At times you can end up needing multiple networks in a docker compose stack to isolate services from each other or to allow external services to access your internal stack networks.
-Remember that in networking (in or outside of docker) you should be very conservative in your choice to reduce the exposure area of your stack
+Remember that in networking (in or outside of docker) you should be very conservative in your choice to reduce the exposure area of your stack.
 
 **❓Create a docker network of type bridge and have our webapi service be part of this network.**
 
@@ -102,7 +102,7 @@ Remember that in networking (in or outside of docker) you should be very conserv
     docker network ls
     docker inspect <network-id>
     ```
-1. Access your webserver it should display a new `hello world`
+1. Access your webserver, it should display a new `hello world`
 1. Teardown the stack
     ```bash
     docker compose -f docker-compose-2.yml down
@@ -155,8 +155,8 @@ We need to make
     docker container ls
     docker network ls
     ```
-1. Access your webserver it should not work and scream at you because can't connect to the DB
-1. While the stack is running, update the `database.py` file with the right connection string, save the file ( it will reload the server ), now access again the endpoint. Voila!
+1. Access your webserver, it should not work and scream at you because can't connect to the DB!
+1. While the stack is running, update the `database.py` file with the right connection string, save the file (it will reload the server), now access again the endpoint. Voila! ✨
 
 **🧪 Test your code with `make testTask3`**
 
