@@ -4,7 +4,7 @@
 For this exercise we will reuse the stack created on day 4. So far we have:
 
 - set up a base Docker Compose with Postgres, FastAPI and Adminer. Today we'll load some data into this database.
-- loaded a data schema mapping the [the movies dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset), and 
+- loaded a data schema mapping the [the movies dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset), and
 - added a Jupyter lab environment to interact with the datasets and propose a new normalized SQL schema
 - loaded periodically the latest comments using an Airflow DAG.
 
@@ -32,8 +32,8 @@ This exercise will walk you through all the steps to get a dashboard up and runn
 4. Configure the location of Metabase's internal DB by ajusting the env var `MB_DB_FILE` with the current value: `/metabase-data/metabase.db`
 5. Map port 3000 so you can access metabase on http://localhost:3000
 6. Add a dependency for this service on the database service - the service spinning up the actual postgres database
-7. Spin up the docker compose stack and wait for all the init to happen `docker compose up`
-8. Once ready, head to your http://localhost:3000 
+7. Spin up the docker compose stack and wait for all the init to happen `docker-compose up`
+8. Once ready, head to your http://localhost:3000
 9. **Add your data later**
 10. Get started with Metabase you should be able to explore the default dataset included with Metabase
 
@@ -96,4 +96,3 @@ If you prefer you can either use the UI filters or just write a SQL query to get
 
 
 **❓ #2: Given a movie (add a filter to the panel), show the 5 best comments and 5 worsts comments.**
-

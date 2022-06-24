@@ -21,7 +21,7 @@ To do so we will teach you how to:
 - Create a docker network to allow the container's to communicate between them
 - Create multiple services SQL DB + Web server
 - Configure those services via environement variables
-- Use the docker compose CLI
+- Use the `docker-compose` CLI
 
 ## End goal
 
@@ -31,7 +31,7 @@ By the end of this exercise you should be able to:
 - Understand the concept of volumes
 - Understand the concept of networking
 - Know how to create a functional docker compose stack
-- Be familiar with the docker compose CLI
+- Be familiar with the docker-compose CLI
 
 
 ## Prerequisite
@@ -60,9 +60,9 @@ We also want to mount a directory inside the container that will point to our ap
 1. Build and run the docker compose stack
     ```bash
     # Validate the dockerfile
-    docker compose -f docker-compose-1.yml config
-    docker compose -f docker-compose-1.yml build
-    docker compose -f docker-compose-1.yml up
+    docker-compose -f docker-compose-1.yml config
+    docker-compose -f docker-compose-1.yml build
+    docker-compose -f docker-compose-1.yml up
     docker container ls
     ```
 1. Access your webserver, it should display a new `hello world`
@@ -92,12 +92,12 @@ Remember that in networking (in or outside of docker) you should be very conserv
 1. Create a custom [network](https://docs.docker.com/compose/compose-file/#networks) named `backend`
 1. Assign the type bridge to the [driver](https://docs.docker.com/compose/networking/)
 1. Update the webapi service to connect to the newly created network
-1. Build and run the docker compose stack
+1. Build and run the docker-compose stack
     ```bash
     #Validate the docker file
-    docker compose -f docker-compose-2.yml config
-    docker compose -f docker-compose-2.yml build
-    docker compose -f docker-compose-2.yml up
+    docker-compose -f docker-compose-2.yml config
+    docker-compose -f docker-compose-2.yml build
+    docker-compose -f docker-compose-2.yml up
     docker container ls
     docker network ls
     docker inspect <network-id>
@@ -105,7 +105,7 @@ Remember that in networking (in or outside of docker) you should be very conserv
 1. Access your webserver, it should display a new `hello world`
 1. Teardown the stack
     ```bash
-    docker compose -f docker-compose-2.yml down
+    docker-compose -f docker-compose-2.yml down
     ```
 
 **🧪 Test your code with `make testTask2`**
@@ -149,9 +149,9 @@ We need to make
 1. Build and run the docker compose stack
     ```bash
     # Validate the docker file
-    docker compose -f docker-compose-3.yml config
-    docker compose -f docker-compose-3.yml build
-    docker compose -f docker-compose-3.yml up
+    docker-compose -f docker-compose-3.yml config
+    docker-compose -f docker-compose-3.yml build
+    docker-compose -f docker-compose-3.yml up
     docker container ls
     docker network ls
     ```

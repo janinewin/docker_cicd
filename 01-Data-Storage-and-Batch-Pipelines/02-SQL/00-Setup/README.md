@@ -26,10 +26,10 @@ In addition to the services you've already added to your `docker-compose`, let's
     restart: always
 ```
 8. Build and run the docker compose stack
-```bash
-docker compose -f docker-compose.yml config
-docker compose -f docker-compose.yml build
-docker compose -f docker-compose.yml up
+```
+docker-compose -f docker-compose.yml config
+docker-compose -f docker-compose.yml build
+docker-compose -f docker-compose.yml up
 docker container ls
 docker network ls
 ```
@@ -43,10 +43,10 @@ Now it's time to add a Data Management service: Adminer. It will enable you to e
 3. Let's expose the port so you can access the data from your local computer, and map port `8080` to port `8080` in the docker container.
 4. Map the `./data/adminer/` volume to a `/data/` volume in the docker container
 5. Build and run the docker compose stack
-```bash
-docker compose -f docker-compose.yml config
-docker compose -f docker-compose.yml build
-docker compose -f docker-compose.yml up
+```
+docker-compose -f docker-compose.yml config
+docker-compose -f docker-compose.yml build
+docker-compose -f docker-compose.yml up
 docker container ls
 docker network ls
 ```
@@ -83,13 +83,13 @@ In the `public` schema, you're going to create 2 tables:
     , last_name
     , batch_num
   )
-  VALUES 
+  VALUES
       (1, 'Zinedine', 'Zidane', 101)
     , (2, 'Kelly', 'Slater', 101);
   ```
   - The _Import_ feature does not allow you to import csv files from your local computer. To import your `movies` dataset, we need a workaround: loading it through a script (which in any case would be needed, since we should never load data in such a manual way) 
 
-## Storing data into PostGres
+## Storing data into Postgres
 
 We now want to do the following setup: 
 - Having csv files on a local machine
@@ -108,11 +108,11 @@ We'll do it on a very simple file - and you'll have to do it yourself with the m
 3. Move the `teacher.csv` file that's under `02-SQL/00-Setup/` to `02-SQL/00-Setup/data/files/`
 4. Kill your container, and relaunch it: 
   ```
-  docker compose -f docker-compose.yml up
+  docker-compose -f docker-compose.yml up
   ```
 5. Double check that your postgres container can indeed see this `teacher.csv` file:
   ```shell
-  $ docker exec -it postgres /bin/bash  
+  $ docker exec -it postgres /bin/bash
   $ ls
   # should return a bunch of folders, including "files"
   $ ls files
@@ -166,7 +166,7 @@ Execute this in the SQL query interface:
   FROM INFORMATION_SCHEMA.TABLES
   WHERE table_schema = 'public'
   ```
-- To see the list of columns in each table 
+- To see the list of columns in each table
   ```sql
   SELECT *
   FROM INFORMATION_SCHEMA.COLUMNS
@@ -179,5 +179,3 @@ Execute this in the SQL query interface:
   FROM INFORMATION_SCHEMA.TABLES
   WHERE table_schema = 'information_schema'
   ```
-
-
