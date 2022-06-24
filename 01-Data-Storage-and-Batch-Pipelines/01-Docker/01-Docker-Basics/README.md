@@ -29,14 +29,14 @@ By the end of this exercise you should be able to:
 ## Task 1 - Layers 🥞
 This task illustrates the concept of layers. We will purposely write a bad Dockerfile to highlight the internal structure of an image.
 
-**❗️Only for the following exercise use separate “RUN” for each command you write.**
+❗️Only for the following exercise use separate “RUN” for each command you write.
 
 **❓Write a single Dockerfile (use `dockerfile-task-1`) with the following requirements:**
 
 1. Based on ubuntu 20.04
 1. Add `ARG DEBIAN_FRONTEND=noninteractive` note: **Do not use ENV as this would persist after the build and would impact your containers, children images**
 1. Add `ENV PYTHONUNBUFFERED 1` this forces the stdout and stderr streams to be unbuffered. [Explanation](https://stackoverflow.com/questions/59812009/what-is-the-use-of-pythonunbuffered-in-docker-file)
-1. Installing python 3.8.12 from [deadsnake ppa](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa)
+1. Install python 3.8.12 from [deadsnake ppa](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa)
     ```dockerfile
     # Upgrade package list
     apt-get update
@@ -49,13 +49,13 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
     #install python 3.8
     apt-get install -y python3.8
     ```
-1. Installing pip
+1. Install pip
     ```dockerfile
     apt-get install -y python3-pip
     ```
-1. Install fastapi (0.78.0), SQLAlchemy (1.4.36) and, Alembic (1.7.7), uvicorn[standard] (0.17.6)
+1. Install fastapi (0.78.0), SQLAchemy (1.4.36), Alembic (1.7.7) and, uvicorn[standard] (0.17.6)
 1. Create `WORKDIR` server
-1. Copying the complete current directory into the working directory `/server`
+1. Copy the complete current directory into the working directory `/server`
 1. Expose port 8000 to be able to access the server from outside of the container
 1. Create an `ENTRYPOINT` for `uvicorn`
 1. Create a `CMD` to run fastapi via uvicorn, listening on all interfaces `0.0.0.0` and on port `8000`
@@ -86,7 +86,7 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
     You could save space deleting the files and directories in `/var/lib/apt/lists/`.
     </details>
 1. Push image to [Artifact Registry](https://cloud.google.com/artifact-registry/docs/docker/pushing-and-pulling)
-    1. Set the following variables in your terminal:
+    - Set the following variables in your terminal:
         ```bash
         LOCATION=europe-west1
         HOSTNAME="$LOCATION-docker.pkg.dev"
@@ -95,15 +95,15 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
         IMAGE_NAME=base-image-fastapi-ubuntu-fat
         IMAGE_TAG=test
         ```
-    1. Retag the image with the registry name
+    - Retag the image with the registry name
         ```bash
         docker tag "$IMAGE_NAME:$IMAGE_TAG" "$HOSTNAME/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:$IMAGE_TAG"
         ```
-    1. Push retagged image to container registry
+    - Push retagged image to container registry
         ```bash
         docker push "$HOSTNAME/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:$IMAGE_TAG"
         ```
-    1. Check image is present in the registry
+    - Check image is present in the registry
         ```bash
         gcloud container images list-tags  "$HOSTNAME/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME"
         ```
@@ -189,12 +189,12 @@ This tasks illustrates the concept of caching and unwanted dependencies installe
 
 ## Task 3 - The importance of a base image 🖼
 
-This tasks elaborates on the concept of a base image and how it can be used in real life scenarios to spin up images/containers easily and efficiently.
+This task elaborates on the concept of a base image and how it can be used in real life scenarios to spin up images/containers easily and efficiently.
 Previously we installed our own version of python, pip and other dependencies. The community already built many robusts base images. Using the right base image can save time, space and headaches.
 
 **❓ Enhance the performance of your image**
 
-1. Using the content of `dockerfile-task-2` do the following taks in `dockerfile-task-3-1`
+1. Using the content of `dockerfile-task-2` do the following tasks in `dockerfile-task-3-1`
 1. Update the `dockerfile-task-3` to use python:3.8.12 as a base image, you may need to remove some of the installations you’ve done in it, since now python and pip come with it.
 1. We are going to use [poetry](https://python-poetry.org/) to handle all the dependencies and package management for python, instead of using the traditional `pip` and `requirements.txt` to install our packages. To do so:
     1. Replace all the previously added pip packages using poetry running in your terminal
@@ -255,7 +255,7 @@ Previously we installed our own version of python, pip and other dependencies. T
 **💾 Save your work in progress on GitHub**
 
 ## Interesting tools
-✨ [Haskell Dockerdile Linter](https://github.com/hadolint/hadolint)
+✨ [Haskell Dockerfile Linter](https://github.com/hadolint/hadolint)
 
 🛠 [Container Structure Tests](https://github.com/GoogleContainerTools/container-structure-test)
 

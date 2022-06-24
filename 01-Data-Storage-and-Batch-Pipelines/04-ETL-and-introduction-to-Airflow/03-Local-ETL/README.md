@@ -1,5 +1,3 @@
-# Local ETL
-
 ### Introduction
 
 In this challenge, you will create a more complex ETL.
@@ -13,13 +11,13 @@ For the Chuck Norris' joke, you will use this [api](https://api.chucknorris.io).
 
 You will save the jokes and their translated versions to [JSON](https://en.wikipedia.org/wiki/JSON) before inserting them to your PostgreSQL database that will play the roles of "Datalake" (your JSON files) and "Datawarehouse" (your PostgreSQL database).
 
-As for the previous exercise, we split the instructions in four parts to help you create the this local ETL.
+As for the previous exercise, we split the instructions in four parts to help you create this local ETL.
 
 ## DAG Instructions
 
 First, let's focus on creating the proper DAG configuration (no tasks or python functions needed for now).
 
-You need to create a dag with the following requirements:
+You need to create a DAG with the following requirements:
 - it should be named `local_etl`
 - it should have a start date equal to five days ago
 - it should have a description saying `A local etl`
@@ -57,7 +55,7 @@ $ make test_tasks_configs
 
 Once you passed the tests, launch your Airflow instance and open [localhost](http://localhost:8080/home) to see how your DAG looks.
 
-You should see your four tasks. Turn the dag on and see what happens! It should be all green as your tasks called functions that do not do anything for now.
+You should see your four tasks. Turn the DAG on and see what happens! It should be all green 🟢 as your tasks called functions that do not do anything for now.
 
 ## Python Functions Instructions
 

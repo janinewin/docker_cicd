@@ -1,4 +1,4 @@
-# Track-long exercise - Schema migration
+# Schema migration
 
 So far we have:
 
@@ -17,7 +17,7 @@ See? Today we'll manipulate this JSON with Python, to flatten the columns, and t
 
 ## Introduction
 
-### Let's discover the Python packages we'll use
+### Let's discover the Python packages we'll use!
 
 Open the `pyproject.toml` file. We use Poetry for Python packages management. If you haven't already, [read up about the pyproject.toml file](https://python-poetry.org/docs/pyproject/). In this exercise, we care mostly about these two lines:
 

@@ -1,6 +1,6 @@
 # APIs, JSON + HTTP versus Protobuf + gRPC 
 
-❗️ It's required to at least read until `Loading it with Pandas` from the `Serialization` exercise.
+❗️ Before you begin this exercise, it is required to _at least_ read until `4. Load it with Pandas` from the `Serialization` exercise.
 
 ## Introduction
 
@@ -36,7 +36,7 @@ In the `Serialization` exercise, we've talked about two dualities:
 
 We'll build simple APIs, then more complex ones, for both formats.
 
-### Let's discover the Python packages we'll use
+### Before we start, let's discover the Python packages we'll use
 
 Open the `pyproject.toml` file. We use Poetry for Python packages management. If you haven't already, [read up about the pyproject.toml file](https://python-poetry.org/docs/pyproject/). 
 
@@ -58,7 +58,7 @@ grpcio-tools = "^1.46.3"
 ```
 for the Protobuf + gRPC part.
 
-## Let's write our JSON HTTP API ⛏️
+## First off, let's write our JSON HTTP API ⛏️
 
 Let's start simple, we want to return the current hour `h`, minute `m`, second `s`, broken down in a JSON that looks like this.
 
@@ -70,7 +70,7 @@ Let's start simple, we want to return the current hour `h`, minute `m`, second `
 }
 ```
 
-**First, how do we get the current time in Python?**
+**How do we get the current time in Python?**
 
 <details>
   <summary markdown='span'>💡 Hint</summary>

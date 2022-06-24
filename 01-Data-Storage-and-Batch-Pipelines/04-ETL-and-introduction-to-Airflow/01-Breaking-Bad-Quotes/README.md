@@ -1,5 +1,3 @@
-# Breaking Bad Quotes Handler
-
 ### Introduction
 
 In this challenge, you will learn how to create a simple Airflow DAG.

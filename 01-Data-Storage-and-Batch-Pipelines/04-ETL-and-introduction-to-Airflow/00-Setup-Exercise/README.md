@@ -1,6 +1,3 @@
-# Setup Exercise
-
-
 ### Introduction
 
 The goal of this exercise is to have Airflow running through docker-compose. We already provided one file to help you (`scripts/endpoint.sh`) but you will have to handle the rest by yourselves. To build the lightest version of Airflow you need at least four components:
@@ -11,8 +8,10 @@ The goal of this exercise is to have Airflow running through docker-compose. We 
 
 ## Setup files and folders
 
-Start by creating your `dags` folder at the root level, as required by Airflow. On top of that, create two other folders `data` & `logs` (at the root level too) that Airflow will use to sync data between its container and your local setup.
-Create a `.gitkeep` file in each of them, such that, even if they are empty, the folders will be pushed to github. Once you are confident with what you've done, run the tests:
+1. Start by creating your `dags` folder at the root level, as required by Airflow. 
+2. On top of that, create two other folders `data` & `logs` (at the root level too) that Airflow will use to sync data between its container and your local setup.
+3. Create a `.gitkeep` file in each of them, such that, even if they are empty, the folders will be pushed to github. 
+4. Once you are confident with what you've done, run the tests:
 
 ```
 $ make test_files_and_folders
@@ -33,18 +32,20 @@ You could use an Airflow image to start our Dockerfile but we will keep it as li
 
 ### Instructions
 
-We will help you to build your Dockerfile through 10 instructions that you will have to implement.
+We will help you to build your Dockerfile through **🔟 instructions** that you will have to implement.
 
-Let's start by creating a `Dockerfile` and make it start from a `python:3.8.12-slim` image (1).
-As for your first day, set the `DEBIAN_FRONTEND` argument to `noninteractive` (2) and the `PYTHONUNBUFFERED` environment variable to `1` (3).
-Then, set the environment variable `AIRFLOW_HOME` to `/opt/airflow` (4) and move your `WORKDIR` on it (5).
+Let's start by creating a `Dockerfile` and make it start from a `python:3.8.12-slim` image (1️⃣).
+
+As for your first day, set the `DEBIAN_FRONTEND` argument to `noninteractive` (2️⃣) and the `PYTHONUNBUFFERED` environment variable to `1` (3️⃣).
+
+Then, set the environment variable `AIRFLOW_HOME` to `/opt/airflow` (4️⃣) and move your `WORKDIR` on it (5️⃣).
 
 Now, it's time for you to take a look at the `scripts/entrypoint.sh` file that we have created for you. First, you should see a block of code that checks whether PostgreSQL is ready or not, then you should see three Airflow commands that:
 - update the Airflow database
 - create an Airflow user
 - [start an Airflow `webserver` instance](https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html#webserver)
 
-As your Airflow `webserver` will run this file, it has to know the `psql` command that comes from the `postgresql` package. We want you to use the `postgresql-14`, for which [the install is a bit more complex](https://techviewleo.com/how-to-install-postgresql-database-on-ubuntu/), which is why we will provide it to you. To properly install the `postgresql-14` package you thus have to add the following lines to your Dockerfile: (6)
+As your Airflow `webserver` will run this file, it has to know the `psql` command that comes from the `postgresql` package. We want you to use the `postgresql-14`, for which [the install is a bit more complex](https://techviewleo.com/how-to-install-postgresql-database-on-ubuntu/), which is why we will provide it to you. To properly install the `postgresql-14` package you thus have to add the following lines to your Dockerfile: (6️⃣)
 
 ```
 RUN apt-get update \
@@ -59,22 +60,26 @@ RUN apt-get update \
 ```
 
 After that, implement the two following commands:
-- a copy of the `scripts` folder inside the Docker image (7)
-- a bash command to make `scripts/entrypoint.sh` runnable (8)
+- a copy of the `scripts` folder inside the Docker image (7️⃣)
+- a bash command to make `scripts/entrypoint.sh` runnable (8️⃣)
 
-Finally, you will have to setup `poetry`. Start by adding a command to copy the `pyproject.toml` and the `poetry.lock` files to the Docker image (9). Then, add a bash command that run three consecutive steps to upgrade pip (by skipping cache if it exists), install poetry and finally install poetry packages without the dev packages (10).
+Finally, you will have to setup `poetry`. 
 
-To recap the previous explanations you should have the following 10 commands:
-- a `python:3.8.12-slim` image
-- the `DEBIAN_FRONTEND` argument set to `noninteractive`
-- the `PYTHONUNBUFFERED` environment variable set to `1`
-- the `AIRFLOW_HOME` environment variable set to `/opt/airflow`
-- the `WORKDIR` set to `/opt/airflow`
-- a bash command to install `postgresql-14`
-- a copy of the `scripts` folder (to the `scripts` folder)
-- a bash command to make `scripts/entrypoint.sh` runnable
-- a copy of `pyproject.toml` and `poetry.lock` (to the root level)
-- a bash command to upgrade `pip`, use it to install `poetry` and finally install poetry content (without the dev packages)
+Start by adding a command to copy the `pyproject.toml` and the `poetry.lock` files to the Docker image (9️⃣). 
+
+Then, add a bash command that run three consecutive steps to upgrade pip (by skipping cache if it exists), install poetry and finally install poetry packages without the dev packages (🔟).
+
+To recap the previous explanations you should have the following 🔟 commands:
+- 1️⃣ a `python:3.8.12-slim` image
+- 2️⃣ the `DEBIAN_FRONTEND` argument set to `noninteractive`
+- 3️⃣ the `PYTHONUNBUFFERED` environment variable set to `1`
+- 4️⃣ the `AIRFLOW_HOME` environment variable set to `/opt/airflow`
+- 5️⃣ the `WORKDIR` set to `/opt/airflow`
+- 6️⃣ a bash command to install `postgresql-14`
+- 7️⃣ a copy of the `scripts` folder (to the `scripts` folder)
+- 8️⃣ a bash command to make `scripts/entrypoint.sh` runnable
+- 9️⃣ a copy of `pyproject.toml` and `poetry.lock` (to the root level)
+- 🔟 a bash command to upgrade `pip`, use it to install `poetry` and finally install poetry content (without the dev packages)
 
 Once you are confident with what you've done, run the tests:
 
@@ -141,4 +146,6 @@ At that point, you should be able to run the following command (that will force 
 $ docker-compose up --force-recreate --remove-orphans --build
 ```
 
-and visit [localhost](http://localhost:8080/home). Have a look to the `scripts/entrypoint.sh` to find the login and password to use! You should see all Airflow DAG examples, do not hesitate to play a bit with them to get familiar with Airflow UI.
+Now visit [localhost](http://localhost:8080/home). Have a look to the `scripts/entrypoint.sh` to find the login and password to use! 
+
+👉 You should see all Airflow DAG examples! Do not hesitate to play a bit with them to get familiar with Airflow UI ✨
