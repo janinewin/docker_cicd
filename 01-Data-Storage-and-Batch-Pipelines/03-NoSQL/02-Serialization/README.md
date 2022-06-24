@@ -6,6 +6,8 @@ In this exercise we are going to explore several data exchange formats. They're 
 
 Let's start with a bit of reading 📖 !
 
+---
+
 ### Text-based formats 📜
 
 #### CSV: Comma-separated values
@@ -16,7 +18,7 @@ On [Kaggle > Datasets](https://www.kaggle.com/datasets), there are many public C
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
-  The [Netflix TV Shows and Movies](https://www.kaggle.com/datasets/victorsoeiro/netflix-tv-shows-and-movies), scroll to "Data explorer" and look at the Detail / Compact / Column breakdown.
+  For example, open [Netflix TV Shows and Movies here](https://www.kaggle.com/datasets/victorsoeiro/netflix-tv-shows-and-movies): scroll to the "Data explorer" section and look at the Detail / Compact / Column breakdown.
 </details>
 
 #### JSON: Javascript Serialization Object Notation.
@@ -132,12 +134,13 @@ languages such as DocBook.</para>
   Try `type(a)` to get the answer.
 </details>
 
+---
 
 ### Binary formats 🤓
 
 Contrary to text-based formats, which are human-readable, binary formats aren't, but tend to be much more compact, and computer-friendly. We'll explore three formats here.
 
-#### Protobuf, the one standard for Google data
+#### 1. Protobuf, the one standard for Google data
 
 Did you know that all of Google Cloud APIs send data as Protobufs? That's because Google developed it.
 
@@ -154,7 +157,7 @@ import json
 json.load(...)
 ```
 
-Literally any JSON file can be parsed, its fields and structure does **not** need to be known in advance. We compromise speed and size of the message for readability and flexibility.
+Literally any JSON file can be parsed, its fields and structure do **not** need to be known in advance. We compromise speed and size of the message for readability and flexibility.
 
 **In Protobuf, based on [this section](https://developers.google.com/protocol-buffers/docs/pythontutorial#compiling-your-protocol-buffers), can we do?**
 
@@ -175,7 +178,7 @@ Protobuf requires you to
 
 We compromise readability and ease of use to optimize for speed and message size. The exact opposite of JSON in this case.
 
-#### Parquet files 🪵
+#### 2. Parquet files 🪵
 
 The following analogies are a little far fetched, but still fair:
 - Protobufs are the "binary, compiled equivalent" of JSON
@@ -188,9 +191,12 @@ The following analogies are a little far fetched, but still fair:
 
 In particular, look at the ridiculous comparison of data size, query run time and cost of CSVs vs. Parquet files. Worth the extra effort isn't it?
 
-#### Carpet files 🃏
+#### 3. Carpet files 🃏
 
-It's a joke with `parquet`. Floor tile files don't exist either. Sorry.
+It's a joke with `parquet`. Floor tile files don't exist either. 
+Sorry.
+
+---
 
 ### Summary of text vs binary file formats
 
@@ -201,9 +207,9 @@ Binary formats are ❗️ **not human-readable** and usually less flexible (even
 
 In this exercise, we'll explore the [rural population dataset](https://data.worldbank.org/indicator/SP.RUR.TOTL.ZS?view=chart) from the World bank, as a percentage of total population, over time, by country. 
 
-**Do a quick [browse of the accessible data](https://data.worldbank.org/) from the World bank**. How amazing is it to have all this public data at our fingertips 🤓?
+**Do a quick [browse of the accessible data](https://data.worldbank.org/) from the World Bank**. How amazing is it to have all this public data at our fingertips 🤓?
 
-### Downloading the data
+### 1. Download the data
 
 Back to our [rural population dataset](https://data.worldbank.org/indicator/SP.RUR.TOTL.ZS?view=chart), let's download it and explore it.
 
@@ -242,7 +248,7 @@ Now in VSCode you should see all the CSVs showing up. The file names are a bit h
 
 Run `make test`, the first test should pass.
 
-### Let's discover the Python packages we'll use
+### 2. Discover the Python packages we'll use
 
 Open the `pyproject.toml` file. We use Poetry for Python packages management. If you haven't already, [read up about the pyproject.toml file](https://python-poetry.org/docs/pyproject/). In this exercise, we care mostly about these two lines:
 
@@ -253,7 +259,7 @@ pyarrow = "^8.0.0"
 
 We'll install the [pandas](https://pandas.pydata.org/) package to deal with tabular data (like CSVs) and [pyarrow](https://arrow.apache.org/docs/python/index.html) to deal with Parquet files.
 
-### Clean up the CSV
+### 3. Clean up the CSV
 
 A bit of cleanup is unfortunately necessary, look at the first lines of the file.
 
@@ -276,7 +282,7 @@ If you feel solid with the command line, remove the first few lines programatica
 </details>
 
 
-### Loading it with Pandas
+### 4. Load it with Pandas
 
 In the file `lwserialization/rural.py`, let's import the Pandas library.
 
@@ -311,7 +317,7 @@ Let's explore the dataset a bit, answer the following questions, by typing the a
 - How many columns? Fill `def explore_columns():`
 - How many countries are in the dataset? Fill `def explore_countries():`
 
-### Save it to the Parquet data format
+### 5. Save it to the Parquet data format
 
 Now that we have a function to load the CSV as a `pandas.DataFrame`, we'll save it to the Parquet data format to try and optimize for disk usage 💾.
 
