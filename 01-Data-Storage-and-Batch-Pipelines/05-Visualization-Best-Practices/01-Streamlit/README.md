@@ -1,15 +1,13 @@
-# Week 1 Day 5: Streamlit
-
 ## Engineering context - real life use
 Often times, as a data engineer, you need to present data and summarize your results in a human readable way. Most people won't be able to read your dataframes straight from the console.
-This is why creating simple apps to summarize data in an interactive ways using dashboards, graphs and texts is important (it's also fun for some)
-Having such apps will help you highlight your findings and establish a baseline of common knwolegde for your peers.
+This is why creating simple apps to summarize data in an interactive ways using dashboards, graphs and texts is important (it's also fun for some).
+Having such apps will help you highlight your findings and establish a baseline of common knowledge for your peers.
 You want your app to be adopting as much clean code principles as possible so that the code is easily readable, maintainable and extensible. 
-Leveraging dependency injections and the single responsibilty principle sets you up for success.
+Leveraging dependency injections and the single responsibility principle sets you up for success.
 
 ## Background
 This exercise aims at teaching you the fundamentals to create a functional streamlit app. 
-You will :
+You will:
 - Set up a clean architecture for the streamlit app
 - Discover the principle of dependency injection,
 - Implement components use the single responsibilty principle
@@ -27,7 +25,7 @@ At the end of this exercise you should:
 
 
 ## Setup
-Please do the setup exercise first
+Please do the setup exercise first!
 
 ## Mocks and UI
 ### Basic UX
@@ -50,6 +48,7 @@ Please refer to streamlit's documentation to for the widget and their calling co
     - Call from the module `F1Queries`  the method `getConstructorStandingsForRace` to get the constructor championship data
     - Call from the module `F1Queries`  the method `getDriverStandingsForRace` to get the constructor championship data
     - using this pseudo code
+    
     ```
     if not launched:
         Display constructor standings season's result (you can display the data using the last race_id of the year)
@@ -57,7 +56,6 @@ Please refer to streamlit's documentation to for the widget and their calling co
     else:
         Display the current constructor standing 
         Display the current driver standing 
-
     ```
 3. Implement `layoutSideBar` to display a sidebar composed of a title and buttons for each races with the race name as text
     - Call from the module `F1 Queries` the method `getRacesForYear`
@@ -95,6 +93,7 @@ We'll do some test-driven development here (TDD)
     ```
     - Run tests they should pass
     - Write a simple docstring for this method using the numpy format:
+    
     ```
     """
     Method description....
@@ -114,7 +113,7 @@ We'll do some test-driven development here (TDD)
     ```
     - run `make doc` it should open the freshly compiled documentation using sphinx
 
-2. Using the same methodology as above extract the fastest laps for a given race, by implementing the method `getBestTimePerLap`
+2. Using the same methodology as above, extract the fastest laps for a given race, by implementing the method `getBestTimePerLap`
 ```
 For all the laps in given race compute extract for each lap the fastest lap and return a dataframe containing the fastest laps for each lap
 ```
@@ -125,17 +124,16 @@ Now that we have all the data necessary for our dashboard and the first simple l
 For this exercise we'll first add some state into our app so we can get some interactivity going, then we'll add more widgets (tables, strings, graphs)
 
 1. Update the method `layoutHeader` using the method implemented `F1Transform.getRaceName`
-```
-if not launched:
-    Display some generic title
-    Display some subtitle
-else:
-    Display title
-    Display race nane
 
-```
+    ```
+    if not launched:
+        Display some generic title
+        Display some subtitle
+    else:
+        Display title
+        Display race name
+    ```
 2. Implement the `layoutMiddleContainer` method. The container is based on 2 columns
-
 - Display fastest pitstop for a given race using `F1Queries.getFastestPitStopForRace` and using a `st.text` widget that you can format the way you want
 - Display the fastest lap for a given race using `F1Queries.getFastestLapTimeForRace` and using a `st.text` widget
 - Implement an early exit condition to not display this container if `F1Constants.IS_LAUNCHED` is False
