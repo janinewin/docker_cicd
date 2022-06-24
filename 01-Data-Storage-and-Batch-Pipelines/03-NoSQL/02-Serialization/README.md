@@ -1,6 +1,4 @@
-# Serialization formats
-
-## Introduction
+### Introduction
 
 In this exercise we are going to explore several data exchange formats. They're different ways to store and share the same data. They all have pros and cons.
 
