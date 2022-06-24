@@ -160,8 +160,6 @@ Cool 👌.
 
 **There is one last step, fill in the logic!**
 
-And for that, look at these instructions 👇.
-
 <details>
   <summary markdown='span'>💡 Hint</summary>
 
