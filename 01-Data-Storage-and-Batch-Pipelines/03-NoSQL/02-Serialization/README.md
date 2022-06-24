@@ -230,14 +230,14 @@ Once the zip downloaded, move it to a data directory and unzip it.
 ```
 mkdir -p ./data/
 mv /path/to/your/zip ./data/
-unzip ./data/*.zip
+unzip ./data/*.zip -d ./data
 ```
 
 Now in VSCode you should see all the CSVs showing up. The file names are a bit hard to read, we mostly care about the one starting with `API`. Rename it to `API-rural.csv` from the terminal.
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
-  Use the `mv` command. Don't know how? Try Try `tldr wget`.
+  Use the `mv` command. Don't know how? Try Try `tldr mv`.
 </details>
 
 Run `make test`, the first test should pass.

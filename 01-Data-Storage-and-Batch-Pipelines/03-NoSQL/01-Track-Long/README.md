@@ -61,7 +61,7 @@ In the file `lwtransform/transform.py`, we've written pipeline code to transform
 By the end of the exercise, the command
 
 ```
-poetry run python lwtransform/transform.py --movies ./data/movies_metadata.csv --out ./data/
+python lwtransform/transform.py --movies ./data/movies_metadata.csv --out ./data/
 ```
 
 should work and produce 3 new files in the `./data` directory:
@@ -180,7 +180,7 @@ Now do the same with `original_movies_df.loc[:, ["id", "genres", "original_title
 
 Now these tables should look like the schema we had in mind, in `new_schema.sql`.
 
-**Add the `save_new_tables_to_csvs` in the `lwtransform/transform.py` with the right arguments and run `poetry run python lwtransform/transform.py --movies ./data/movies_metadata.csv --out ./data/`**
+**Add the `save_new_tables_to_csvs` in the `lwtransform/transform.py` with the right arguments and run `python lwtransform/transform.py --movies ./data/movies_metadata.csv --out ./data/`**
 
 Done?
 
