@@ -8,7 +8,7 @@ It can be used to present data into custom dashboards, or simply used to create 
 
 ## End Goal
 By the end of this exercise you should:
-- Have a working stack using docker compose (PostgreSQL, Adminer, Streamlit)
+- Have a working stack using docker-compose (PostgreSQL, Adminer, Streamlit)
 - Have The Formula 1 database loaded into PostgreSQL
 - Be able to check out http://localhost:8501 and see the welcome message
 
@@ -19,7 +19,7 @@ By the end of this exercise you should:
 - based on PostgreSQL 14
 - with a Restart policy: `Always`
 - Loading the database f1db.sql located in `database/init/f1db.sql` into PostgreSQL leveraging volumes and the image's entrypoint `/docker-entrypoint-initdb.d/`
-- witht the Environment variables: 
+- witht the Environment variables:
 ```
       - POSTGRES_DB=f1db
       - POSTGRES_PASSWORD=postgres

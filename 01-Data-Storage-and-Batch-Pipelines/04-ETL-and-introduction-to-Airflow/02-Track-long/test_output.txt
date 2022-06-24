@@ -1,0 +1,1305 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.10, pytest-7.1.2, pluggy-1.0.0 -- /home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/bin/python
+cachedir: .pytest_cache
+rootdir: /home/selim/code/data-engineering-solutions/01-Data-Storage-and-Batch-Pipelines/04-ETL-and-introduction-to-Airflow/02-Track-long
+plugins: mock-3.2.0, responses-0.5.0, anyio-3.6.1
+collecting ... collected 8 items
+
+tests/test_dag_config.py::TestDagConfig::test_dag_config FAILED          [ 12%]
+tests/test_python_functions.py::test_get_last_comments PASSED            [ 25%]
+tests/test_python_functions.py::test_double_single_quote PASSED          [ 37%]
+tests/test_python_functions.py::test_load_to_database FAILED             [ 50%]
+tests/test_python_functions.py::test_get_and_insert_last_comments FAILED [ 62%]
+tests/test_python_functions.py::test_get_and_insert_last_comments ERROR  [ 62%]
+tests/test_tasks_configs.py::TestTasksConfigs::test_tasks FAILED         [ 75%]
+tests/test_tasks_configs.py::TestTasksConfigs::test_create_comments_task FAILED [ 87%]
+tests/test_tasks_configs.py::TestTasksConfigs::test_get_and_insert_last_comments_task FAILED [100%]
+
+==================================== ERRORS ====================================
+____________ ERROR at teardown of test_get_and_insert_last_comments ____________
+
+    @pytest.yield_fixture
+    def responses():
+        with responses_.RequestsMock() as rsps:
+>           yield rsps
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/pytest_responses.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/responses/__init__.py:874: in __exit__
+    self.stop(allow_assert=success)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <responses.RequestsMock object at 0x7f96c7d07e20>, allow_assert = True
+
+    def stop(self, allow_assert: bool = True) -> None:
+        if self._patcher:
+            # prevent stopping unstarted patchers
+            self._patcher.stop()
+    
+            # once patcher is stopped, clean it. This is required to create a new
+            # fresh patcher on self.start()
+            self._patcher = None
+    
+        if not self.assert_all_requests_are_fired:
+            return
+    
+        if not allow_assert:
+            return
+    
+        not_called = [m for m in self.registered() if m.call_count == 0]
+        if not_called:
+>           raise AssertionError(
+                "Not all requests have been executed {0!r}".format(
+                    [(match.method, match.url) for match in not_called]
+                )
+            )
+E           AssertionError: Not all requests have been executed [('GET', 'https://moviecomment-zxzcpvr6hq-ew.a.run.app/latest-comments?n=5')]
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/responses/__init__.py:1064: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[[34m2022-06-24 09:59:26,526[0m] {[34mconnection.py:[0m424} ERROR[0m - Unable to retrieve connection from secrets backend (MetastoreBackend). Checking subsequent secrets backend.[0m
+Traceback (most recent call last):
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_context
+    self.dialect.do_execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 716, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: connection
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/connection.py", line 420, in get_connection_from_secrets
+    conn = secrets_backend.get_connection(conn_id=conn_id)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py", line 71, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/secrets/metastore.py", line 36, in get_connection
+    conn = session.query(Connection).filter(Connection.conn_id == conn_id).first()
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 2734, in first
+    return self.limit(1)._iter().first()
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 2818, in _iter
+    result = self.session.execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 1670, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1520, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/sql/elements.py", line 313, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1389, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1748, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1929, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_context
+    self.dialect.do_execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 716, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: connection
+[SQL: SELECT connection.password AS connection_password, connection.extra AS connection_extra, connection.id AS connection_id, connection.conn_id AS connection_conn_id, connection.conn_type AS connection_conn_type, connection.description AS connection_description, connection.host AS connection_host, connection.schema AS connection_schema, connection.login AS connection_login, connection.port AS connection_port, connection.is_encrypted AS connection_is_encrypted, connection.is_extra_encrypted AS connection_is_extra_encrypted 
+FROM connection 
+WHERE connection.conn_id = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('sqlite_connection', 1, 0)]
+(Background on this error at: http://sqlalche.me/e/14/e3q8)
+------------------------------ Captured log call -------------------------------
+ERROR    airflow.models.connection:connection.py:424 Unable to retrieve connection from secrets backend (MetastoreBackend). Checking subsequent secrets backend.
+Traceback (most recent call last):
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_context
+    self.dialect.do_execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 716, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: connection
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/connection.py", line 420, in get_connection_from_secrets
+    conn = secrets_backend.get_connection(conn_id=conn_id)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py", line 71, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/secrets/metastore.py", line 36, in get_connection
+    conn = session.query(Connection).filter(Connection.conn_id == conn_id).first()
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 2734, in first
+    return self.limit(1)._iter().first()
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 2818, in _iter
+    result = self.session.execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 1670, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1520, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/sql/elements.py", line 313, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1389, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1748, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1929, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_context
+    self.dialect.do_execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 716, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: connection
+[SQL: SELECT connection.password AS connection_password, connection.extra AS connection_extra, connection.id AS connection_id, connection.conn_id AS connection_conn_id, connection.conn_type AS connection_conn_type, connection.description AS connection_description, connection.host AS connection_host, connection.schema AS connection_schema, connection.login AS connection_login, connection.port AS connection_port, connection.is_encrypted AS connection_is_encrypted, connection.is_extra_encrypted AS connection_is_extra_encrypted 
+FROM connection 
+WHERE connection.conn_id = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('sqlite_connection', 1, 0)]
+(Background on this error at: http://sqlalche.me/e/14/e3q8)
+=================================== FAILURES ===================================
+________________________ TestDagConfig.test_dag_config _________________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x7f96c8597670>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x7f96cc9fcac0>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext'>>
+statement = 'SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS...end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after \nFROM dag \nWHERE dag.dag_id = ?\n LIMIT ? OFFSET ?'
+parameters = ('track_long', 1, 0)
+execution_options = immutabledict({'_sa_orm_load_options': <class 'sqlalchemy.orm.context.QueryContext.default_load_options'>, '_result_disable_adapt_to_context': True})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x7f96c851d7c0>, [{}], <sqlalchemy.sql.selectable.Select ob...ag_id)s', 'track_long', type_=String(length=250)), _OffsetLimitParam('%(140285583906128 param)s', 1, type_=Integer())])
+kw = {'cache_hit': symbol('CACHE_MISS')}
+branched = <sqlalchemy.engine.base.Connection object at 0x7f96c8597670>
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x7f96c851d4f0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x7f96c851db50>
+cursor = <sqlite3.Cursor object at 0x7f96c8618180>, evt_handled = False
+
+    def _execute_context(
+        self,
+        dialect,
+        constructor,
+        statement,
+        parameters,
+        execution_options,
+        *args,
+        **kw
+    ):
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        branched = self
+        if self.__branch_from:
+            # if this is a "branched" connection, do everything in terms
+            # of the "root" connection, *except* for .close(), which is
+            # the only feature that branching provides
+            self = self.__branch_from
+    
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+            context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+        except (exc.PendingRollbackError, exc.ResourceClosedError):
+            raise
+        except BaseException as e:
+            self._handle_dbapi_exception(
+                e, util.text_type(statement), parameters, None, None
+            )
+    
+        if (
+            self._transaction
+            and not self._transaction.is_active
+            or (
+                self._nested_transaction
+                and not self._nested_transaction.is_active
+            )
+        ):
+            self._invalid_transaction()
+    
+        if self._is_future and self._transaction is None:
+            self._autobegin()
+    
+        context.pre_exec()
+    
+        if dialect.use_setinputsizes:
+            context._set_input_sizes()
+    
+        cursor, statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        if not context.executemany:
+            parameters = parameters[0]
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                statement, parameters = fn(
+                    self,
+                    cursor,
+                    statement,
+                    parameters,
+                    context,
+                    context.executemany,
+                )
+    
+        if self._echo:
+    
+            self._log_info(statement)
+    
+            stats = context._get_cache_stats()
+    
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        parameters, batches=10, ismulti=context.executemany
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]"
+                    % (stats,)
+                )
+    
+        evt_handled = False
+        try:
+            if context.executemany:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor, statement, parameters, context
+                    )
+            elif not parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, statement, context
+                    )
+            else:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, statement, parameters, context
+                    )
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1705: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x7f96cc9fcac0>
+cursor = <sqlite3.Cursor object at 0x7f96c8618180>
+statement = 'SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS...end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after \nFROM dag \nWHERE dag.dag_id = ?\n LIMIT ? OFFSET ?'
+parameters = ('track_long', 1, 0)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x7f96c851db50>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: dag
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py:716: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+self = <tests.test_dag_config.TestDagConfig object at 0x7f96c8632430>
+
+    def test_dag_config(self):
+        assert self.dagbag.import_errors == {}
+>       dag = self.dagbag.get_dag(dag_id="track_long")
+
+tests/test_dag_config.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py:71: in wrapper
+    return func(*args, session=session, **kwargs)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/dagbag.py:217: in get_dag
+    orm_dag = DagModel.get_current(root_dag_id, session=session)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py:68: in wrapper
+    return func(*args, **kwargs)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/dag.py:2763: in get_current
+    return session.query(cls).filter(cls.dag_id == dag_id).first()
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py:2734: in first
+    return self.limit(1)._iter().first()
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py:2818: in _iter
+    result = self.session.execute(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1670: in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1520: in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/sql/elements.py:313: in _execute_on_connection
+    return connection._execute_clauseelement(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1389: in _execute_clauseelement
+    ret = self._execute_context(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1748: in _execute_context
+    self._handle_dbapi_exception(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1929: in _handle_dbapi_exception
+    util.raise_(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/util/compat.py:211: in raise_
+    raise exception
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1705: in _execute_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x7f96cc9fcac0>
+cursor = <sqlite3.Cursor object at 0x7f96c8618180>
+statement = 'SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS...end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after \nFROM dag \nWHERE dag.dag_id = ?\n LIMIT ? OFFSET ?'
+parameters = ('track_long', 1, 0)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x7f96c851db50>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: dag
+E       [SQL: SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS dag_is_subdag, dag.is_active AS dag_is_active, dag.last_parsed_time AS dag_last_parsed_time, dag.last_pickled AS dag_last_pickled, dag.last_expired AS dag_last_expired, dag.scheduler_lock AS dag_scheduler_lock, dag.pickle_id AS dag_pickle_id, dag.fileloc AS dag_fileloc, dag.owners AS dag_owners, dag.description AS dag_description, dag.default_view AS dag_default_view, dag.schedule_interval AS dag_schedule_interval, dag.timetable_description AS dag_timetable_description, dag.max_active_tasks AS dag_max_active_tasks, dag.max_active_runs AS dag_max_active_runs, dag.has_task_concurrency_limits AS dag_has_task_concurrency_limits, dag.has_import_errors AS dag_has_import_errors, dag.next_dagrun AS dag_next_dagrun, dag.next_dagrun_data_interval_start AS dag_next_dagrun_data_interval_start, dag.next_dagrun_data_interval_end AS dag_next_dagrun_data_interval_end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after 
+E       FROM dag 
+E       WHERE dag.dag_id = ?
+E        LIMIT ? OFFSET ?]
+E       [parameters: ('track_long', 1, 0)]
+E       (Background on this error at: http://sqlalche.me/e/14/e3q8)
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py:716: OperationalError
+____________________________ test_load_to_database _____________________________
+
+    def test_load_to_database():
+        with open("tests/data/comments.json", "r") as file:
+            comments = json.load(file)
+    
+        hook = SqliteHook(sqlite_conn_id="sqlite_connection")
+>       hook.run("DROP TABLE IF EXISTS comments;")
+
+tests/test_python_functions.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/hooks/dbapi.py:181: in run
+    with closing(self.get_conn()) as conn:
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/providers/sqlite/hooks/sqlite.py:35: in get_conn
+    airflow_conn = self.get_connection(conn_id)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/hooks/base.py:67: in get_connection
+    conn = Connection.get_connection_from_secrets(conn_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'airflow.models.connection.Connection'>
+conn_id = 'sqlite_connection'
+
+    @classmethod
+    def get_connection_from_secrets(cls, conn_id: str) -> 'Connection':
+        """
+        Get connection by conn_id.
+    
+        :param conn_id: connection id
+        :return: connection
+        """
+        for secrets_backend in ensure_secrets_loaded():
+            try:
+                conn = secrets_backend.get_connection(conn_id=conn_id)
+                if conn:
+                    return conn
+            except Exception:
+                log.exception(
+                    'Unable to retrieve connection from secrets backend (%s). '
+                    'Checking subsequent secrets backend.',
+                    type(secrets_backend).__name__,
+                )
+    
+>       raise AirflowNotFoundException(f"The conn_id `{conn_id}` isn't defined")
+E       airflow.exceptions.AirflowNotFoundException: The conn_id `sqlite_connection` isn't defined
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/connection.py:430: AirflowNotFoundException
+----------------------------- Captured stdout call -----------------------------
+[[34m2022-06-24 09:59:26,506[0m] {[34mconnection.py:[0m424} ERROR[0m - Unable to retrieve connection from secrets backend (MetastoreBackend). Checking subsequent secrets backend.[0m
+Traceback (most recent call last):
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_context
+    self.dialect.do_execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 716, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: connection
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/connection.py", line 420, in get_connection_from_secrets
+    conn = secrets_backend.get_connection(conn_id=conn_id)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py", line 71, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/secrets/metastore.py", line 36, in get_connection
+    conn = session.query(Connection).filter(Connection.conn_id == conn_id).first()
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 2734, in first
+    return self.limit(1)._iter().first()
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 2818, in _iter
+    result = self.session.execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 1670, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1520, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/sql/elements.py", line 313, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1389, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1748, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1929, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_context
+    self.dialect.do_execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 716, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: connection
+[SQL: SELECT connection.password AS connection_password, connection.extra AS connection_extra, connection.id AS connection_id, connection.conn_id AS connection_conn_id, connection.conn_type AS connection_conn_type, connection.description AS connection_description, connection.host AS connection_host, connection.schema AS connection_schema, connection.login AS connection_login, connection.port AS connection_port, connection.is_encrypted AS connection_is_encrypted, connection.is_extra_encrypted AS connection_is_extra_encrypted 
+FROM connection 
+WHERE connection.conn_id = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('sqlite_connection', 1, 0)]
+(Background on this error at: http://sqlalche.me/e/14/e3q8)
+------------------------------ Captured log call -------------------------------
+ERROR    airflow.models.connection:connection.py:424 Unable to retrieve connection from secrets backend (MetastoreBackend). Checking subsequent secrets backend.
+Traceback (most recent call last):
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_context
+    self.dialect.do_execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 716, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: connection
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/connection.py", line 420, in get_connection_from_secrets
+    conn = secrets_backend.get_connection(conn_id=conn_id)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py", line 71, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/secrets/metastore.py", line 36, in get_connection
+    conn = session.query(Connection).filter(Connection.conn_id == conn_id).first()
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 2734, in first
+    return self.limit(1)._iter().first()
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 2818, in _iter
+    result = self.session.execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 1670, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1520, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/sql/elements.py", line 313, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1389, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1748, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1929, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_context
+    self.dialect.do_execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 716, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: connection
+[SQL: SELECT connection.password AS connection_password, connection.extra AS connection_extra, connection.id AS connection_id, connection.conn_id AS connection_conn_id, connection.conn_type AS connection_conn_type, connection.description AS connection_description, connection.host AS connection_host, connection.schema AS connection_schema, connection.login AS connection_login, connection.port AS connection_port, connection.is_encrypted AS connection_is_encrypted, connection.is_extra_encrypted AS connection_is_extra_encrypted 
+FROM connection 
+WHERE connection.conn_id = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('sqlite_connection', 1, 0)]
+(Background on this error at: http://sqlalche.me/e/14/e3q8)
+______________________ test_get_and_insert_last_comments _______________________
+
+responses = <responses.RequestsMock object at 0x7f96c7d07e20>
+
+    def test_get_and_insert_last_comments(responses):
+        with open("tests/data/comments.json", "r") as file:
+            comments = json.load(file)
+        comments["comments"].append({"movie_id": 2, "comment": "Comment 2 of movie 2 with a single quote '", "rating": 1})
+        comments["comments"].append({"movie_id": 2, "comment": "Comment 3 of movie 2", "rating": 5})
+    
+        responses.add(responses.GET, f"{track_long.COMMENTS_API_ROOT}?n=5", json=comments)
+    
+        hook = SqliteHook(sqlite_conn_id="sqlite_connection")
+>       hook.run("DROP TABLE IF EXISTS comments;")
+
+tests/test_python_functions.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/hooks/dbapi.py:181: in run
+    with closing(self.get_conn()) as conn:
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/providers/sqlite/hooks/sqlite.py:35: in get_conn
+    airflow_conn = self.get_connection(conn_id)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/hooks/base.py:67: in get_connection
+    conn = Connection.get_connection_from_secrets(conn_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'airflow.models.connection.Connection'>
+conn_id = 'sqlite_connection'
+
+    @classmethod
+    def get_connection_from_secrets(cls, conn_id: str) -> 'Connection':
+        """
+        Get connection by conn_id.
+    
+        :param conn_id: connection id
+        :return: connection
+        """
+        for secrets_backend in ensure_secrets_loaded():
+            try:
+                conn = secrets_backend.get_connection(conn_id=conn_id)
+                if conn:
+                    return conn
+            except Exception:
+                log.exception(
+                    'Unable to retrieve connection from secrets backend (%s). '
+                    'Checking subsequent secrets backend.',
+                    type(secrets_backend).__name__,
+                )
+    
+>       raise AirflowNotFoundException(f"The conn_id `{conn_id}` isn't defined")
+E       airflow.exceptions.AirflowNotFoundException: The conn_id `sqlite_connection` isn't defined
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/connection.py:430: AirflowNotFoundException
+----------------------------- Captured stdout call -----------------------------
+[[34m2022-06-24 09:59:26,526[0m] {[34mconnection.py:[0m424} ERROR[0m - Unable to retrieve connection from secrets backend (MetastoreBackend). Checking subsequent secrets backend.[0m
+Traceback (most recent call last):
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_context
+    self.dialect.do_execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 716, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: connection
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/connection.py", line 420, in get_connection_from_secrets
+    conn = secrets_backend.get_connection(conn_id=conn_id)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py", line 71, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/secrets/metastore.py", line 36, in get_connection
+    conn = session.query(Connection).filter(Connection.conn_id == conn_id).first()
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 2734, in first
+    return self.limit(1)._iter().first()
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 2818, in _iter
+    result = self.session.execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 1670, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1520, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/sql/elements.py", line 313, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1389, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1748, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1929, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_context
+    self.dialect.do_execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 716, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: connection
+[SQL: SELECT connection.password AS connection_password, connection.extra AS connection_extra, connection.id AS connection_id, connection.conn_id AS connection_conn_id, connection.conn_type AS connection_conn_type, connection.description AS connection_description, connection.host AS connection_host, connection.schema AS connection_schema, connection.login AS connection_login, connection.port AS connection_port, connection.is_encrypted AS connection_is_encrypted, connection.is_extra_encrypted AS connection_is_extra_encrypted 
+FROM connection 
+WHERE connection.conn_id = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('sqlite_connection', 1, 0)]
+(Background on this error at: http://sqlalche.me/e/14/e3q8)
+------------------------------ Captured log call -------------------------------
+ERROR    airflow.models.connection:connection.py:424 Unable to retrieve connection from secrets backend (MetastoreBackend). Checking subsequent secrets backend.
+Traceback (most recent call last):
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_context
+    self.dialect.do_execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 716, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: connection
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/connection.py", line 420, in get_connection_from_secrets
+    conn = secrets_backend.get_connection(conn_id=conn_id)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py", line 71, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/secrets/metastore.py", line 36, in get_connection
+    conn = session.query(Connection).filter(Connection.conn_id == conn_id).first()
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 2734, in first
+    return self.limit(1)._iter().first()
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 2818, in _iter
+    result = self.session.execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 1670, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1520, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/sql/elements.py", line 313, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1389, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1748, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1929, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_context
+    self.dialect.do_execute(
+  File "/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 716, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: connection
+[SQL: SELECT connection.password AS connection_password, connection.extra AS connection_extra, connection.id AS connection_id, connection.conn_id AS connection_conn_id, connection.conn_type AS connection_conn_type, connection.description AS connection_description, connection.host AS connection_host, connection.schema AS connection_schema, connection.login AS connection_login, connection.port AS connection_port, connection.is_encrypted AS connection_is_encrypted, connection.is_extra_encrypted AS connection_is_extra_encrypted 
+FROM connection 
+WHERE connection.conn_id = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('sqlite_connection', 1, 0)]
+(Background on this error at: http://sqlalche.me/e/14/e3q8)
+_________________________ TestTasksConfigs.test_tasks __________________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x7f96c84d04c0>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x7f96cc9fcac0>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext'>>
+statement = 'SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS...end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after \nFROM dag \nWHERE dag.dag_id = ?\n LIMIT ? OFFSET ?'
+parameters = ('track_long', 1, 0)
+execution_options = immutabledict({'_sa_orm_load_options': <class 'sqlalchemy.orm.context.QueryContext.default_load_options'>, '_result_disable_adapt_to_context': True})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x7f96c851d7c0>, [{}], <sqlalchemy.sql.selectable.Select ob...ag_id)s', 'track_long', type_=String(length=250)), _OffsetLimitParam('%(140285582314896 param)s', 1, type_=Integer())])
+kw = {'cache_hit': symbol('CACHE_HIT')}
+branched = <sqlalchemy.engine.base.Connection object at 0x7f96c84d04c0>
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x7f96c84d04f0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x7f96c84d02e0>
+cursor = <sqlite3.Cursor object at 0x7f96c7d027a0>, evt_handled = False
+
+    def _execute_context(
+        self,
+        dialect,
+        constructor,
+        statement,
+        parameters,
+        execution_options,
+        *args,
+        **kw
+    ):
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        branched = self
+        if self.__branch_from:
+            # if this is a "branched" connection, do everything in terms
+            # of the "root" connection, *except* for .close(), which is
+            # the only feature that branching provides
+            self = self.__branch_from
+    
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+            context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+        except (exc.PendingRollbackError, exc.ResourceClosedError):
+            raise
+        except BaseException as e:
+            self._handle_dbapi_exception(
+                e, util.text_type(statement), parameters, None, None
+            )
+    
+        if (
+            self._transaction
+            and not self._transaction.is_active
+            or (
+                self._nested_transaction
+                and not self._nested_transaction.is_active
+            )
+        ):
+            self._invalid_transaction()
+    
+        if self._is_future and self._transaction is None:
+            self._autobegin()
+    
+        context.pre_exec()
+    
+        if dialect.use_setinputsizes:
+            context._set_input_sizes()
+    
+        cursor, statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        if not context.executemany:
+            parameters = parameters[0]
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                statement, parameters = fn(
+                    self,
+                    cursor,
+                    statement,
+                    parameters,
+                    context,
+                    context.executemany,
+                )
+    
+        if self._echo:
+    
+            self._log_info(statement)
+    
+            stats = context._get_cache_stats()
+    
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        parameters, batches=10, ismulti=context.executemany
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]"
+                    % (stats,)
+                )
+    
+        evt_handled = False
+        try:
+            if context.executemany:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor, statement, parameters, context
+                    )
+            elif not parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, statement, context
+                    )
+            else:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, statement, parameters, context
+                    )
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1705: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x7f96cc9fcac0>
+cursor = <sqlite3.Cursor object at 0x7f96c7d027a0>
+statement = 'SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS...end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after \nFROM dag \nWHERE dag.dag_id = ?\n LIMIT ? OFFSET ?'
+parameters = ('track_long', 1, 0)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x7f96c84d02e0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: dag
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py:716: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+self = <tests.test_tasks_configs.TestTasksConfigs object at 0x7f96c8668ee0>
+
+    def test_tasks(self):
+>       dag = self.dagbag.get_dag(dag_id="track_long")
+
+tests/test_tasks_configs.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py:71: in wrapper
+    return func(*args, session=session, **kwargs)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/dagbag.py:217: in get_dag
+    orm_dag = DagModel.get_current(root_dag_id, session=session)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py:68: in wrapper
+    return func(*args, **kwargs)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/dag.py:2763: in get_current
+    return session.query(cls).filter(cls.dag_id == dag_id).first()
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py:2734: in first
+    return self.limit(1)._iter().first()
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py:2818: in _iter
+    result = self.session.execute(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1670: in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1520: in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/sql/elements.py:313: in _execute_on_connection
+    return connection._execute_clauseelement(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1389: in _execute_clauseelement
+    ret = self._execute_context(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1748: in _execute_context
+    self._handle_dbapi_exception(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1929: in _handle_dbapi_exception
+    util.raise_(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/util/compat.py:211: in raise_
+    raise exception
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1705: in _execute_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x7f96cc9fcac0>
+cursor = <sqlite3.Cursor object at 0x7f96c7d027a0>
+statement = 'SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS...end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after \nFROM dag \nWHERE dag.dag_id = ?\n LIMIT ? OFFSET ?'
+parameters = ('track_long', 1, 0)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x7f96c84d02e0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: dag
+E       [SQL: SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS dag_is_subdag, dag.is_active AS dag_is_active, dag.last_parsed_time AS dag_last_parsed_time, dag.last_pickled AS dag_last_pickled, dag.last_expired AS dag_last_expired, dag.scheduler_lock AS dag_scheduler_lock, dag.pickle_id AS dag_pickle_id, dag.fileloc AS dag_fileloc, dag.owners AS dag_owners, dag.description AS dag_description, dag.default_view AS dag_default_view, dag.schedule_interval AS dag_schedule_interval, dag.timetable_description AS dag_timetable_description, dag.max_active_tasks AS dag_max_active_tasks, dag.max_active_runs AS dag_max_active_runs, dag.has_task_concurrency_limits AS dag_has_task_concurrency_limits, dag.has_import_errors AS dag_has_import_errors, dag.next_dagrun AS dag_next_dagrun, dag.next_dagrun_data_interval_start AS dag_next_dagrun_data_interval_start, dag.next_dagrun_data_interval_end AS dag_next_dagrun_data_interval_end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after 
+E       FROM dag 
+E       WHERE dag.dag_id = ?
+E        LIMIT ? OFFSET ?]
+E       [parameters: ('track_long', 1, 0)]
+E       (Background on this error at: http://sqlalche.me/e/14/e3q8)
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py:716: OperationalError
+__________________ TestTasksConfigs.test_create_comments_task __________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x7f96c79b9f70>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x7f96cc9fcac0>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext'>>
+statement = 'SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS...end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after \nFROM dag \nWHERE dag.dag_id = ?\n LIMIT ? OFFSET ?'
+parameters = ('track_long', 1, 0)
+execution_options = immutabledict({'_sa_orm_load_options': <class 'sqlalchemy.orm.context.QueryContext.default_load_options'>, '_result_disable_adapt_to_context': True})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x7f96c851d7c0>, [{}], <sqlalchemy.sql.selectable.Select ob...ag_id)s', 'track_long', type_=String(length=250)), _OffsetLimitParam('%(140285569857856 param)s', 1, type_=Integer())])
+kw = {'cache_hit': symbol('CACHE_HIT')}
+branched = <sqlalchemy.engine.base.Connection object at 0x7f96c79b9f70>
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x7f96c79b9430>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x7f96c79b9190>
+cursor = <sqlite3.Cursor object at 0x7f96c7d0a0a0>, evt_handled = False
+
+    def _execute_context(
+        self,
+        dialect,
+        constructor,
+        statement,
+        parameters,
+        execution_options,
+        *args,
+        **kw
+    ):
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        branched = self
+        if self.__branch_from:
+            # if this is a "branched" connection, do everything in terms
+            # of the "root" connection, *except* for .close(), which is
+            # the only feature that branching provides
+            self = self.__branch_from
+    
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+            context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+        except (exc.PendingRollbackError, exc.ResourceClosedError):
+            raise
+        except BaseException as e:
+            self._handle_dbapi_exception(
+                e, util.text_type(statement), parameters, None, None
+            )
+    
+        if (
+            self._transaction
+            and not self._transaction.is_active
+            or (
+                self._nested_transaction
+                and not self._nested_transaction.is_active
+            )
+        ):
+            self._invalid_transaction()
+    
+        if self._is_future and self._transaction is None:
+            self._autobegin()
+    
+        context.pre_exec()
+    
+        if dialect.use_setinputsizes:
+            context._set_input_sizes()
+    
+        cursor, statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        if not context.executemany:
+            parameters = parameters[0]
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                statement, parameters = fn(
+                    self,
+                    cursor,
+                    statement,
+                    parameters,
+                    context,
+                    context.executemany,
+                )
+    
+        if self._echo:
+    
+            self._log_info(statement)
+    
+            stats = context._get_cache_stats()
+    
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        parameters, batches=10, ismulti=context.executemany
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]"
+                    % (stats,)
+                )
+    
+        evt_handled = False
+        try:
+            if context.executemany:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor, statement, parameters, context
+                    )
+            elif not parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, statement, context
+                    )
+            else:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, statement, parameters, context
+                    )
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1705: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x7f96cc9fcac0>
+cursor = <sqlite3.Cursor object at 0x7f96c7d0a0a0>
+statement = 'SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS...end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after \nFROM dag \nWHERE dag.dag_id = ?\n LIMIT ? OFFSET ?'
+parameters = ('track_long', 1, 0)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x7f96c79b9190>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: dag
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py:716: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+self = <tests.test_tasks_configs.TestTasksConfigs object at 0x7f96c8668fd0>
+
+    def test_create_comments_task(self):
+>       dag = self.dagbag.get_dag(dag_id="track_long")
+
+tests/test_tasks_configs.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py:71: in wrapper
+    return func(*args, session=session, **kwargs)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/dagbag.py:217: in get_dag
+    orm_dag = DagModel.get_current(root_dag_id, session=session)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py:68: in wrapper
+    return func(*args, **kwargs)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/dag.py:2763: in get_current
+    return session.query(cls).filter(cls.dag_id == dag_id).first()
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py:2734: in first
+    return self.limit(1)._iter().first()
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py:2818: in _iter
+    result = self.session.execute(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1670: in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1520: in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/sql/elements.py:313: in _execute_on_connection
+    return connection._execute_clauseelement(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1389: in _execute_clauseelement
+    ret = self._execute_context(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1748: in _execute_context
+    self._handle_dbapi_exception(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1929: in _handle_dbapi_exception
+    util.raise_(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/util/compat.py:211: in raise_
+    raise exception
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1705: in _execute_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x7f96cc9fcac0>
+cursor = <sqlite3.Cursor object at 0x7f96c7d0a0a0>
+statement = 'SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS...end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after \nFROM dag \nWHERE dag.dag_id = ?\n LIMIT ? OFFSET ?'
+parameters = ('track_long', 1, 0)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x7f96c79b9190>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: dag
+E       [SQL: SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS dag_is_subdag, dag.is_active AS dag_is_active, dag.last_parsed_time AS dag_last_parsed_time, dag.last_pickled AS dag_last_pickled, dag.last_expired AS dag_last_expired, dag.scheduler_lock AS dag_scheduler_lock, dag.pickle_id AS dag_pickle_id, dag.fileloc AS dag_fileloc, dag.owners AS dag_owners, dag.description AS dag_description, dag.default_view AS dag_default_view, dag.schedule_interval AS dag_schedule_interval, dag.timetable_description AS dag_timetable_description, dag.max_active_tasks AS dag_max_active_tasks, dag.max_active_runs AS dag_max_active_runs, dag.has_task_concurrency_limits AS dag_has_task_concurrency_limits, dag.has_import_errors AS dag_has_import_errors, dag.next_dagrun AS dag_next_dagrun, dag.next_dagrun_data_interval_start AS dag_next_dagrun_data_interval_start, dag.next_dagrun_data_interval_end AS dag_next_dagrun_data_interval_end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after 
+E       FROM dag 
+E       WHERE dag.dag_id = ?
+E        LIMIT ? OFFSET ?]
+E       [parameters: ('track_long', 1, 0)]
+E       (Background on this error at: http://sqlalche.me/e/14/e3q8)
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py:716: OperationalError
+___________ TestTasksConfigs.test_get_and_insert_last_comments_task ____________
+
+self = <sqlalchemy.engine.base.Connection object at 0x7f96c7a74490>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x7f96cc9fcac0>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext'>>
+statement = 'SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS...end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after \nFROM dag \nWHERE dag.dag_id = ?\n LIMIT ? OFFSET ?'
+parameters = ('track_long', 1, 0)
+execution_options = immutabledict({'_sa_orm_load_options': <class 'sqlalchemy.orm.context.QueryContext.default_load_options'>, '_result_disable_adapt_to_context': True})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x7f96c851d7c0>, [{}], <sqlalchemy.sql.selectable.Select ob...ag_id)s', 'track_long', type_=String(length=250)), _OffsetLimitParam('%(140285568543472 param)s', 1, type_=Integer())])
+kw = {'cache_hit': symbol('CACHE_HIT')}
+branched = <sqlalchemy.engine.base.Connection object at 0x7f96c7a74490>
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x7f96c7a74640>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x7f96c7a748e0>
+cursor = <sqlite3.Cursor object at 0x7f96c7d0a500>, evt_handled = False
+
+    def _execute_context(
+        self,
+        dialect,
+        constructor,
+        statement,
+        parameters,
+        execution_options,
+        *args,
+        **kw
+    ):
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        branched = self
+        if self.__branch_from:
+            # if this is a "branched" connection, do everything in terms
+            # of the "root" connection, *except* for .close(), which is
+            # the only feature that branching provides
+            self = self.__branch_from
+    
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+            context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+        except (exc.PendingRollbackError, exc.ResourceClosedError):
+            raise
+        except BaseException as e:
+            self._handle_dbapi_exception(
+                e, util.text_type(statement), parameters, None, None
+            )
+    
+        if (
+            self._transaction
+            and not self._transaction.is_active
+            or (
+                self._nested_transaction
+                and not self._nested_transaction.is_active
+            )
+        ):
+            self._invalid_transaction()
+    
+        if self._is_future and self._transaction is None:
+            self._autobegin()
+    
+        context.pre_exec()
+    
+        if dialect.use_setinputsizes:
+            context._set_input_sizes()
+    
+        cursor, statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        if not context.executemany:
+            parameters = parameters[0]
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                statement, parameters = fn(
+                    self,
+                    cursor,
+                    statement,
+                    parameters,
+                    context,
+                    context.executemany,
+                )
+    
+        if self._echo:
+    
+            self._log_info(statement)
+    
+            stats = context._get_cache_stats()
+    
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        parameters, batches=10, ismulti=context.executemany
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]"
+                    % (stats,)
+                )
+    
+        evt_handled = False
+        try:
+            if context.executemany:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor, statement, parameters, context
+                    )
+            elif not parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, statement, context
+                    )
+            else:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, statement, parameters, context
+                    )
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1705: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x7f96cc9fcac0>
+cursor = <sqlite3.Cursor object at 0x7f96c7d0a500>
+statement = 'SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS...end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after \nFROM dag \nWHERE dag.dag_id = ?\n LIMIT ? OFFSET ?'
+parameters = ('track_long', 1, 0)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x7f96c7a748e0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: dag
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py:716: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+self = <tests.test_tasks_configs.TestTasksConfigs object at 0x7f96c8655c40>
+
+    def test_get_and_insert_last_comments_task(self):
+>       dag = self.dagbag.get_dag(dag_id="track_long")
+
+tests/test_tasks_configs.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py:71: in wrapper
+    return func(*args, session=session, **kwargs)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/dagbag.py:217: in get_dag
+    orm_dag = DagModel.get_current(root_dag_id, session=session)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/utils/session.py:68: in wrapper
+    return func(*args, **kwargs)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/airflow/models/dag.py:2763: in get_current
+    return session.query(cls).filter(cls.dag_id == dag_id).first()
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py:2734: in first
+    return self.limit(1)._iter().first()
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/query.py:2818: in _iter
+    result = self.session.execute(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1670: in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1520: in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/sql/elements.py:313: in _execute_on_connection
+    return connection._execute_clauseelement(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1389: in _execute_clauseelement
+    ret = self._execute_context(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1748: in _execute_context
+    self._handle_dbapi_exception(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1929: in _handle_dbapi_exception
+    util.raise_(
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/util/compat.py:211: in raise_
+    raise exception
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1705: in _execute_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x7f96cc9fcac0>
+cursor = <sqlite3.Cursor object at 0x7f96c7d0a500>
+statement = 'SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS...end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after \nFROM dag \nWHERE dag.dag_id = ?\n LIMIT ? OFFSET ?'
+parameters = ('track_long', 1, 0)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x7f96c7a748e0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: dag
+E       [SQL: SELECT dag.dag_id AS dag_dag_id, dag.root_dag_id AS dag_root_dag_id, dag.is_paused AS dag_is_paused, dag.is_subdag AS dag_is_subdag, dag.is_active AS dag_is_active, dag.last_parsed_time AS dag_last_parsed_time, dag.last_pickled AS dag_last_pickled, dag.last_expired AS dag_last_expired, dag.scheduler_lock AS dag_scheduler_lock, dag.pickle_id AS dag_pickle_id, dag.fileloc AS dag_fileloc, dag.owners AS dag_owners, dag.description AS dag_description, dag.default_view AS dag_default_view, dag.schedule_interval AS dag_schedule_interval, dag.timetable_description AS dag_timetable_description, dag.max_active_tasks AS dag_max_active_tasks, dag.max_active_runs AS dag_max_active_runs, dag.has_task_concurrency_limits AS dag_has_task_concurrency_limits, dag.has_import_errors AS dag_has_import_errors, dag.next_dagrun AS dag_next_dagrun, dag.next_dagrun_data_interval_start AS dag_next_dagrun_data_interval_start, dag.next_dagrun_data_interval_end AS dag_next_dagrun_data_interval_end, dag.next_dagrun_create_after AS dag_next_dagrun_create_after 
+E       FROM dag 
+E       WHERE dag.dag_id = ?
+E        LIMIT ? OFFSET ?]
+E       [parameters: ('track_long', 1, 0)]
+E       (Background on this error at: http://sqlalche.me/e/14/e3q8)
+
+/home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/sqlalchemy/engine/default.py:716: OperationalError
+=============================== warnings summary ===============================
+tests/test_dag_config.py: 4 warnings
+tests/test_python_functions.py: 16 warnings
+tests/test_tasks_configs.py: 12 warnings
+  /home/selim/.cache/pypoetry/virtualenvs/4-etl-and-introduction-to-airflow/track-lo-GD83oD-r-py3.8/lib/python3.8/site-packages/pytest_responses.py:9: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.
+    if LooseVersion(pytest.__version__) >= LooseVersion('4.0.0'):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_dag_config.py::TestDagConfig::test_dag_config - sqlalchemy....
+FAILED tests/test_python_functions.py::test_load_to_database - airflow.except...
+FAILED tests/test_python_functions.py::test_get_and_insert_last_comments - ai...
+FAILED tests/test_tasks_configs.py::TestTasksConfigs::test_tasks - sqlalchemy...
+FAILED tests/test_tasks_configs.py::TestTasksConfigs::test_create_comments_task
+FAILED tests/test_tasks_configs.py::TestTasksConfigs::test_get_and_insert_last_comments_task
+ERROR tests/test_python_functions.py::test_get_and_insert_last_comments - Ass...
+============== 6 failed, 2 passed, 32 warnings, 1 error in 2.95s ===============

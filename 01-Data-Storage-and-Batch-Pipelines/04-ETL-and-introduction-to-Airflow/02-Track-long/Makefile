@@ -14,5 +14,5 @@ test_tasks_configs:
 test_python_functions:
 	AIRFLOW_HOME=${PWD} poetry run pytest -v tests/test_python_functions.py
 
-test:
-	make init_db; AIRFLOW_HOME=${PWD} poetry run pytest -v
+test: export AIRFLOW_HOME = ${PWD}
+test: init_db pytest

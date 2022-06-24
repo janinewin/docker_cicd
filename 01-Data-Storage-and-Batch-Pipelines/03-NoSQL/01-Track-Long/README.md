@@ -173,7 +173,7 @@ This will evaluate all this code interactively.
   - Click `+` to insert a cell below
   - Copy `tags_df` in the cell
   - Evaluate the cell with the play button
-  - You should see a nice looking table 
+  - You should see a nice looking table
 </details>
 
 Now do the same with `original_movies_df.loc[:, ["id", "genres", "original_title"]]`. Notice the JSON looking column `genres`. Now see how we extracted the tags from the original database? That's what the function `make_new_tables` was responsible for.

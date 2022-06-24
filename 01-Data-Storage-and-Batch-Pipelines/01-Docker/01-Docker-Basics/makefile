@@ -30,8 +30,7 @@ runTask3-2:
 
 # Test Tasks
 # Build the image before testing maybe overkill?
-test: buildTask1 buildTask2 buildTask3-1 buildTask3-2
-	PYTHONDONTWRITEBYTECODE=1 poetry run pytest -v --color=yes
+test: buildTask1 buildTask2 buildTask3-1 buildTask3-2 pytest
 
 testTask1: buildTask1
 	PYTHONDONTWRITEBYTECODE=1 poetry run pytest -v --color=yes -k TestTask1

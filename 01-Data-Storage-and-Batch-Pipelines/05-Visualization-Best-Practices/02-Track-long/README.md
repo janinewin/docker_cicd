@@ -4,7 +4,7 @@
 For this exercise we will reuse the stack created for the W1D4 track long exercise. So far we have:
 
 - set up a base Docker Compose with Postgres, FastAPI and Adminer. Today we'll load some data into this database.
-- loaded a data schema mapping the [the movies dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset), and 
+- loaded a data schema mapping the [the movies dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset), and
 - added a Jupyter lab environment to interact with the datasets and propose a new normalized SQL schema
 - loaded periodically the latest comments using an Airflow DAG.
 
@@ -15,7 +15,7 @@ Today, we'll add a dashboard to visualize what we've done so far! The dashboard 
 2. Given a movie (add a filter to the panel), show the 10 latest comments
 
 
-At the 
+At the
 ## End goal
 At the end of this exercise you should be able to:
 - Add metabase in a docker compose stack
@@ -34,8 +34,8 @@ This exercise will walk you through all the steps to get a dashboard up and runn
 4. Configure the location of Metabase's internal DB by ajusting the env var `MB_DB_FILE` with the current value: `/metabase-data/metabase.db`
 5. Map port 3000 so you can access metabase on http://localhost:3000
 6. Add a dependency for this service on the database service - the service spinning up the actual postgres database
-7. Spin up the docker compose stack and wait for all the init to happen `docker compose up`
-8. Once ready, head to your http://localhost:3000 
+7. Spin up the docker compose stack and wait for all the init to happen `docker-compose up`
+8. Once ready, head to your http://localhost:3000
 9. **Add your data later**
 10. Get started with Metabase you should be able to explore the default dataset included with Metabase
 
@@ -67,7 +67,7 @@ Let's start by computing the average rating for all the movies
 
 Let's compute the median rating
 1. Now create a new question and instead of `database` as starting point, choose a model and select the model just created
-2. Now let's compute the median rating for all the ratings 
+2. Now let's compute the median rating for all the ratings
 With SQL
 ```
 SELECT PERCENTILE_CONT(0.5)
@@ -94,4 +94,3 @@ solution: Exlcude the movies where rating is empty/null
 8. Add it to your dashboard
 
 Goal 2: Given a movie (add a filter to the panel), show the 5 best comments and 5 worsts comments
-
