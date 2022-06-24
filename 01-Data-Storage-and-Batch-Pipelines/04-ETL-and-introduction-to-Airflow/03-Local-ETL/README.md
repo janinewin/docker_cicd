@@ -1,5 +1,3 @@
-# Local ETL
-
 ### Introduction
 
 In this challenge, you will create a more complex ETL.
