@@ -101,7 +101,7 @@ The answer to run the app [lies here](https://fastapi.tiangolo.com/#run-it), but
   - `--reload` simply says it'll reload the app whenever there is a code change, which is handy in development mode.
 </details>
 
-Once this is running, run `curl http://localhost:8000` in your terminal, what do you see?
+Once this is running, run `curl http://localhost:8000/time` in your terminal, what do you see?
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
@@ -209,8 +209,8 @@ In `lwapi/protorcp.py`, you'll need to fill out the `GetTime(...)` method of the
 
 To put this all together, we've created the server and client code for you to test.
 
-- In one terminal, run `poetry run python protorpc_server.py`, this runs a server on a default port 50051.
-- In a second terminal, run `poetry run python protorpc_client.py`, this tests a client against this server ✌️.
+- In one terminal, run `python protorpc_server.py`, this runs a server on a default port 50051.
+- In a second terminal, run `python protorpc_client.py`, this tests a client against this server ✌️.
 
 ## Pimp your APIs! 🍕
 

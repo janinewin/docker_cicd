@@ -24,8 +24,5 @@ docs: ## generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C docs html
 	$(BROWSER) docs/build/html/index.html
 
-test:
+test-f1transforms:
 	poetry run pytest -v -k TestF1Transforms
-
-supertest:
-	poetry run pytest -v

@@ -1,5 +1,5 @@
 .PHONY: install
-install: install-poetry allow-envrc
+install: install-poetry add-envrc allow-envrc
 
 .PHONY: install-poetry
 install-poetry:

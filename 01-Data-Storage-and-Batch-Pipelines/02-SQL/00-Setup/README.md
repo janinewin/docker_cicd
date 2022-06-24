@@ -57,7 +57,7 @@ docker network ls
   - (Open a Chrome window and enter the URL: http://localhost:_{your_exposed_port}_/). In the scenario of this setup: `your_exposed_port = 8080`
 2. You will be prompted for a couple of inputs: 
   - **System**: it's a drop down menu. Guess what system you're interacting with
-  - **Server**: it's the name of the service in your `docker-compose` file (to be verified with Selim)
+  - **Server**: it's the name of the service in your `docker-compose` file
   - **Username**: the username you used in your postgres config in the `docker-compose`
   - **Password**: the password you used in your postgres config in the `docker-compose`
   - **Database**: the name of the db you used in your postgres config in the `docker-compose` (it's one of the `POSTGRES_xxx` variables)
@@ -149,7 +149,7 @@ We'll do it on a very simple file - and you'll have to do it yourself with the m
     which is used when we want to make changes to the structure of the table.
 - Let's now load the data from the csv file into the table, by running the following command: 
   ```sql
-  COPY teachers
+  COPY teacher
   FROM '/files/teacher.csv'
   DELIMITER ','
   CSV HEADER

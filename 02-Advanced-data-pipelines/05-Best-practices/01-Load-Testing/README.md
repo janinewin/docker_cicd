@@ -1,7 +1,7 @@
 # Load Testing, Logging, Monitoring
 
 The goal of this exercise is to give you the necessary tools to load test, log, monitoring your systems.
-This way, you'll be able to understand where your system is the most likely to break using load testing. 
+This way, you'll be able to understand where your system is the most likely to break using load testing.
 You'll also be able to collect the logs, so no information is lost in the void. Finally, you'll set up a simple monitoring system that will alert you and keep track of all your system malfunctions.
 
 For this exercise, we'll only scratch the surface as this is a complex and time-consuming topic. We'll rely on some already provided snippets and codebase.
@@ -41,7 +41,7 @@ Using the documentation, add the following snippet to your docker compose file. 
     volumes:
       - ./:/mnt/locust
     command: -f /mnt/locust/locust.py --master -H http://01-load-testing-webapi-1:8000
-  
+
   worker:
     image: locustio/locust
     volumes:
@@ -52,8 +52,8 @@ You can adjust the host `-H http://01-load-testing-webapi-1:8000` as needed for 
 
 
 **3. Build and test**
-- Build the stack `docker compose -f docker-compose-task-1.yml build`
-- Run the stack `docker compose -f docker-compose-task-1.yml up`
+- Build the stack `docker-compose -f docker-compose-task-1.yml build`
+- Run the stack `docker-compose -f docker-compose-task-1.yml up`
 - If you head to http://localhost:8000 you should see hello world
 - If you head to http://localhost:8089 you should see the locust homepage
 
@@ -64,7 +64,7 @@ It simply defines the simulated user behavior for locust to use.
 
 In the `WagonFakeUser` class
 - Configure the wait time to be between 1,5; the user will wait between 1 & 5 seconds before firing a new request.
-```    
+```
     wait_time = between(1, 5)
 ```
 - Add 4 tasks to hit the 4 endpoints of our server:
@@ -111,7 +111,7 @@ Fortunately for us, the FastAPI team already provided the resources to run this 
 We will rely on this [docker image](https://github.com/tiangolo/uvicorn-gunicorn-fastapi-docker#uvicorn-gunicorn-fastapi) - It is a performance auto-tuned gunicorn-uvicorn-fastapi stack (lots of unicorns here).
 
 
-For this task, use the docker-compose-task-2.yml 
+For this task, use the docker-compose-task-2.yml
 
 **1. Update the webapi service**
 
@@ -140,7 +140,7 @@ if you have a service receiving 1 RPS - it adds to 86400 requests a day (it is a
 Ikea.com had 161 Million visits in May 2022 [link](https://www.similarweb.com/website/ikea.com/#overview); this is equivalent to 62 RPS.
 
 
-## Task 3: Logging 
+## Task 3: Logging
 Now let's try to get some more logging going to debug our issues. Logging is a fairly complex topic and requires some attention to setup properly when using different systems together.
 For us, we are using FastAPI -> Uvicorn -> Gunicorn, which means we have to propagate and handle the logs properly between each layer to be able to get them.
 
@@ -153,8 +153,8 @@ we'll rely on the python documentation to create the basic section [documentatio
 
 
 **1. Sections**
-- Create the following sections 
-1. `loggers` with 3 loggers `root`, `gunicorn.error`, `gunicorn.access` 
+- Create the following sections
+1. `loggers` with 3 loggers `root`, `gunicorn.error`, `gunicorn.access`
 2. `handlers` with 3 handlers `console`, `error_file`, `access_file`
 3. `formatters` with 2 formatters `generic`, `access`
 
@@ -165,7 +165,7 @@ _Loggers_
 Each logger must define a default configuration composed of a `level`, a `handler` and the `propagate=1`
 ```
 [logger_<name>]
-level= 
+level=
 handlers=
 propagate=
 ```
@@ -178,14 +178,14 @@ Root Logger
 
 gunicorn.error logger
 ```
-- Debug level 
+- Debug level
 - handlers error_file and console
 - Propagate to true (1)
 ```
 
 gunicorn.access logger
 ```
-- Debug level 
+- Debug level
 - handlers error_file and console
 - Propagate to true (1)
 ```
@@ -216,14 +216,14 @@ formatter: Generic
 args: (sys.stdout,)
 ```
 
-error_file handler 
+error_file handler
 ```
 Class: logging.FileHandler
 formatter: Generic
 args: ('/app/app/logs/error.log',) -> this is where our error log file will be output
 ```
 
-access_file handler 
+access_file handler
 ```
 Class: logging.FileHandler
 formatter: Generic
@@ -252,12 +252,12 @@ logger.error("this is an error message")
 
 **4. Grep**
 
-now that we have our logs, we can use one of the most useful commands while groveling through the logs: `grep` 
+now that we have our logs, we can use one of the most useful commands while groveling through the logs: `grep`
 >grep searches the input files for lines containing a match to a given pattern list. When it finds a match in a line, it copies the line to standard output (by default), or whatever other sort of output you have requested with options.
 
 1. Find all the errors in the log file, sort them
 ```
-grep "STR_TO_LOOK_FOR" <file> | sort 
+grep "STR_TO_LOOK_FOR" <file> | sort
 ```
 2. Find all the failing requests in the access log (status code != 200) OR find the most frequently called endpoint
 ```
@@ -274,7 +274,7 @@ We'll also use Postman to test that our integration is working. [Postman](https:
 
 [FastAPI setting documentation](https://fastapi.tiangolo.com/advanced/settings/)
 - Head to the `config.py` file and add a class member `sentry_key: str`. We'll use this var to store our very secret sentry key.
-- At the root of this exercise dir, create a .env file with the key `SENTRY_KEY`. We'll populate it later. 
+- At the root of this exercise dir, create a .env file with the key `SENTRY_KEY`. We'll populate it later.
 - Update the docker compose file in the webapi service to have docker read the env fileit will automatically load the .env and populate it as an env var inside our container - [Documentation](https://docs.docker.com/compose/environment-variables/#the-env-file)
 ```
     env_file:
@@ -286,13 +286,13 @@ We'll also use Postman to test that our integration is working. [Postman](https:
 def get_settings():
     return Settings()
 ```
-Our settings should be ready to go. 
+Our settings should be ready to go.
 
 **2. Create a sentry account**
 - Create a sentry account to get the key; it's free for devs.
 
 **3. Sentry integration**
-we are going to use the [ASGI Middleware](https://docs.sentry.io/platforms/python/guides/asgi/) plugin since we are using FastAPI 
+we are going to use the [ASGI Middleware](https://docs.sentry.io/platforms/python/guides/asgi/) plugin since we are using FastAPI
 - Create your first project in sentry
 - Choose the `asgi` integration
 - Copy and paste the key in the `dsn=` to the .env file. It's an API token that allows you to communicate to your sentry project
