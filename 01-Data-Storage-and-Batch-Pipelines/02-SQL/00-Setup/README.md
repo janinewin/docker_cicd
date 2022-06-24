@@ -1,16 +1,16 @@
 ## Setting up Postgres DB
 
-In addition to the services you've already added to your `docker-compose`, let's add a database system : it will enable you to store data. 
+In addition to the services you've already added to your `docker-compose`, let's add a database system : it will enable you to store data.
 
 - Create this service based on the postgres 14 image.
 - Call your container with a name : `postgres`
-- Setup 2 environment variables which will enable you to connect to your database (`xxx` below is meant to be replaced by whatever you want) by adding 
+- Setup 2 environment variables which will enable you to connect to your database (`xxx` below is meant to be replaced by whatever you want) by adding
   - `POSTGRES_DB=xxx`
   - `POSTGRES_USER=xxx`
 - We'll help you setup the 3rd environment variable : the password to login to your database.
-  - `POSTGRES_PASSWORD=$POSTGRES_PASSWORD` 
+  - `POSTGRES_PASSWORD=$POSTGRES_PASSWORD`
 - This password should be stored somewhere, in a `.env` file at the same level of your `docker-compose.yml`
-  - Populate this `.env` file with your actual password, following the format suggested in the `env_template` file. 
+  - Populate this `.env` file with your actual password, following the format suggested in the `env_template` file.
   - _Why are we doing this ? : your `docker-compose.yml` file will eventually be pushed to GitHub. And you don't want any password to be visible so easily in a remote location. So by storing this password in the `.env` file : you're keeping this information locally, since `.env` is ignored by git (check your `.gitignore` file to confirm that this is the case)_
 - Map 2 volumes :
   - the `./data/database/` volume to the `/var/lib/postgresql/data` volume in the docker container.
@@ -27,9 +27,9 @@ In addition to the services you've already added to your `docker-compose`, let's
 ```
 - Build and run the docker compose stack
 ```
-docker compose -f docker-compose.yml config
-docker compose -f docker-compose.yml build
-docker compose -f docker-compose.yml up
+docker-compose -f docker-compose.yml config
+docker-compose -f docker-compose.yml build
+docker-compose -f docker-compose.yml up
 docker container ls
 docker network ls
 ```
@@ -44,16 +44,16 @@ Now it's time to add a Data Management service : Adminer. Which will enable you 
 - Map the `./data/adminer/` volume to a `/data/` volume in the docker container
 - Build and run the docker compose stack
 ```
-docker compose -f docker-compose.yml config
-docker compose -f docker-compose.yml build
-docker compose -f docker-compose.yml up
+docker-compose -f docker-compose.yml config
+docker-compose -f docker-compose.yml build
+docker-compose -f docker-compose.yml up
 docker container ls
 docker network ls
 ```
 
 ## Connect to your PostGres database, using Adminer
 - Now connect to your PostGres instance from Adminer. (Open a Chrome window and enter the URL : http://localhost:_{your_exposed_port}_/). In the scenario of this setup : `your_exposed_port = 8080`
-- You will be prompted for a couple of inputs : 
+- You will be prompted for a couple of inputs :
   - **System** : it's a drop down menu. Guess what system you're interacting with
   - **Server** : it's the name of the service in your `docker-compose` file (to be verified with Selim)
   - **Username** : the username you used in your postgres config in the `docker-compose`
@@ -62,10 +62,10 @@ docker network ls
 You should now be connected to the Postgres DB, from the Adminer interface
 
 ## Play around with the interface
-- In the `public` schema, you're going to create 2 tables : 
+- In the `public` schema, you're going to create 2 tables :
   - Create 1 by using the _Create table_ feature. It enables you to manually create a table, name the columns it's made of, as well as specify their types.
-  - Create 1 by using the _SQL command_ feature. Through a SQL script, you'll be able to create the structure of the table, as well as populate it. Just copy paste the script below : 
-  ```sql 
+  - Create 1 by using the _SQL command_ feature. Through a SQL script, you'll be able to create the structure of the table, as well as populate it. Just copy paste the script below :
+  ```sql
   CREATE TABLE student (
       id          INTEGER PRIMARY KEY,
       first_name  VARCHAR(40) NOT NULL,
@@ -79,15 +79,15 @@ You should now be connected to the Postgres DB, from the Adminer interface
     , last_name
     , batch_num
   )
-  VALUES 
+  VALUES
       (1, 'Zinedine', 'Zidane', 101)
     , (2, 'Kelly', 'Slater', 101);
   ```
-  - The _Import_ feature does not allow you to import csv files from your local computer. To import your `movies` dataset, we need a workaround : loading it through a script (which in any case would be needed, since we should never load data in such a manual way) 
+  - The _Import_ feature does not allow you to import csv files from your local computer. To import your `movies` dataset, we need a workaround : loading it through a script (which in any case would be needed, since we should never load data in such a manual way)
 
 ## Storing data into PostGres
 
-We now want to do the following setup : 
+We now want to do the following setup :
 - Having csv files on a local machine
 - Have those csv files propagated to our Postgres container (so the container "sees" them)
 - Load the data of this csv into a table
@@ -102,13 +102,13 @@ We'll do it on a very simple file - and you'll have to do it yourself with the m
   - `/database` (Postgres DB). This folder contains "system" folders for PostGres to work properly. What we need is a place where we would store the csv files from the movies dataset. Which would then be loaded in tables in Postgres
 - To do so, create a folder `/files` under the `/data` folder. `/data`
 - Move the `teacher.csv` file that's under `02-SQL/00-Setup/` to `02-SQL/00-Setup/data/files/`
-- Kill your container, and relaunch it : 
+- Kill your container, and relaunch it :
   ```
-  docker compose -f docker-compose.yml up
+  docker-compose -f docker-compose.yml up
   ```
 - Double check that your postgres container can indeed see this `teacher.csv` file:
   ```shell
-  $ docker exec -it postgres /bin/bash  
+  $ docker exec -it postgres /bin/bash
   $ ls
   # should return a bunch of folders, including "files"
   $ ls files
@@ -125,7 +125,7 @@ We'll do it on a very simple file - and you'll have to do it yourself with the m
   )
   ```
 - Run this script again. It should fail because the `relation "teacher" already exists`. That's why we generally don't use the `CREATE TABLE` statement as is.
-  - We either make sure it does not exist already : 
+  - We either make sure it does not exist already :
     ```sql
     CREATE TABLE IF NOT EXISTS teacher (
         id      INTEGER
@@ -142,7 +142,7 @@ We'll do it on a very simple file - and you'll have to do it yourself with the m
     )
     ```
     which is used when we want to make changes to the structure of the table.
-- Let's now load the data from the csv file into the table, by running the following command : 
+- Let's now load the data from the csv file into the table, by running the following command :
   ```sql
   COPY teachers
   FROM '/files/teacher.csv'
@@ -153,25 +153,23 @@ We'll do it on a very simple file - and you'll have to do it yourself with the m
 ### Checking the resulting structure of the database
 - Now that your files are copied into tables in Postgres, you want to check again what the global structure of your database looks like. Modern SQL clients enable you to have a pretty clean high level view of the organization of your DB (drop down menu of all tables, which can be expanded to see the list of columns it contains etc). Adminer does not have such a clean interface, but you can still have a high level view through SQL statements :
 
-Execute this in the SQL query interface : 
+Execute this in the SQL query interface :
 - To see your list of tables in the DB
   ```sql
   SELECT *
   FROM INFORMATION_SCHEMA.TABLES
   WHERE table_schema = 'public'
   ```
-- To see the list of columns in each table 
+- To see the list of columns in each table
   ```sql
   SELECT *
   FROM INFORMATION_SCHEMA.COLUMNS
   WHERE table_schema = 'public'
   ORDER BY table_name, ordinal_position
   ```
-- Wondering how to determine what can be queried in this structural `INFORMATION_SCHEMA` database ? They are still tables, but in a `table_schema` that's different from `public`, so this does the job : 
+- Wondering how to determine what can be queried in this structural `INFORMATION_SCHEMA` database ? They are still tables, but in a `table_schema` that's different from `public`, so this does the job :
   ```sql
   SELECT *
   FROM INFORMATION_SCHEMA.TABLES
   WHERE table_schema = 'information_schema'
   ```
-
-
