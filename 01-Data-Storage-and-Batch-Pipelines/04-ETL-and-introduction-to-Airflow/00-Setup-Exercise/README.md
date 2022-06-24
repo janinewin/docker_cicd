@@ -1,6 +1,3 @@
-# Setup Exercise
-
-
 ### Introduction
 
 The goal of this exercise is to have Airflow running through docker-compose. We already provided one file to help you (`scripts/endpoint.sh`) but you will have to handle the rest by yourselves. To build the lightest version of Airflow you need at least four components:
