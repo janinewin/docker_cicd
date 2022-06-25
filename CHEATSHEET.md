@@ -81,6 +81,10 @@ Try running
 
 Pro note: there is a `make.inc` file at the root of the repository, which is included in all subsequent `Makefile`. This avoid copy/pasting this same code everywhere!
 
+### PHONY?
+
+By default, targets correspond to the name of a file. For instance if you run `make say-hi`, `make` will look for a file named `say-hi`. But not if you add `.PHONY: say-hi` above your target. It's a bit of a strange an unelegant terminology, but it's good practice. This explains why you'll find a lot of `.PHONY` in our Makefiles.
+
 ## Tests 🚫
 
 Tests are written with [Pytest](https://docs.pytest.org/en/7.1.x/). Each test should be under a `tests/` directory. We've added a `test:` command in all Makefile which executes Pytest for you, prints its output to the terminal in color (red is "not good", green is "happy"), and stores it to a `test_output.txt` file.
@@ -220,3 +224,15 @@ POSTGRES_PASSWORD=abcd
 ### Load `.env` into Python
 
 In the `common/lewagonde` Python library, we've added a function `def load_dot_env(dot_env_fp: str)` which takes the path to a `.env` file as input, and loads its values into environment variables for you. This mimics the behaviour of Docker Compose in your Python programs, if you need.
+
+## Permissions
+
+If you encounter an error like this
+
+```
+find: ‘./01-Data-Storage-and-Batch-Pipelines/04-ETL-and-introduction-to-Airflow/03-Local-ETL/database/pg_multixact’: Permission denied
+```
+
+this means you've created a directory owned by `root` (system administrator) and not the user you're logged in with. We've added a little helper method in the top `Makefile` to help you fix such issues. When you run this `make` target, all files within your repo will be owned by your user.
+
+Go to the top of your git repository and run `make own-repo`.
