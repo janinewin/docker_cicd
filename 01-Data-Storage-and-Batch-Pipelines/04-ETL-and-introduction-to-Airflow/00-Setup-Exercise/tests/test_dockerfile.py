@@ -7,7 +7,7 @@ import pytest
 @pytest.fixture
 def dockerfile_validation():
     return [
-        ("FROM", "python:3.8.12-slim"),
+        ("FROM", "python:3.8.10-slim"),
         ("ARG", "DEBIAN_FRONTEND=noninteractive"),
         ("ENV", "PYTHONUNBUFFERED 1"),
         ("ENV", "AIRFLOW_HOME /opt/airflow"),

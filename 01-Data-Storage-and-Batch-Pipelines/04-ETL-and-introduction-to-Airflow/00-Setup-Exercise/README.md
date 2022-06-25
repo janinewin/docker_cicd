@@ -8,9 +8,9 @@ The goal of this exercise is to have Airflow running through docker-compose. We 
 
 ## Setup files and folders
 
-1. Start by creating your `dags` folder at the root level, as required by Airflow. 
+1. Start by creating your `dags` folder at the root level, as required by Airflow.
 2. On top of that, create two other folders `data` & `logs` (at the root level too) that Airflow will use to sync data between its container and your local setup.
-3. Create a `.gitkeep` file in each of them, such that, even if they are empty, the folders will be pushed to github. 
+3. Create a `.gitkeep` file in each of them, such that, even if they are empty, the folders will be pushed to github.
 4. Once you are confident with what you've done, run the tests:
 
 ```
@@ -34,7 +34,7 @@ You could use an Airflow image to start our Dockerfile but we will keep it as li
 
 We will help you to build your Dockerfile through **🔟 instructions** that you will have to implement.
 
-Let's start by creating a `Dockerfile` and make it start from a `python:3.8.12-slim` image (1️⃣).
+Let's start by creating a `Dockerfile` and make it start from a `python:3.8.10-slim` image (1️⃣).
 
 As for your first day, set the `DEBIAN_FRONTEND` argument to `noninteractive` (2️⃣) and the `PYTHONUNBUFFERED` environment variable to `1` (3️⃣).
 
@@ -63,14 +63,14 @@ After that, implement the two following commands:
 - a copy of the `scripts` folder inside the Docker image (7️⃣)
 - a bash command to make `scripts/entrypoint.sh` runnable (8️⃣)
 
-Finally, you will have to setup `poetry`. 
+Finally, you will have to setup `poetry`.
 
-Start by adding a command to copy the `pyproject.toml` and the `poetry.lock` files to the Docker image (9️⃣). 
+Start by adding a command to copy the `pyproject.toml` and the `poetry.lock` files to the Docker image (9️⃣).
 
 Then, add a bash command that run three consecutive steps to upgrade pip (by skipping cache if it exists), install poetry and finally install poetry packages without the dev packages (🔟).
 
 To recap the previous explanations you should have the following 🔟 commands:
-- 1️⃣ a `python:3.8.12-slim` image
+- 1️⃣ a `python:3.8.10-slim` image
 - 2️⃣ the `DEBIAN_FRONTEND` argument set to `noninteractive`
 - 3️⃣ the `PYTHONUNBUFFERED` environment variable set to `1`
 - 4️⃣ the `AIRFLOW_HOME` environment variable set to `/opt/airflow`
@@ -146,6 +146,6 @@ At that point, you should be able to run the following command (that will force 
 $ docker-compose up --force-recreate --remove-orphans --build
 ```
 
-Now visit [localhost](http://localhost:8080/home). Have a look to the `scripts/entrypoint.sh` to find the login and password to use! 
+Now visit [localhost](http://localhost:8080/home). Have a look to the `scripts/entrypoint.sh` to find the login and password to use!
 
 👉 You should see all Airflow DAG examples! Do not hesitate to play a bit with them to get familiar with Airflow UI ✨

@@ -8,7 +8,7 @@ class TestTask3:
     @pytest.fixture
     def dockerfile_validation_1(self):
         return {
-            "FROM": "python:3.8.12",
+            "FROM": "python:3.8.10",
             "ARG": "DEBIAN_FRONTEND=noninteractive",
             "ENV": "PYTHONUNBUFFERED 1",
             "RUN": (
@@ -29,7 +29,7 @@ class TestTask3:
     @pytest.fixture
     def dockerfile_validation_2(self):
         return {
-            "FROM": "python:3.8.12-slim",
+            "FROM": "python:3.8.10-slim",
             "ARG": "DEBIAN_FRONTEND=noninteractive",
             "ENV": "PYTHONUNBUFFERED 1",
             "RUN": (

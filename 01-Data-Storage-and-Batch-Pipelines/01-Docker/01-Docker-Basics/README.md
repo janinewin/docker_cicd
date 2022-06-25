@@ -36,7 +36,7 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
 1. Based on ubuntu 20.04
 1. Add `ARG DEBIAN_FRONTEND=noninteractive` note: **Do not use ENV as this would persist after the build and would impact your containers, children images**
 1. Add `ENV PYTHONUNBUFFERED 1` this forces the stdout and stderr streams to be unbuffered. [Explanation](https://stackoverflow.com/questions/59812009/what-is-the-use-of-pythonunbuffered-in-docker-file)
-1. Install python 3.8.12 from [deadsnake ppa](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa)
+1. Install python 3.8.10 from [deadsnake ppa](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa)
     ```dockerfile
     # Upgrade package list
     apt-get update
@@ -195,7 +195,7 @@ Previously we installed our own version of python, pip and other dependencies. T
 **❓ Enhance the performance of your image**
 
 1. Using the content of `dockerfile-task-2` do the following tasks in `dockerfile-task-3-1`
-1. Update the `dockerfile-task-3` to use python:3.8.12 as a base image, you may need to remove some of the installations you’ve done in it, since now python and pip come with it.
+1. Update the `dockerfile-task-3` to use python:3.8.10 as a base image, you may need to remove some of the installations you’ve done in it, since now python and pip come with it.
 1. We are going to use [poetry](https://python-poetry.org/) to handle all the dependencies and package management for python, instead of using the traditional `pip` and `requirements.txt` to install our packages. To do so:
     1. Replace all the previously added pip packages using poetry running in your terminal
         ```bash
@@ -240,7 +240,7 @@ Previously we installed our own version of python, pip and other dependencies. T
 **❓ Shrink your image size**
 
 1. Copy the content of `dockerfile-task-3-1` into `dockerfile-task-3-2`
-1. Now switch to `python:3.8.12-slim` base image
+1. Now switch to `python:3.8.10-slim` base image
 1. Build image using the tag `base-image-fastapi:dev`
 1. Run container to make sure it’s functional
 1. Inspect size and layers using dive

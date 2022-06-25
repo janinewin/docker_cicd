@@ -32,6 +32,18 @@ def kvlist_to_dict(kvlist: List[str]) -> Dict[str, str]:
     return dict([kv.split("=") for kv in kvlist])
 
 
+def dict_or_kvlist_to_dict(d):
+    """
+    Applies kvlist_to_dict to key-value lists, or returns the input dict
+    """
+    if is_kvlist(d):
+        return kvlist_to_dict(d)
+    elif isinstance(d, dict):
+        return d
+    else:
+        raise ValueError("Not a kvlist or a dict")
+
+
 def docker_compose_transform_dict_block(dc_dict_block: Dict[str, Any]):
     """
     - Recursively transforms dictionaries into sorted strings
@@ -75,5 +87,5 @@ def docker_compose_equal_content(dc1: Dict[str, Any], dc2: Dict[str, Any]):
     """
     tr_dc1 = docker_compose_transform_dict_block(dc1)
     tr_dc2 = docker_compose_transform_dict_block(dc2)
-    
+
     return soft_equal(tr_dc1, tr_dc2)
