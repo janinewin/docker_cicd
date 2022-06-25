@@ -1,3 +1,6 @@
+IDU := $(shell id -u)
+IDG := $(shell id -g)
+
 .PHONY: install
 install: install-poetry add-envrc allow-envrc
 
@@ -24,3 +27,11 @@ add-envrc:
 .PHONY: allow-envrc
 allow-envrc:
 	find . -name pyproject.toml -exec sh -c 'echo $$(exec dirname {}) && cd $$(exec dirname {}) && direnv allow .' \;
+
+.PHONY: del-test-output
+del-test-output:
+	find . -name test_output.txt | xargs rm
+
+.PHONY: own-repo
+own-repo:
+	@sudo chown $(IDU):$(IDG) -R .
