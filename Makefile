@@ -1,12 +1,16 @@
 IDU := $(shell id -u)
 IDG := $(shell id -g)
 
-.PHONY: install
-install: install-poetry add-envrc allow-envrc
+.PHONY: install-base
+install-base:
+	./install.sh
 
 .PHONY: install-poetry
 install-poetry:
 	find . -name pyproject.toml -exec sh -c 'echo $$(exec dirname {}) && cd $$(exec dirname {}) && poetry install' \;
+
+.PHONY: install
+install: install-base install-poetry add-envrc allow-envrc
 
 .PHONY: format
 format:
