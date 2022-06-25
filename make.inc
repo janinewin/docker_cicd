@@ -11,9 +11,6 @@ pytest:
 	@# Not ideal but works, we run `pytest -v` twice - the first time is with the nice colored output
 	PYTHONDONTWRITEBYTECODE=1 poetry run pytest -v --color=yes
 
-.PHONY: test
-test: pytest
-
 .PHONY: install
 install:
 	poetry install
