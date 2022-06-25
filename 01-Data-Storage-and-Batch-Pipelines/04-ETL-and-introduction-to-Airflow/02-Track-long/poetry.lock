@@ -1058,24 +1058,6 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
-name = "lewagonde"
-version = "0.1.0"
-description = ""
-category = "main"
-optional = false
-python-versions = "^3.8"
-develop = true
-
-[package.dependencies]
-pandas = "^1.4.2"
-psycopg2-binary = "^2.9.3"
-PyYAML = "^6.0"
-
-[package.source]
-type = "directory"
-url = "../../../common/lewagonde"
-
-[[package]]
 name = "lockfile"
 version = "0.12.2"
 description = "Platform-independent file locking module"
@@ -1907,7 +1889,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "1ab4fff262f48bd6441778458ea45d34df70e5c0381e79efd789b5c9b805d789"
+content-hash = "57c4294c7f5bff4756226a7c47423ed284e8a0c6c72b440f237a1d883e266d66"
 
 [metadata.files]
 alembic = [
@@ -2359,7 +2341,6 @@ lazy-object-proxy = [
     {file = "lazy_object_proxy-1.7.1-cp39-cp39-win_amd64.whl", hash = "sha256:677ea950bef409b47e51e733283544ac3d660b709cfce7b187f5ace137960d61"},
     {file = "lazy_object_proxy-1.7.1-pp37.pp38-none-any.whl", hash = "sha256:d66906d5785da8e0be7360912e99c9188b70f52c422f9fc18223347235691a84"},
 ]
-lewagonde = []
 lockfile = [
     {file = "lockfile-0.12.2-py2.py3-none-any.whl", hash = "sha256:6c3cb24f344923d30b2785d5ad75182c8ea7ac1b6171b08657258ec7429d50fa"},
     {file = "lockfile-0.12.2.tar.gz", hash = "sha256:6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799"},

@@ -1,7 +1,6 @@
 import tempfile
 
-from lewagonde import __version__, soft_equal
-from lewagonde.docker_compose import docker_compose_equal_content, docker_compose_transform_dict_block
+from lewagonde import __version__, soft_equal, docker_compose_equal_content, docker_compose_transform_dict_block
 
 import yaml
 
@@ -13,7 +12,7 @@ def test_version():
 def test_transform_sql():
     sql_1 = """
     -- this is a comment
-    SELECT * FROM 
+    SELECT * FROM
     table_1;
     """
     sql_2 = """
