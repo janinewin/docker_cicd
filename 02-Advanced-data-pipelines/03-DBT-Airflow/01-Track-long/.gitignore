@@ -1,8 +1,0 @@
-airflow.cfg
-airflow.db
-webserver_config.py
-database/**
-logs/**
-!**/.gitkeep
-!tests/dbt/**
-!tests/dbt_light/**
