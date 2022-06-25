@@ -12,11 +12,11 @@ class TestTask2:
             "ARG": "DEBIAN_FRONTEND=noninteractive",
             "ENV": "PYTHONUNBUFFERED 1",
             "RUN": (
-                "apt-get update "
+                "apt-get -y update "
                 "&& apt-get -y upgrade "
                 "&& apt-get -y install --no-install-recommends software-properties-common "
                 "&& add-apt-repository ppa:deadsnakes/ppa "
-                "&& apt-get update "
+                "&& apt-get -y update "
                 "&& apt-get -y install --no-install-recommends python3.8 python3-pip "
                 "&& pip3 --no-cache-dir install fastapi==0.78.0 SQLAlchemy==1.4.36 alembic==1.7.7 uvicorn[standard]==0.17.6 "
                 "&& apt-get clean "

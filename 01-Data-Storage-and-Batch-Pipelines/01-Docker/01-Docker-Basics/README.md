@@ -39,13 +39,13 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
 1. Install python 3.8.10 from [deadsnake ppa](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa)
     ```dockerfile
     # Upgrade package list
-    apt-get update
+    apt-get -y update
     #install required dependencies
     apt-get -y install software-properties-common
     # Add PPA to system's source list
     add-apt-repository ppa:deadsnakes/ppa
     # Upgrade package list to take into account new PPA
-    apt-get update
+    apt-get -y update
     #install python 3.8
     apt-get install -y python3.8
     ```
@@ -150,16 +150,16 @@ This tasks illustrates the concept of caching and unwanted dependencies installe
 
     Instead of running these 2 instructions separately:
     ```dockerfile
-    RUN apt-get update
+    RUN apt-get -y update
     RUN apt-get -y upgrade
     ```
     You have to combine them into a single instruction:
     ```dockerfile
-    RUN apt-get update && apt-get -y upgrade
+    RUN apt-get -y update && apt-get -y upgrade
     ```
     You can also launch use `\ &&` to break up the instruction in several lines:
     ```dockerfile
-    RUN apt-get update \
+    RUN apt-get -y update \
         && apt-get -y upgrade
     ```
     </details>

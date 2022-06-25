@@ -12,7 +12,7 @@ class TestTask3:
             "ARG": "DEBIAN_FRONTEND=noninteractive",
             "ENV": "PYTHONUNBUFFERED 1",
             "RUN": (
-                "apt-get update "
+                "apt-get -y update "
                 "&& apt-get -y upgrade "
                 "&& pip install --no-cache-dir poetry "
                 "&& poetry install --no-dev "
@@ -33,7 +33,7 @@ class TestTask3:
             "ARG": "DEBIAN_FRONTEND=noninteractive",
             "ENV": "PYTHONUNBUFFERED 1",
             "RUN": (
-                "apt-get update "
+                "apt-get -y update "
                 "&& apt-get -y upgrade "
                 "&& pip install --no-cache-dir poetry "
                 "&& poetry install --no-dev "
