@@ -106,7 +106,7 @@ For your PostgreSQL service (name it postgres), you need:
 - a mapping of the `port 5432` to your `port 5432`
 - a restart config set to `always`
 
-You noticed that we make you uset `POSTGRES_PASSWORD` to `$POSTGRES_PASSWORD`, you thus have to create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
+You noticed that we make you set `POSTGRES_PASSWORD` to `$POSTGRES_PASSWORD`, you thus have to create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
 
 ### Scheduler service
 
