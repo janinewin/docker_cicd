@@ -1,5 +1,3 @@
-import tempfile
-
 from lewagonde import __version__, soft_equal, docker_compose_equal_content, docker_compose_transform_dict_block
 
 import yaml
