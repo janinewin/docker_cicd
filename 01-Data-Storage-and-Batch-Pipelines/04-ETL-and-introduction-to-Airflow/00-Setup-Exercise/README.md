@@ -106,7 +106,7 @@ For your PostgreSQL service (name it postgres), you need:
 - a mapping of the `port 5432` to your `port 5432`
 - a restart config set to `always`
 
-You noticed that we make you use `$POSTGRES_PASSWORD` as your `POSTGRES_PASSWORD`, you thus have to create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
+You noticed that we make you uset `POSTGRES_PASSWORD` to `$POSTGRES_PASSWORD`, you thus have to create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
 
 ### Scheduler service
 
@@ -143,9 +143,9 @@ $ make test_docker_compose
 At that point, you should be able to run the following command (that will force rebuild the image of your Dockerfile and recreate your docker-compose):
 
 ```
-$ docker-compose up --force-recreate --remove-orphans --build
+$ docker-compose up
 ```
 
-Now visit [localhost](http://localhost:8080/home). Have a look to the `scripts/entrypoint.sh` to find the login and password to use! 
+Now, visit [localhost](http://localhost:8080/home). Have a look to the `scripts/entrypoint.sh` to find the login and password to use! 
 
 👉 You should see all Airflow DAG examples! Do not hesitate to play a bit with them to get familiar with Airflow UI ✨

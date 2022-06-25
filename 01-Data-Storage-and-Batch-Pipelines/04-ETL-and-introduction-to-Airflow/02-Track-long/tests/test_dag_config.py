@@ -13,7 +13,8 @@ class TestDagConfig:
     def test_dag_config(self):
         assert self.dagbag.import_errors == {}
         dag = self.dagbag.get_dag(dag_id="track_long")
-        assert dag.schedule_interval == "0/5 * * * *"
+        assert dag.schedule_interval == "*/5 * * * *"
         assert dag.catchup is False
         assert dag.description == "A simple to DAG to fetch and load last movies' comments"
-        assert dag.default_args == {"depends_on_past": False, "start_date": pendulum.today("UTC").add(days=-1)}
+        assert dag.start_date == pendulum.today("UTC").add(days=-1)
+        assert dag.default_args == {"depends_on_past": False}
