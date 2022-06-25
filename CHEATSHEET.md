@@ -189,7 +189,7 @@ It's recommended you use environment variables for configuration and passwords.
 
 ### Configuration files with `.env`
 
-In Docker Compose, when you see the use of variable prefixed by a dollar sign, like `$POSTGRES_PASSWORD`, this means the `docker-compose` command will use an environment variable names `POSTGRES_PASSWORD`. Because there can be many such configuration variables, `docker-compose` will look for their values in a `.env` file (note that `.env` has been added to the root `.gitignore` so they won't ever be committed).
+In Docker Compose, when you see the use of variable prefixed by a dollar sign, like `$POSTGRES_PASSWORD`, this means the `docker-compose` command will use an environment variable named `POSTGRES_PASSWORD`. Because there can be many such configuration variables, `docker-compose` will look for their values in a `.env` file (note that `.env` has been added to the root `.gitignore` so they won't ever be committed).
 
 It's therefore good practice to create a `.env` file next to the `docker-compose.yml` file, and store the configuration variables / password in there, in the format `KEY=VALUE`.
 
