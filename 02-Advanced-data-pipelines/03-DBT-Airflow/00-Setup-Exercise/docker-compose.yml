@@ -18,7 +18,7 @@ services:
 
     scheduler:
         build: .
-        command: poetry run airflow scheduler
+        command: poetry run scripts/scheduler_entrypoint.sh
         restart: on-failure
         depends_on:
             - postgres
@@ -26,15 +26,20 @@ services:
             - AIRFLOW__CORE__EXECUTOR=LocalExecutor
             - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:$POSTGRES_PASSWORD@postgres:5432/db
             - AIRFLOW__CORE__LOAD_EXAMPLES=false
+            - PROJECT_ID=$PROJECT_ID
+            - PRIVATE_KEY_ID=$PRIVATE_KEY_ID
+            - PRIVATE_KEY=$PRIVATE_KEY
+            - CLIENT_EMAIL=$CLIENT_EMAIL
+            - CLIENT_ID=$CLIENT_ID
+            - CLIENT_X509_CERT_URL=$CLIENT_X509_CERT_URL
         volumes:
             - ./dags:/opt/airflow/dags
             - ./data:/opt/airflow/data
-            - ./lewagon_dbt:/opt/airflow/lewagon_dbt
             - ./logs:/opt/airflow/logs
-
+            
     webserver:
         build: .
-        command: poetry run scripts/entrypoint.sh
+        command: poetry run scripts/webserver_entrypoint.sh
         restart: on-failure
         depends_on:
             - postgres

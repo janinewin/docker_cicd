@@ -33,8 +33,8 @@ make init_db
 
 and then
 
-```
-$ make test_dag_config
+```bash
+make test_dag_config
 ```
 
 ## Tasks Instructions
@@ -56,8 +56,8 @@ The third task should be triggered only after the second one's success.
 The fourth task should be triggered only after the third one's success.
 
 Once you are confident with your code run:
-```
-$ make test_tasks_configs
+```bash
+make test_tasks_configs
 ```
 
 Once you passed the tests, launch your Airflow instance and open [localhost](http://localhost:8080/home) to see how your DAG looks.
@@ -69,8 +69,8 @@ You should see your four tasks. Turn the DAG on and see what happens! It should 
 To help you, we have already added the signature of 6 functions. This is now your turn to implement them in the current order.
 
 Once you are confident with your code run:
-```
-$ make test_python_functions
+```bash
+make test_python_functions
 ```
 
 Now, you should be able to trigger the DAG, see green results and have your `swedified_jokes` table being filled.

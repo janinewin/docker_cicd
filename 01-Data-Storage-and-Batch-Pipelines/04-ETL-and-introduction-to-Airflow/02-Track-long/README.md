@@ -46,8 +46,8 @@ Apart from that, the `Dockerfile` and the `docker-compose.yml` are the same as t
 
 Make sure your terminal is in the current exercise folder and let's start by creating a local Airflow database for `pytest` by running:
 
-```
-$ make init_db
+```bash
+make init_db
 ```
 
 It should create the three same files as for the previous exercise and an Airflow connection to this database (that will be used in the tests only). If you inspect the test files, you could see that we use a `sqlite` database to test your functions and not a `PostgreSQL`. We do that, because a `sqlite` database is much lighter and is stored in a simple file, which makes the tests easier to setup.
@@ -69,8 +69,8 @@ You need to create a dag with the following requirements:
 - it should run no matter if the previous runs succeed
 
 Once, you are confident with your code run:
-```
-$ make test_dag_config
+```bash
+make test_dag_config
 ```
 
 ## Tasks Instructions
@@ -90,8 +90,8 @@ The second task should be triggered only after the first one's success.
 
 Once you are confident with your code run:
 
-```
-$ make test_tasks_configs
+```bash
+make test_tasks_configs
 ```
 
 Once you passed the tests, launch your Airflow instance and open [localhost](http://localhost:8080/home) to see how your DAG looks.
@@ -112,14 +112,14 @@ If you want to see what is inside your Airflow database you need:
 
 
 If you want to see what is inside the test database that we use you can run:
-```
-$ sqlite3 $PWD/airflow.db
+```bash
+sqlite3 $PWD/airflow.db
 ```
 
 
 Once you are confident with your code run:
-```
-$ make test_python_functions
+```bash
+make test_python_functions
 ```
 
 Now, you should be able to trigger the DAG, see green results and have your `comments` table being filled.

@@ -13,8 +13,8 @@ The goal of this exercise is to have Airflow running through docker-compose. We 
 3. Create a `.gitkeep` file in each of them, such that, even if they are empty, the folders will be pushed to github.
 4. Once you are confident with what you've done, run the tests:
 
-```
-$ make test_files_and_folders
+```bash
+make test_files_and_folders
 ```
 
 ## Setup the Dockerfile
@@ -83,8 +83,8 @@ To recap the previous explanations you should have the following 🔟 commands:
 
 Once you are confident with what you've done, run the tests:
 
-```
-$ make test_dockerfile
+```bash
+make test_dockerfile
 ```
 
 ## Setup the docker-compose.yml
@@ -136,14 +136,14 @@ For your scheduler service, you need:
 
 Once you are confident with what you've done, run the tests:
 
-```
-$ make test_docker_compose
+```bash
+make test_docker_compose
 ```
 
 At that point, you should be able to run the following command (that will force rebuild the image of your Dockerfile and recreate your docker-compose):
 
-```
-$ docker-compose up
+```bash
+docker-compose up
 ```
 
 Now, visit [localhost](http://localhost:8080/home). Have a look to the `scripts/entrypoint.sh` to find the login and password to use! 

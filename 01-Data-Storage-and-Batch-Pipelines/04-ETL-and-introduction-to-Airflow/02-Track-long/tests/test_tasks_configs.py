@@ -1,7 +1,7 @@
 import os.path
 
-import lewagonde
 from airflow.models import DagBag
+from tests import lewagonde
 
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
 
@@ -12,7 +12,10 @@ class TestTasksConfigs:
 
     def test_tasks(self):
         dag = self.dagbag.get_dag(dag_id="track_long")
-        assert list(map(lambda task: task.task_id, dag.tasks)) == ["create_comments_table", "get_and_insert_last_comments"]
+        assert list(map(lambda task: task.task_id, dag.tasks)) == [
+            "create_comments_table",
+            "get_and_insert_last_comments",
+        ]
 
     def test_create_comments_task(self):
         dag = self.dagbag.get_dag(dag_id="track_long")
@@ -32,7 +35,9 @@ class TestTasksConfigs:
         assert task.postgres_conn_id == "postgres_connection"
 
         assert list(map(lambda task: task.task_id, task.upstream_list)) == []
-        assert list(map(lambda task: task.task_id, task.downstream_list)) == ["get_and_insert_last_comments"]
+        assert list(map(lambda task: task.task_id, task.downstream_list)) == [
+            "get_and_insert_last_comments"
+        ]
 
     def test_get_and_insert_last_comments_task(self):
         dag = self.dagbag.get_dag(dag_id="track_long")
@@ -44,5 +49,7 @@ class TestTasksConfigs:
         assert task.op_kwargs["hook"].__class__.__name__ == "PostgresHook"
         assert task.op_kwargs["hook"].postgres_conn_id == "postgres_connection"
 
-        assert list(map(lambda task: task.task_id, task.upstream_list)) == ["create_comments_table"]
+        assert list(map(lambda task: task.task_id, task.upstream_list)) == [
+            "create_comments_table"
+        ]
         assert list(map(lambda task: task.task_id, task.downstream_list)) == []

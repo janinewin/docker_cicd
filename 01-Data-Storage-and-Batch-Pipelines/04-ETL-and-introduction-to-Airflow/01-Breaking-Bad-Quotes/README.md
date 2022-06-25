@@ -18,8 +18,8 @@ The `Dockerfile` and the `docker-compose.yml` are the same as the ones you creat
 
 Make sure your terminal is in the current exercise folder and let's start by initiating a local Airflow database that will be used by `pytest` by running:
 
-```
-$ make init_db
+```bash
+make init_db
 ```
 
 It should create three files in your project:
@@ -46,8 +46,8 @@ You need to create a DAG with the following requirements:
 - it should run no matter if the previous runs failed
 
 Once, you are confident with your code run:
-```
-$ make test_dag_config
+```bash
+make test_dag_config
 ```
 
 If you have some `Airflow Depreciation warnings` in your tests this is normal, you should just make sure not to have errors.
@@ -70,13 +70,13 @@ We want your quotes to be saved to `/opt/airflow/data/quotes.csv`.
 The second task should be triggered only once the first one succeeds.
 
 Once you are confident with your code run:
-```
-$ make test_tasks_configs
+```bash
+make test_tasks_configs
 ```
 
 Once you passed the tests, start your docker-compose:
-```
-$ docker-compose up
+```bash
+docker-compose up
 ```
 
 Finally, open [your localhost](http://localhost:8080/home) to see how your DAG looks.
@@ -95,8 +95,8 @@ No need to restart your `docker-compose` when you change the DAG code, just refr
 If you need to restart from a clean base, you can empty your local `data/quotes.csv` file (it is synced with the one that Airflow uses).
 
 Once you are confident with your code run:
-```
-$ make test_python_functions
+```bash
+make test_python_functions
 ```
 
 Now, you should be able to trigger the DAG, see green results and have your `quotes.csv` being filled.

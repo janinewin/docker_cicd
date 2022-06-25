@@ -18,8 +18,8 @@ The `Dockerfile` and the `docker-compose.yml` are the same as the ones you used 
 
 Make sure your terminal is in the current exercise folder and let's start by initiating a local Airflow database that will be used by `pytest` by running:
 
-```
-$ make init_db
+```bash
+make init_db
 ```
 
 As before, create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
@@ -42,8 +42,8 @@ Then, you need one task:
 
 Once, you are confident with your code run:
 
-```
-$ make test_extract_dag
+```bash
+make test_extract_dag
 ```
 
 If this is not done yet, open an Airflow instance locally and start your DAG to download the data and inspect it. Then, move to the next part.
@@ -73,8 +73,8 @@ The third/fourth task should be triggered based on the return of the second one.
 
 Then, as for the previous week, you have to fill the functions that we have created for you in the proper order. Once you are confident with your code run:
 
-```
-$ make test_transform_dag
+```bash
+make test_transform_dag
 ```
 
 ## Load DAG Instructions
@@ -102,6 +102,6 @@ Moreover, as said just above, we want you to print the number of inserted rows i
 
 As always, once your confident with what you have done, run the following command:
 
-```
-$ make test_load_dag
+```bash
+make test_load_dag
 ```

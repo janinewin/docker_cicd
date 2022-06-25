@@ -6,12 +6,15 @@ ENV PYTHONUNBUFFERED 1
 
 ENV AIRFLOW_HOME=/opt/airflow
 
-ENV DBT_DIR=$AIRFLOW_HOME/dbt
+# DBT
+ENV DBT_DIR=$AIRFLOW_HOME/lewagon_dbt
 ENV DBT_TARGET_DIR=$DBT_DIR/target
 ENV DBT_PROFILES_DIR=$DBT_DIR
-ENV DBT_VERSION=1.0.4
+ENV DBT_VERSION=1.1.1
+RUN mkdir -p $AIRFLOW_HOME/.bigquery_keys
 
 WORKDIR $AIRFLOW_HOME
+
 
 RUN apt-get update \
     && apt-get -y upgrade \
@@ -24,7 +27,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY scripts scripts
-RUN chmod +x scripts/entrypoint.sh
+RUN chmod +x scripts/scheduler_entrypoint.sh
+RUN chmod +x scripts/webserver_entrypoint.sh
 
 COPY pyproject.toml poetry.lock ./
 
