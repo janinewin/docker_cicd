@@ -1,5 +1,6 @@
 import os.path
 
+import lewagonde
 from airflow.models import DagBag
 
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
@@ -19,14 +20,14 @@ class TestTasksConfigs:
 
         assert task.__class__.__name__ == "PostgresOperator"
 
-        assert (
-            task.sql
-            == """CREATE TABLE IF NOT EXISTS comments (
-                id SERIAL PRIMARY KEY,
-                movie_id INTEGER NOT NULL,
-                comment VARCHAR NOT NULL,
-                rating INTEGER NOT NULL
-            );"""
+        assert lewagonde.soft_equal(
+            task.sql.lower(),
+            """create table if not exists comments (
+                id serial primary key,
+                movie_id integer not null,
+                comment varchar not null,
+                rating integer not null
+            );""",
         )
         assert task.postgres_conn_id == "postgres_connection"
 

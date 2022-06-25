@@ -9,7 +9,7 @@ The goal is to have a DAG running every day that will:
 
 For the Chuck Norris' joke, you will use this [api](https://api.chucknorris.io).
 
-You will save the jokes and their translated versions to [JSON](https://en.wikipedia.org/wiki/JSON) before inserting them to your PostgreSQL database that will play the roles of "Datalake" (your JSON files) and "Datawarehouse" (your PostgreSQL database).
+You will save the jokes and their translated versions to [JSON](https://en.wikipedia.org/wiki/JSON) before inserting them to your PostgreSQL database that will play the roles of "Data Lake" (your JSON files) and "Data Warehouse" (your PostgreSQL database).
 
 As for the previous exercise, we split the instructions in four parts to help you create this local ETL.
 
@@ -26,6 +26,13 @@ You need to create a DAG with the following requirements:
 - it should run only if the previous runs succeed
 
 Once, you are confident with your code run:
+
+```bash
+make init_db
+```
+
+and then
+
 ```
 $ make test_dag_config
 ```
@@ -37,8 +44,8 @@ Then, we want you to create the tasks that your DAG will use. This time you will
 You need four tasks:
 
 - A [PostgresOperator](https://airflow.apache.org/docs/apache-airflow-providers-postgres/stable/_api/airflow/providers/postgres/operators/postgres/index.html#module-airflow.providers.postgres.operators.postgres) with a `task_id` named `create_swedified_jokes_table` that should create a table named `swedified_jokes` with three columns (`id`, `joke` and `swedified_joke` that should be a `primary key` and two not null `varchar` columns).
-- A [BashOperator](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/bash.html) to [curl](https://en.wikipedia.org/wiki/CURL) a random Chuck Norris' joke from [https://api.chucknorris.io](https://api.chucknorris.io) with a `task_id` named `extract`. The joke should be saved to the bronze folder under the name `joke_{execution_date}.json` where {execution_date} corresponds to the execution date of the Airflow dag (for instance: **data/bronze/joke_20220521.json**).
-- A `PythonOperator` with a `task_id` named `transform` that should trigger the `transform` function with the proper arguments. The transformed joke should be saved to the silver folder under the name joke_{execution_date}.json (for instance: **data/silver/joke_20220521.json**).
+- A [BashOperator](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/bash.html) to [curl](https://en.wikipedia.org/wiki/CURL) a random Chuck Norris' joke from [https://api.chucknorris.io](https://api.chucknorris.io) with a `task_id` named `extract`. The joke should be saved to the bronze folder under the name `joke_{execution_date}.json` where {execution_date} corresponds to the execution date of the Airflow dag (for instance: **/opt/airflow/data/bronze/joke_20220521.json**).
+- A `PythonOperator` with a `task_id` named `transform` that should trigger the `transform` function with the proper arguments. The transformed joke should be saved to the silver folder under the name joke_{execution_date}.json (for instance: **/opt/airflow/data/silver/joke_20220521.json**).
 - A `PythonOperator` with a `task_id` named `load` that should trigger the `load` function with the proper arguments.
 
 

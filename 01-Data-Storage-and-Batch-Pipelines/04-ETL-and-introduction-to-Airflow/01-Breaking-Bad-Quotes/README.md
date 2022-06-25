@@ -65,7 +65,7 @@ You thus need two tasks:
 To help you, we have already added the `create_file_if_not_exist` and `get_quote_and_save_if_new` functions signatures, but be careful:
 **for this part, you don't have to fill the functions but only to create the Airflow tasks that will call them.**
 
-We want your quotes to be saved to `data/quotes.csv`.
+We want your quotes to be saved to `/opt/airflow/data/quotes.csv`.
 
 The second task should be triggered only once the first one succeeds.
 
@@ -74,14 +74,9 @@ Once you are confident with your code run:
 $ make test_tasks_configs
 ```
 
-Once you passed the tests, create the docker image (only needed once):
+Once you passed the tests, start your docker-compose:
 ```
-$ docker-compose build --no-cache
-```
-
-Then start your docker-compose:
-```
-$ docker-compose up --force-recreate --remove-orphans
+$ docker-compose up
 ```
 
 Finally, open [your localhost](http://localhost:8080/home) to see how your DAG looks.
@@ -92,7 +87,7 @@ You should see your two tasks. Turn the dag on and see what happens! It should b
 
 To help you, we have already added the signature of 5 functions. This is now your turn to implement them in the current order. You should not have to create any other python functions but will probably have to read the followings documentations:
 - [https://docs.python.org/3.8/library/csv.html](https://docs.python.org/3.8/library/csv.html)
-- [https://fr.python-requests.org/en/latest/](https://fr.python-requests.org/en/latest/)
+- [https://fr.python-requests.org/en/latest/](https://pypi.org/project/requests/)
 
 Do not hesitate to manually trigger the DAG to see what your code does.
 No need to restart your `docker-compose` when you change the DAG code, just refresh your browser.

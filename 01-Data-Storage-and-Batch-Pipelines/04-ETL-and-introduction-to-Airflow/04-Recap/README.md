@@ -1,1 +1,1 @@
-Let's see how we could make our ETLs idempotent :)
+Let's see how we could make your ETLs idempotent :)

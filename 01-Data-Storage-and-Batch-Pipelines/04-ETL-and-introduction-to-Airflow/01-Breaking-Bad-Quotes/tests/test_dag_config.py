@@ -13,7 +13,8 @@ class TestDagConfig:
     def test_dag_config(self):
         assert self.dagbag.import_errors == {}
         dag = self.dagbag.get_dag(dag_id="breaking_bad_quotes")
-        assert dag.schedule_interval == "0/5 * * * *"
+        assert dag.schedule_interval in ["*/5 * * * *", "0/5 * * * *"]
         assert dag.catchup is False
         assert dag.description == "A simple DAG to store breaking bad quotes"
-        assert dag.default_args == {"depends_on_past": False, "start_date": pendulum.today("UTC").add(days=-1)}
+        assert dag.start_date == pendulum.today("UTC").add(days=-1)
+        assert dag.default_args == {"depends_on_past": False}
