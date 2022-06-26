@@ -8,7 +8,8 @@ def test_docker_compose():
         docker_compose_data = load(f, SafeLoader)
 
     assert docker_compose_data.get("version") == "3"
-    postgres = docker_compose_data.get("services", {}).get("postgres", {})
+    assert set(docker_compose_data.get("services", {}).keys()) == {"postgres", "scheduler", "webserver"}
+    postgres = docker_compose_data["services"]["postgres"]
     assert postgres.get("image").startswith("postgres:14") is True
     assert lewagonde.dict_or_kvlist_to_dict(postgres.get("environment")) == {
         "POSTGRES_DB": "db",
@@ -16,16 +17,19 @@ def test_docker_compose():
         "POSTGRES_USER": "airflow",
     }
     assert postgres.get("volumes") == ["./database/:/var/lib/postgresql/data"]
-    assert postgres.get("healthcheck", {}).get("test") == [
-        "CMD",
-        "pg_isready -d db -U airflow",
+    assert postgres.get("healthcheck", {}).get("test") in [
+        [
+            "CMD",
+            "pg_isready -d db -U airflow",
+        ],
+        ["CMD", "pg_isready", "-d", "db", "-U", "airflow"],
     ]
     assert postgres.get("healthcheck", {}).get("interval") == "5s"
     assert postgres.get("healthcheck", {}).get("retries") == 5
     assert postgres.get("ports") == ["5432:5432"]
     assert postgres.get("restart") == "always"
 
-    scheduler = docker_compose_data.get("services", {}).get("scheduler", {})
+    scheduler = docker_compose_data["services"]["scheduler"]
     assert scheduler.get("build") == "."
     assert scheduler.get("command") == "poetry run airflow scheduler"
     assert scheduler.get("restart") == "on-failure"
@@ -40,7 +44,7 @@ def test_docker_compose():
         "./logs:/opt/airflow/logs",
     }
 
-    webserver = docker_compose_data.get("services", {}).get("webserver", {})
+    webserver = docker_compose_data["services"]["webserver"]
     assert webserver.get("build") == "."
     assert webserver.get("command") in [
         "poetry run scripts/entrypoint.sh",

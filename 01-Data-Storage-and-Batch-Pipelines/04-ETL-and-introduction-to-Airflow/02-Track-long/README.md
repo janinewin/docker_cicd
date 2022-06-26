@@ -105,10 +105,7 @@ As for the previous exercise, we have added the signatures of 4 functions. This 
 Do not hesitate to manually trigger the DAG to see what your code does.
 No need, to restart docker-compose when you change the DAG code, just refresh your browser.
 
-If you want to see what is inside your Airflow database you need:
-- to have your docker-compose running
-- to open a new terminal and run the following comment:
-  - `$ psql -h localhost -U airflow -d db` (provide the password you defined in your `.env`)
+If you want to see what is inside your Airflow database you need to add an Adminer service to your `docker-compose.yml` (use another port than the `8080` that is already used by Airflow) and to use the database configuration that you passed to your postgres service.
 
 
 If you want to see what is inside the test database that we use you can run:
