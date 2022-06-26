@@ -25,29 +25,27 @@ The marketing team would like to, everyday, push to their CRM the list of all th
 Note that orders can be either "completed", or "canceled".
 
 1. **❓ Provide the underlying minimalistic database structure and relationships between tables (in a dmbl format) that enables you to easily write this SQL query.**
-  - Your DBML file should include: all the tables, the columns they contain, as well as the type of those columns
-  - If a column can only accept a certain set of values, document it somewhere
-  - You should also document how tables link to each other (through which field)
+    - Your DBML file should include: all the tables, the columns they contain, as well as the type of those columns
+    - If a column can only accept a certain set of values, document it somewhere
+    - You should also document how tables link to each other (through which field)
+    <details>
+    <summary markdown='span'>Notes & resources 💡</summary>
 
-<details>
-<summary markdown='span'>Notes & resources 💡</summary>
+      - [How to write a DBML file](https://www.dbml.org/docs/#table-alias)
+      - [How to display a DBML file](https://www.dbml.org/home/#what-can-i-do-now)
+      - Table names should be singular. There's no debate! (or if you want to be convinced, go check [this StackOverflow thread](https://stackoverflow.com/questions/338156/table-naming-dilemma-singular-vs-plural-names)) 
 
-  - [How to write a DBML file](https://www.dbml.org/docs/#table-alias)
-  - [How to display a DBML file](https://www.dbml.org/home/#what-can-i-do-now)
-  - Table names should be singular. There's no debate! (or if you want to be convinced, go check [this StackOverflow thread](https://stackoverflow.com/questions/338156/table-naming-dilemma-singular-vs-plural-names)) 
-
-  Note that a well written DBML file can automatically generate the SQL code to build the tables listed in the DBML file.
-  
-</details>
+      Note that a well written DBML file can automatically generate the SQL code to build the tables listed in the DBML file.
+      
+    </details>
 
 2. **❓ In pseudo code, write a SQL query that returns:** 
-- `customer_id` 
-- `first_name` 
-- `last_name`
-- `email_address`
-- `num_orders` (total number of orders finalized by the customer)
-- `ltv` (lifetime value: total amount of money spent by the customer on the platform)
-- `most_frequently_purchased_product_name` (in terms of quantity purchased)
+    - `customer_id` 
+    - `first_name` 
+    - `last_name`
+    - `email_address`
+    - `num_orders` (total number of orders finalized by the customer)
+    - `ltv` (lifetime value: total amount of money spent by the customer on the platform)
+    - `most_frequently_purchased_product_name` (in terms of quantity purchased)
 
 Optional: **❓ if you have time, feel free to actually build this database structure, and insert some fake data in it!**
-
