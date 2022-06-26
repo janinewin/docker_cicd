@@ -24,7 +24,7 @@ def test_correct_columns_and_size():
     assert expected_columns == set(df_4.columns), "Some key columns are missing, or are mispelled"
 
 
-def test_ctest_correct_metric_calculation():
+def test_correct_metric_calculation():
     num_records_bad_expected = 40082
     num_records_total_expected = 45463
     perc_records_bad_expected = 0.88
