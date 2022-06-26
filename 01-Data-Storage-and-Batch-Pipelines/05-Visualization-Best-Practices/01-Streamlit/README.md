@@ -37,7 +37,25 @@ Please do the setup exercise first!
 ### Selected race
 ![selected race](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/dashboard-race-selected.png)
 
-## Task 1: Layout and Static UI
+## Task 1: Secrets configuration
+Before we can implement our UI, we need to add a secrets file for streamlit to store our credentials to connect to the database. Secrets files are never committed to git and should always be private or very well secured. The secret file for streamlit is a simple `.toml` file that streamlit automatically loads and parses at run time if in the correct location. Simply put, it is equivalent to `.env` file.
+
+1. In the `.streamlit` folder there is an existing config file responsible for the configuration of a few key elements in streamlit. In the same folder add a `secrets.toml` file
+
+2. In the `secrets.toml` file add the required credentials to connect to the PostgresSQL instance
+```
+[postgres]
+
+drivername = "postgresql"
+host = "database"
+port = 5432
+database = "f1db"
+username = "postgres"
+password = "postgres"
+```
+You are now ready to go with the UI implementation.
+
+## Task 2: Layout and Static UI
 For this task we'll create the basic layout for the app UI, populate it with some data, add some theming for the looks. 
 
 Please refer to streamlit's documentation to for the widget and their calling conventions
@@ -66,7 +84,7 @@ Please refer to streamlit's documentation to for the widget and their calling co
 
 We now have laid out basic components for our UI and are presenting static data. However nothing is interactive yet, we need to add some actions and introduce the concept of state into the app.
 
-## Task 2: Data transforms, unit tests and documentation
+## Task 3: Data transforms, unit tests and documentation
 
 In this task we'll focus on:
 - Writing unit tests for our transformation data
@@ -118,7 +136,7 @@ We'll do some test-driven development here (TDD)
 For all the laps in given race compute extract for each lap the fastest lap and return a dataframe containing the fastest laps for each lap
 ```
 
-## Task 3: Interactivity and advanced layouts 
+## Task 4: Interactivity and advanced layouts 
 
 Now that we have all the data necessary for our dashboard and the first simple layout let's add some interactivity and some more widgets.
 For this exercise we'll first add some state into our app so we can get some interactivity going, then we'll add more widgets (tables, strings, graphs)
