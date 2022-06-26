@@ -1,0 +1,25 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.13, pytest-7.1.2, pluggy-1.0.0 -- /Users/nicolasbancel/.pyenv/versions/myenv-metabase-questions/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/nicolasbancel/git/lewagon/data-engineering-solutions/01-Data-Storage-and-Batch-Pipelines/02-SQL/01-Track-long
+collecting ... collected 5 items
+
+tests/test_create_tables.py::test_correct_tables PASSED                  [ 20%]
+tests/test_update_movies_metadata.py::test_correct_column_names PASSED   [ 40%]
+tests/test_update_movies_metadata.py::test_correct_column_types PASSED   [ 60%]
+tests/test_update_ratings.py::test_correct_column_names PASSED           [ 80%]
+tests/test_update_ratings.py::test_correct_column_types PASSED           [100%]
+
+=============================== warnings summary ===============================
+../../../../../../.pyenv/versions/myenv-metabase-questions/lib/python3.9/site-packages/pandas/io/sql.py:761
+../../../../../../.pyenv/versions/myenv-metabase-questions/lib/python3.9/site-packages/pandas/io/sql.py:761
+tests/test_create_tables.py::test_correct_tables
+  /Users/nicolasbancel/.pyenv/versions/myenv-metabase-questions/lib/python3.9/site-packages/pandas/io/sql.py:761: UserWarning: pandas only support SQLAlchemy connectable(engine/connection) ordatabase string URI or sqlite3 DBAPI2 connectionother DBAPI2 objects are not tested, please consider using SQLAlchemy
+    warnings.warn(
+
+tests/test_update_ratings.py:34
+  /Users/nicolasbancel/git/lewagon/data-engineering-solutions/01-Data-Storage-and-Batch-Pipelines/02-SQL/01-Track-long/tests/test_update_ratings.py:34: PytestAssertRewriteWarning: assertion is always true, perhaps remove parentheses?
+    assert (
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 5 passed, 4 warnings in 0.82s =========================

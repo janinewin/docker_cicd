@@ -24,4 +24,4 @@ def test_correct_columns():
 
 
 def test_correct_filters():
-    assert len(df_1_1) == 8890, "Your filtering is incorrect - the output should display 8890 records"
+    assert len(df_1_1) == 5381, "Your filtering is incorrect - the output should display 5381 records"

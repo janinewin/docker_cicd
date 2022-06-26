@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.13, pytest-7.1.2, pluggy-1.0.0 -- /Users/nicolasbancel/.pyenv/versions/myenv-metabase-questions/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/nicolasbancel/git/lewagon/data-engineering-solutions/01-Data-Storage-and-Batch-Pipelines/02-SQL/02-SQL-Basics
+collecting ... collected 2 items
+
+tests/test_exercice_4_1_1.py::test_duplicate_movies_metadata PASSED      [ 50%]
+tests/test_exercice_4_2.py::test_referential_integrity PASSED            [100%]
+
+=============================== warnings summary ===============================
+../../../../../../.pyenv/versions/myenv-metabase-questions/lib/python3.9/site-packages/pandas/io/sql.py:761
+../../../../../../.pyenv/versions/myenv-metabase-questions/lib/python3.9/site-packages/pandas/io/sql.py:761
+  /Users/nicolasbancel/.pyenv/versions/myenv-metabase-questions/lib/python3.9/site-packages/pandas/io/sql.py:761: UserWarning: pandas only support SQLAlchemy connectable(engine/connection) ordatabase string URI or sqlite3 DBAPI2 connectionother DBAPI2 objects are not tested, please consider using SQLAlchemy
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 2 passed, 2 warnings in 23.88s ========================

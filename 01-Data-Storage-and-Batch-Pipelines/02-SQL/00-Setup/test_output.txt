@@ -4,6 +4,6 @@ cachedir: .pytest_cache
 rootdir: /Users/nicolasbancel/git/lewagon/data-engineering-solutions/01-Data-Storage-and-Batch-Pipelines/02-SQL/00-Setup
 collecting ... collected 1 item
 
-tests/test_all.py::test_docker_compose PASSED                            [100%]
+tests/test_docker_compose_setup.py::test_docker_compose_setup PASSED     [100%]
 
-============================== 1 passed in 0.96s ===============================
+============================== 1 passed in 0.67s ===============================

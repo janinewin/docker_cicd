@@ -25,14 +25,14 @@ def test_correct_columns_and_size():
 
 
 def test_ctest_correct_metric_calculation():
-    num_records_bad_expected = 36573
+    num_records_bad_expected = 40082
     num_records_total_expected = 45463
-    perc_records_bad_expected = 0.80
+    perc_records_bad_expected = 0.88
 
     num_records_bad = df_4["num_records_bad"][0]
     num_records_total = df_4["num_records_total"][0]
     perc_records_bad = df_4["perc_records_bad"][0]
 
-    assert num_records_bad_expected == num_records_bad, "There should be 36573 bad records"
+    assert num_records_bad_expected == num_records_bad, "There should be 40082 bad records"
     assert num_records_total_expected == num_records_total, "There should be 45463 total records"
-    assert perc_records_bad_expected == perc_records_bad, "There should be 0.8 of all records that are 'bad'"
+    assert perc_records_bad_expected == perc_records_bad, "There should be 0.88 of all records that are 'bad'"

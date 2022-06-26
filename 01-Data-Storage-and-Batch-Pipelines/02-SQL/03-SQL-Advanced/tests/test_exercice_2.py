@@ -35,4 +35,4 @@ def test_correct_metric_calculation():
     assert avg_profit_absolute_2015 == 100001337, "Average absolute profit in 2015 is wrong - should be 100001337"
 
     avg_profit_perc_2015 = df_2[df_2["release_year"] == 2015].reset_index()["avg_profit_perc"][0]
-    assert avg_profit_perc_2015 == -2.54, "Average profit perc in 2015 is wrong - should be -2.54"
+    assert avg_profit_perc_2015 == 2.89, "Average profit perc in 2015 is wrong - should be 2.89"

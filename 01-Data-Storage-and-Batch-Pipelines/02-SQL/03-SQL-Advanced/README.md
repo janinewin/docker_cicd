@@ -11,7 +11,7 @@ Concepts:
 ## Tasks
 
 
-1. **❓ Write a query** that provides the gross profit done by each movie, as well as its profit percentage (rounded with 2 decimals), for the movies that have both a `budget` and a `revenue` populated - meaning those 2 fields are not empty, and not equal to 0. Rank the movies by the most profitable ones in terms of profit percentage. The profit percentage is defined as `(Revenue - Cost) / Revenue`. Your output should at least contain 3 fields : the `id` of the movie, a `profit_absolute`, and a `profit_percentage`. Store your code in `exercice-1-1.sql`
+1. **❓ Write a query** that provides the gross profit done by each movie, as well as its profit percentage (rounded with 2 decimals), for the movies that have both a `budget` and a `revenue` populated - meaning those 2 fields are not empty, and not equal to 0. Rank the movies by the most profitable ones in terms of profit percentage. The profit percentage is defined as `(Revenue - Cost) / Cost`. Your output should at least contain 3 fields : the `id` of the movie, a `profit_absolute`, and a `profit_percentage`. Store your code in `exercice-1-1.sql`
   - The data still seems not very clean: there are records where the `budget` and the `revenue` are extremely low, and don't seem to reflect the reality. **❓ Rewrite this query**, focusing on movies that have both a `budget` and a `revenue` > 100 000. Store your code in `exercice-1-2.sql`
 2. **❓ What's the average absolute profit, the average revenue, and the average profit percentage per year?** Order your output by the most recent year, and filter out movies with a `budget` or a `revenue` <= 100 000. Store your code in `exercice-2.sql`. The output of the query should be 3 columns:
   - `release_year`
