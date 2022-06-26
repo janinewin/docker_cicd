@@ -1,12 +1,14 @@
+Note : we encourage you start a new `docker-compose.yml` file from scratch. Rather than reusing the one you did yesterday.
+
 ## Setting up Postgres DB
 
-In addition to the services you've already added to your `docker-compose`, let's add a database system: it will enable you to store data. 
+Based on what you've learnt in the previous day, create a brand new `docker-compose.yml`. Add a database system: it will enable you to store data. 
 
 1. Create this service based on the postgres 14 image.
-2. Call your container with a name: `postgres`
+2. Give your container a name : `postgres`. This is optional, but attributing a name to a container brings readibility : it enables you to refer to the container through its name rather than through an ID (Find more documentation about the docker-compose file possible attributes here : [Compose file](https://docs.docker.com/compose/compose-file/))
 3. Setup 2 environment variables which will enable you to connect to your database (`xxx` below is meant to be replaced by whatever you want) by adding 
-  - `POSTGRES_DB=xxx`
-  - `POSTGRES_USER=xxx`
+  - `POSTGRES_DB=db`
+  - `POSTGRES_USER=lewagon`. You don't need to "hide" those credentials, they are not secret.
 4. Setup the 3rd environment variable: the password to login to your database.
   - `POSTGRES_PASSWORD=$POSTGRES_PASSWORD` 
 5. This password should be stored somewhere, in a `.env` file at the same level of your `docker-compose.yml`

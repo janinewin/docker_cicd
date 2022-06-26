@@ -7,7 +7,7 @@ Make sure you have installed
 
 ## Recap from yesterday and high level goals of the day
 
-You've learnt the basics of building a Docker image, as well as setting up a base Docker Composer with FastAPI. Today we'll add 2 new components to the Docker Compose : postgres, and adminer
+You've learnt the basics of building a Docker image, as well as setting up a base Docker Composer. Today we'll focus only on 2 new components of the Docker Compose : postgres, and adminer.
 - Postgres is a database on which the data will be stored
 - Adminer is a tool that provides a UI interface to write SQL queries on top of data you've imported.
 

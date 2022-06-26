@@ -1,0 +1,9 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.13, pytest-7.1.2, pluggy-1.0.0 -- /Users/nicolasbancel/.pyenv/versions/myenv-metabase-questions/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/nicolasbancel/git/lewagon/data-engineering-solutions/01-Data-Storage-and-Batch-Pipelines/02-SQL/00-Setup
+collecting ... collected 1 item
+
+tests/test_all.py::test_docker_compose PASSED                            [100%]
+
+============================== 1 passed in 0.96s ===============================
