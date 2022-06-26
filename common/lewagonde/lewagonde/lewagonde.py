@@ -1,6 +1,5 @@
 import json
 import os
-import pathlib
 from typing import Any, Dict, List, Union
 
 import pandas as pd
@@ -48,7 +47,6 @@ def soft_equal(a: str, b: str, comment_chars: Union[str, None] = None):
     - after removing all lines starting with the `comment_chars` (# in Python, -- in SQL)
     - transforming new lines in spaces
     - removing all spaces
-
     they're equal
     """
     tr_a = soft_equal_transform(a, comment_chars=comment_chars)
@@ -190,7 +188,6 @@ def get_db_connection(
     """
     _get_db_connection will get you a Postgres connection
     Try not to use directly, prefer the pd_read_sql_query helper which will open and close the DB connection for you
-
     Helper method to get a Postgres DB connection, with sane read-only overridable defaults
     """
     return pg.connect(f"host={host} dbname={dbname} user={user} password={password}")
