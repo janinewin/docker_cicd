@@ -23,11 +23,11 @@ You'll reproduce the steps done in `00-Setup` but with some more complex files. 
   - `INT` - if all records in this field seem to be integers
   - `NUMERIC` - if the records may contain decimals
   - `DATE` - self explanatory
-(To explore the structure of the file, you can use bash commands to extract only the first 3 rows).
+(To explore the structure of the file, you can use bash commands to extract only the first 3 rows). Store your code in `movies_metadata_create.sql`
 
 _Note: Running the same "table creation" SQL script again, after the table is already created should not fail_
 
-2. Load the data from this `csv` into the `movies_metadata` table. 3 records are corrupted in the CSV file. Can you identify why? Fix those records manually. 
+2. Load the data from this `csv` into the `movies_metadata` table. Store your code in `movies_metadata_copy.sql`. 3 records are corrupted in the CSV file. Can you identify why? Fix those records manually. 
 
 <details>
 <summary markdown='span'>💡 Hint</summary>
@@ -38,14 +38,15 @@ Those are the breaking rows:
 - Line 35669 (ID = 249260)
   
 </details>
-3. We were flexible in the way we were loading data : strings were loaded either as a `VARCHAR(50)` or as `TEXT`. In reality, `adult` and `movies` should be `BOOLEAN`: change the data type of those 2 columns to `BOOLEAN`
+
+3. We were flexible in the way we were loading data : strings were loaded either as a `VARCHAR(50)` or as `TEXT` . In reality, `adult` and `movies` should be `BOOLEAN`: change the data type of those 2 columns to `BOOLEAN`. Store your code in `movies_metadata_update.sql`
 
 ## `ratings.csv`
 Follow the same steps as for the `movies_metadata.csv` file.
-1. Create the corresponding table. The columns should be named differently than in the csv (camelCase is not a standard way of naming fields in tables. snake_case is preferred)
+1. Create the corresponding table (store your code in `ratings_create.sql`) The columns should be named differently than in the csv (camelCase is not a standard way of naming fields in tables. snake_case is preferred)
   - user_id
   - movie_id
   - rating
   - timestamp
-2. Load the data from the csv in the destination table (it should take a while: the file is almost 1GB large and contains more than 26 million rows)
-3. The `timestamp` column is in a format called "epoch". Check what it means online, and, in a column called `created_at_utc`, load its equivalent in more readable `YYYY-MM-DD HH:MI:SS` format. (The query should take ~5-6 minutes to run)
+2. Load the data from the csv in the destination table (it should take a while: the file is almost 1GB large and contains more than 26 million rows). Store your code in `ratings_copy.sql`.
+3. The `timestamp` column is in a format called "epoch". Check what it means online, and, in a column called `created_at_utc`, load its equivalent in more readable `YYYY-MM-DD HH:MI:SS` format. (The query should take ~5-6 minutes to run). Store your code in `ratings_update.sql`
