@@ -17,6 +17,6 @@ The way to write a test in SQL is to write a query that returns rows if the test
 </details>
 
 4. **❓ Write 2 other tests**, and determines whether it succeeds, or fails.
-  - One that checks the unicity of the `id` column. It fails if 2 records in this table share the same `id`. If it's indeed unique, then ID can be called a primary key.
-    - If it fails, can you try to explain what cause some records to be duplicated?
-  - One that checks for referential integrity: the `movie_id` column in the `ratings` table refers to the `id` column in the `movies` table. There would be a problem if a `movie_id` in the `ratings` table did not exist in the `movies` table. Check that this never happens.
+  - [4-1-1] One that checks the unicity of the `id` column in the `movies_metadata` table. It fails if 2 records in this table share the same `id`. If it's indeed unique, then ID can be called a primary key. The output of your query should be a table with 2 columns : `id`, `num_records` (where `num_records` is the number of occurences observed for a given `id`). Example : if `id = 123` appears 17 times in the `movies_metadata` table, `num_records = 17` for `id = 123`
+    - [4-1-2] If it fails, can you try to explain what cause some records to be duplicated?
+  - [4-2] One that checks for referential integrity: the `movie_id` column in the `ratings` table refers to the `id` column in the `movies` table. There would be a problem if a `movie_id` in the `ratings` table did not exist in the `movies` table. Check whether this happens or not. The output of the query should be 1 column, called `movie_id_ratings_table`, which lists all the **distinct** `movie_id` that exist in the `ratings` table but don't exist in the `movies_metadata` table. This query should take a long time to execute - and it will also increase the duration of your tests execution : so make sure you do this exercice at the very end
