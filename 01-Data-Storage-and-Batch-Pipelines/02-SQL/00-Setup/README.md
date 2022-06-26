@@ -1,12 +1,14 @@
+Note : we encourage you start a new `docker-compose.yml` file from scratch. Rather than reusing the one you did yesterday.
+
 ## Setting up Postgres DB
 
-In addition to the services you've already added to your `docker-compose`, let's add a database system: it will enable you to store data. 
+Based on what you've learnt in the previous day, create a brand new `docker-compose.yml`. Add a database system: it will enable you to store data. 
 
 1. Create this service based on the postgres 14 image.
-2. Call your container with a name: `postgres`
+2. Give your container a name : `postgres`. This is optional, but attributing a name to a container brings readibility : it enables you to refer to the container through its name rather than through an ID (Find more documentation about the docker-compose file possible attributes here : [Compose file](https://docs.docker.com/compose/compose-file/))
 3. Setup 2 environment variables which will enable you to connect to your database (`xxx` below is meant to be replaced by whatever you want) by adding 
-  - `POSTGRES_DB=xxx`
-  - `POSTGRES_USER=xxx`
+  - `POSTGRES_DB=db`
+  - `POSTGRES_USER=lewagon`. You don't need to "hide" those credentials, they are not secret.
 4. Setup the 3rd environment variable: the password to login to your database.
   - `POSTGRES_PASSWORD=$POSTGRES_PASSWORD` 
 5. This password should be stored somewhere, in a `.env` file at the same level of your `docker-compose.yml`
@@ -17,7 +19,8 @@ In addition to the services you've already added to your `docker-compose`, let's
     - _What is this ? `/var/lib/postgresql/data` in docker contains all the structural files that enable PostGres to work properly. It's interesting for you to see its composition_
   - the `./data/files` volume to the `/files` volume in the docker container
     - _What is this ? `./data/files` on your local is where you're going to actually store your csv files. Those files need to be copied to the container so that postgres can actually "see" them. And eventually load them in tables. We'll go over this in more details in the section where you actually load files_
-7. Then add the following `healthcheck` at the same indentation level as the `volumes`
+7. Let's expose the port so you can directly connect to your postgres database from your local computer (this is needed in order for your tests to run properly): map port `5432` to port `5432` in the docker container.
+8. Then add the following `healthcheck` at the same indentation level as the `volumes`
 ```yaml
     healthcheck:
       test: [ "CMD", "pg_isready", "-d", "db", "-U", "lewagon" ]
@@ -25,7 +28,7 @@ In addition to the services you've already added to your `docker-compose`, let's
       retries: 5
     restart: always
 ```
-8. Build and run the docker compose stack
+9. Build and run the docker compose stack
 ```
 docker-compose -f docker-compose.yml config
 docker-compose -f docker-compose.yml build
@@ -40,7 +43,7 @@ Now it's time to add a Data Management service: Adminer. It will enable you to e
 
 1. Create this service based on the adminer 4.8.1 image. You can check its documentation on https://hub.docker.com/
 2. Set the restart policy to `always`
-3. Let's expose the port so you can access the data from your local computer, and map port `8080` to port `8080` in the docker container.
+3. Let's expose the port so you can access Adminer from your local computer, and map port `8080` to port `8080` in the docker container.
 4. Map the `./data/adminer/` volume to a `/data/` volume in the docker container
 5. Build and run the docker compose stack
 ```

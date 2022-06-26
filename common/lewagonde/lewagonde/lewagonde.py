@@ -12,14 +12,15 @@ import yaml
 # Constants
 ###########
 
-ENV_DB_READONLY_USER="DB_READONLY_USER"
-ENV_DB_READONLY_PASSWORD="DB_READONLY_PASSWORD"
-ENV_DB_HOST="DB_HOST"
-ENV_DB_NAME="DB_NAME"
+ENV_DB_READONLY_USER = "DB_READONLY_USER"
+ENV_DB_READONLY_PASSWORD = "DB_READONLY_PASSWORD"
+ENV_DB_HOST = "DB_HOST"
+ENV_DB_NAME = "DB_NAME"
 
 
 # Comparison functions
 ######################
+
 
 def is_comment_line(line: str, comment_chars: str):
     """
@@ -34,9 +35,7 @@ def soft_equal_transform(txt: str, comment_chars: Union[str, None]) -> str:
     Remove comments and transform newlines into spaces
     """
     txt_no_comment_no_newline = (
-        txt.replace("\n", " ")
-        if comment_chars is None
-        else " ".join([line for line in txt.split("\n") if not is_comment_line(line, comment_chars)])
+        txt.replace("\n", " ") if comment_chars is None else " ".join([line for line in txt.split("\n") if not is_comment_line(line, comment_chars)])
     )
     # Removes duplicate spaces and tabs
     return txt_no_comment_no_newline.replace("\t", "").replace(" ", "")
@@ -48,7 +47,6 @@ def soft_equal(a: str, b: str, comment_chars: Union[str, None] = None):
     - after removing all lines starting with the `comment_chars` (# in Python, -- in SQL)
     - transforming new lines in spaces
     - removing all spaces
-
     they're equal
     """
     tr_a = soft_equal_transform(a, comment_chars=comment_chars)
@@ -58,6 +56,7 @@ def soft_equal(a: str, b: str, comment_chars: Union[str, None] = None):
 
 # Docker Compose
 ################
+
 
 def is_key_value_like(txt: str) -> bool:
     """
@@ -118,7 +117,7 @@ def docker_compose_transform_dict_block(dc_dict_block: Dict[str, Any]):
             value_str = json.dumps(value_obj)
 
         lines.append(f"{key}:{value_str}")
-    return "".join(lines).replace("\"", "").replace("'", "")
+    return "".join(lines).replace('"', "").replace("'", "")
 
 
 def docker_compose_equal(dc1_fp: str, dc2_fp: str):
@@ -143,8 +142,20 @@ def docker_compose_equal_content(dc1: Dict[str, Any], dc2: Dict[str, Any]):
 
     return soft_equal(tr_dc1, tr_dc2)
 
+
 # Environment variables
 #######################
+
+
+def dot_env_path_sql():
+    """
+    On the SQL day (Week 1 Day 2) :
+    There should be one single .env file, located in 01-Data-Storage-and-Batch-Pipelines/02-SQL/00-Setup
+    This function returns its path, when executed from the lewagonde.py package
+    """
+    dataeng_solutions_dir = pathlib.Path(os.path.realpath(__file__)).parent.parent.parent.parent
+    return os.path.join(dataeng_solutions_dir, "01-Data-Storage-and-Batch-Pipelines/02-SQL/00-Setup/.env")
+
 
 def load_dot_env(dot_env_fp: str = "./.env"):
     """
@@ -177,7 +188,6 @@ def get_db_connection(
     """
     _get_db_connection will get you a Postgres connection
     Try not to use directly, prefer the pd_read_sql_query helper which will open and close the DB connection for you
-
     Helper method to get a Postgres DB connection, with sane read-only overridable defaults
     """
     return pg.connect(f"host={host} dbname={dbname} user={user} password={password}")
