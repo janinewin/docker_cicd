@@ -43,6 +43,7 @@ Before we can implement our UI, we need to add a secrets file for streamlit to s
 1. In the `.streamlit` folder there is an existing config file responsible for the configuration of a few key elements in streamlit. In the same folder add a `secrets.toml` file
 
 2. In the `secrets.toml` file add the required credentials to connect to the PostgresSQL instance
+
 ```
 [postgres]
 
@@ -53,9 +54,11 @@ database = "f1db"
 username = "postgres"
 password = "postgres"
 ```
+
 You are now ready to go with the UI implementation.
 
 ## Task 2: Layout and Static UI
+
 For this task we'll create the basic layout for the app UI, populate it with some data, add some theming for the looks. 
 
 Please refer to streamlit's documentation to for the widget and their calling conventions
