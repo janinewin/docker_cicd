@@ -67,7 +67,7 @@ Adminer is a database client, it is a friendly interface to your database. There
 
 An alternative to Adminer that runs in a Docker container and is accessible from a web browser, with a more modern interface, is [Cloudbeaver](https://cloudbeaver.io/). If you find its looks more appealing, feel free to use it instead of Adminer. At the end of the day, they provide the same functionality.
 
-Based on [the Docker documentation](https://github.com/dbeaver/cloudbeaver/wiki/Run-Docker-Container), would you be able to add a section to the Docker Compose to use Cloudbeaver instead or alongside Adminer? If not, the answer is in the hints below.
+Based on [the Docker documentation](https://github.com/dbeaver/cloudbeaver/wiki/Run-Docker-Container), would you be able to add a section to the Docker Compose to use Cloudbeaver instead or alongside Adminer? If not, the answer is in the hint below.
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
@@ -88,7 +88,7 @@ Based on [the Docker documentation](https://github.com/dbeaver/cloudbeaver/wiki/
   ```
 </details>
 
-Setting up Cloudbeaver to connect to your Postgres instance is very similar to the Adminer instructions below.
+Setting up Cloudbeaver to connect to your Postgres instance is very similar to the Adminer instructions below. So if you decide to pick Cloudbeaver instead of Adminer, just adapt the Adminer instructions to Cloudbeaver's interface.
 
 ## Connect to your Postgres database, using Adminer
 
