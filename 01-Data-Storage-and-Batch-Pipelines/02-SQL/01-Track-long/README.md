@@ -25,7 +25,7 @@ You'll reproduce the steps done in `00-Setup` but with some more complex files. 
     - `DATE` - self explanatory
     (To explore the structure of the file, you can use bash commands to extract only the first 3 rows).
     _Note: Running the same "table creation" SQL script again, after the table is already created should not fail_
-2. Load the data from this `csv` into the `movies_metadata` table. 3 records are corrupted in the CSV file. Can you identify why? Fix those records manually.
+2. Load the data from this `csv` into the `movies_metadata` table. 3 records are corrupted in the CSV file. Can you identify why? Fix those records manually, in your code editor.
     <details>
     <summary markdown='span'>💡 Hint</summary>
     Those are the breaking rows:
@@ -33,6 +33,9 @@ You'll reproduce the steps done in `00-Setup` but with some more complex files. 
     - Line 19763 (ID = 82663)
     - Line 29571 (ID = 122662)
     - Line 35669 (ID = 249260)
+
+    There are carriage returns in the `overview` of the movie, which are interpreted as new lines. Which causes problems of shifting data into fields that are not appropriate.
+    You should fix those carriage returns, save the file again, and load the fixed version of the file in postgres.
     </details>
 3. We were flexible in the way we were loading data : strings were loaded either as a `VARCHAR(50)` or as `TEXT`. In reality, `adult` and `movies` should be `BOOLEAN`: change the data type of those 2 columns to `BOOLEAN`
 
