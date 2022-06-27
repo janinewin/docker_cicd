@@ -236,3 +236,15 @@ find: ‘./01-Data-Storage-and-Batch-Pipelines/04-ETL-and-introduction-to-Airflo
 this means you've created a directory owned by `root` (system administrator) and not the user you're logged in with. We've added a little helper method in the top `Makefile` to help you fix such issues. When you run this `make` target, all files within your repo will be owned by your user.
 
 Go to the top of your git repository and run `make own-repo`.
+
+## Networking / Port mapping
+
+When you write code on your server, in particular when you use databases or write web apps that expose a port, it won't be directly accessible on your machine as the server blocks access to these ports to the external port thanks to its firewall.
+
+There are simple ways to "forward" the server ports to your machine ports, using VSCode port forwarding feature when using VSCode on your remote server. See the section "How to open a port and connect to your apps and databases from your machine" in the cheatsheet, or VSCode's [official doc](https://code.visualstudio.com/docs/remote/ssh#_forwarding-a-port-creating-ssh-tunnel).
+
+Additionally, when your services are packaged in a Docker container, Docker (and Docker Compose) create an additional network within your server: the Docker network. In the same fashion, the Docker container ports are not directly accessible from the server's ports table. To access Docker container ports in your server, you'll need to add a `ports:` section to your `docker-compose.yml` file, to map the `server port:container port`.
+
+Below is a diagram summing up and explaining the two levels of ports mapping you'll need to master throughout the bootcamp.
+
+![Port mapping explained](https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/assets/Ports.drawio.png)
