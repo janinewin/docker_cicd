@@ -81,12 +81,14 @@ If you prefer you can either use the UI filters or just write a SQL query to get
 3. Now compute the median using a custom expression
 4. Aggregate by movie id
 5. Order by median DESC
-6. Limit to 5 rows 
+6. Limit to 5 rows
+
   <details>
     <summary markdown='span'>Hint 💡</summary>
     You notice that nothing is showing up and that the median rating is `NULL`.
     Can you find out why, and correct the query?
   </details>
+  
   <details>
     <summary markdown='span'>Help 🙌</summary>
     Exclude the movies where rating is empty/null.

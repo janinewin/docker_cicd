@@ -67,7 +67,8 @@ python lwtransform/transform.py --movies ./data/movies_metadata.csv --out ./data
 should work and produce 3 new files in the `./data` directory:
 
 ```
-$ tree data/
+
+tree data/
 data/
 ├── movies_metadata.csv
 ├── movies_metadata_normalized.csv
@@ -158,6 +159,7 @@ def movies_to_new_tables(raw_movies_metadata_csv_fp: str, output_dir: str):
 into a new cell.
 
 ```python
+
 pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
 original_movies_df = load_and_clean_movies(raw_movies_metadata_csv_fp)
 genres_list, production_companies_list, production_countries_list, spoken_languages_list = extract_lists(original_movies_df)

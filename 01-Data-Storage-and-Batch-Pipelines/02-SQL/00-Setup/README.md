@@ -9,8 +9,8 @@ Based on what you've learnt in the previous day, create a brand new `docker-comp
 3. Setup 2 environment variables which will enable you to connect to your database by adding :
     ```yml
 
-    - `POSTGRES_DB=db`
-    - `POSTGRES_USER=lewagon`
+    - POSTGRES_DB=db
+    - POSTGRES_USER=lewagon
 
     ```
     You don't need to "hide" those credentials, they are not secret.
