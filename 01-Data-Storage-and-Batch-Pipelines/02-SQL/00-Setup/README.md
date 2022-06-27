@@ -63,7 +63,19 @@ Now it's time to add a Data Management service: Adminer. It will enable you to e
 
 ## Connect to your Postgres database, using Adminer
 
-1. Now connect to your PostGres instance from Adminer. Open a Chrome window and enter the URL: http://localhost:_{your_exposed_port}_/. In the scenario of this setup: `your_exposed_port = 8080`
+Let's do a quick recap : your containers are up. The port `8080` on your virtual machine is mapping the port `8080` in the Adminer docker container. Now you want to see the visual interface of Adminer from a web browser, on your local computer. But a firewall is blocking the access to the server. You can bypass this through a method called SSH tunneling (or SSH port forwarding). It allows connections made to a local port (meaning : a port on your own desktop) to be forwarded to a remote machine via a secure channel.
+
+1. In VSCode, click on `PORTS` next to your `TERMINAL` section (Step 1 screenshot below). Hit "Forward a Port". Enter `8080`, and press `Enter`. By default, it auto populates the `Local Address` section with the value `localhost:8080`. At this point, what it means is that port `8080` on your local computer is forwarded to port `8080` on your VM. In order for us to distinguish a bit more all those ports (and not have them all equal to `8080`), let's change the `Local Address` : Right click on it > "Change Local Address Port" > `8082` (Step 2 screenshot below)
+
+    _Step 1_
+    https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D2/port_forwarding_1.png
+
+    _Step 2_
+    https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D2/port_forwarding_2.png
+
+    Now : from your local machine, on port `8082`, you'll be able to access port `8080` on your VM, which will be able to access port `8080` on the Adminer container, which can access the postgres container because they're part of the same Docker network. An illustrated version of this can be found in the Networking / Port mapping section of the [CHEATSHEET.md](https://github.com/lewagon/data-engineering-challenges/blob/main/CHEATSHEET.md)
+
+2. Now connect to your PostGres instance from Adminer. Open a Chrome window and enter the URL: http://localhost:8082. It should bring you to the Adminer welcome page.
 2. You will be prompted for a couple of inputs:
     - **System**: it's a drop down menu. Guess what system you're interacting with
     - **Server**: it's the name of the service in your `docker-compose` file
