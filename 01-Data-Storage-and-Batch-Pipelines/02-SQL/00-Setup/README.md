@@ -68,10 +68,10 @@ Let's do a quick recap : your containers are up. The port `8080` on your virtual
 1. In VSCode, click on `PORTS` next to your `TERMINAL` section (Step 1 screenshot below). Hit "Forward a Port". Enter `8080`, and press `Enter`. By default, it auto populates the `Local Address` section with the value `localhost:8080`. At this point, what it means is that port `8080` on your local computer is forwarded to port `8080` on your VM. In order for us to distinguish a bit more all those ports (and not have them all equal to `8080`), let's change the `Local Address` : Right click on it > "Change Local Address Port" > `8082` (Step 2 screenshot below)
 
     _Step 1_
-    https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D2/port_forwarding_1.png
+    <img src='https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D2/port_forwarding_1.png' width=500>
 
     _Step 2_
-    https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D2/port_forwarding_2.png
+    <img src='https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D2/port_forwarding_2.png' width=500>
 
     Now : from your local machine, on port `8082`, you'll be able to access port `8080` on your VM, which will be able to access port `8080` on the Adminer container, which can access the postgres container because they're part of the same Docker network. An illustrated version of this can be found in the Networking / Port mapping section of the [CHEATSHEET.md](https://github.com/lewagon/data-engineering-challenges/blob/main/CHEATSHEET.md)
 
