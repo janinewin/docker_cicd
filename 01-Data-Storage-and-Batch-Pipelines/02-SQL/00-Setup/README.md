@@ -61,6 +61,35 @@ Now it's time to add a Data Management service: Adminer. It will enable you to e
     docker network ls
     ```
 
+### (Optional) An alternative to Adminer - Cloudbeaver
+
+Adminer is a database client, it is a friendly interface to your database. There are plenty of such clients, like [DBeaver](https://dbeaver.io/) (free) or [DataGrip](https://www.jetbrains.com/datagrip/) (paid).
+
+An alternative to Adminer that runs in a Docker container and is accessible from a web browser, with a more modern interface, is [Cloudbeaver](https://cloudbeaver.io/). If you find its looks more appealing, feel free to use it instead of Adminer. At the end of the day, they provide the same functionality.
+
+Based on [the Docker documentation](https://github.com/dbeaver/cloudbeaver/wiki/Run-Docker-Container), would you be able to add a section to the Docker Compose to use Cloudbeaver instead or alongside Adminer? If not, the answer is in the hints below.
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  ```yml
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:22.1.1
+    container_name: cloudbeaver
+    restart: always
+    volumes:
+      # Cloudbeaver user configuration and data is stored in /opt/cloudbeaver/workspace
+      # we map this folder to a folder on the server to keep user configuration after a container restart
+      - ./data/cloudbeaver/:/opt/cloudbeaver/workspace
+    ports:
+      # Maps the 8978 port of Cloudbeaver to the server's 8978 port
+      # You'll need to add port forwarding from your server's 8978 to your localhost:8978 port using SSH port forwarding 
+      - 8978:8978
+  ```
+</details>
+
+Setting up Cloudbeaver to connect to your Postgres instance is very similar to the Adminer instructions below.
+
 ## Connect to your Postgres database, using Adminer
 
 Let's do a quick recap : your containers are up. The port `8080` on your virtual machine is mapping the port `8080` in the Adminer docker container. Now you want to see the visual interface of Adminer from a web browser, on your local computer. But a firewall is blocking the access to the server. You can bypass this through a method called SSH tunneling (or SSH port forwarding). It allows connections made to a local port (meaning : a port on your own desktop) to be forwarded to a remote machine via a secure channel.
