@@ -348,6 +348,9 @@ Store the file under `data/API-rural.parquet`.
   <summary markdown='span'>💡 Hint</summary>
 
   - Open a IPython terminal with `poetry run ipython`
+  - To autoreload your Python code, you can add and evaluate the two following cells, [like described here](https://ipython.org/ipython-doc/3/config/extensions/autoreload.html)
+    - `%load_ext autoreload`
+    - `%autoreload 2`
   - The apply the sequence of functions that make the most sense, by now you've written them all! Answer in the second hint if you need ⬇️
 </details>
 
