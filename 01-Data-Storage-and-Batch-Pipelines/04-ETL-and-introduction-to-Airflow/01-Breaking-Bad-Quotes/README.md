@@ -59,7 +59,7 @@ Then, you have to create the tasks that your DAG will use.
 As we want your quotes to be saved in a specific CSV file, your DAG needs a task to create the file. Then, it needs another task to request a quote and save it if this is a new one.
 
 You thus need two tasks:
-- a [PythonOperator](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/python.html) with a `task_id` named `create_file_if_not_exist` that should trigger the `create_file_if_not_exist` function with the proper arguments
+- a [PythonOperator](https://airflow.apache.org/docs/apache-airflow/2.2.0/howto/operator/python.html) with a `task_id` named `create_file_if_not_exist` that should trigger the `create_file_if_not_exist` function with the proper arguments. Note, that we explicitly gave you the link to PythonOperator for Airflow 2.2.0 even if we use the 2.3.0, as we want you to use this style for now and not to confuse you with the new style that is quite different to the other Airflow operators.
 - a `PythonOperator` with a `task_id` named `get_quote_and_save_if_new` that should trigger the `get_quote_and_save_if_new` function with the proper arguments
 
 To help you, we have already added the `create_file_if_not_exist` and `get_quote_and_save_if_new` functions signatures, but be careful:
