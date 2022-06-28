@@ -2,6 +2,7 @@ import json
 import os
 from typing import Any, Dict, List, Union
 
+import pathlib
 import pandas as pd
 import psycopg2 as pg
 from psycopg2 import extensions as pgext
