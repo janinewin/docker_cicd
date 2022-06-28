@@ -66,7 +66,7 @@ def load_and_clean_movies(movies_metadata_csv_fp: str) -> pd.DataFrame:
     movies_df = pd.read_csv(movies_metadata_csv_fp)
 
     # Keep only integer `id` rows
-    movie_id_int = movies_df["id"].str.isnumeric()
+    movie_id_int = movies_df["id"].astype(str).str.isnumeric()
 
     # Cast vote_count as integer
     movies_df["vote_count"] = movies_df["vote_count"].apply(int_or_zero)
