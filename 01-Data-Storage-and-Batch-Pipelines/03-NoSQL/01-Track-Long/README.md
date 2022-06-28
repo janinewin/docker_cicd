@@ -52,7 +52,7 @@ We've written our own Python package, packaged with Poetry. We're importing it h
 
 ### Download the files
 
-From the [webpage](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=movies_metadata.csv), download `movies_metadata.csv` into a `data` directory to create.
+From the [webpage](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=movies_metadata.csv), download again the `movies_metadata.csv` into a `data` directory to create. (Don't re-use the csv cleaned from previous unit).
 
 ## Transform - step by step
 
