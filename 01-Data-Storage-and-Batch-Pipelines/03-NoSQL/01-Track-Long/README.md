@@ -7,6 +7,8 @@ So far we have:
 
 Well done 🧠!
 
+> **Note** This exercise is a tutorial. We'll explore, step by step, a how we've transformed a dataset to be ready for ingestion by Postgres. Make sure you follow along and at the end, you'll add one line of code.
+
 As you've noticed, some of the data in the CSVs didn't exactly look like a straightforward type. Rather, it was a JSON list stored in one column.
 
 **Task: take a peek at the CSV file on the [web viewer Data Explorer](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset)**
@@ -44,6 +46,7 @@ lewagonde = { path = "../../../common/lewagonde/", develop = true }
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   - Take a look at the `add` section, specifically "If you want the dependency to be installed in editable mode" of the [Poetry docs](https://python-poetry.org/docs/cli/#add).
   - Did you find the `lewagonde` directory within `common` in this Github repository?
 </details>
@@ -172,6 +175,7 @@ This will evaluate all this code interactively.
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   - Click `+` to insert a cell below
   - Copy `tags_df` in the cell
   - Evaluate the cell with the play button
@@ -182,7 +186,7 @@ Now do the same with `original_movies_df.loc[:, ["id", "genres", "original_title
 
 Now these tables should look like the schema we had in mind, in `new_schema.sql`.
 
-**Add the `save_new_tables_to_csvs` in the `lwtransform/transform.py` with the right arguments and run `python lwtransform/transform.py --movies ./data/movies_metadata.csv --out ./data/`**
+**Task. Add the `save_new_tables_to_csvs` in the `lwtransform/transform.py` with the right arguments and run `python lwtransform/transform.py --movies ./data/movies_metadata.csv --out ./data/`**
 
 Done?
 
@@ -202,13 +206,14 @@ As you've seen in the `docker-compose.yml` file, there's one environment variabl
 
 Now, we're ready to run the database ; for that, let's run the following Docker Compose command.
 
-```
+```bash
 docker-compose up -d
 ```
 
 **The `-d` argument started it in the background, how do we check the logs?**
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   - First reflex! [Check the doc](https://docs.docker.com/engine/reference/commandline/compose_logs/). Caveat: the doc uses the syntax `docker compose`, we should use the syntax `docker-compose`, in one word, with a `-` in the middle.
   - Try `docker-compose logs -ft` to add time and track the logs.
   - Exit with CTRL+C.
@@ -233,6 +238,7 @@ Take a look at `new_schema.sql`, there is one hole, can you fix it?
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   The syntax is very similar to the `CREATE TABLE ratings` block!
 </details>
 
@@ -242,6 +248,7 @@ Now we'll load the CSV data into these tables. The SQL code is in `load.sql`, bu
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   Similar to `COPY tags_map`...
 </details>
 
@@ -249,6 +256,7 @@ Run the contents of the `load.sql` file (just copy paste it then execute the que
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   There's a `SQL command` link for that on Adminer.
 </details>
 
@@ -265,6 +273,7 @@ Run the contents of the `load.sql` file (just copy paste it then execute the que
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   Try filling in the ?? below:
   - `select count(*) from tags_map where tag_name='??' and tag_value = '??'`
 </details>
