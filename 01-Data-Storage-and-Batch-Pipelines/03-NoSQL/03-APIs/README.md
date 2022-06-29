@@ -170,6 +170,10 @@ Cool 👌.
 </details>
 
 
+### Data flow - how it works
+
+<img src="https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/movies/w1d3/exercises/day-3-protobuf-grpc-parts.png" />
+
 ### Back to the code
 
 Then, like we defined an API service signature for the FastAPI app, we define
