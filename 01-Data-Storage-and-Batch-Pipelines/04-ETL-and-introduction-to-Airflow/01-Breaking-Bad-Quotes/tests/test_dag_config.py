@@ -11,7 +11,9 @@ class TestDagConfig:
     dagbag = DagBag(dag_folder=DAG_BAG, include_examples=False)
 
     def test_dag_config(self):
-        assert self.dagbag.import_errors == {}
+        assert (
+            self.dagbag.import_errors == {}
+        ), "There is probably a syntax error in your dag, launch a local Airflow to get more insights on it."
         dag = self.dagbag.get_dag(dag_id="breaking_bad_quotes")
         assert dag.schedule_interval in ["*/5 * * * *", "0/5 * * * *"]
         assert dag.catchup is False

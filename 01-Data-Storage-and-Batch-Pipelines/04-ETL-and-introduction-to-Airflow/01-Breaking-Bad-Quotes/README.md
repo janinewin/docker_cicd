@@ -39,7 +39,7 @@ First, let's focus on creating the proper DAG configuration (no tasks or python 
 
 You need to create a DAG with the following requirements:
 - it should be named `breaking_bad_quotes`
-- it should have a start date equal to yesterday
+- it should have a start date equal to yesterday (be careful, Airflow is expecting a datetime object)
 - it should have a description saying `A simple DAG to store breaking bad quotes`
 - it should not catchup the missing runs
 - it should be scheduled to run every 5 minutes

@@ -20,10 +20,21 @@ class TestTasksConfigs:
     start_date = DateTime(2022, 1, 1, 0, 0, 0, tzinfo=Timezone("UTC"))
 
     def test_tasks(self):
+        assert (
+            self.dagbag.import_errors == {}
+        ), "There is probably a syntax error in your dag, launch a local Airflow to get more insights on it."
         dag = self.dagbag.get_dag(dag_id="local_etl")
-        assert list(map(lambda task: task.task_id, dag.tasks)) == ["create_swedified_jokes_table", "extract", "transform", "load"]
+        assert list(map(lambda task: task.task_id, dag.tasks)) == [
+            "create_swedified_jokes_table",
+            "extract",
+            "transform",
+            "load",
+        ]
 
     def test_create_swedified_jokes_task(self):
+        assert (
+            self.dagbag.import_errors == {}
+        ), "There is probably a syntax error in your dag, launch a local Airflow to get more insights on it."
         dag = self.dagbag.get_dag(dag_id="local_etl")
         task = dag.get_task("create_swedified_jokes_table")
 
@@ -42,6 +53,9 @@ class TestTasksConfigs:
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["extract"]
 
     def test_extract_task(self):
+        assert (
+            self.dagbag.import_errors == {}
+        ), "There is probably a syntax error in your dag, launch a local Airflow to get more insights on it."
         dag = self.dagbag.get_dag(dag_id="local_etl")
         task = dag.get_task("extract")
 
@@ -63,12 +77,22 @@ class TestTasksConfigs:
             ti = TaskInstance(task, run_id=dagrun.run_id)
             ti.dry_run()
 
-            assert ti.task.bash_command == f"curl {data_url} > {self.joke_file_prefix}2022010{day}.json"
+            assert (
+                ti.task.bash_command
+                == f"curl {data_url} > {self.joke_file_prefix}2022010{day}.json"
+            )
 
-        assert list(map(lambda task: task.task_id, task.upstream_list)) == ["create_swedified_jokes_table"]
-        assert list(map(lambda task: task.task_id, task.downstream_list)) == ["transform"]
+        assert list(map(lambda task: task.task_id, task.upstream_list)) == [
+            "create_swedified_jokes_table"
+        ]
+        assert list(map(lambda task: task.task_id, task.downstream_list)) == [
+            "transform"
+        ]
 
     def test_transform_task(self):
+        assert (
+            self.dagbag.import_errors == {}
+        ), "There is probably a syntax error in your dag, launch a local Airflow to get more insights on it."
         dag = self.dagbag.get_dag(dag_id="local_etl")
         task = dag.get_task("transform")
 
@@ -98,6 +122,9 @@ class TestTasksConfigs:
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["load"]
 
     def test_load_task(self):
+        assert (
+            self.dagbag.import_errors == {}
+        ), "There is probably a syntax error in your dag, launch a local Airflow to get more insights on it."
         dag = self.dagbag.get_dag(dag_id="local_etl")
         task = dag.get_task("load")
 
@@ -119,7 +146,10 @@ class TestTasksConfigs:
             ti = TaskInstance(task, run_id=dagrun.run_id)
             ti.dry_run()
 
-            assert ti.task.op_kwargs["swedified_joke_file"] == f"{self.swedified_joke_file_prefix}2022010{day}.json"
+            assert (
+                ti.task.op_kwargs["swedified_joke_file"]
+                == f"{self.swedified_joke_file_prefix}2022010{day}.json"
+            )
             assert ti.task.op_kwargs["hook"].__class__.__name__ == "PostgresHook"
             assert ti.task.op_kwargs["hook"].postgres_conn_id == "postgres_connection"
 

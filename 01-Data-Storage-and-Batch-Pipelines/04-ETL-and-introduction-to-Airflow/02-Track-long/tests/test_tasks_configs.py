@@ -11,6 +11,9 @@ class TestTasksConfigs:
     dagbag = DagBag(dag_folder=DAG_BAG, include_examples=False)
 
     def test_tasks(self):
+        assert (
+            self.dagbag.import_errors == {}
+        ), "There is probably a syntax error in your dag, launch a local Airflow to get more insights on it."
         dag = self.dagbag.get_dag(dag_id="track_long")
         assert list(map(lambda task: task.task_id, dag.tasks)) == [
             "create_comments_table",
@@ -18,6 +21,9 @@ class TestTasksConfigs:
         ]
 
     def test_create_comments_task(self):
+        assert (
+            self.dagbag.import_errors == {}
+        ), "There is probably a syntax error in your dag, launch a local Airflow to get more insights on it."
         dag = self.dagbag.get_dag(dag_id="track_long")
         task = dag.get_task("create_comments_table")
 
@@ -40,6 +46,9 @@ class TestTasksConfigs:
         ]
 
     def test_get_and_insert_last_comments_task(self):
+        assert (
+            self.dagbag.import_errors == {}
+        ), "There is probably a syntax error in your dag, launch a local Airflow to get more insights on it."
         dag = self.dagbag.get_dag(dag_id="track_long")
         task = dag.get_task("get_and_insert_last_comments")
 
