@@ -37,7 +37,7 @@ Let's try [DGraph](https://dgraph.io/)! DGraph is a modern, [open source](https:
 
 They have fantastic documentation. It's a great opportunity to play more with a scalable graph database, as well as practice your Protobuf + gRPC game as their serialization layer uses Protobufs all the way. You'll notice that accessing the database is done through gRPC.
 
-**Task** Add DGraph services to Docker-Compoe and follow the tutorial below.
+**Task** Add DGraph services to Docker-Compose and follow the tutorial below.
 
 The documentation isn't always up to date, so to save you time, we give you the Docker Compose services below. We use the [Docker Compose setup](https://dgraph.io/docs/deploy/single-host-setup/#run-using-docker-compose-on-single-aws-instance) and add the web browser interface (Ratel).
 
