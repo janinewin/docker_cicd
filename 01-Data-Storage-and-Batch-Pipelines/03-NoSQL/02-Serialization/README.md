@@ -16,6 +16,7 @@ On [Kaggle > Datasets](https://www.kaggle.com/datasets), there are many public C
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   For example, open [Netflix TV Shows and Movies here](https://www.kaggle.com/datasets/victorsoeiro/netflix-tv-shows-and-movies): scroll to the "Data explorer" section and look at the Detail / Compact / Column breakdown.
 </details>
 
@@ -23,10 +24,11 @@ On [Kaggle > Datasets](https://www.kaggle.com/datasets), there are many public C
 
 Probably the most common format for web APIs. Take a look at the syntax on the [JSON Wikipedia page](https://en.wikipedia.org/wiki/JSON), `Syntax` section.
 
-On [Kaggle > Datasets](https://www.kaggle.com/datasets), using the `Filters` feature, find a JSON dataset and use the online `Data Explorer` section. 
+On [Kaggle > Datasets](https://www.kaggle.com/datasets), using the `Filters` feature, find a JSON dataset and use the online `Data Explorer` section.
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   The [Engagement and job fit of retail salespeople](https://www.kaggle.com/datasets/pmenshih/retail-chain-salespeople-engagement) is an example, scroll to "Data explorer".
 </details>
 
@@ -34,6 +36,7 @@ Note how different the `Data explorer` looks. **Why do you think that is?**
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   CSVs are rectangles, while JSONs are trees. Their fundamental shape is different and therefore we can't model or visualize data in the same fashion using either of them.
 </details>
 
@@ -61,6 +64,7 @@ Similarly to JSON, XML can express tree-like data structures.
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   It starts with an H like Hypertext...
 </details>
 
@@ -121,6 +125,7 @@ languages such as DocBook.</para>
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   More verbose = more text to express the same idea.
 </details>
 
@@ -128,6 +133,7 @@ languages such as DocBook.</para>
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   If you do `a = {"hello": "world"}` in Python, what's the type of `a`?
   Try `type(a)` to get the answer.
 </details>
@@ -167,6 +173,7 @@ protobuf.load(a_protobuf_file)
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   Why would we compile code if we can just load it generically?
 </details>
 
@@ -184,14 +191,15 @@ The following analogies are a little far fetched, but still fair:
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
-  They're rectangular.
+
+  They're rectangular, and the main data structure in Pandas.
 </details>
 
 In particular, look at the ridiculous comparison of data size, query run time and cost of CSVs vs. Parquet files. Worth the extra effort isn't it?
 
 #### 3. Carpet files 🃏
 
-It's a joke with `parquet`. Floor tile files don't exist either. 
+It's a joke with `parquet`. Floor tile files don't exist either.
 Sorry.
 
 ---
@@ -203,7 +211,7 @@ Binary formats are ❗️ **not human-readable** and usually less flexible (even
 
 ## Let's play with real data!
 
-In this exercise, we'll explore the [rural population dataset](https://data.worldbank.org/indicator/SP.RUR.TOTL.ZS?view=chart) from the World bank, as a percentage of total population, over time, by country. 
+In this exercise, we'll explore the [rural population dataset](https://data.worldbank.org/indicator/SP.RUR.TOTL.ZS?view=chart) from the World bank, as a percentage of total population, over time, by country.
 
 **Do a quick [browse of the accessible data](https://data.worldbank.org/) from the World Bank**. How amazing is it to have all this public data at our fingertips 🤓?
 
@@ -215,6 +223,7 @@ Back to our [rural population dataset](https://data.worldbank.org/indicator/SP.R
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   On the right hand side, check "Download", then right click and "Copy link address" (on Chrome).
 </details>
 
@@ -222,6 +231,7 @@ Now on VSCode, open a terminal in this exercise's directory and use `wget` to do
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   Ever heard of `man`? The manual on Linux. See the [command usage](https://en.wikipedia.org/wiki/Man_page). You can try `man wget`.
   Not very user friendly is it?
   We've also installed [tldr](https://github.com/tldr-pages/tldr), which you can think of as a `man` for the 21st century. Try `tldr wget`.
@@ -241,6 +251,7 @@ Now in VSCode you should see all the CSVs showing up. The file names are a bit h
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
+
   Use the `mv` command. Don't know how? Try Try `tldr mv`.
 </details>
 
@@ -337,6 +348,9 @@ Store the file under `data/API-rural.parquet`.
   <summary markdown='span'>💡 Hint</summary>
 
   - Open a IPython terminal with `poetry run ipython`
+  - To autoreload your Python code, you can add and evaluate the two following cells, [like described here](https://ipython.org/ipython-doc/3/config/extensions/autoreload.html)
+    - `%load_ext autoreload`
+    - `%autoreload 2`
   - The apply the sequence of functions that make the most sense, by now you've written them all! Answer in the second hint if you need ⬇️
 </details>
 
@@ -349,4 +363,3 @@ Store the file under `data/API-rural.parquet`.
 </details>
 
 Maybe it seems like nothing, but this last function is a proper data pipeline! We've loaded data in its original format and converted it to a binary, more efficient format, for further use and processing. 🎆
-
