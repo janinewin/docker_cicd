@@ -38,6 +38,7 @@ def test_to_parquet():
     df = rural.load_rural_csv()
     fp = "/tmp/pq.parquet"
     rural.dataframe_to_parquet(df, fp)
+    assert os.path.isfile(fp)
 
 
 def test_parquetted():
