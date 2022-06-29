@@ -1,5 +1,7 @@
 import os
 
+from pytest import approx
+
 
 def test_http_time_format():
     from lwapi import jsonrpc
@@ -25,11 +27,11 @@ def test_there_is_a_csv_file():
 
 def test_rural_population_percentage_http():
     from lwapi import jsonrpc
-    assert jsonrpc.rural_population_percentage("France", 1964) == 34.102
+    assert jsonrpc.rural_population_percentage("France", 1964) == approx(34.102)
 
 
 def test_rural_population_percentage_grpc():
     from lwapi import protorpc
     api = protorpc.Api()
     response = api.GetRuralPopulationPercentage(protorpc.api_pb2.RuralRequest(year=1964, country="France"), None)
-    assert response.value == 34.102
+    assert response.value == approx(34.102)
