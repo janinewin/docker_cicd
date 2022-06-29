@@ -322,7 +322,7 @@ df = rural.load_rural_csv()
 
 Let's explore the dataset a bit, answer the following questions, by typing the answers in the code, fill in the return value of the associated functions.
 
-- How many rows does the dataset have?  Fill `def explore_length():`.
+- How many rows does the dataset have?  Fill `def explore_size():`.
 - How many columns? Fill `def explore_columns():`
 - How many countries are in the dataset? Fill `def explore_countries():`
 
@@ -330,7 +330,7 @@ Let's explore the dataset a bit, answer the following questions, by typing the a
 
 Now that we have a function to load the CSV as a `pandas.DataFrame`, we'll save it to the Parquet data format to try and optimize for disk usage 💾.
 
-Fill the `to_parquet(...)` function taking as input a `pandas.DataFrame` and a filepath, and storing it to disk.
+Fill the `dataframe_to_parquet(...)` function taking as input a `pandas.DataFrame` and a filepath, and storing it to disk.
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
