@@ -28,3 +28,43 @@ Type `:play movie graph` and be guided directly in the browser!
 ## More Neo4j please!
 
 This [tutorial about building a recommendation engine](https://neo4j.com/developer/cypher/guide-build-a-recommendation-engine/) comes next for the bravest.
+
+## DGraph
+
+Want to try another graph database and exercise all the concepts seen so far?
+
+Let's try [DGraph](https://dgraph.io/)! DGraph is a modern, [open source](https://github.com/dgraph-io/dgraph) distributed graph database, written in Go.
+
+They have fantastic documentation. It's a great opportunity to play more with a scalable graph database, as well as practice your Protobuf + gRPC game as their serialization layer uses Protobufs all the way. You'll notice that accessing the database is done through gRPC.
+
+**Task** Add DGraph services to Docker-Compoe and follow the tutorial below.
+
+The documentation isn't always up to date, so to save you time, we give you the Docker Compose services below. We use the [Docker Compose setup](https://dgraph.io/docs/deploy/single-host-setup/#run-using-docker-compose-on-single-aws-instance) and add the web browser interface (Ratel).
+
+```yml
+  zero:
+    image: dgraph/dgraph:v21.12.0
+    volumes:
+      - /tmp/data:/dgraph
+    ports:
+      - 5080:5080
+      - 6080:6080
+    restart: on-failure
+    command: dgraph zero --my=zero:5080
+  alpha:
+    image: dgraph/dgraph:v21.12.0
+    volumes:
+      - /tmp/data:/dgraph
+    ports:
+      - 8080:8080
+      - 9080:9080
+    restart: on-failure
+    command: dgraph alpha --my=alpha:7080 --zero=zero:5080 --security whitelist=0.0.0.0/0
+  ratel:
+    image: dgraph/ratel:v21.12.0
+    ports:
+      - 8000:8000
+    command: dgraph-ratel
+```
+
+Follow the [Get started with DGraph](https://dgraph.io/docs/tutorials/) tutorial, from the introduction all the way to native geolocation features. 🚀.
