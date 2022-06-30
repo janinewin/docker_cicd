@@ -3,7 +3,7 @@
 In this challenge, you will learn how to create a simple Airflow DAG.
 
 The goal is to have a DAG running every five minutes that will:
-- request a generator of breaking bad quotes
+- request a generator of "Breaking Bad" 🎥 quotes
 - save the received quote (only if this quote has not been saved yet)
 
 For the quotes generator, you will use this [api](https://breakingbadquotes.xyz/).
