@@ -79,7 +79,7 @@ Then, we want you to create the tasks that your DAG will use.
 
 You need two tasks:
 
-- A [PostgresOperator](https://airflow.apache.org/docs/apache-airflow-providers-postgres/stable/_api/airflow/providers/postgres/operators/postgres/index.html#module-airflow.providers.postgres.operators.postgres) with a `task_id` named `create_comments_table` that should create a table named create_comments_table with four columns (`id`, `movie_id`, `comment` and `rating` that should be a `primary key`, a not null `integer` column, a not null `varchar` column and a not null `integer` column again).
+- A [PostgresOperator](https://airflow.apache.org/docs/apache-airflow-providers-postgres/stable/_api/airflow/providers/postgres/operators/postgres/index.html#module-airflow.providers.postgres.operators.postgres) with a `task_id` named `create_comments_table` that should create a table named comments with four columns (`id`, `movie_id`, `comment` and `rating` that should be a `primary key`, a not null `integer` column, a not null `varchar` column and a not null `integer` column again).
 - A `PythonOperator` with a `task_id` named `get_and_insert_last_comments` that should trigger the `get_and_insert_last_comments` function with the proper arguments.
 
 As explained in the Setup Instructions, you should pass a `PostgresHook` instance to the `get_and_insert_last_comments` function, and this hook should be setup with the proper `postgres_conn_id` (the one that you created).
