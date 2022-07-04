@@ -260,14 +260,14 @@ Run the contents of the `load.sql` file (just copy paste it then execute the que
   There's a `SQL command` link for that on Adminer.
 </details>
 
-### Select queries
+### SELECT queries
 
 **Let's take a peek at the tables now 😏. Run a few queries, click around Adminer to explore it.**
 
-- `select * from movies_metadata limit 5;`
-- `select * from tags limit 5;`
-- `select distinct name from tags;`
-- `select * from tags_map limit 5;`
+- `SELECT * FROM movies_metadata LIMIT 5;`
+- `SELECT * FROM tags LIMIT 5;`
+- `SELECT distinct name FROM tags;`
+- `SELECT * FROM tags_map LIMIT 5;`
 
 **Write a query to count the number of movies with the genre 'Drama'**
 
@@ -275,7 +275,10 @@ Run the contents of the `load.sql` file (just copy paste it then execute the que
   <summary markdown='span'>💡 Hint</summary>
 
   Try filling in the ?? below:
-  - `select count(*) from tags_map where tag_name='??' and tag_value = '??'`
+
+  ```sql
+  SELECT COUNT(*) FROM tags_map WHERE tag_name='??' AND tag_value = '??'
+  ```
 </details>
 
 Great work 👏. We've re-structured our database and now our queries look a lot saner and easier to use. We're well set up for the rest of the week's track-long!
