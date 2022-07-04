@@ -27,7 +27,7 @@ As explained above, you will have to interact with your PostgreSQL database from
 
 To create this connection, you will have to create a file named `scripts/init_connections.sh` (we have slightly updated the `Dockerfile` & `docker-compose.yml` to run this file). Then copy paste the following lines in your `scripts/init_connections.sh`:
 
-```
+```bash
 #!/usr/bin/env bash
 set -x
 echo "Add connection"

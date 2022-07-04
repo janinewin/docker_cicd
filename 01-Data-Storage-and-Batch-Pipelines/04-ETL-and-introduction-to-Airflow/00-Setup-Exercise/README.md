@@ -47,7 +47,7 @@ Now, it's time for you to take a look at the `scripts/entrypoint.sh` file that w
 
 As your Airflow `webserver` will run this file, it has to know the `psql` command that comes from the `postgresql` package. We want you to use the `postgresql-14`, for which [the install is a bit more complex](https://techviewleo.com/how-to-install-postgresql-database-on-ubuntu/), which is why we will provide it to you. To properly install the `postgresql-14` package you thus have to add the following lines to your Dockerfile: (6️⃣)
 
-```
+```Dockerfile
 RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y install gnupg2 wget lsb-release\
@@ -146,6 +146,6 @@ At that point, you should be able to run the following command (that will force 
 docker-compose up
 ```
 
-Now, visit [localhost](http://localhost:8080/home). Have a look to the `scripts/entrypoint.sh` to find the login and password to use! 
+Now, visit [localhost](http://localhost:8080/home). Have a look to the `scripts/entrypoint.sh` to find the login and password to use!
 
 👉 You should see all Airflow DAG examples! Do not hesitate to play a bit with them to get familiar with Airflow UI ✨
