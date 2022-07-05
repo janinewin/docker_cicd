@@ -7,8 +7,12 @@
 02-SQL/**/data/
 *.data/
 
+# DBT folders - in 01-ELT-DBT
+01-ELT-DBT/**/dbt_lewagon/
+01-ELT-DBT/**/dbt_lewagon_final/
+
 # DBT logs
-dbt.log
+dbt.log.legacy
 *target/
 
 # File system
