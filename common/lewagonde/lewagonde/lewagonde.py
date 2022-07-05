@@ -18,6 +18,9 @@ ENV_DB_READONLY_PASSWORD = "DB_READONLY_PASSWORD"
 ENV_DB_HOST = "DB_HOST"
 ENV_DB_NAME = "DB_NAME"
 
+DBT_PROFILE_PATH = "~/.dbt/profiles.yml"
+GCP_KEYS_PATH = "~/.gcp_keys/"
+
 
 # Comparison functions
 ######################

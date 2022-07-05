@@ -31,4 +31,4 @@ def test_referential_integrity():
     problematic_record_example_2 = df_4_2[df_4_2["movie_id_ratings_table"] == 112064]
     assert len(problematic_record_example_2) == 1, "movie_id = 112064 is a problematic record - it should appear in your result, only 1 time"
 
-    assert len(df_4_2) == 37551, "There should be a total of 37551 records that are failing (37551 movie_ids in ratings that don't exist in movies_metadata"
+    assert len(df_4_2) == 37550, "There should be a total of 37550 records that are failing (37550 movie_ids in ratings that don't exist in movies_metadata"
