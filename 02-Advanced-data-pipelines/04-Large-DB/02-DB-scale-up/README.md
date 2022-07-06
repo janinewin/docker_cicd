@@ -8,6 +8,12 @@ Database access patterns determine what to optimize for. A database gives us mai
 
 In this exercise, we'll explore all three as well as their pros and cons. We'll use our beloved Postgres database.
 
+We'll load the [Ikea dataset](https://www.kaggle.com/datasets/crawlfeeds/ikea-us-products-dataset).
+
+## Data transformation with Pandas
+
+- Run a quick transformation using Pandas to load the data from a CSV
+
 ## Indexing
 
 - Explore the types of indexes
@@ -16,7 +22,7 @@ In this exercise, we'll explore all three as well as their pros and cons. We'll 
 
 ## Full-text search
 
-- Load news articles and search through them.
+- Load the dataset and search by keyword.
 - Add full text search and querying in Postgres.
 
 ## JSON indexing
