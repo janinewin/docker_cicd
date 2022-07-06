@@ -69,24 +69,15 @@ def apply_face_patches_to_original_image(img: np.ndarray, face_patches: List[Pat
     # Load the image in Matplotlib
     plt.imshow(img)
     axes = plt.gca()
-    plt.set_cmap('gray')
+    plt.set_cmap("gray")
 
     for patch in face_patches:
-        axes.add_patch(
-            patches.Rectangle(
-                (patch['c'], patch['r']),
-                patch['width'],
-                patch['height'],
-                fill=False,
-                color='r',
-                linewidth=2
-            )
-        )
-    
+        axes.add_patch(patches.Rectangle((patch["c"], patch["r"]), patch["width"], patch["height"], fill=False, color="r", linewidth=2))
+
     fig = plt.gcf()
     fig.canvas.draw()
 
-    return Image.frombytes('RGB', fig.canvas.get_width_height(), fig.canvas.tostring_rgb())
+    return Image.frombytes("RGB", fig.canvas.get_width_height(), fig.canvas.tostring_rgb())
 
 
 def streamlit_app():
@@ -105,7 +96,7 @@ def streamlit_app():
 
     # 3. Detect the face patches
     face_patches = detect_face(img_ndarray)
-    
+
     # 4. Print how many faces were detected
     st.write(f"Number of face(s) detected: {len(face_patches)}")
 
