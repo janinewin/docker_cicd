@@ -30,7 +30,6 @@ In the exercise below, we'll assume you're on GCP.
 - Call the API once
 - Call the API asynchronously 100 times and notice how many instances are spawn, as well as latency per call
   - For each call, we'll give it a unique auto-incrementing ID, measure response time and store it
-- 
 
 ## Analytics
 
