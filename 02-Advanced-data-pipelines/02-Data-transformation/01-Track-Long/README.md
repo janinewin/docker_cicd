@@ -4,6 +4,8 @@ Yesterday we got familiar with the Hacker news dataset. We loaded it as a bulk. 
 
 We will reuse the SQL queries and data pipelines from day 1. But this time, we'll implement them using serverless functions.
 
+**Content TBD based on previous days**
+
 ## Desired outcome
 
 The students will:
