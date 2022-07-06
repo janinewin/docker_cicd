@@ -2,10 +2,12 @@
 
 There are 4 steps in this setup
 1. Install DBT
-2. Setup the connection configuration in order for DBT to be able to interact with BigQuery (write and read). This is done by creating a profile, filling a file called `profiles.yml`
-3. Build a DBT project, which means
+2. Build a DBT project, which means
   2.1 Create the folder structure of your DBT project
   2.2 Fill the properties / information about this project in a config file called `dbt_project.yml`
+3. Setup the connection configuration in order for DBT to be able to interact with BigQuery (write and read). This is done by creating a profile, filling a file called `profiles.yml`
+4. Run your first DBT models (which will generate tables and views in BigQuery)
+
 
 # Setup the environment
 
@@ -13,44 +15,6 @@ There are 4 steps in this setup
 
 - Install DBT by downloading it on your local : follow the instructions [here](https://docs.getdbt.com/dbt-cli/install/pip) : IMPORTANT NOTE : the adapter in our case is `bigquery`. Hence the command you should execute is : `pip install dbt-bigquery`
 - Make sure DBT is indeed installed by executing `dbt --version` in your terminal.
-
-## Setup your profile
-
-_High level info (no action item) : in this section, you'll have to setup a DBT profile - meaning populating a file called `profiles.yml`. 1 DBT project maps to 1 DBT profile, which generally maps to 1 company. Typically as a Le Wagon teacher, in my `profiles.yml` I have 2 profiles : 1 for LeWagon, 1 for the company I work at._
-
-_Notes / Links_ : Official documentation to DBT profiles - and more specifically, profiles to connect to BigQuery
-- [`profiles.yml`](https://docs.getdbt.com/reference/profiles.yml)
-- [BigQuery profile](https://docs.getdbt.com/reference/warehouse-profiles/bigquery-profile)
-
-- Your DBT profile should be stored in a folder at your root called `.dbt`. Open it or create  it by running : `code ~/.dbt/profiles.yml`. The documentation on how to setup this profile is here :
-  - [`profiles.yml`](https://docs.getdbt.com/reference/profiles.yml)
-  - More specifically, for a
-- Call your profile `lewagon`
-- This profile can write to multiple targets (targets means "**where** DBT creates tables and insert data). In our case, there'll be
-  - a default target (your dev projects in BigQuery)
-  - a production target (your prod projects in BigQuery)
-  - and by default, we'll make this profile write to the default target.
-- Hence : set the target to `default`
-- In the `outputs` section:
-  - create the `default` target
-    - Make the `type` : `bigquery`
-    - The method (connection method) : `service-account`
-    - Keyfile (where is the key of this service account located) : in the previous section, you stored it in `~/.bigquery_keys/student-dev-service-account.json` : instead of the relative path, you need to give the absolute path though.
-    - `project` (where this profile will write): `lewagon-dev-stg`
-    - `dataset` (in which dataset it will write) : `dbt_the_first_letter_of_first_name+full_name` (if your name is Barack Obama, it should be `dbt_bobama`)
-    - `location` (where your dataset will be hosted) : `US` ?
-      - Why the `US` instead of `EU` ? Because the Hackernews public dataset is located in the US, it makes the connections work better.
-    - `threads: 1`
-    - `timeout_seconds: 300`
-    - `priority: interactive`
-    - `retries: 1`
-  - create the `prod` target. Which as the exact same parameters as the default target. Except that :
-    - `project` should be `lewagon-prod-stg`
-    - `dataset` should be `prod`
-
-Two things :
-- Watch out with the levels of indendation in your `profiles.yml` file
-- If you're struggling too much, download the solution of what your file should look like - but remember to adapt some of the parameters to your specific use case.
 
 ## Build the DBT project
 
@@ -73,13 +37,16 @@ This should have done 2 things
 
 ## Verify the setup of `profiles.yml`
 
+_High level info (no action item) : the section relates to the DBT profile. 1 DBT project maps to 1 DBT profile, which generally maps to 1 company. Typically as a Le Wagon teacher, in my `profiles.yml` I have 2 profiles : 1 for LeWagon, 1 for the company I work at. The Le Wagon profile can write to several "targets" : 1 target corresponds to a location where the profile can insert some data. Hence, each target is associated to a Data Warehouse system (BigQuery, Redshift etc), credentials with certain accesses, a location for the target (where the data will be inserted / in which dataset ? etc)_
+
+_For more information about the DBT profile, you can read this documentation:_
+- _[`profiles.yml`](https://docs.getdbt.com/reference/profiles.yml)_
+- _[BigQuery profile](https://docs.getdbt.com/reference/warehouse-profiles/bigquery-profile)_
+
 Let's check that the `profiles.yml` file is configured correctly :
 - Your DBT profile should be stored in a folder at your root called `.dbt`. Open it by running : `code ~/.dbt/profiles.yml`. You should be able to see all the configuration you've set when creating the DBT project.
-- Run your tests to make sure the setup is correct
-  - outputs
-  - name of profile
-  - location
-  - service account
+- Run `make test` to make sure the setup is correct. Watch out with the levels of indendation in your `profiles.yml` file
+- Push to git.
 
 ## Verify the structure of the DBT project and enhance it
 

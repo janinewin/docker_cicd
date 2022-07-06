@@ -12,13 +12,17 @@ You'll be sharing a GCP project with the other students. The ID of this project 
 2. Go to the [Service Account section](https://console.cloud.google.com/iam-admin/serviceaccounts?orgonly=true&project=ingka-data-engineering-dev&supportedpurview=organizationId). Find your service account using the Filter
   - If you don't have a dedicated Service Account, ping the IKEA TA
   - If you do have a Service Account, make sure a key was generated for your service account.
-<img src='https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W2D1/gcp_service_account_key.png' size=300>
+
+<img src='https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W2D1/gcp_service_account_key.png' size=200>
+
   - If a key was not generated, click on the Service Account, on the Key Section. Then **Add Key > Create new key > JSON**. And give it a simple name like `lewagon-ikea.json`. Save it on your local (say in the downloads folder).
-<img src='https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W2D1/gcp_service_account_key_generation.png' size=300>
+
+<img src='https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W2D1/gcp_service_account_key_generation.png' size=200>
+
 3. Make sure you transfer this service account key to your virtual machine, in the `~/.gcp_keys` folder
 4. Make sure the IAM member associated to your service account has **Editor** rights to BigQuery (meaning you will be able to create datasets and insert data). Go to the [IAM interface](https://console.cloud.google.com/iam-admin/iam?orgonly=true&project=ingka-data-engineering-dev&supportedpurview=organizationId), filter by your service account. And make sure that the role is **Editor**. If not, contact your TA.
 
-<img src='https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W2D1/gcp_iam_role.png' size=300>
+<img src='https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W2D1/gcp_iam_role.png' size=200>
 
 
 # BigQuery interface
@@ -31,6 +35,6 @@ The source dataset is in a `public` BQ project which is already created : `bigqu
   - `bigquery-public-data`. Hit **Pin**
 3. Your BigQuery interface should now look like this :
 
-<img src=https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W2D1/bigquery_interface_final.png' size=300>
+<img src='https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W2D1/bigquery_interface_final.png' size=200>
 
 You're done with the BigQuery setup - let's move on to the DBT setup
