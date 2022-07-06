@@ -35,8 +35,9 @@ services:
         volumes:
             - ./dags:/opt/airflow/dags
             - ./data:/opt/airflow/data
+            - ./lewagon_dbt:/opt/airflow/lewagon_dbt
             - ./logs:/opt/airflow/logs
-            
+
     webserver:
         build: .
         command: poetry run scripts/webserver_entrypoint.sh

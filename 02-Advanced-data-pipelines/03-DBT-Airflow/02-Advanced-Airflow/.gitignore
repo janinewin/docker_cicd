@@ -5,4 +5,4 @@ logs/**
 database/
 data/*/*.parquet
 !**/.gitkeep
-!**/tests/data/*
+!**/tests/data/**

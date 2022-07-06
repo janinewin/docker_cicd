@@ -10,7 +10,7 @@ CLIENT_X509_CERT_URL = os.getenv("CLIENT_X509_CERT_URL")
 
 
 def create_airflow_service_account_json():
-    with open("/opt/airflow/.bigquery_keys/airflow-service-account.json", "w") as file:
+    with open("/opt/airflow/.bigquery_keys/service-account.json", "w") as file:
         json.dump(
             {
                 "type": "service_account",

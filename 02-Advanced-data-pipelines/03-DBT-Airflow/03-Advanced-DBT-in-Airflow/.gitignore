@@ -1,7 +1,8 @@
 airflow.cfg
 airflow.db
 webserver_config.py
-logs/**
 database/
-*.json
+logs/**
 !**/.gitkeep
+!tests/dbt/**
+!tests/dbt_light/**

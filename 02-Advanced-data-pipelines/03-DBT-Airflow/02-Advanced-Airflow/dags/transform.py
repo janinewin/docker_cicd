@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 import pandas as pd
 from airflow import DAG
@@ -8,62 +9,53 @@ from airflow import DAG
 AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
 
 
-def is_month_odd(ds_nodash: str) -> str:
+def is_month_odd(date: str) -> str:
     """
-    Returns filter_expensive_trips if the month date is odd, filter_long_trips otherwise.
-    Date should be formatted as YYYY-MM-DD.
-    """
-    pass  # YOUR CODE HERE
-
-
-def read_parquet_file(input_file: str) -> pd.DataFrame:
-    """
-    Reads the parquet file using pandas and returns the corresponding DataFrame.
+    Returns "filter_expensive_trips" if the month date is odd, "filter_long_trips" otherwise.
+    Date should be formatted as YYYY-MM.
     """
     pass  # YOUR CODE HERE
 
 
-def get_trips_longer_than(df, distance: int) -> pd.DataFrame:
+def prepare_data(bronze_file: str, date: str):
     """
-    Returns a filtered version of df with rows for which the 'trip_distance'
-    is greater than the `distance`.
+    - Converts data from `bronze_file` to DataFrame  using pandas
+    - Adds a new column named 'date' that stores the current month (should be formatted as YYYY-MM)
+    - Keeps only the date, trip_distance and total_amount columns (in that order)
+    - Returns the DataFrame
+    """
+    df = pd.read_parquet(bronze_file)
+    df["date"] = date
+    return df[["date", "trip_distance", "total_amount"]]
+
+
+def filter_long_trips(
+    bronze_file: str, silver_file: str, date: str, distance: int
+) -> None:
+    """
+    - Calls prepare_data to get a cleaned DataFrame
+    - Keep only rows for which the trip_distance's value is greater than `distance`
+    - Saves the DataFrame to `silver_file` without keeping the DataFrame indexes
     """
     pass  # YOUR CODE HERE
 
 
-def get_trips_more_expensive_than(df, amount: int) -> pd.DataFrame:
+def filter_expensive_trips(
+    bronze_file: str, silver_file: str, date: str, amount: int
+) -> None:
     """
-    Returns a filtered version of df with rows for which the 'total_amount'
-    is greater than the `amount`.
-    """
-    pass  # YOUR CODE HERE
-
-
-def save_dataframe_to_parquet(df, output_file: str) -> None:
-    """
-    Saves df to a parquet file named `output_file`.
-    """
-    pass  # YOUR CODE HERE
-
-
-def filter_long_trips(input_file: str, output_file: str, distance: int) -> None:
-    """
-    Reuses read_parquet_file, get_trips_longer_than and save_dataframe_to_parquet
-    functions to get the data from bronze, filter it and save it to silver.
-    """
-    pass  # YOUR CODE HERE
-
-
-def filter_expensive_trips(input_file: str, output_file: str, amount: int) -> None:
-    """
-    Reuses read_parquet_file, get_trips_more_expensive_than and save_dataframe_to_parquet
-    functions to get the data from bronze, filter it and save it to silver.
+    - Calls prepare_data to get a cleaned DataFrame
+    - Keep only rows for which the total_amount's value is greater than `amount`
+    - Saves the DataFrame to `silver_file` without keeping the DataFrame indexes
     """
     pass  # YOUR CODE HERE
 
 
 with DAG(
     "transform",
-    # YOUR CODE HERE
+    default_args={"depends_on_past": True},
+    start_date=datetime(2021, 6, 1),
+    end_date=datetime(2021, 12, 31),
+    schedule_interval="@monthly",
 ) as dag:
     pass  # YOUR CODE HERE

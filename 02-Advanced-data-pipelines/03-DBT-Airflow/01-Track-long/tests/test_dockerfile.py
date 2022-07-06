@@ -7,7 +7,7 @@ import pytest
 @pytest.fixture
 def dockerfile_validation():
     return [
-        ("FROM", "python:3.8.12-slim"),
+        ("FROM", "python:3.8.10-slim"),
         ("ARG", "DEBIAN_FRONTEND=noninteractive"),
         ("ENV", "PYTHONUNBUFFERED 1"),
         ("ENV", "AIRFLOW_HOME /opt/airflow"),
@@ -15,7 +15,7 @@ def dockerfile_validation():
         ("ENV", "DBT_TARGET_DIR $DBT_DIR/target"),
         ("ENV", "DBT_PROFILES_DIR $DBT_DIR"),
         ("ENV", "DBT_VERSION 1.1.1"),
-        ("RUN", "mkdir -p $AIRFLOW_HOME/.bigquery_keys"),
+        ("RUN", "mkdir -p $AIRFLOW_HOME/.gcp_keys"),
         ("WORKDIR", "$AIRFLOW_HOME"),
         (
             "RUN",
@@ -44,9 +44,6 @@ def test_dockerfile(dockerfile_validation):
             s = re.sub(r"\s+", " ", command.value[0])
             assert s == validation[1]
         elif len(command.flags) != 0:
-            assert (
-                " ".join([" ".join(command.flags), " ".join(command.value)])
-                == validation[1]
-            )
+            assert " ".join([" ".join(command.flags), " ".join(command.value)]) == validation[1]
         else:
             assert " ".join(command.value) == validation[1]

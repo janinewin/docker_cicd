@@ -3,7 +3,7 @@ import os
 import yaml
 
 
-def test_files_and_folders():
+def test_profiles_yml():
     assert "profiles.yml" in os.listdir("lewagon_dbt")
     with open("lewagon_dbt/profiles.yml", "r") as stream:
         profiles = yaml.safe_load(stream)
@@ -23,15 +23,14 @@ def test_files_and_folders():
             "type",
             "keyfile",
         }
-        assert dev["dataset"] == "dbt_basics_airflow"
+        assert dev["dataset"].startswith("dbt_")
+        assert dev["dataset"].endswith("day2")
         assert dev["job_execution_timeout_seconds"] == 300
         assert dev["job_retries"] == 1
         assert dev["location"] == "US"
         assert dev["method"] == "service-account"
         assert dev["priority"] == "interactive"
-        assert "lewagon-dev-stg-" in dev["project"]
+        assert dev["project"] is not None
         assert dev["threads"] == 1
         assert dev["type"] == "bigquery"
-        assert (
-            dev["keyfile"] == "/opt/airflow/.bigquery_keys/airflow-service-account.json"
-        )
+        assert dev["keyfile"] == "/opt/airflow/.gcp_keys/service-account.json"
