@@ -160,12 +160,23 @@ Your setup is now ready to run your first models.
 - As seen in `dbt_lewagon/models/example/schema.yml` :
   - `id` in `my_first_dbt_model` should be `unique` and `not_null`
   - `id` in `my_second_dbt_model` should be `unique` and `not_null`
-- In the BigQuery interface, in your dataset, go check that
-  - `my_first_dbt_model` is a table
-  - `my_second_dbt_model` is a view
 - Let's verify that by running those tests:
   - `dbt test -m my_first_dbt_model`
   - `dbt test -m my_second_dbt_model`
+- In the BigQuery interface, in your personal dataset, go check that
+  - `my_first_dbt_model` is a table
+  - `my_second_dbt_model` is a view - this matches what you've written in the config of each of your models
+
+Few tips 💡
 - If you want to refresh all your models, or run all your tests, no need to specify the model with the `-m xxxx` parameter :
   - `dbt run` refreshes all your DBT models
   - `dbt test` runs all the tests configured in the project
+- Remember the tests you implemented in SQL in Week 1 - Day 2 ? The concept of a test was "it fails if the SQL query returns at least 1 record". Go check the actual "compiled" tests that DBT has interpreted by going to `target/run/dbt_lewagon/models/example/schema.yml/` : this is where you'll find the tests that come directly from the setup done in the `schema.yml` file. If you open one of the unicity tests, like `unique_my_first_dbt_model_id.sql`, you'll see it has the classic structure :
+  ```sql
+  select
+      unique_field,
+      count(*) as n_records
+  from dbt_test__target
+  group by unique_field
+  having count(*) > 1
+  ```
