@@ -14,3 +14,6 @@ We'll do an overview of the GCP services that can be useful when scaling up.
 - Functions
 - API Gateway
 - Load balancing
+
+We can use resources like this [AWS article, Break a Monolith Application into Microservices](https://aws.amazon.com/getting-started/hands-on/break-monolith-app-microservices-ecs-docker-ec2/module-four/).
+
