@@ -26,14 +26,15 @@ At the end of this exercise you should be able to:
 This exercise will walk you through all the steps to get a dashboard up and running in a docker compose stack
 
 ### 1. Setting up Metabase
+
 1. Create a new metabase service, pulling the [metabase image](https://hub.docker.com/r/metabase/metabase/)
 2. Adjust the restart policy to `always`
 3. Let's back up the metabase internal DB based on [H2](https://www.h2database.com/html/main.html): Create a volume mapping the local dir `metabase-data` to the container dir `metabase-data`. This is where the internal DB will be located
 4. Configure the location of Metabase's internal DB by ajusting the env var `MB_DB_FILE` with the current value: `/metabase-data/metabase.db`
-5. Map port 3000 so you can access metabase on http://localhost:3000
+5. Map port `3000` so you can access metabase on [http://localhost:3000](http://localhost:3000)
 6. Add a dependency for this service on the database service - the service spinning up the actual postgres database
 7. Spin up the docker compose stack and wait for all the init to happen `docker-compose up`
-8. Once ready, head to your http://localhost:3000
+8. Once ready, head to your [http://localhost:3000](http://localhost:3000)
 9. **Add your data later**
 10. Get started with Metabase you should be able to explore the default dataset included with Metabase
 
@@ -64,14 +65,14 @@ If you prefer you can either use the UI filters or just write a SQL query to get
 **Let's compute the median rating**
 
 1. Now create a new question and instead of `database` as starting point, choose a model and select the model just created
-2. Now let's compute the median rating for all the ratings 
-  - With SQL
-  ```
-  SELECT PERCENTILE_CONT(0.5)
-  WITHIN GROUP (ORDER BY rating) AS median
-  FROM ratings;
-  ```
-  - Without SQL you can explore the list of [available expression in metabase](https://www.metabase.com/docs/latest/users-guide/expressions-list.html#median) and use the UI filters.
+2. Now let's compute the median rating for all the ratings
+    - With SQL
+        ```sql
+        SELECT PERCENTILE_CONT(0.5)
+        WITHIN GROUP (ORDER BY rating) AS median
+        FROM ratings;
+        ```
+    - Without SQL you can explore the list of [available expression in metabase](https://www.metabase.com/docs/latest/users-guide/expressions-list.html#median) and use the UI filters.
 3. Save the question and add it to your dashboard
 
 **Finally let's get the top 5 movies with the best rating score**
@@ -83,16 +84,17 @@ If you prefer you can either use the UI filters or just write a SQL query to get
 5. Order by median DESC
 6. Limit to 5 rows
 
-  <details>
-    <summary markdown='span'>Hint 💡</summary>
-    You notice that nothing is showing up and that the median rating is `NULL`.
-    Can you find out why, and correct the query?
-  </details>
-  
-  <details>
-    <summary markdown='span'>Help 🙌</summary>
-    Exclude the movies where rating is empty/null.
-  </details>
+<details>
+<summary markdown='span'>Hint 💡</summary>
+
+You notice that nothing is showing up and that the median rating is `NULL`.
+Can you find out why, and correct the query?
+</details>
+
+<details>
+<summary markdown='span'>Help 🙌</summary>
+Exclude the movies where rating is empty/null.
+</details>
 
 **Add it to your dashboard!**
 
