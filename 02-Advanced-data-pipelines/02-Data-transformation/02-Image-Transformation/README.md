@@ -55,29 +55,96 @@ Only accept JPEG images of type `jpeg` or `jpg`.
 
 ## Set up Streamlit with image upload
 
-Use the Streamlit documentation on [file upload](https://docs.streamlit.io/library/api-reference/widgets/st.file_uploader) to fill the `def streamlit_file_upload()` function. **We want to read the file as `bytes`**.
+Use the Streamlit documentation on [file upload](https://docs.streamlit.io/library/api-reference/widgets/st.file_uploader) to fill the `def streamlit_read_uploaded_file()` function. **This should return the uploaded file**.
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
 
-  Notice that the Streamlit example gives you many ways to convert the `uploaded_file`, we only care about the one to read the file as bytes.
+  Notice that the Streamlit example gives you many ways to load and then convert the `uploaded_file`, we only care about the file loading part.
 </details>
 
+## Find the face patches on the uploaded image
+
+In the main function, called `def streamlit_app()`, we want to build the image with embedded face patches on it, like in the Scikit image tutorial (see the red square around the face).
+
+<img src="https://scikit-image.org/docs/stable/_images/sphx_glr_plot_face_detection_001.png" width=400>
+
+We've written the function `def apply_face_patches_to_original_image(...)` for you, it's just a matter of applying it to the right inputs to get the image with face patches. **Can you do it?**
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  The function `apply_face_patches_to_original_image` has two inputs.
+  
+  - `img` of type `np.ndarray`
+  - `face_patches` of type `List[Patch]`
+
+  Use the types to find the right values to plug in as inputs, from what has already been calculated in this function `def streamlit_app()`
+</details>
 
 ## Display the image back on the page
 
-TODO @selim
+Now that we have:
 
-Just `st.image`
+- Uploaded an image
+- Applied the face recognition onto it
+- Embedded the face patches on the original image
 
+**Let's display that image with face patches in the webapp**
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  Look at the [official documentation](https://docs.streamlit.io/library/api-reference/media/st.image) from Streamlit.
+</details>
 
 ## Deploy to the cloud this first version of the app
 
-- Use the Dockerfile provided.
-- Build the Docker image.
-- Tag the Docker image with your remote repository prefix.
-- Push the Docker image to your remote repository.
-- Deploy the Docker image as an application (in Cloud Run for GCP users).
+Congratulations, you've built a fun webapp to detect faces. Let's share it with the world 🌏.
+
+**Step 1**
+
+Regardless of your cloud provider, we'll need to **package the app within a Docker image**. We've already written the `Dockerfile` for you. We've left a lot of comments in it. Please take a moment to read through it and follow the instruction at the end.
+
+### GCP
+
+We assume below that you have followed the first exercise setup instructions, and now have a working Google "Cloud Artifact Registry" Docker repository. If not, please go back to that exercise 👈.
+
+**Step 2**
+
+Open Google Cloud Artifact Registry. Tag the image with your remote Docker repository prefix.
+
+Set the value of `REGISTRYPREFIX` in your `Makefile`, at the top.
+
+**Step 3**
+
+👉 Now you can re-tag the image with `make tag`. **We highly encourage you to read carefully through the commented Makefile, it should be instructive 🔓.**
+
+**Step 4**
+
+👉 Finally, let's push it to the cloud with `make push`.
+
+**Go to your cloud console, Artifact Registry and look for this newer version, can you find it?**
+
+**Step 5**
+
+Deploy it!
+
+Go to Cloud Run and create a new service: click `CREATE SERVICE`.
+
+- `Deploy one revision from an existing container image`, click `SELECT` and in the tab `Artifact Registry`, look for your image
+- Give it the service name `lwface`
+- Pick the closest region, if you're in Europe, pick `europe-west` for instance.
+- CPU allocation: `CPU is only allocated during request processing`
+- Autoscaling: Minimum of 0 and Maximum of 5
+- Open `Container, Variables & Secrets, Connections, Security`
+  - What's the container port? Hint 💡: look in the `CMD` of the `Dockerfile`
+  - Up the memory to 1 GiB
+  - Keep the CPU at 1
+  - Maximum requests per container: 5
+- Click `CREATE` 🚀
+
+Once deployed, your app should be live with a URL, try it, share it with your peers!
 
 ## Pimp the app, real-time face detection using Streamlit
 
