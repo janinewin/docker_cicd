@@ -32,3 +32,6 @@ __pycache__/
 *.env
 .vscode/
 *.log
+
+# No such file in the solutions repository
+test_output.txt
