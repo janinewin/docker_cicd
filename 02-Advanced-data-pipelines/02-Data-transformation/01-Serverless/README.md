@@ -64,8 +64,11 @@ RUN poetry install --no-dev
 # Copy this package's Python files last
 COPY ./ ./
 
+# Set a default PORT environment variable to 8080
+ENV PORT 8080
+
 # Run the `FastAPI` application on port 8080
-CMD ["poetry", "run", "uvicorn", "lwserverless.app:app", "--port", "8080"]
+CMD poetry run uvicorn lwserverless.app:app --host 0.0.0.0 --port $PORT
 ```
 
 **Then run `make build` to build the Docker image locally**.
