@@ -1,5 +1,6 @@
 include ../../../make.inc
 
+# Update the tag to 0.2 once the lwface/pages/Webcam.py code has been activated
 TAG=lewagon/imgtransform:0.1
 
 # Insert the Docker registry prefix here, remove the trailing slash /
@@ -9,8 +10,8 @@ REGISTRYPREFIX=
 test: pytest
 
 # Run the application locally
-run-locally:
-	poetry run streamlit run lwface/face.py
+run:
+	poetry run streamlit run lwface/Home.py
 
 # Prepare the docker "build" step
 prep-build:
