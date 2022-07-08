@@ -2,7 +2,7 @@
 
 ### Introduction
 
-In this challenge, you will implement a more complex ETL by using advanced Airflow concepts (`Sensor`, `BranchOperator`, `Templating`, `trigger_rule` & `idempotency`).
+In this challenge, you will implement a more complex ETL by using advanced Airflow concepts (`Sensor`, `BranchOperator`, `Templating`, `trigger_rule`).
 
 The goal is to have three DAGs running every month that will:
 - download the monthly New York City Taxi and Limousine Commission (NYC-TLC) data

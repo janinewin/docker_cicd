@@ -27,9 +27,9 @@ def create_connection_from_hook(hook: Union[SqliteHook, PostgresHook]) -> Union[
 def load_to_database(input_file: str, hook: PostgresHook, task_instance: TaskInstance):
     """
     - Uses pandas functions to create a DataFrame from a csv file
-    - Uses xcom_push to export the number of inserted values (under the key `number_of_inserted_rows`)
     - Calls create_connection_from_hook to get a database connection from the hook
     - Calls to_sql function from pandas to insert data to the database (by passing the created_connection)
+    - Uses xcom_push to export the number of inserted values (under the key `number_of_inserted_rows`)
     """
     pass  # YOUR CODE HERE
 

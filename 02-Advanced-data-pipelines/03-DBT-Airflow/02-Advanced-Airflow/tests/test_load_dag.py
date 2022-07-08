@@ -53,9 +53,7 @@ class TestLoadDag:
         assert task.poke_interval == 10
         assert task.timeout == 60 * 10
         assert list(map(lambda task: task.task_id, task.upstream_list)) == []
-        assert list(map(lambda task: task.task_id, task.downstream_list)) == [
-            "load_to_database"
-        ]
+        assert list(map(lambda task: task.task_id, task.downstream_list)) == ["load_to_database"]
 
     def test_load_to_database_task(self):
         assert self.dagbag.import_errors == {}, self.dagbag.import_errors
@@ -81,20 +79,14 @@ class TestLoadDag:
 
             ti = TaskInstance(task, run_id=dagrun.run_id)
             ti.dry_run()
-            filtered_data_file = (
-                f"/opt/airflow/data/silver/yellow_tripdata_2021-0{month}.csv"
-            )
+            filtered_data_file = f"/opt/airflow/data/silver/yellow_tripdata_2021-0{month}.csv"
             assert list(ti.task.op_kwargs.keys()) == ["input_file", "hook"]
             assert ti.task.op_kwargs["input_file"] == filtered_data_file
             assert ti.task.op_kwargs["hook"].__class__.__name__ == "PostgresHook"
             assert ti.task.op_kwargs["hook"].postgres_conn_id == "postgres_connection"
 
-        assert list(map(lambda task: task.task_id, task.upstream_list)) == [
-            "transform_sensor"
-        ]
-        assert list(map(lambda task: task.task_id, task.downstream_list)) == [
-            "display_number_of_inserted_rows"
-        ]
+        assert list(map(lambda task: task.task_id, task.upstream_list)) == ["transform_sensor"]
+        assert list(map(lambda task: task.task_id, task.downstream_list)) == ["display_number_of_inserted_rows"]
 
     def test_display_number_of_inserted_rows_task(self):
         assert self.dagbag.import_errors == {}, self.dagbag.import_errors
@@ -104,15 +96,13 @@ class TestLoadDag:
         assert task.__class__.__name__ == "PythonOperator"
         assert task.python_callable.__name__ == "display_number_of_inserted_rows"
 
-        assert list(map(lambda task: task.task_id, task.upstream_list)) == [
-            "load_to_database"
-        ]
+        assert list(map(lambda task: task.task_id, task.upstream_list)) == ["load_to_database"]
         assert list(map(lambda task: task.task_id, task.downstream_list)) == []
 
 
 @pytest.fixture
 def dag():
-    start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone("UTC"))
+    start_date = DateTime(2021, 2, 1, 0, 0, 0, tzinfo=Timezone("UTC"))
     hook = SqliteHook(sqlite_conn_id="sqlite_connection")
 
     with DAG(
@@ -139,7 +129,7 @@ def dag():
 
 def test_load_to_database(dag):
     now = datetime.datetime.now(datetime.timezone.utc)
-    start_date = DateTime(2021, 6, 1, 0, 0, 0, tzinfo=Timezone("UTC"))
+    start_date = DateTime(2021, 2, 1, 0, 0, 0, tzinfo=Timezone("UTC"))
     hook = SqliteHook(sqlite_conn_id="sqlite_connection")
 
     dagrun = dag.create_dagrun(
@@ -155,17 +145,13 @@ def test_load_to_database(dag):
 
     hook.run("DROP TABLE IF EXISTS trips;")
     hook.run("DELETE FROM task_instance;")
-    assert (
-        ti.xcom_pull(task_ids=["load_to_database"], key="number_of_inserted_rows") == []
-    )
+    assert ti.xcom_pull(task_ids=["load_to_database"], key="number_of_inserted_rows") == []
     ti.run(ignore_ti_state=True)
 
     assert hook.get_records("SELECT COUNT(*) FROM trips;")[0][0] == 2
     assert hook.get_records("SELECT trip_distance FROM trips;") == [(1,), (2,)]
     assert hook.get_records("SELECT total_amount FROM trips;") == [(3,), (4,)]
-    assert ti.xcom_pull(
-        task_ids=["load_to_database"], key="number_of_inserted_rows"
-    ) == [2]
+    assert ti.xcom_pull(task_ids=["load_to_database"], key="number_of_inserted_rows") == [2]
 
 
 @log_capture()

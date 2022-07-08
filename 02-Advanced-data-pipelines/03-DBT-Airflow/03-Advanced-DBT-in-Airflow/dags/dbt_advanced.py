@@ -17,8 +17,9 @@ def load_manifest(file: str) -> dict:
 
 def make_dbt_task(node: str, dbt_verb: str) -> BashOperator:
     """
-    Returns an Airflow BashOperator with a bash command to run or test the given node.
-    It adds the project-dir argument and names the tasks as shown by the below examples.
+    Returns a BashOperator with a bash command to run or test the given node.
+    Adds the project-dir argument and names the tasks as shown by the below examples.
+    Cleans the node's name when it is a test.
 
     Examples:
     >>> print(make_dbt_task('model.dbt_lewagon.my_first_dbt_model', 'run'))
@@ -38,15 +39,16 @@ def make_dbt_task(node: str, dbt_verb: str) -> BashOperator:
 
 def create_tasks(data: dict) -> dict:
     """
-    Uses the make_dbt_task function to create a dict containing all tasks as keys and
-    their corresponding bash commands as values.
+    This function should iterate through data["nodes"] keys and call make_dbt_task
+    to build and return a new dict containing as keys all nodes' names and their corresponding dbt tasks as values.
     """
     pass  # YOUR CODE HERE
 
 
 def create_dags_dependencies(data: dict, dbt_tasks: dict):
     """
-    Creates the final tasks and order them as they should be run.
+    Iterate over every node and their dependencies (by using data and the "depends_on" key)
+    to order the Airflow tasks properly.
     """
     pass  # YOUR CODE HERE
 

@@ -17,5 +17,5 @@ class TestDagConfig:
         assert dag.catchup is True
         assert dag.default_args == {
             "depends_on_past": False,
-            "start_date": pendulum.today("UTC").add(days=-1),
         }
+        assert dag.start_date == pendulum.today("UTC").add(days=-1)

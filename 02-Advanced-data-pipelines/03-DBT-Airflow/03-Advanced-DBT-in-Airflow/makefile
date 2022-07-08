@@ -15,4 +15,5 @@ test_tasks_configs:
 	DBT_DIR=${PWD}/tests/dbt AIRFLOW_HOME=${PWD} poetry run pytest -v tests/test_tasks_configs.py
 
 test: export AIRFLOW_HOME = ${PWD}
+test: export DBT_DIR = ${PWD}/lewagon_dbt
 test: init_db pytest
