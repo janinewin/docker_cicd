@@ -35,12 +35,8 @@ def test_load_manifest():
     }
     assert data["parent_map"] == {
         "model.dbt_lewagon.my_first_dbt_model": [],
-        "test.dbt_lewagon.unique_my_first_dbt_model_id.16e066b321": [
-            "model.dbt_lewagon.my_first_dbt_model"
-        ],
-        "test.dbt_lewagon.not_null_my_first_dbt_model_id.5fb22c2710": [
-            "model.dbt_lewagon.my_first_dbt_model"
-        ],
+        "test.dbt_lewagon.unique_my_first_dbt_model_id.16e066b321": ["model.dbt_lewagon.my_first_dbt_model"],
+        "test.dbt_lewagon.not_null_my_first_dbt_model_id.5fb22c2710": ["model.dbt_lewagon.my_first_dbt_model"],
     }
 
     data = dbt_advanced.load_manifest("tests/dbt/target/manifest.json")
@@ -77,21 +73,11 @@ def test_load_manifest():
     }
     assert data["parent_map"] == {
         "model.dbt_lewagon.my_first_dbt_model": [],
-        "model.dbt_lewagon.my_second_dbt_model": [
-            "model.dbt_lewagon.my_first_dbt_model"
-        ],
-        "test.dbt_lewagon.unique_my_first_dbt_model_id.16e066b321": [
-            "model.dbt_lewagon.my_first_dbt_model"
-        ],
-        "test.dbt_lewagon.not_null_my_first_dbt_model_id.5fb22c2710": [
-            "model.dbt_lewagon.my_first_dbt_model"
-        ],
-        "test.dbt_lewagon.unique_my_second_dbt_model_id.57a0f8c493": [
-            "model.dbt_lewagon.my_second_dbt_model"
-        ],
-        "test.dbt_lewagon.not_null_my_second_dbt_model_id.151b76d778": [
-            "model.dbt_lewagon.my_second_dbt_model"
-        ],
+        "model.dbt_lewagon.my_second_dbt_model": ["model.dbt_lewagon.my_first_dbt_model"],
+        "test.dbt_lewagon.unique_my_first_dbt_model_id.16e066b321": ["model.dbt_lewagon.my_first_dbt_model"],
+        "test.dbt_lewagon.not_null_my_first_dbt_model_id.5fb22c2710": ["model.dbt_lewagon.my_first_dbt_model"],
+        "test.dbt_lewagon.unique_my_second_dbt_model_id.57a0f8c493": ["model.dbt_lewagon.my_second_dbt_model"],
+        "test.dbt_lewagon.not_null_my_second_dbt_model_id.151b76d778": ["model.dbt_lewagon.my_second_dbt_model"],
     }
 
 
@@ -149,15 +135,11 @@ def test_create_dags_dependencies():
     assert "test.dbt_lewagon.not_null_my_first_dbt_model_id" in downstream_list
 
     task = dag.get_task("test.dbt_lewagon.unique_my_first_dbt_model_id")
-    assert list(map(lambda task: task.task_id, task.upstream_list)) == [
-        "model.dbt_lewagon.my_first_dbt_model"
-    ]
+    assert list(map(lambda task: task.task_id, task.upstream_list)) == ["model.dbt_lewagon.my_first_dbt_model"]
     assert list(map(lambda task: task.task_id, task.downstream_list)) == []
 
     task = dag.get_task("test.dbt_lewagon.not_null_my_first_dbt_model_id")
-    assert list(map(lambda task: task.task_id, task.upstream_list)) == [
-        "model.dbt_lewagon.my_first_dbt_model"
-    ]
+    assert list(map(lambda task: task.task_id, task.upstream_list)) == ["model.dbt_lewagon.my_first_dbt_model"]
     assert list(map(lambda task: task.task_id, task.downstream_list)) == []
 
     with DAG(
@@ -176,33 +158,23 @@ def test_create_dags_dependencies():
     assert "test.dbt_lewagon.not_null_my_first_dbt_model_id" in downstream_list
 
     task = dag.get_task("model.dbt_lewagon.my_second_dbt_model")
-    assert list(map(lambda task: task.task_id, task.upstream_list)) == [
-        "model.dbt_lewagon.my_first_dbt_model"
-    ]
+    assert list(map(lambda task: task.task_id, task.upstream_list)) == ["model.dbt_lewagon.my_first_dbt_model"]
     downstream_list = list(map(lambda task: task.task_id, task.downstream_list))
     assert "test.dbt_lewagon.unique_my_second_dbt_model_id" in downstream_list
     assert "test.dbt_lewagon.not_null_my_second_dbt_model_id" in downstream_list
 
     task = dag.get_task("test.dbt_lewagon.unique_my_first_dbt_model_id")
-    assert list(map(lambda task: task.task_id, task.upstream_list)) == [
-        "model.dbt_lewagon.my_first_dbt_model"
-    ]
+    assert list(map(lambda task: task.task_id, task.upstream_list)) == ["model.dbt_lewagon.my_first_dbt_model"]
     assert list(map(lambda task: task.task_id, task.downstream_list)) == []
 
     task = dag.get_task("test.dbt_lewagon.not_null_my_first_dbt_model_id")
-    assert list(map(lambda task: task.task_id, task.upstream_list)) == [
-        "model.dbt_lewagon.my_first_dbt_model"
-    ]
+    assert list(map(lambda task: task.task_id, task.upstream_list)) == ["model.dbt_lewagon.my_first_dbt_model"]
     assert list(map(lambda task: task.task_id, task.downstream_list)) == []
 
     task = dag.get_task("test.dbt_lewagon.unique_my_second_dbt_model_id")
-    assert list(map(lambda task: task.task_id, task.upstream_list)) == [
-        "model.dbt_lewagon.my_second_dbt_model"
-    ]
+    assert list(map(lambda task: task.task_id, task.upstream_list)) == ["model.dbt_lewagon.my_second_dbt_model"]
     assert list(map(lambda task: task.task_id, task.downstream_list)) == []
 
     task = dag.get_task("test.dbt_lewagon.not_null_my_second_dbt_model_id")
-    assert list(map(lambda task: task.task_id, task.upstream_list)) == [
-        "model.dbt_lewagon.my_second_dbt_model"
-    ]
+    assert list(map(lambda task: task.task_id, task.upstream_list)) == ["model.dbt_lewagon.my_second_dbt_model"]
     assert list(map(lambda task: task.task_id, task.downstream_list)) == []

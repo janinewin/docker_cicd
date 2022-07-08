@@ -35,9 +35,7 @@ class TestDagConfig:
         assert task.__class__.__name__ == "BashOperator"
         assert task.bash_command == "dbt run --project-dir /opt/airflow/lewagon_dbt"
         assert list(map(lambda task: task.task_id, task.upstream_list)) == []
-        assert list(map(lambda task: task.task_id, task.downstream_list)) == [
-            "dbt_test"
-        ]
+        assert list(map(lambda task: task.task_id, task.downstream_list)) == ["dbt_test"]
 
     def test_dbt_test_task(self):
         dag = self.dagbag.get_dag(dag_id="dbt_basics")

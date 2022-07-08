@@ -14,25 +14,13 @@ def test_docker_compose():
         "AIRFLOW__CORE__EXECUTOR": "LocalExecutor",
         "AIRFLOW__DATABASE__SQL_ALCHEMY_CONN": "postgresql+psycopg2://airflow:$POSTGRES_PASSWORD@postgres:5432/db",
         "AIRFLOW__CORE__LOAD_EXAMPLES": "false",
-        "PROJECT_ID": "$PROJECT_ID",
-        "PRIVATE_KEY_ID": "$PRIVATE_KEY_ID",
-        "PRIVATE_KEY": "$PRIVATE_KEY",
-        "CLIENT_EMAIL": "$CLIENT_EMAIL",
-        "CLIENT_ID": "$CLIENT_ID",
-        "CLIENT_X509_CERT_URL": "$CLIENT_X509_CERT_URL",
     }
-    assert set(scheduler.get("volumes")) == {
-        "./dags:/opt/airflow/dags",
-        "./data:/opt/airflow/data",
-        "./logs:/opt/airflow/logs",
-        "./lewagon_dbt:/opt/airflow/lewagon_dbt",
-    }
+
+    for expected_volume in ["./dags:/opt/airflow/dags", "./data:/opt/airflow/data", "./logs:/opt/airflow/logs", "./lewagon_dbt:/opt/airflow/lewagon_dbt"]:
+        assert expected_volume in scheduler.get("volumes")
+
+    assert any("/.gcp_keys:/opt/airflow/.gcp_keys" in volume for volume in scheduler.get("volumes"))
 
     webserver = docker_compose_data["services"]["webserver"]
 
-    assert set(webserver.get("volumes")) == {
-        "./dags:/opt/airflow/dags",
-        "./data:/opt/airflow/data",
-        "./logs:/opt/airflow/logs",
-        "./lewagon_dbt:/opt/airflow/lewagon_dbt",
-    }
+    assert set(webserver.get("volumes")) == {"./dags:/opt/airflow/dags", "./data:/opt/airflow/data", "./logs:/opt/airflow/logs"}

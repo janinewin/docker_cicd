@@ -15,15 +15,13 @@ def dockerfile_validation():
         ("ENV", "DBT_TARGET_DIR $DBT_DIR/target"),
         ("ENV", "DBT_PROFILES_DIR $DBT_DIR"),
         ("ENV", "DBT_VERSION 1.1.1"),
-        ("RUN", "mkdir -p $AIRFLOW_HOME/.gcp_keys"),
         ("WORKDIR", "$AIRFLOW_HOME"),
         (
             "RUN",
             "apt-get update && apt-get -y upgrade && apt-get -y install gnupg2 wget lsb-release && sh -c 'echo \"deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main\" > /etc/apt/sources.list.d/pgdg.list' && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && apt-get update && apt-get -y install curl postgresql-14 postgresql-contrib && apt-get clean && rm -rf /var/lib/apt/lists/*",  # noqa
         ),  # noqa
         ("COPY", "scripts scripts"),
-        ("RUN", "chmod +x scripts/scheduler_entrypoint.sh"),
-        ("RUN", "chmod +x scripts/webserver_entrypoint.sh"),
+        ("RUN", "chmod +x scripts/entrypoint.sh"),
         ("COPY", "pyproject.toml poetry.lock ./"),
         (
             "RUN",
