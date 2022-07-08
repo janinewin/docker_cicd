@@ -11,7 +11,7 @@ test: pytest
 
 # Run the application locally
 run:
-	poetry run streamlit run lwface/Home.py
+	poetry run streamlit run lwface/Home.py --server.address 0.0.0.0 --server.port 8080
 
 # Prepare the docker "build" step
 prep-build:

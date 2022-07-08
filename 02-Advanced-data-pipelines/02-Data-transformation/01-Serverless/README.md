@@ -33,7 +33,7 @@ You should notice four things:
 1. We've added the option `-w %{time_total}` to `curl` which prints the total time the endpoint takes in seconds, that is handy as we're mimicking it taking some time!
 2. Write down the amount returned by the `curl` command in both calls. Is `/slow-run` taking more time than `/fast-run`? If so, good 🙌!
 3. See the `app_instance_id` returned by the app, it should be the same as we're running the same instance of the application.
-4. Now stop the app and re-run it with `make run`. Make another curl call (either one above works). Is the `app_instance_id` the same? It shouldn't! We're running a new instance of the application. This will help us identify which instance of the application is running in the cloud for the purposes of this exercise. 
+4. Now stop the app and re-run it with `make run`. Make another curl call (either one above works). Is the `app_instance_id` the same? It shouldn't! We're running a new instance of the application. This will help us identify which instance of the application is running in the cloud for the purposes of this exercise.
 
 ## Step 2/5 Build the Docker image
 
@@ -104,7 +104,7 @@ Almost there! In the browser, go to the Cloud Run service and click `CREATE SERV
 
 <img src="https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/assets/lw-cloud-run-create.png" alt="Create" width=600>
 
-- In "Deploy one revision from an existing container image", click `SELECT`. In the `Artifact Registry` tab, you should find your image 🤙. 
+- In "Deploy one revision from an existing container image", click `SELECT`. In the `Artifact Registry` tab, you should find your image 🤙.
 - Give it a unique service name
 - Pick a local region.
 - Select "CPU is only allocated during request processing" (should be selected by default).
@@ -114,7 +114,7 @@ Almost there! In the browser, go to the Cloud Run service and click `CREATE SERV
   - Keep the capacity at its lowest values, our app doesn't do much 🦶.
   - Maximum requests per container: **set it to 5**.
   - In the environment variables, set `HOME` to `/root`. By default, Google Cloud Run has a [strange behaviour](https://chanind.github.io/2021/09/27/cloud-run-home-env-change.html) we need to override.
-- We're good to go! Click `CREATE` and let the magic happen.
+- We're good to go! Click `CREATE` and let the magic happen. Once up and running (which can take up to 5 minutes), you'll get a URL for your service.
 
 ## App analytics
 
