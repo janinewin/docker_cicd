@@ -80,10 +80,14 @@ def apply_face_patches_to_original_image(img: np.ndarray, face_patches: List[Pat
     return Image.frombytes("RGB", fig.canvas.get_width_height(), fig.canvas.tostring_rgb())
 
 
-def streamlit_app():
+def streamlit_page():
     """
     Configure the full Streamlit app
     """
+    # Setup. Configure the page and sidebar
+    st.markdown("# Face detection 🤪 - Image file upload")
+    st.sidebar.markdown("# Face detection 🤪 - Image file upload")
+
     # 1. Read an uploaded file
     uploaded_file = streamlit_read_uploaded_file()
 
@@ -109,4 +113,4 @@ def streamlit_app():
 
 
 if __name__ == "__main__":
-    streamlit_app()
+    streamlit_page()
