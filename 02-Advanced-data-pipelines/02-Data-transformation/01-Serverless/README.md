@@ -113,6 +113,7 @@ Almost there! In the browser, go to the Cloud Run service and click `CREATE SERV
   - What should the container port be? Hint 💡 : what is the port the FastAPI app runs on? Check the `Makefile`, `run` target.
   - Keep the capacity at its lowest values, our app doesn't do much 🦶.
   - Maximum requests per container: **set it to 5**.
+  - In the environment variables, set `HOME` to `/root`. By default, Google Cloud Run has a [strange behaviour](https://chanind.github.io/2021/09/27/cloud-run-home-env-change.html) we need to override.
 - We're good to go! Click `CREATE` and let the magic happen.
 
 ## App analytics
