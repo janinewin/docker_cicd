@@ -164,9 +164,11 @@ Go to Cloud Run and create a new service: click `CREATE SERVICE`.
 - Autoscaling: Minimum of 0 and Maximum of 3
 - Open `Container, Variables & Secrets, Connections, Security`
   - What's the container port? Hint 💡: look in the `CMD` of the `Dockerfile`
-  - Up the memory to 1 GiB
-  - Keep the CPU at 1
-  - Maximum requests per container: 5
+  - Up the memory to 8 GiB
+  - Keep the CPU at 2
+  - Maximum requests per container: 50
+  - Minimum = 1 and Maximum = 1 for the number of instances
+  - Connection tab: check "Session affinity"
   - In the environment variables, set `HOME` to `/root`. By default, Google Cloud Run has a [strange behaviour](https://chanind.github.io/2021/09/27/cloud-run-home-env-change.html) we need to override.
 - Click `CREATE` 🚀
 
@@ -189,26 +191,14 @@ Run your app with `make run` and go to the `Webcam` page. Now stand in front of 
 
 **Note** It's normal that the page takes up to a minute to load.
 
-## Deploy the newer version to the cloud
+**Update the `TAG` variable in the `Makefile` to be of version 0.2 instead of 0.1**.
 
-**Update the `TAG` variable in the `Makefile` to be of version 0.2 instead of 0.1**
+## Bonus 1 - Deploy to Streamlit Cloud
 
-Ready to show your app to the world? Follow the same steps as earlier to deploy the newer version to the cloud 🚀.
+Your app is quite pretty, try deploying it to a different cloud: [Streamlit Community Cloud](https://streamlit.io/cloud).
 
-<details>
-  <summary markdown='span'>💡 Hint</summary>
 
-  - Build the newer app with `make build`
-  - Retag with `make tag`
-  - Deploy with `make push`
-  - On Cloud Run, click `EDIT & DEPLOY RUN REVISION`
-    - Find the newer version in the Artifact Registry.
-    - Set minimum to 1 and maximum to 3.
-    - You need to up the RAM requirements to 8GiB.
-    - You need to up the CPU requirements to 2.
-</details>
-
-## BONUS - Final optimization!
+## Bonus 2 - Final optimization!
 
 **If you feel like you've spent enough time on this exercise, skip this part and move on to the next exercise!**
 
@@ -238,4 +228,4 @@ Let's break this down:
 - `python -c` means "I'm going to give you some Python code now, run it as a script for me.
 - And `"import torch; torch.hub.load('ultralytics/yolov5', 'yolov5s',  _verbose=False)"` is the Python code you'd like to run. That'll download the model within your Docker image.
 
-Once you're done, tag your `TAG` in the `Makefile` to version 0.3, and re-deploy to the cloud! Is the page faster this time?
+Once you're done, tag your `TAG` in the `Makefile` to version 0.3! Does this page load faster this time?
