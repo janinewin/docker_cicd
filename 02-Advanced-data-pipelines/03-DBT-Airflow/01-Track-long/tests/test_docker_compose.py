@@ -7,7 +7,11 @@ def test_docker_compose():
     with open("docker-compose.yml") as f:
         docker_compose_data = load(f, SafeLoader)
 
-    assert set(docker_compose_data.get("services", {}).keys()) == {"postgres", "scheduler", "webserver"}
+    assert set(docker_compose_data.get("services", {}).keys()) == {
+        "postgres",
+        "scheduler",
+        "webserver",
+    }
     scheduler = docker_compose_data["services"]["scheduler"]
 
     assert lewagonde.dict_or_kvlist_to_dict(scheduler.get("environment")) == {
@@ -16,11 +20,23 @@ def test_docker_compose():
         "AIRFLOW__CORE__LOAD_EXAMPLES": "false",
     }
 
-    for expected_volume in ["./dags:/opt/airflow/dags", "./data:/opt/airflow/data", "./logs:/opt/airflow/logs", "./lewagon_dbt:/opt/airflow/lewagon_dbt"]:
+    for expected_volume in [
+        "./dags:/opt/airflow/dags",
+        "./data:/opt/airflow/data",
+        "./logs:/opt/airflow/logs",
+        "./dbt_lewagon:/opt/airflow/dbt_lewagon",
+    ]:
         assert expected_volume in scheduler.get("volumes")
 
-    assert any("/.gcp_keys:/opt/airflow/.gcp_keys" in volume for volume in scheduler.get("volumes"))
+    assert any(
+        "/.gcp_keys:/opt/airflow/.gcp_keys" in volume
+        for volume in scheduler.get("volumes")
+    )
 
     webserver = docker_compose_data["services"]["webserver"]
 
-    assert set(webserver.get("volumes")) == {"./dags:/opt/airflow/dags", "./data:/opt/airflow/data", "./logs:/opt/airflow/logs"}
+    assert set(webserver.get("volumes")) == {
+        "./dags:/opt/airflow/dags",
+        "./data:/opt/airflow/data",
+        "./logs:/opt/airflow/logs",
+    }

@@ -4,13 +4,13 @@ import yaml
 
 
 def test_profiles_yml():
-    assert "profiles.yml" in os.listdir("lewagon_dbt")
-    with open("lewagon_dbt/profiles.yml", "r") as stream:
+    assert "profiles.yml" in os.listdir("dbt_lewagon")
+    with open("dbt_lewagon/profiles.yml", "r") as stream:
         profiles = yaml.safe_load(stream)
-        assert "lewagon_dbt" in profiles
-        assert "outputs" in profiles["lewagon_dbt"]
-        assert "dev" in profiles["lewagon_dbt"]["outputs"]
-        dev = profiles["lewagon_dbt"]["outputs"]["dev"]
+        assert "dbt_lewagon" in profiles
+        assert "outputs" in profiles["dbt_lewagon"]
+        assert "dev" in profiles["dbt_lewagon"]["outputs"]
+        dev = profiles["dbt_lewagon"]["outputs"]["dev"]
         assert set(dev.keys()) == {
             "dataset",
             "job_execution_timeout_seconds",

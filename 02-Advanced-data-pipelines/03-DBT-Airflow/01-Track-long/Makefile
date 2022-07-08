@@ -15,8 +15,8 @@ init_db:
 	export AIRFLOW_HOME=${PWD}; poetry run airflow db init
 
 test_dag_and_tasks_configs:
-	AIRFLOW_HOME=${PWD} DBT_DIR=${PWD}/lewagon_dbt poetry run pytest -v tests/test_dag_and_tasks_configs.py
+	AIRFLOW_HOME=${PWD} DBT_DIR=${PWD}/dbt_lewagon poetry run pytest -v tests/test_dag_and_tasks_configs.py
 
 test: export AIRFLOW_HOME = ${PWD}
-test: export DBT_DIR = ${PWD}/lewagon_dbt
+test: export DBT_DIR = ${PWD}/dbt_lewagon
 test: init_db pytest

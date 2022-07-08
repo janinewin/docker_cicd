@@ -29,7 +29,7 @@ services:
         volumes:
             - ./dags:/opt/airflow/dags
             - ./data:/opt/airflow/data
-            - ./lewagon_dbt:/opt/airflow/lewagon_dbt
+            - ./dbt_lewagon:/opt/airflow/dbt_lewagon
             - ./logs:/opt/airflow/logs
             
 

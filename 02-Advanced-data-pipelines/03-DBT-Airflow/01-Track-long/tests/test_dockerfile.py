@@ -11,7 +11,7 @@ def dockerfile_validation():
         ("ARG", "DEBIAN_FRONTEND=noninteractive"),
         ("ENV", "PYTHONUNBUFFERED 1"),
         ("ENV", "AIRFLOW_HOME /opt/airflow"),
-        ("ENV", "DBT_DIR $AIRFLOW_HOME/lewagon_dbt"),
+        ("ENV", "DBT_DIR $AIRFLOW_HOME/dbt_lewagon"),
         ("ENV", "DBT_TARGET_DIR $DBT_DIR/target"),
         ("ENV", "DBT_PROFILES_DIR $DBT_DIR"),
         ("ENV", "DBT_VERSION 1.1.1"),
@@ -42,6 +42,9 @@ def test_dockerfile(dockerfile_validation):
             s = re.sub(r"\s+", " ", command.value[0])
             assert s == validation[1]
         elif len(command.flags) != 0:
-            assert " ".join([" ".join(command.flags), " ".join(command.value)]) == validation[1]
+            assert (
+                " ".join([" ".join(command.flags), " ".join(command.value)])
+                == validation[1]
+            )
         else:
             assert " ".join(command.value) == validation[1]
