@@ -1,12 +1,15 @@
 [tool.poetry]
-name = "d7-setup"
+name = "lwserverless"
 version = "0.1.0"
 description = ""
 authors = ["S. Saunier <seb@lewagon.org>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-lewagonde = { path = "../../../common/lewagonde/", develop = true }
+fastapi = "^0.78.0"
+uvicorn = {extras = ["standard"], version = "^0.18.2"}
+pandas = "^1.4.3"
+matplotlib = "^3.5.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "7.1.2"

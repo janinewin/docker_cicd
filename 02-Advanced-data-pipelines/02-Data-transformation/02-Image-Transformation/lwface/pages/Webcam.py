@@ -6,9 +6,7 @@ from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 import torch
 
 
-RTC_CONFIGURATION = RTCConfiguration(
-    {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
-)
+RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
 
 
 class VideoProcessor:
@@ -16,9 +14,10 @@ class VideoProcessor:
     VideoProcessor is the class needed to transform the input frame from the webcam
     into something usable by the Pytorch model, which detects objects, in particular "people".
     """
+
     def recv(self, frame):
         img = frame.to_ndarray(format="bgr24")
-        
+
         # vision processing
         flipped = img[:, ::-1, :]
 
@@ -42,10 +41,10 @@ def run_webrtc_streamer():
     """
     Runs a WebRTC streamer to feed the webcam streeam to
     - VideoProcessor first, which converts the Webcam frame into a useable object for Pytorch
-    - Then runs the Pytorch model 
+    - Then runs the Pytorch model
     """
-    if not hasattr(st, 'classifier'):
-        st.model = torch.hub.load('ultralytics/yolov5', 'yolov5s',  _verbose=False)
+    if not hasattr(st, "classifier"):
+        st.model = torch.hub.load("ultralytics/yolov5", "yolov5s", _verbose=False)
 
     webrtc_streamer(
         key="WYH",
