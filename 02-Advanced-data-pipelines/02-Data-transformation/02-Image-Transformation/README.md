@@ -167,6 +167,7 @@ Go to Cloud Run and create a new service: click `CREATE SERVICE`.
   - Up the memory to 1 GiB
   - Keep the CPU at 1
   - Maximum requests per container: 5
+  - In the environment variables, set `HOME` to `/root`. By default, Google Cloud Run has a [strange behaviour](https://chanind.github.io/2021/09/27/cloud-run-home-env-change.html) we need to override.
 - Click `CREATE` 🚀
 
 Once deployed, your app should be live with a URL, try it, share it with your peers!
