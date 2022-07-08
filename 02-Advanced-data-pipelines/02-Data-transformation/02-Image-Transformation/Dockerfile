@@ -24,7 +24,10 @@ RUN poetry install --no-dev
 # Copy this package's Python files last
 COPY ./ ./
 
+# Set the PORT to 8080 but allow overriding
+ENV PORT 8080
+
 # Run the `streamlit run` command on port 8080
-CMD ["poetry", "run", "streamlit", "run", "lwface/face.py", "--server.port", "8080"]
+CMD poetry run streamlit run lwface/face.py --server.address 0.0.0.0 --server.port $PORT
 
 # --> Delete this line when you've read the full Dockerfile, so the `test_dockerfile` test passes ;)

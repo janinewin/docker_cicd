@@ -9,7 +9,7 @@ REGISTRYPREFIX=
 test: pytest
 
 run:
-	poetry run uvicorn lwserverless.app:app --port 8080
+	poetry run uvicorn lwserverless.app:app --host 0.0.0.0 --port 8080
 
 # Build the Docker image
 build:
