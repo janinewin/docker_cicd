@@ -111,7 +111,7 @@ This time you should use `pandas` and its [`to_sql` function](https://pandas.pyd
 
 Moreover, as said just above, we want you to print the number of inserted rows in your second task. Until now, when you had to pass data through tasks you always save it into files. For this last task, you will use [Airflow xcoms](https://airflow.apache.org/docs/apache-airflow/stable/concepts/xcomss.html) to transfer data from `load_to_database` to `display_number_of_inserted_rows`
 
-Finally, as we want your DAG to be idempotent, you will have first to remove data from the current date before inserting new data.
+Finally, as we want your DAG to be [idempotent](https://en.wikipedia.org/wiki/Idempotence), you will have first to remove data from the current date before inserting new data.
 
 As always, once your confident with what you have done, run the following command:
 

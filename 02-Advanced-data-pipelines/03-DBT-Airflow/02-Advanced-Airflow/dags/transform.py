@@ -29,9 +29,7 @@ def prepare_data(bronze_file: str, date: str):
     return df[["date", "trip_distance", "total_amount"]]
 
 
-def filter_long_trips(
-    bronze_file: str, silver_file: str, date: str, distance: int
-) -> None:
+def filter_long_trips(bronze_file: str, silver_file: str, date: str, distance: int) -> None:
     """
     - Calls prepare_data to get a cleaned DataFrame
     - Keep only rows for which the trip_distance's value is greater than `distance`
@@ -40,9 +38,7 @@ def filter_long_trips(
     pass  # YOUR CODE HERE
 
 
-def filter_expensive_trips(
-    bronze_file: str, silver_file: str, date: str, amount: int
-) -> None:
+def filter_expensive_trips(bronze_file: str, silver_file: str, date: str, amount: int) -> None:
     """
     - Calls prepare_data to get a cleaned DataFrame
     - Keep only rows for which the total_amount's value is greater than `amount`

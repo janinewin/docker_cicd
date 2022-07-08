@@ -6,40 +6,27 @@ The goal of this exercise is to have dbt installed on Airflow and to have a DAG 
 
 We already created a dbt project (`lewagon_dbt`) for you that contains the models coming from `dbt init`, which will be enough to test our setup.
 
-We also provided a python script (`create_airflow_service_account_json.py`) that can generate a `service_account.json` from environment variables. The main purpose of this script is to avoid copying your own `service-account.json` to Airflow which could lead to security issues (such as pushing your `service-account.json` to Github).
-
-Finally, we also renamed the usual `entrypoint.sh` file to `webserver_entrypoint.sh` and created a dedicated one for your scheduler (`scheduler_entrypoint.sh`).
-
-In order to have dbt running on Airflow, there are several things to do on your side:
-- create and fill your `profiles.yml`
-- update the `Dockerfile` to set the needed environment variables
-- update the `docker-compose.yml` to sync the `lewagon_dbt` folder with your Airflow container and load environment variables
-- create a DAG that runs dbt commands
-
-
 ## Setup files
 
-In order to run dbt, Airflow needs a `profiles.yml`:
+In order to run dbt with its own configuration, Airflow needs a `profiles.yml`:
 - this file should be created in the `lewagon_dbt` folder
 - it should contain a `dev` output (and `target` should points to `dev`) with:
     - `dataset` equal to `dbt_name_day2` (Replace `name` with the first letter of your first name and your whole last name, `dbt_bobama_day2` for instance)
     - `job_execution_timeout_seconds` equal to `300`
     - `job_retries` equal to `1`
     - `location` equal to `US`
-    - `method` equal to `service-`account`
+    - `method` equal to `service-account`
     - `priority` equal to `interactive`
     - `project` equal to your Google Cloud project
     - `threads` equal to `1`
     - `type` equal to `bigquery`
-
-You probably have noticed that the value for `keyfile` was not given above: this is your role to set it to the proper path (**WARNING** you don't have to create any file for that, as explained, the file will be created for you by one of the scripts we added. Your role here is just to provide the proper path to that file).
+    - `keyfile` equal to `/opt/airflow/.gcp_keys/the_name_of_your_keyfile.json` (replace with the proper file's name of course)
 
 Once you are confident with what you've done, run the tests:
 
 ```bash
 make test_profiles_yml
 ```
-
 
 ## Setup the Dockerfile
 
@@ -52,11 +39,7 @@ ENV DBT_PROFILES_DIR=$DBT_DIR
 ENV DBT_VERSION=1.1.1
 ```
 
-These lines will allow Airflow to know in which folders to look up when running `dbt` commands. You may have noticed that we set `$DBT_PROFILES` to `$DBT_DIR` which explains why the `profiles.yml` that Airflow will use should be stored in `$DBT_DIR`. Then, you need you to add a command to create a `.gcp_keys` folder in which the `service-account.json` will be created. In so doing, add the following line to your `Dockerfile` (put it after lines that you just added to keep all dbt commands at the same place):
-
-```
-RUN mkdir -p $AIRFLOW_HOME/.gcp_keys
-```
+These lines will allow Airflow to know in which folders to look up when running `dbt` commands. You may have noticed that we set `$DBT_PROFILES` to `/opt/airflow/lewagon_dbt` as we made you create your `profiles.yml` in this folder.
 
 Once you are confident with what you've done, run the tests:
 
@@ -64,12 +47,11 @@ Once you are confident with what you've done, run the tests:
 make test_dockerfile
 ```
 
-PS: Take time to notice that we slightly updated the `Dockerfile` to run our two different endpoint scripts.
-
 ## Setup the docker-compose.yml
 
-There are not that many things to do in that part. You should just add one volume for `airflow scheduler` and `airflow webserver` to sync your local `lewagon_dbt` folder to your docker container (the same as you did for `dags`, `data` & `logs`).
-
+There are not that many things more to do in that part. You should just add two volume in your `airflow scheduler` to sync:
+- your local `lewagon_dbt` folder to your docker container
+- your local `.gcp_keys` folder to your docker container (you will probably have to set the entire path to your `.gcp_keys`)
 
 Once you are confident with what you've done, run the tests:
 
@@ -77,9 +59,7 @@ Once you are confident with what you've done, run the tests:
 make test_docker_compose
 ```
 
-Take time to notice that we added several environment variables for your `scheduler`. The environment variables will be used in the `create_airflow_service_account_json.py` script that is called by the new `scripts/scheduler_endpoint.sh` (that is itself called by the `scheduler` service in your `docker-compose.yml`).
-
-Before moving to the next part, create and fill your `.env` file by following the `env-template` requirements. Just reuse the credentials that you have setup previously to properly fill your `.env`.
+Before moving to the next part, create and fill your `.env` file as usual.
 
 
 ## Setup the DAG
@@ -107,25 +87,7 @@ Once you are confident with what you've done, run the tests:
 make test_dag_and_tasks_configs
 ```
 
-As already explained, even if we did some tests to help you, the best way to verify that your setup worked, is to open your [BigQuery console](https://console.cloud.google.com/bigquery) and verify that you have a new dataset named `airflow` that contains your two models.
-
-PS: If when running the DAG you have error like this:
-```bash
-Could not deserialize key data. The data may be in an incorrect format
-```
-
-do not hesitate to directly connect to your scheduler:
-
-```bash
-docker exec -it 01-track-long-scheduler-1 bash
-```
-
-and print the content of the created `service-account.json`:
-
-```bash
-cat /opt/airflow/.gcp_keys/service-account.json
-```
-
+As already explained, even if we did some tests to help you, the best way to verify that your setup worked, is to open your [BigQuery console](https://console.cloud.google.com/bigquery) and verify that you have a new dataset named `dbt_name_day2` that contains your two models.
 
 # Optional Part
 

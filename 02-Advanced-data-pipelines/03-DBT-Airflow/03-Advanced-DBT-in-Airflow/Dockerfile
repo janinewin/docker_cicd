@@ -11,7 +11,6 @@ ENV DBT_DIR=$AIRFLOW_HOME/lewagon_dbt
 ENV DBT_TARGET_DIR=$DBT_DIR/target
 ENV DBT_PROFILES_DIR=$DBT_DIR
 ENV DBT_VERSION=1.1.1
-RUN mkdir -p $AIRFLOW_HOME/.gcp_keys
 
 WORKDIR $AIRFLOW_HOME
 
@@ -27,8 +26,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY scripts scripts
-RUN chmod +x scripts/scheduler_entrypoint.sh
-RUN chmod +x scripts/webserver_entrypoint.sh
+RUN chmod +x scripts/entrypoint.sh
 
 COPY pyproject.toml poetry.lock ./
 

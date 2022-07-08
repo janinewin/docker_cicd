@@ -22,8 +22,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY scripts scripts
-RUN chmod +x scripts/scheduler_entrypoint.sh
-RUN chmod +x scripts/webserver_entrypoint.sh
+RUN chmod +x scripts/entrypoint.sh
 
 COPY pyproject.toml poetry.lock ./
 
