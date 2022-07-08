@@ -123,8 +123,14 @@ To understand the internals of Cloud Run, we are going to
 - check on which instance of the app the request was made
 - run some analytics on load time
 
+TODO @selim - Finish the analytics section
+
+Raw notes:
 - Set your API URL as an environment variable
 - Call the API once
 - Call the API asynchronously 100 times and notice how many instances are spawn, as well as latency per call
   - For each call, we'll give it a unique auto-incrementing ID, measure response time and store it
-
+- Show that:
+  - The app instance ID isn't always the same
+  - There is a maximum of 3 different instances (as max = 3)
+  - There is an increased latency when we exceed 3 * 5 = 15 = total number of simultaneous possible calls
