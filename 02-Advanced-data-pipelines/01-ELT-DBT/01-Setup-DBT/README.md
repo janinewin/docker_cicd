@@ -8,20 +8,37 @@ There are 4 steps in this setup
 3. Setup the connection configuration in order for DBT to be able to interact with BigQuery (write and read). This is done by creating a profile, filling a file called `profiles.yml`
 4. Run your first DBT models (which will generate tables and views in BigQuery)
 
+# Important notes about the DBT challenges
+
+_:rotating_light: Please read this carefully : it gives you information about how you'll do your challenges today :rotating_light:_
+
+- A DBT project is a set of files, organized in a tree structure. We did not create this structure for you - you'll have to build it yourself.
+- In each new challenge section, you're building up on top of the DBT project you've worked on in the previous challenge. So :
+  - In `01-Setup-DBT`: you'll build the initial structure, add files to it
+  - When starting `02-DBT-Basics`, the first thing you'll do is to copy the whole `dbt_lewagon` directory from `01-Setup-DBT` into `02-DBT-Basics` (running a command like `cp -r ../01-Setup-DBT/dbt_lewagon .`, from `02-DBT-Basics`)
+   - When starting `03-DBT-Advanced`, the first thing you'll do is to copy the whole `dbt_lewagon` directory from `02-DBT-Basics` into `03-DBT-Advanced` (running a command like `cp -r ../02-DBT-Basics/dbt_lewagon .`, from `03-DBT-Advanced`) (same as above)
+   - And so on.
+    There's a continuity in the exercices, where little by little, you're building a robust DBT project.
+- Tests : you run tests in the challenge you're in. They'll be testing exactly the files / models that you're supposed to build in the section. Meaning : the tests of `02-DBT-Basics` are testing against BigQuery the models you're supposed to create in this section, or checking the file structure of `02-DBT-Basics/dbt_lewagon`
+- Where do you store your answers / create your files ? Always in the DBT project of your current section. Do not touch the empty files you see in the folder. Example : In `02-DBT-Basics` : there are 4 "DBT" files
+  - `src_hackernews.yml`
+  - `stg_hackernews_comment.yml`
+  - `stg_hackernews_full.yml`
+  - `stg_hackernews_story.yml`. They're simply here to enable you to download the solution for those specific files, and see what the code should look like. But they need to appear, populated, in the `dbt_lewagon` folder.
 
 # Setup the environment
 
 ## Install DBT
 
-- Install DBT by downloading it on your local : follow the instructions [here](https://docs.getdbt.com/dbt-cli/install/pip) : IMPORTANT NOTE : the adapter in our case is `bigquery`. Hence the command you should execute is : `pip install dbt-bigquery`
+- There are multiple versions of DBT, which vary depending on the database system you're interacting with. In our case, we're using BigQuery. You'll thus be installing `dbt-bigquery`. Make sure it's part of the packages included in `pyproject.toml`, and run `poetry install` in the `01-Setup-DBT` folder to install it.
 - Make sure DBT is indeed installed by executing `dbt --version` in your terminal.
 
 ## Build the DBT project
 
-- In your terminal, go to the `data-engineering-solutions/02-Advanced-data-pipelines/01-ELT-DBT` path. This is where we'll create the DBT project, that we will call `dbt_lewagon`
+- In your terminal, go to the `02-Advanced-data-pipelines/01-ELT-DBT/01-Setup-DBT` path. This is where we'll create the DBT project, that we will call `dbt_lewagon`
 - Once there, you need to init (create the folder structure) of the DBT project - we'll call it `dbt_lewagon`.
   - In command lines, run `dbt init`. When prompted:
-    - _Enter a name for your project (letters, digits, underscore)_ Enter: `dbt_lewagon`
+    - _Enter a name for your project (letters, digits, underscore)_ Enter: `dbt_lewagon`. If prompted : _The profile dbt_lewagon already exists in ~/.dbt/profiles.yml. Continue and overwrite it?_ Hit `N`.
     - _Which database would you like to use? Enter : 1 for <bigQuery>._ Enter: `1`
     - _Desired authentication method option (enter a number):_ Enter: `2`
     - _keyfile (/path/to/bigquery/keyfile.json):_ : Enter the absolute path of where you stored your BigQuery service account key, including the file name and its extension. Meaning it should look something like this :  `/Users/nicolasbancel/.gcp_keys/lewagon-nicolas-key.json` (If you spell it wrong, you'll be able to modify it later)
@@ -45,7 +62,7 @@ _For more information about the DBT profile, you can read this documentation:_
 
 Let's check that the `profiles.yml` file is configured correctly :
 - Your DBT profile should be stored in a folder at your root called `.dbt`. Open it by running : `code ~/.dbt/profiles.yml`. You should be able to see all the configuration you've set when creating the DBT project.
-- Run `make test` to make sure the setup is correct. Watch out with the levels of indendation in your `profiles.yml` file
+- Run `make test` to make sure the setup of your profile is correct. (The `test_dbt_profile` tests should all be green). Watch out with the levels of indendation in your `profiles.yml` file
 - Push to git.
 
 ## Verify the structure of the DBT project and enhance it
