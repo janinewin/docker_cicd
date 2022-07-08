@@ -4,7 +4,7 @@ include ../../../make.inc
 TAG=lewagon/imgtransform:0.1
 
 # Insert the Docker registry prefix here, remove the trailing slash /
-REGISTRYPREFIX=x
+REGISTRYPREFIX=
 
 # Run the tests
 test: pytest
