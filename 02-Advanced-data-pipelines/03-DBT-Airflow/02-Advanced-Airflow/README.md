@@ -2,14 +2,14 @@
 
 ### Introduction
 
-In this challenge, you will implement a more complex ETL by using advanced Airflow concepts (`Sensor`, `BranchOperator`, `Templating`, `trigger_rule`).
+In this challenge, you will implement a more complex ETL by using advanced Airflow concepts (`Sensor`, `BranchOperator`, `Templating`, `trigger_rule` & `idempotency`).
 
 The goal is to have three DAGs running every month that will:
 - download the monthly New York City Taxi and Limousine Commission (NYC-TLC) data
 - filter the data based on the month to only keep outliers
 - load the filtered data into your database
 
-To get the NYC-TLC data, you will use their public [s3 bucket](https://nyc-tlc.s3.amazonaws.com/). In case, you don't know what an s3 bucket is, [this is the Amazon equivalent to Google Cloud Storage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html).
+To get the NYC-TLC data, you will use their public [s3 bucket](https://d37ci6vzurychx.cloudfront.net/). In case, you don't know what an s3 bucket is, [this is the Amazon equivalent to Google Cloud Storage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html).
 For the saving system, you will use the [parquet format](https://fr.wikipedia.org/wiki/Apache_Parquet) which is very popular in the Data Engineering world to store large amount of data without taking too much space.
 
 PS: We also added an optional part in which you will have to load your data into Google Cloud Storage and then BigQuery.
@@ -41,7 +41,7 @@ You should have in your `extract.py` file a DAG with the following requirements:
 - it should run every month
 
 Then, you need one task:
-- a BashOperator named `curl_trip_data` that will curl monthly data from a s3 bucket and store it locally. The s3 bucket path is designed like this `https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_YYYY-MM.parquet` (use [airflow_variable](https://airflow.apache.org/docs/apache-airflow/stable/templates-ref.html) to generate the date dynamically). You should save the parquet file to `/opt/airflow/data/bronze/yellow_tripdata_YYYY-MM`.
+- a BashOperator named `curl_trip_data` that will curl monthly data from a s3 bucket and store it locally. The s3 bucket path is designed like this `https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_YYYY-MM.parquet` (use [airflow_variable](https://airflow.apache.org/docs/apache-airflow/stable/templates-ref.html) to generate the date dynamically). You should save the parquet file to `/opt/airflow/data/bronze/yellow_tripdata_YYYY-MM`.
 
 
 Once, you are confident with your code run:
@@ -96,8 +96,9 @@ Finally, you will have to create the `load` DAG. The main goal of this DAG is to
 
 As we want your `load` DAG to run only once the `transform` one is done, you will have to use a `sensor` again.
 
-You need three tasks:
+You need four tasks:
 - an [ExternalTaskSensor](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/external_task_sensor.html) with a `task_id` named `transform_sensor` that should wait for the DAG `transform` to be in a success state, and check its state every 10 seconds for a maximum of 10 minutes (after that it should timeout)
+- a `PosgtresOperator` with a `task_id` named `create_trips_table` that should create a table named trips with three columns (`date`, `trip_distance` and `total_amount` that should be a not null `varchar` column, two not null `real` columns).
 - a `PythonOperator` with a `task_id` named `load_to_database` that should trigger the `load_to_database` function with the proper arguments
 - a `PythonOperator` with a `task_id` named `display_number_of_inserted_rows` that should trigger the `display_number_of_inserted_rows` function with the proper arguments
 
@@ -106,9 +107,11 @@ To help you, we have already added the `load_to_database` and `display_number_of
 The second task should be triggered only once the first one succeeds.
 The third one should be triggered only once the the second one succeeds.
 
-You probably noticed that we didn't ask you to create a task for creating the table as we did in the past. The reason is simple, this time you will use `pandas` and its [`to_sql` function](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html) that will directly create the table for you. However, to benefit from this function, you have to provide a database connection (which is different than an Airflow connection). To make it easier, we already provided a function named `create_connection_from_hook` that create a database connection from an Airflow hook and that you will have to pass to your `to_sql` function.
+This time you should use `pandas` and its [`to_sql` function](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html) that will directly fill the table for you. However, to benefit from this function, you have to provide a database connection (which is different than an Airflow connection). To make it easier, we already provided a function named `create_connection_from_hook` that create a database connection from an Airflow hook and that you will have to pass to your `to_sql` function.
 
 Moreover, as said just above, we want you to print the number of inserted rows in your second task. Until now, when you had to pass data through tasks you always save it into files. For this last task, you will use [Airflow xcoms](https://airflow.apache.org/docs/apache-airflow/stable/concepts/xcomss.html) to transfer data from `load_to_database` to `display_number_of_inserted_rows`
+
+Finally, as we want your DAG to be idempotent, you will have first to remove data from the current date before inserting new data.
 
 As always, once your confident with what you have done, run the following command:
 

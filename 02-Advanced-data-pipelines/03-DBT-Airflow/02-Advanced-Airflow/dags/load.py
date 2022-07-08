@@ -24,8 +24,9 @@ def create_connection_from_hook(hook: Union[SqliteHook, PostgresHook]) -> Union[
     return hook.get_conn()
 
 
-def load_to_database(input_file: str, hook: PostgresHook, task_instance: TaskInstance):
+def load_to_database(input_file: str, date: str, hook: PostgresHook, task_instance: TaskInstance):
     """
+    - Removes data from current date if exist by using the PostgresHook
     - Uses pandas functions to create a DataFrame from a csv file
     - Calls create_connection_from_hook to get a database connection from the hook
     - Calls to_sql function from pandas to insert data to the database (by passing the created_connection)

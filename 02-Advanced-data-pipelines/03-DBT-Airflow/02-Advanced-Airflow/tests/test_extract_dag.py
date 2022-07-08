@@ -59,6 +59,6 @@ class TestExtractDag:
             ti = TaskInstance(task, run_id=dagrun.run_id)
             ti.dry_run()
 
-            url = f"https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_2021-0{month}.parquet"
+            url = f"https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-0{month}.parquet"
             filename = f"/opt/airflow/data/bronze/yellow_tripdata_2021-0{month}.parquet"
             assert ti.task.bash_command == f"curl {url} > {filename}"
