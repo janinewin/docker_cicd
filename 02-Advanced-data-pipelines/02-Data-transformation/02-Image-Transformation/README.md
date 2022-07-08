@@ -96,7 +96,7 @@ We've written the function `def apply_face_patches_to_original_image(...)` for y
   <summary markdown='span'>💡 Hint</summary>
 
   The function `apply_face_patches_to_original_image` has two inputs.
-  
+
   - `img` of type `np.ndarray`
   - `face_patches` of type `List[Patch]`
 
@@ -125,7 +125,7 @@ Congratulations, you've built a fun webapp to detect faces. Let's share it with 
 
 **Step 1**
 
-Regardless of your cloud provider, we'll need to **package the app within a Docker image**. We've already written the `Dockerfile` for you. We've left a lot of comments in it. Please take a moment to read through it and **follow the instruction at the end**. Run `make test` and `git push` your code, `test_dockerfile` should pass. 
+Regardless of your cloud provider, we'll need to **package the app within a Docker image**. We've already written the `Dockerfile` for you. We've left a lot of comments in it. Please take a moment to read through it and **follow the instruction at the end**. Run `make test` and `git push` your code, `test_dockerfile` should pass.
 
 **Now build the Docker image with `make build`.**
 
@@ -161,7 +161,7 @@ Go to Cloud Run and create a new service: click `CREATE SERVICE`.
 - Give it the service name `lwface`
 - Pick the closest region, if you're in Europe, pick `europe-west` for instance.
 - CPU allocation: `CPU is only allocated during request processing`
-- Autoscaling: Minimum of 0 and Maximum of 5
+- Autoscaling: Minimum of 0 and Maximum of 3
 - Open `Container, Variables & Secrets, Connections, Security`
   - What's the container port? Hint 💡: look in the `CMD` of the `Dockerfile`
   - Up the memory to 1 GiB
@@ -203,6 +203,7 @@ Ready to show your app to the world? Follow the same steps as earlier to deploy 
   - Deploy with `make push`
   - On Cloud Run, click `EDIT & DEPLOY RUN REVISION`
     - Find the newer version in the Artifact Registry.
+    - Set minimum to 1 and maximum to 3.
     - You need to up the RAM requirements to 8GiB.
     - You need to up the CPU requirements to 2.
 </details>

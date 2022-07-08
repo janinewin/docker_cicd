@@ -6,6 +6,10 @@ FROM python:3.8.10-slim
 # See https://stackoverflow.com/a/59812588
 ENV PYTHONUNBUFFERED 1
 
+# Install Ubuntu dependencies for our various fancy image transformation packages
+RUN apt-get update -y && \
+  apt-get -y install ffmpeg libsm6 libxext6 libgl1-mesa-glx libopencv-dev
+
 # Set a working directory that maps our data-engineering-challenges repository structure
 # so that relative imports like ../../../common/lewagonde work within the Docker image
 WORKDIR /repo/02-Advanced-data-pipelines/02-Data-transformation/02-Image-Transformation/
@@ -28,6 +32,6 @@ COPY ./ ./
 ENV PORT 8080
 
 # Run the `streamlit run` command on port 8080
-CMD poetry run streamlit run lwface/face.py --server.address 0.0.0.0 --server.port $PORT
+CMD poetry run streamlit run lwface/Home.py --server.address 0.0.0.0 --server.port $PORT
 
 # --> Delete this line when you've read the full Dockerfile, so the `test_dockerfile` test passes ;)
