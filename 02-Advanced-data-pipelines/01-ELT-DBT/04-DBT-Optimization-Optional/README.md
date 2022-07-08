@@ -35,6 +35,5 @@ The correction is in 2 files:
 
 Everytime you run the `stg_hackernews_full` model, it loads the entire dataset (it does not because we've limited to the last 10 days - but in reality, on the production environment, it would). Hence you would be processing 12GB everytime you run this script. Still, even on our dev environment, where we've limited the amount of data to be loaded, it's still loading 10 full days while the data of those previous days was already in the table.
 - Make the `stg_hackernews_full` model an incremental model, which loads only the records that have not been inserted in the previous run. We won't give any indication on this - you should explore the DBT documentation by yourself. Run the model : `dbt run -m stg_hackernews_full` : do you notice how many records were inserted ?
-  - Did it fix the amount of GB being processed though ? Do you know why ? How would you go around that ?
 
 The correction is in the file: `stg_hackernews_full_2.sql`

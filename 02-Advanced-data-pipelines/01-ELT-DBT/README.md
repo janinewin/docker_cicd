@@ -11,9 +11,6 @@ Last week, you've learnt how to setup a Database, pull data into a database, que
 - you were not transforming the data much - your queries were used to display results and graphs, but were not stored physically, nor saved anywhere.
 
 Today, you'll work exactly on that. Which concretelly means :
-- you will setup a BigQuery DEV environement and you'll see in the recap how you can leverage projects to have both a DEV and a PROD environment.
-  - The DEV environement is where you can play around with data, build intermediate tables etc, using it as a sandbox
-  - The PROD environment is only accessible by 1 service account, which execute the code (table creation + data insertion) which has been reviewed and validated by peers.
 - you will build multiple layers of data quality :
   - a raw layer : the raw / un transformed data. The source data, essentially
   - a staging layer : an intermediate layer, where you've done a first pass of transformations on your data
@@ -25,14 +22,13 @@ Today, you'll work exactly on that. Which concretelly means :
   - which knows when to write into which BigQuery project mentioned above
   - stores all your SQL queries + parameters needed to build your new tables / views
 
+In the recap, you'll learn about how to setup a DEV and a PROD environment in BigQuery, using DBT.
+- The DEV environement is where you can play around with data, build intermediate tables etc, using this environment as a sandbox
+- The PROD environment is only accessible by 1 service account, which execute the code (table creation + data insertion) which has been reviewed and validated by peers.
+
 ## Planning of the day
 
 So you should do the exercices in the correct order
 - Setup BigQuery
 - Setup DBT
 - Build models in DBT in order to facilitate the analysis about the HackerNews data for your business stakeholders
-
-## Important notes
-
-- The DBT structure does not exist, you're supposed to build it yourself
-- In each section, you'll see empty files : you don't need to populate them. The tests are running against you DBT file structure, not against those indepedent files. They are here so that if you want to download a solution, you simply download the solution related to that specific file, rather than downloading the solution of the entire DBT project.
