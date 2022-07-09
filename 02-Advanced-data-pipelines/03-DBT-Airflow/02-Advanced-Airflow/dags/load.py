@@ -37,7 +37,7 @@ def load_to_database(input_file: str, date: str, hook: PostgresHook, task_instan
 
 def display_number_of_inserted_rows(task_instance: TaskInstance):
     """
-    Uses xcom_pull to get the number of inserted values to database and log it.
+    Uses xcom_pull to get the number of inserted values to database and log it by using the logging module.
     The log should be formatted as "number_of_inserted_rows trips have been inserted".
     """
     pass  # YOUR CODE HERE

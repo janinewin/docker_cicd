@@ -2,7 +2,7 @@
 
 ### Introduction
 
-In this challenge, you will implement a more complex ETL by using advanced Airflow concepts (`Sensor`, `BranchOperator`, `Templating`, `trigger_rule` & `idempotency`).
+In this challenge, you will implement a more complex ETL by using advanced Airflow concepts (`Sensor`, `BranchOperator`, `Templating`, `trigger_rule`, `xcoms` & `idempotency`).
 
 The goal is to have three DAGs running every month that will:
 - download the monthly New York City Taxi and Limousine Commission (NYC-TLC) data
@@ -65,11 +65,11 @@ Regarding the DAG configurations, it should reuse the same arguments as for the 
 As we want your `transform` DAG to run only once the `extract` one is done, you will have to use a [sensor](https://airflow.apache.org/docs/apache-airflow/stable/concepts/sensors.html).
 
 You need six tasks:
-- a [ExternalTaskSensor](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/external_task_sensor.html) with a `task_id` named `extract_sensor` that should wait for the DAG `extract` to be in a success state, and check its state every 10 seconds for a maximum of 10 minutes (after that, it should timeout)
+- a [ExternalTaskSensor](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/external_task_sensor.html) with a `task_id` named `extract_sensor` that should wait for the DAG `extract` to be in a success state, and check its state every 10 seconds for a maximum of 10 minutes (after that, it should timeout). No need, to specify an external `task_id`, such that it will wait for the DAG itself to succeed
 - a [BranchPythonOperator](https://airflow.apache.org/docs/apache-airflow/1.10.6/concepts.html?highlight=branch+operator#branching) with a `task_id` named `is_month_odd` that should trigger the `is_month_odd` function with the proper arguments
 - a `PythonOperator` with a `task_id` named `filter_long_trips` that should trigger the `filter_long_trips` function with the proper arguments (set the `distance` argument to `150`)
 - a `PythonOperator` with a `task_id` named `filter_expensive_trips` that should trigger the `filter_expensive_trips` function with the proper arguments (set the `amount` argument to `500`)
-- a `PythonOperator` with a `task_id` named `display_number_of_kept_rows` that should trigger the `display_number_of_kept_rows` function with the proper arguments.
+- a `PythonOperator` with a `task_id` named `display_number_of_kept_rows` that should trigger the `display_number_of_kept_rows` function with the proper arguments
 - a `EmptyOperator` with a `task_id` named `end`
 
 To help you, we have already added the `is_month_odd`, `filter_long_trips`, `filter_expensive_trips` and `display_number_of_kept_rows` functions signatures, but be careful:
