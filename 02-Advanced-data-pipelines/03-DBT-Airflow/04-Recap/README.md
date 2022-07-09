@@ -1,1 +1,1 @@
-Let's discuss pros and cons of the various DBT to Airflow implementations!
+Let's discuss pros and cons of the various DBT in Airflow implementations!

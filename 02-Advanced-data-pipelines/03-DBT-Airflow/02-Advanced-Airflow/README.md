@@ -9,8 +9,8 @@ The goal is to have three DAGs running every month that will:
 - filter the data based on the month to only keep outliers
 - load the filtered data into your database
 
-To get the NYC-TLC data, you will use their public [s3 bucket](https://d37ci6vzurychx.cloudfront.net/). In case, you don't know what an s3 bucket is, [this is the Amazon equivalent to Google Cloud Storage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html).
-For the saving system, you will use the [parquet format](https://fr.wikipedia.org/wiki/Apache_Parquet) which is very popular in the Data Engineering world to store large amount of data without taking too much space.
+To get the NYC-TLC data, you will use their public [data](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page).
+For the saving system, you will use the parquet format for your bronze layer and the csv format for your silver one.
 
 PS: We also added an optional part in which you will have to load your data into Google Cloud Storage and then BigQuery.
 
@@ -41,7 +41,7 @@ You should have in your `extract.py` file a DAG with the following requirements:
 - it should run every month
 
 Then, you need one task:
-- a BashOperator named `curl_trip_data` that will curl monthly data from a s3 bucket and store it locally. The s3 bucket path is designed like this `https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_YYYY-MM.parquet` (use [airflow_variable](https://airflow.apache.org/docs/apache-airflow/stable/templates-ref.html) to generate the date dynamically). You should save the parquet file to `/opt/airflow/data/bronze/yellow_tripdata_YYYY-MM`.
+- a BashOperator named `curl_trip_data` that will curl monthly data from a s3 bucket and store it locally. The s3 bucket path is designed like this `https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_YYYY-MM.parquet` (use [airflow_variable](https://airflow.apache.org/docs/apache-airflow/stable/templates-ref.html) to generate the date dynamically). You should save the parquet file to `/opt/airflow/data/bronze/yellow_tripdata_YYYY-MM.parquet`.
 
 
 Once, you are confident with your code run:
@@ -50,7 +50,7 @@ Once, you are confident with your code run:
 make test_extract_dag
 ```
 
-You will see that the tests fake running your DAG on two dates `2021-01-01` and `2021-02-01` to make sure that you correctly use Airflow's variables.
+You will see that the tests fake running your DAG on two dates `2021-06-01` and `2021-07-01` to make sure that you correctly use Airflow's variables.
 
 If this is not done yet, open an Airflow instance locally and start your DAG to download the data and make sure that it is appearing in your bucket.
 
@@ -88,7 +88,7 @@ Then, as for the previous week, you have to fill the functions that we have crea
 make test_transform_dag
 ```
 
-Again, run the DAG on your Airflow UI to check that everything is running well and then 💾 save your work in progress on GitHub.
+Again, run the DAG on your Airflow UI to check that everything is running well and then save your work in progress on GitHub.
 
 ## Load DAG Instructions
 
@@ -98,16 +98,17 @@ As we want your `load` DAG to run only once the `transform` one is done, you wil
 
 You need four tasks:
 - an [ExternalTaskSensor](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/external_task_sensor.html) with a `task_id` named `transform_sensor` that should wait for the DAG `transform` to be in a success state, and check its state every 10 seconds for a maximum of 10 minutes (after that it should timeout)
-- a `PosgtresOperator` with a `task_id` named `create_trips_table` that should create a table named trips with three columns (`date`, `trip_distance` and `total_amount` that should be a not null `varchar` column, two not null `real` columns).
+- a `PosgtresOperator` with a `task_id` named `create_trips_table` that should create a table named `trips` with three columns (`date`, `trip_distance` and `total_amount` that should be a not null `varchar` column, two not null `real` columns).
 - a `PythonOperator` with a `task_id` named `load_to_database` that should trigger the `load_to_database` function with the proper arguments
 - a `PythonOperator` with a `task_id` named `display_number_of_inserted_rows` that should trigger the `display_number_of_inserted_rows` function with the proper arguments
 
 To help you, we have already added the `load_to_database` and `display_number_of_inserted_rows` functions signatures.
 
 The second task should be triggered only once the first one succeeds.
-The third one should be triggered only once the the second one succeeds.
+The third one should be triggered only once the second one succeeds.
+The fourth one should be triggered only once the third one succeeds.
 
-This time you should use `pandas` and its [`to_sql` function](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html) that will directly fill the table for you. However, to benefit from this function, you have to provide a database connection (which is different than an Airflow connection). To make it easier, we already provided a function named `create_connection_from_hook` that create a database connection from an Airflow hook and that you will have to pass to your `to_sql` function.
+For the `load_to_database` function you should use `pandas` and its [`to_sql` function](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html) that will directly fill the table for you. However, to benefit from this function, you have to provide a database connection (which is different than an Airflow connection). To make it easier, we already provided a function named `create_connection_from_hook` that create a database connection from an Airflow hook and that you will have to pass to your `to_sql` function.
 
 Moreover, as said just above, we want you to print the number of inserted rows in your second task. Until now, when you had to pass data through tasks you always save it into files. For this last task, you will use [Airflow xcoms](https://airflow.apache.org/docs/apache-airflow/stable/concepts/xcomss.html) to transfer data from `load_to_database` to `display_number_of_inserted_rows`
 
@@ -119,11 +120,13 @@ As always, once your confident with what you have done, run the following comman
 make test_load_dag
 ```
 
-Do not hesitate to connect to Adminer and check the content of your Database and then 💾 save your work in progress on GitHub.
+Do not hesitate to connect to Adminer and check the content of your Database.
+
+Then, save your work in progress on GitHub 💾
 
 ## Optional Google Cloud
 
-This part will guide you to load your data to BigQuery. As mentioned, it is optional.
+This part will guide you to load your data to BigQuery, but as mentioned, it is optional.
 
 In order to use BigQuery you will have to create the Airflow connection. This time, you will do it directly from the Airflow UI. Let's start by launching a local Airflow:
 
@@ -131,21 +134,21 @@ In order to use BigQuery you will have to create the Airflow connection. This ti
 docker-compose up
 ```
 
-Then, hover the `Admin` tab and select on `Connections`. Click on the white cross to add a new record:
+Then, hover the `Admin` tab and select `Connections`. Click on the white cross to add a new record:
 - name the `Connection Id` `google_cloud_connection`
 - set the `Connection Type` to `Google Cloud`
 - copy paste the whole content of your `service-account.json` to the `Keyfile JSON`
 
-To make your life easier, you will use the `GCSToBigQueryOperator` that will allow you to directly load file to BigQuery without using a hook. In order to use it, you need to push your local data to Google Cloud Storage. First, let's start by opening your google cloud console and create a bucket named `name-silver` (once again, replace with your first letter of first name and whole last name) and let the default parameters for that bucket.
+To make your life easier, you will use the `GCSToBigQueryOperator` that will allow you to directly load file to BigQuery from Google Cloud Storage without using a hook. In order to use it, you need to push your local data to Google Cloud Storage. First, let's start by opening your google cloud console and create a bucket named `name-silver` (once again, replace with your first letter of first name and whole last name) and let the default parameters for that bucket.
 
 Once the bucket creation is is done, let's move to your DAG creation. Start by creating an `optional_google_cloud.py` in which you will create a DAG named `optional_google_cloud` with the same arguments as the other ones.
 
 This dag needs 5 tasks:
 - an [ExternalTaskSensor](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/external_task_sensor.html) with a `task_id` named `transform_sensor` that should wait for the DAG `transform` to be in a success state, and check its state every 10 seconds for a maximum of 10 minutes (after that it should timeout)
 - a [LocalFileSystemToGCSOperator](https://airflow.apache.org/docs/apache-airflow-providers-google/1.0.0/operators/transfer/local_to_gcs.html) with a `task_id` named `upload_local_file_to_gcs` that should load your local silver file to your Google Cloud Storage silver bucket with the same file's name
-- a [`BigQueryCreateEmptyDatasetOperator`](https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/airflow/providers/google/cloud/operators/bigquery/index.html#airflow.providers.google.cloud.operators.bigquery.BigQueryCreateEmptyDatasetOperator) with a `task_id` named `create_dataset` that should create the `name_tripdata` dataset (once again, replace with your first letter of first name and whole last name)
-- a [`BigQueryCreateEmptyTableOperator`](https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/airflow/providers/google/cloud/operators/bigquery/index.html#airflow.providers.google.cloud.operators.bigquery.BigQueryCreateEmptyTableOperator) with a `task_id` named `create_table` that should create a table named `name_trips` (once again, replace with your first letter of first name and whole last name) in the dataset `name_tripdata` with the proper schema (`month` as a string and trip_distance & total_amount as floats)
-- a [`GCSToBigQueryOperator`](https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/airflow/providers/google/cloud/transfers/gcs_to_bigquery/index.html) with a `task_id` named `load_to_bigquery` that should append the content of the `silver` file to the `trips` table while skipping the headears
+- a [`BigQueryCreateEmptyDatasetOperator`](https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/airflow/providers/google/cloud/operators/bigquery/index.html#airflow.providers.google.cloud.operators.bigquery.BigQueryCreateEmptyDatasetOperator) with a `task_id` named `create_dataset` that should create the `name_tripdata` dataset (once again, replace with the first letter of your first name and your whole last name)
+- a [`BigQueryCreateEmptyTableOperator`](https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/airflow/providers/google/cloud/operators/bigquery/index.html#airflow.providers.google.cloud.operators.bigquery.BigQueryCreateEmptyTableOperator) with a `task_id` named `create_table` that should create a table named `trips` (once again, replace with the first letter of your first name and your whole last name) in the dataset `name_tripdata` with the proper schema (`month` as a string and `trip_distance` & `total_amount` as floats)
+- a [`GCSToBigQueryOperator`](https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/airflow/providers/google/cloud/transfers/gcs_to_bigquery/index.html) with a `task_id` named `load_to_bigquery` that should append the content of the `silver` file to the `trips` table
 
 Once your confident with what you have done, run the following command:
 
@@ -153,4 +156,4 @@ Once your confident with what you have done, run the following command:
 make test_optional_google_cloud
 ```
 
-Then, take time to launch the DAG from your Airflow UI and check your Google Cloud Storage BigQuery instances to see if data is coming.
+Then, take time to launch the DAG from your Airflow UI and check your Google Cloud Storage & BigQuery instances to see if data is coming.
