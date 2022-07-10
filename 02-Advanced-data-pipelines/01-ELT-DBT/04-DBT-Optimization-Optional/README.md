@@ -44,6 +44,8 @@ Your previous `mart_user` model should be calling macros 6 times total (3 macros
 - The correction is in 2 files :
   - `mart_user_macro_2.sql` is the expected macro
   - `mart_user_model_2.sql` is the expected `mart_user` model, modified to use the macro defined above.
+- Run `make test`
+- Push to git.
 - As a next step, you could make the code even more succinct by writing a FOR loop that iterates over a list that gathers the different types - but there's very little value in this : for the sake of optimization, we would be sacrificing the readibility of the query.
 
 ### Scaling your documentation and testing
@@ -54,3 +56,5 @@ Your previous `mart_user` model should be calling macros 6 times total (3 macros
 - Implement a standard test which ensures referential integrity between the `user_id` in `mart_user` and the `author` in `stg_hackernews_full`
 - The customer support team would like to spot potential bots, and have asked you to implement a test on the pipeline, which fails if, on a given day, a user has posted strictly more than 50 stories. How would you implement this ? 
   - Note that this is not a "critical" test. Hence DBT should not throw an error if it fails, but rather send a "warning".
+
+There is no correction for that last section. Ping the teacher if you need guidance.
