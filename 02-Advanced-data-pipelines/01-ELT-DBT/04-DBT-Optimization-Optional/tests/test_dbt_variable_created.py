@@ -15,10 +15,6 @@ with open(dbt_project_path) as f:
     dbt_project_yml = yaml.safe_load(f)
 
 
-def test_dbt_project_created():
-    assert dbt_project_path.is_file(), "dbt_project.yml has not been created"
-
-
 def test_vars_created():
     assert dbt_project_yml.get("vars") is not None, "variables not set in dbt_project.yml"
 

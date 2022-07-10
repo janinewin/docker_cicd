@@ -45,7 +45,8 @@ Your previous `mart_user` model should be calling macros 6 times total (3 macros
 - The correction is in 2 files :
   - `mart_user_macro_2.sql` is the expected macro
   - `mart_user_model_2.sql` is the expected `mart_user` model, modified to use the macro defined above.
-- As a next step, you could make the code even more succinct by writing a FOR loop that iterate over a list that gathers the different types - but there's very little value in this : for the sake of optimization, we would be sacrificing the readibility of the query.
+- As a next step, you could make the code even more succinct by writing a FOR loop that iterates over a list that gathers the different types - but there's very little value in this : for the sake of optimization, we would be sacrificing the readibility of the query.
+
 
 ### Incremental models
 
