@@ -3,16 +3,20 @@
 _Note : there's no action item in this section_
 
 There are 3 main issues in the previous setups we've done, that are not optimal
-1. When picking capturing data from the last 10 days of the Hackernews datasetup, we've harcoded in the code the value `10` : this should never be the case. This variable should be centralized somewhere
-2. When we were couting the `num_comments`, `num_stories`, the first and the last time those comments or stories were written : we were writing a lot of duplicated code.
-3. The loading of `stg_hackernews_full` is very heavy everytime we run the script : we should find a way to make this load lighter
+1. When picking data from the last 20 days of the Hackernews dataset, we've harcoded in the code the value `20` : this should never be the case. This variable should be centralized somewhere
+2. When we were counting the `num_comments`, `num_stories`, the first and the last time those comments or stories were written : we were writing a lot of duplicated code.
+3. If we were to document the project more, we would be defining the same fields multiple times, in different places. We should centralize this documentation.
 
 ## Instructions
 
+_First : copy `dbt_lewagon` from the previous challenge section into this one_
+
 ### Create variables
 
-- In the `dbt_project.yml`, introduce a variable called `last_x_days_history`, that you'll set to `10`. And use that variable when building the `stg_hackernews_full.sql` model. Link to the documentation : [Using variables](https://docs.getdbt.com/docs/building-a-dbt-project/building-models/using-variables), and then, how to use it in a model : [var](https://docs.getdbt.com/reference/dbt-jinja-functions/var)
-  Correction is in the `stg_hackernews_full_1.sql` file
+- In the `dbt_project.yml`, introduce a variable called `last_x_days_history`, that you'll set to `20`. And use that variable when building the `stg_hackernews_full.sql` model. Search the DBT documentation yourself to understand how things should be setup.
+  Correction is in the `stg_hackernews_full.sql` and `dbt_project.yml` files
+- Run `make test` - `test_dbt_project_created` and `test_dbt_variable_created` should succeed.
+- Push to git.
 
 
 ### Don't Repeat Yourself - Macros
@@ -22,18 +26,35 @@ There are 3 main issues in the previous setups we've done, that are not optimal
   - 1 called `first_type_at` : which takes a given type as an argument. And returns when that type happened the first time (based on `created_at_local`) for a given level of aggregation. It also returns the name of the column associated to this calculation
   - 1 called `last_type_at` : same as above, but for the most recent occurence of the type
 - To be more precise :
-  - `{{ num_types('comment') }}` should output a piece of code like that : `COUNT(xxxxx) AS num_comment`
+  - `{{ num_types('comment') }}` should output a piece of code like that : `COUNT(xxxxx) AS num_comment` (let's simplify and keep column names singular - this will change a bit from the previous name you gave to that column)
   - `{{ first_type_at('comment') }}` should output a piece of code like that : `OPERATION(xxxxx) AS first_comment_at` etc
   - If you need help on this, you can read this documentation : [Jinja](https://docs.getdbt.com/docs/building-a-dbt-project/jinja-macros)
 
-The correction is in 2 files:
-- `macro_mart_user.sql` is the expected macro
-- `mart_user.sql` is the `mart_user` model, modified to use the macro defined above
+The correction is in 2 files :
+- `mart_user_macro_1.sql` is the expected macro
+- `mart_user_model_1.sql` is the `mart_user` model, modified to use the macro defined above
 
+Your previous `mart_user` model should be calling macros 6 times total (3 macros per type. On 2 types).
 
-### Incremental models
+- Build a macro called `key_metrics_per_type` which, for a given type, builds the 3 key metrics :
+  - num_xxx
+  - first_xxx_at
+  - last_xxx_at ?
+    Modify your `mart_user` to use this macro. It should now be calling it 2 times. 1 for each type.
+- The correction is in 2 files :
+  - `mart_user_macro_2.sql` is the expected macro
+  - `mart_user_model_2.sql` is the expected `mart_user` model, modified to use the macro defined above.
+- Run `make test`
+- Push to git.
+- As a next step, you could make the code even more succinct by writing a FOR loop that iterates over a list that gathers the different types - but there's very little value in this : for the sake of optimization, we would be sacrificing the readibility of the query.
 
-Everytime you run the `stg_hackernews_full` model, it loads the entire dataset (it does not because we've limited to the last 10 days - but in reality, on the production environment, it would). Hence you would be processing 12GB everytime you run this script. Still, even on our dev environment, where we've limited the amount of data to be loaded, it's still loading 10 full days while the data of those previous days was already in the table.
-- Make the `stg_hackernews_full` model an incremental model, which loads only the records that have not been inserted in the previous run. We won't give any indication on this - you should explore the DBT documentation by yourself. Run the model : `dbt run -m stg_hackernews_full` : do you notice how many records were inserted ?
+### Scaling your documentation and testing
 
-The correction is in the file: `stg_hackernews_full_2.sql`
+- In the previous section, you're calling your macros with inputs that are hardcoded : type is `'comment'`, or `'story'`. This no longer works if the original type is changed by the HackerNews software engineers. Let's say they rename `'story'` and now call them `'post'`. `num_story` would be 0 for all new "posts" being written by the authors. Write a test which controls the distinct list of values for the `type` field.
+  - In which `yml` file should you write this test ?
+- The only model you've documented so far was the `mart_user` model. Quickly document the `stg_hackernews_comment`, `stg_hackernews_story`, and `stg_hackernews_full`. There are some fields that are repeated across all those models : instead of copy pasting the definitions, centralize their definitions in a `/models/central_documentation.md` file. To use this centralized documentation, leverage the `doc` jinja function.
+- Implement a standard test which ensures referential integrity between the `user_id` in `mart_user` and the `author` in `stg_hackernews_full`
+- The customer support team would like to spot potential bots, and have asked you to implement a test on the pipeline, which fails if, on a given day, a user has posted strictly more than 50 stories. How would you implement this ? 
+  - Note that this is not a "critical" test. Hence DBT should not throw an error if it fails, but rather send a "warning".
+
+There is no correction for that last section. Ping the teacher if you need guidance.

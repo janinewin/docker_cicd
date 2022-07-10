@@ -4,9 +4,11 @@ You'll create your first models in staging, which are refined versions of the `s
 
 ## Instructions
 
+_First : copy `dbt_lewagon` from the previous challenge section into this one_
+
 ### Configuring your sources
 
-- Under the `models/source` folder, create a file named `src_hackernews.yml` by running - from `dbt_lewagon`, the following command : `touch models/source/src_hackernews.yml`. This is where you'll configure the reference to the BigQuery public dataset : HackerNews.
+- Under the `models/source` folder, create a file named `src_hackernews.yml`. This is where you'll configure the reference to the BigQuery public dataset : HackerNews.
 - Populate this file so that it understands :
   - in which BQ project it's located
   - in which BQ dataset it's located
@@ -21,7 +23,7 @@ You'll create your first models in staging, which are refined versions of the `s
 
 ### Configuring your first staging model
 
-- Under the `models/staging/` folder, create a file called `stg_hackernews_full.sql`. You can execute the following command from `dbt_lewagon` : `touch models/staging/stg_hackernews_full.sql`
+- Under the `models/staging/` folder, create a file called `stg_hackernews_full.sql`.
 - Configure this model this way :
   - It should be a `table` materialization
   - It should simply be reading from the `bigquery-public-data.hacker_news.full` table.
@@ -31,17 +33,24 @@ You'll create your first models in staging, which are refined versions of the `s
     - `deleted` to `is_deleted`
     - `dead` to `is_dead`
   - Convert the `timestamp` field into a `DATETIME`, in the `America/Los_Angeles` timezone, and call the field `created_at_local`
-  - Add a column called `row_created_at_local` which logs the `CURRENT_DATETIME` at which the row is created in the table, in the "America/Los_Angeles" timezone
+  - Add a column called `row_created_at_local` which logs the `CURRENT_DATETIME` at which the row is created in the table, in the `America/Los_Angeles` timezone
   - Filter the records
-    - to only keep the data that was `created_at_local` in the last 10 days of data (you can use the `DATE_SUB` SQL function)
-    - and get rid of the records where `dead` is `TRUE`
+    - get rid of the records that are "dead"
+    - only keep the data that was `created_at_local` in the last 20 days of data
+
+      <details>
+        <summary markdown='span'>💡 Hint</summary>
+        You can you can use the `DATE_SUB` SQL function
+      </details>
+
 - Run this model by executing the following command in your terminal : `dbt run -m stg_hackernews_full` and check that it's been created in BigQuery : `dbt run -m stg_hackernews_full`
-- Run `make test` and push to git
+- Run `make test` : 2 tests should have passed : `test_hackernews_full_structure`, and `test_hackernews_full_content`. It's normal that the others are failing.
+- Push to git.
 
 ### Configure new staging models
 
 Configure `stg_hackernews_comment.sql` :
-- Under the `models/staging/` folder, create a file called `stg_hackernews_comment.sql` :  `touch models/staging/stg_hackernews_comment.sql`
+- Under the `models/staging/` folder, create a file called `stg_hackernews_comment.sql`.
 - Make this model
   - a `table`
   - which reads from `stg_hackernews_full`
@@ -66,7 +75,7 @@ Configure `stg_hackernews_comment.sql` :
 - Run `make test` and push to git
 
 Configure `stg_hackernews_story.sql` :
-- Under the `models/staging/` folder, create a file called `stg_hackernews_story.sql` : `touch models/staging/stg_hackernews_story.sql`
+- Under the `models/staging/` folder, create a file called `stg_hackernews_story.sql`.
 - Make this model
   - a `table`
   - which reads from `stg_hackernews_full`
@@ -90,7 +99,8 @@ Configure `stg_hackernews_story.sql` :
   , row_created_at_local
   ```
 - Run this model : `dbt run -m stg_hackernews_story`
-- Run `make test` and push to git
+- Run `make test` - all tests should now pass.
+- Push to git.
 
 ## Recap
 

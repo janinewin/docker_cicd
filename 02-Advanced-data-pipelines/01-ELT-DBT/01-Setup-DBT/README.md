@@ -10,7 +10,7 @@ There are 4 steps in this setup
 
 # Important notes about the DBT challenges
 
-_:rotating_light: Please read this carefully : it gives you information about how you'll do your challenges today :rotating_light:_
+:rotating_light: _Please read this carefully : it gives you information about how you'll do your challenges today_ :rotating_light:
 
 - A DBT project is a set of files, organized in a tree structure. We did not create this structure for you - you'll have to build it yourself.
 - In each new challenge section, you're building up on top of the DBT project you've worked on in the previous challenge. So :
@@ -19,7 +19,7 @@ _:rotating_light: Please read this carefully : it gives you information about ho
    - When starting `03-DBT-Advanced`, the first thing you'll do is to copy the whole `dbt_lewagon` directory from `02-DBT-Basics` into `03-DBT-Advanced` (running a command like `cp -r ../02-DBT-Basics/dbt_lewagon .`, from `03-DBT-Advanced`) (same as above)
    - And so on.
     There's a continuity in the exercices, where little by little, you're building a robust DBT project.
-- Tests : you run tests in the challenge you're in. They'll be testing exactly the files / models that you're supposed to build in the section. Meaning : the tests of `02-DBT-Basics` are testing against BigQuery the models you're supposed to create in this section, or checking the file structure of `02-DBT-Basics/dbt_lewagon`
+- Tests : you run tests in the challenge you're in. They'll be testing exactly the files / models that you're supposed to build in the section. Meaning : the tests of `02-DBT-Basics` are testing against the BigQuery models you're supposed to create in this section, or checking the file structure of `02-DBT-Basics/dbt_lewagon`
 - Where do you store your answers / create your files ? Always in the DBT project of your current section. Do not touch the empty files you see in the folder. Example : In `02-DBT-Basics` : there are 4 "DBT" files
   - `src_hackernews.yml`
   - `stg_hackernews_comment.yml`
@@ -35,7 +35,7 @@ _:rotating_light: Please read this carefully : it gives you information about ho
 
 ## Build the DBT project
 
-- In your terminal, go to the `02-Advanced-data-pipelines/01-ELT-DBT/01-Setup-DBT` path. This is where we'll create the DBT project, that we will call `dbt_lewagon`
+- In your terminal, go to the `02-Advanced-data-pipelines/01-ELT-DBT/01-Setup-DBT` path. This is where we'll create the DBT project.
 - Once there, you need to init (create the folder structure) of the DBT project - we'll call it `dbt_lewagon`.
   - In command lines, run `dbt init`. When prompted:
     - _Enter a name for your project (letters, digits, underscore)_ Enter: `dbt_lewagon`. If prompted : _The profile dbt_lewagon already exists in ~/.dbt/profiles.yml. Continue and overwrite it?_ Hit `N`.
@@ -111,6 +111,7 @@ Let's organize the project better. We said there are 3 layers :
 - the `mart` data - which contains clean metrics business stakeholders can report on.
 
 Let's make sure the `.sql` file corresponding to each layer lie in a folder that corresponds to what they're supposed to do: `cd` to the `dbt_lewagon` directory. From there, execute the following command :
+
   ```bash
     mkdir models/source;
     mkdir models/staging;
@@ -120,7 +121,8 @@ Let's make sure the `.sql` file corresponding to each layer lie in a folder that
 ### Re organise macros
 
 Macros are pieces of reusable code which work like functions in Python. They take inputs, give an output, and can be used throughout the models of your project. To enable this, let's restructure the `macros` folder. From the `dbt_lewagon` directory : execute the following command :
-```
+
+```bash
 mkdir macros/meta;
 mkdir macros/models;
 ```
@@ -139,10 +141,7 @@ Your DBT project structure should now look like this (`target` may or may not ha
 ├── README.md
 ├── analyses
 ├── data
-├── dbt_packages
 ├── dbt_project.yml
-├── logs
-│   └── dbt.log
 ├── macros
 │   ├── meta
 │   └── models
@@ -155,13 +154,6 @@ Your DBT project structure should now look like this (`target` may or may not ha
 │   ├── source
 │   └── staging
 ├── snapshots
-├── target
-│   ├── compiled
-│   ├── graph.gpickle
-│   ├── manifest.json
-│   ├── partial_parse.msgpack
-│   ├── run
-│   └── run_results.json
 └── tests
 ```
 
