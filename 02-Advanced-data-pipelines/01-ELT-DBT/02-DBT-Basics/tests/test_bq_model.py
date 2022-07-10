@@ -11,15 +11,17 @@ dbt_full_profile_path = os.path.expanduser(dbt_profile_path)
 with open(dbt_full_profile_path) as f:
     profile_dict = yaml.safe_load(f)
 
-dev = profile_dict['dbt_lewagon']['outputs']['dev']
-bq_dataset = dev['dataset']
-bq_project = dev['project']
-bq_credentials_path = dev['keyfile']
+dev = profile_dict["dbt_lewagon"]["outputs"]["dev"]
+bq_dataset = dev["dataset"]
+bq_project = dev["project"]
+bq_credentials_path = dev["keyfile"]
 
 credentials = service_account.Credentials.from_service_account_file(
-  bq_credentials_path, scopes=["https://www.googleapis.com/auth/cloud-platform"],
+    bq_credentials_path,
+    scopes=["https://www.googleapis.com/auth/cloud-platform"],
 )
 client = bigquery.Client(credentials=credentials, project=credentials.project_id)
+
 
 def sql_query_table_structure(model, bq_dataset):
     query = f"SELECT column_name \
@@ -29,29 +31,32 @@ def sql_query_table_structure(model, bq_dataset):
 
 
 def test_hackernews_full_structure():
-    output = client.query(sql_query_table_structure('stg_hackernews_full', bq_dataset))
+    output = client.query(sql_query_table_structure("stg_hackernews_full", bq_dataset))
     df = output.to_dataframe()
-    expected_columns = set([
-    'author',
-    'created_at_local',
-    'descendants',
-    'id',
-    'is_dead',
-    'is_deleted',
-    'original_url',
-    'parent_id',
-    'ranking',
-    'row_created_at_local',
-    'score',
-    'text',
-    'time',
-    'title',
-    'type']
+    expected_columns = set(
+        [
+            "author",
+            "created_at_local",
+            "descendants",
+            "id",
+            "is_dead",
+            "is_deleted",
+            "original_url",
+            "parent_id",
+            "ranking",
+            "row_created_at_local",
+            "score",
+            "text",
+            "time",
+            "title",
+            "type",
+        ]
     )
     assert len(df) >= 1, "stg_hackernews_full model : has not been created yet"
     if len(df) >= 1:
-        actual_columns = set(df['column_name'].tolist())
+        actual_columns = set(df["column_name"].tolist())
         assert expected_columns == actual_columns, "stg_hackernews_full model : list of columns is incorrect"
+
 
 def test_hackernews_full_content():
 
@@ -63,47 +68,50 @@ def test_hackernews_full_content():
     df = output.to_dataframe()
 
     if len(df) >= 1:
-        assert df['num_days'][0] <= 10, "You loaded more than 10 days of data in stg_hackernews_full"
+        assert df["num_days"][0] <= 20, "You loaded more than 20 days of data in stg_hackernews_full"
+
 
 def test_hackernews_story_structure():
-    output = client.query(sql_query_table_structure('stg_hackernews_story', bq_dataset))
+    output = client.query(sql_query_table_structure("stg_hackernews_story", bq_dataset))
     df = output.to_dataframe()
-    expected_columns = set([
-    'story_id',
-    'title',
-    'author',
-    'created_at_local',
-    'text',
-    'original_url',
-    'is_deleted',
-    'is_dead',
-    'ranking',
-    'row_created_at_local',
-    ]
+    expected_columns = set(
+        [
+            "story_id",
+            "title",
+            "author",
+            "created_at_local",
+            "text",
+            "original_url",
+            "is_deleted",
+            "is_dead",
+            "ranking",
+            "row_created_at_local",
+        ]
     )
     assert len(df) >= 1, "stg_hackernews_story model : has not been created yet"
     if len(df) >= 1:
-        actual_columns = set(df['column_name'].tolist())
+        actual_columns = set(df["column_name"].tolist())
         assert expected_columns == actual_columns, "stg_hackernews_story model : list of columns is incorrect"
 
 
 def test_hackernews_comment_structure():
-    output = client.query(sql_query_table_structure('stg_hackernews_comment', bq_dataset))
+    output = client.query(sql_query_table_structure("stg_hackernews_comment", bq_dataset))
     df = output.to_dataframe()
-    expected_columns = set([
-    'comment_id',
-    'comment_parent_id',
-    'author',
-    'created_at_local',
-    'text',
-    'original_url',
-    'is_deleted',
-    'is_dead',
-    'ranking',
-    'row_created_at_local',
-    ]
+    expected_columns = set(
+        [
+            "comment_id",
+            "comment_parent_id",
+            "author",
+            "created_at_local",
+            "text",
+            "original_url",
+            "is_deleted",
+            "is_dead",
+            "ranking",
+            "row_created_at_local",
+        ]
     )
     assert len(df) >= 1, "stg_hackernews_comment model : has not been created yet"
     if len(df) >= 1:
-        actual_columns = set(df['column_name'].tolist())
+        actual_columns = set(df["column_name"].tolist())
         assert expected_columns == actual_columns, "stg_hackernews_comment model : list of columns is incorrect"

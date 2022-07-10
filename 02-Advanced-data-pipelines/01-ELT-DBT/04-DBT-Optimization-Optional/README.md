@@ -9,6 +9,8 @@ There are 3 main issues in the previous setups we've done, that are not optimal
 
 ## Instructions
 
+_First : copy `dbt_lewagon` from the previous challenge section into this one_
+
 ### Create variables
 
 - In the `dbt_project.yml`, introduce a variable called `last_x_days_history`, that you'll set to `10`. And use that variable when building the `stg_hackernews_full.sql` model. Link to the documentation : [Using variables](https://docs.getdbt.com/docs/building-a-dbt-project/building-models/using-variables), and then, how to use it in a model : [var](https://docs.getdbt.com/reference/dbt-jinja-functions/var)
