@@ -18,6 +18,7 @@ async def make_one_call(session: aiohttp.ClientSession) -> Dict[str, Any]:
     # Replace `None` by a call to the API, using the `aiohttp` library
     # Follow the Client example here: https://docs.aiohttp.org/en/stable/#client-example
     # in the function `async def main``
+    # Note that you only need a bit of the code, given that the `session` is already given as an argument of `make_one_call`
     # YOUR CODE HERE
     return response
 

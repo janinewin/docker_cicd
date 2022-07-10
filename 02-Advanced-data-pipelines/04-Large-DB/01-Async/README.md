@@ -78,6 +78,19 @@ When you're done:
 
 Open the files `client_synchronous.py` and `client_asynchronous.py` side by side in VSCode (use "View: Split Editor Right"). Read through the code in `client_asynchronous.py` and notice they key differences and additions in the documented code.
 
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  Try
+  
+  ```python
+  async with session.get("http://localhost:8080/say-hi") as response:
+        response = await response.json()
+  ```
+</details>
+
+Now fill in the blanks in the `make_one_call` function.
+
 ### Let's run a comparison
 
 1️⃣ Run your synchronous and asynchronous code with a number of 10. Which one wins? By how many multiples?
