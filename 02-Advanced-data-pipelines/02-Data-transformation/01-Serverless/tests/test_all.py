@@ -25,3 +25,8 @@ def test_registry_prefix():
     line = [l.strip() for l in open(makefile_fp) if l.startswith("REGISTRYPREFIX=")][0]
     # Assume the REGISTRYPREFIX= is at least 5 characters long (in practice it's probably more)
     assert len(line) > len("REGISTRYPREFIX=") + 5, "Seems like you haven't filed the REGISTRYPREFIX value in the Makefile"
+
+
+def test_runtimes_concurrency():
+    from lwserverless import runs
+    assert runs.runtime_15() < runs.runtime_25(), "Did you run the statistics and fill in the `lwserverless/runs.py` file"

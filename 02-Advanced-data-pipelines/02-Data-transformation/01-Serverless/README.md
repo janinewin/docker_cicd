@@ -125,15 +125,70 @@ To understand the internals of Cloud Run, we are going to
 - make a lot of requests to our app
 - check on which instance of the app the request was made
 - run some analytics on load time
+- root cause why we're getting these statistics!
 
-TODO @selim - Finish the analytics section
+We've written some code for you that will generate statistics, given
 
-Raw notes:
-- Set your API URL as an environment variable
-- Call the API once
-- Call the API asynchronously 100 times and notice how many instances are spawn, as well as latency per call
-  - For each call, we'll give it a unique auto-incrementing ID, measure response time and store it
-- Show that:
-  - The app instance ID isn't always the same
-  - There is a maximum of 3 different instances (as max = 3)
-  - There is an increased latency when we exceed 3 * 5 = 15 = total number of simultaneous possible calls
+- the Cloud Run API URL: type `https://serverless-something-ew.a.run.app/fast-run` and replace `serverless-something-ew.a.run.app` with your own URL
+- the number of calls to the API you're making. It defaults to 25.
+
+### The experiment
+
+- Open an IPython interactive shell by just typing `ipython` in your terminal. Jupyter works too if you prefer.
+- Import the function `generate_statistics` from the `lwserverless.statistics` package.
+- Save your API URL in a variable called `api_url=...`
+- Let's run the following calls:
+
+  ```python
+  # Run a first "cold" call of 25
+  stats_first_run_25, duration_first_run_25 = generate_statistics(api_url, 25)
+
+  # Run the exact same call a second time
+  stats_second_run_25, duration_second_run_25 = generate_statistics(api_url, 25)
+
+  # Run a call for 15
+  stats_run_15, duration_run_15 = generate_statistics(api_url, 15)
+
+  # Run a call for 12
+  stats_run_12, duration_run_12 = generate_statistics(api_url, 12)
+  ```
+
+You should notice that:
+
+- The first call of 25 takes longer than the second call of 25. Why?
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  We've set the minimum value of instances to 0. So when the instances aren't running, the first one needs to do a [cold start](https://cloud.google.com/run/docs/tips/general?hl=en#using_minimum_instances_to_reduce_cold_starts).
+</details>
+
+- How many different `app_instance_id` values are there? Look into `stats_second_run_25` by just typing it and evaluating it in the console.
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  As many as the number of instances in Cloud Run! Check by doing `len(set(stats_second_run_25["app_instance_id"]))`
+</details>
+
+- Look into `stats_second_run_25` by just typing it and evaluating it in the console. What do you notice for the last 10 calls?
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  We have a maximum of 3 (number of instances) x 5 (allowed concurrency of each instance) = 15 calls to our instances that can happen simultaneously to our cloud instances at most.
+
+  Once the first 15 are filled, the following will have to wait for them to complete.
+</details>
+
+- Finally, what differences do you see in total runtime of the 15 versus 12 runs? Does it make sense?
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  The calls all happen concurrently on 3 instances which can each accept 5 concurrent requests. Therefore running 2 requests or 5 requests on one instance shouldn't have a significant impact on the total runtime.
+</details>
+
+Once you're done, fill in the blanks in the `lwserverless/runs.py` file and run `make test`.
+
+**Well done! 🔆**
