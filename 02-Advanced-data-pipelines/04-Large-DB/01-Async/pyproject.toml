@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "d9-setup"
+name = "lwasync"
 version = "0.1.0"
 description = ""
 authors = ["S. Saunier <seb@lewagon.org>"]
@@ -7,6 +7,10 @@ authors = ["S. Saunier <seb@lewagon.org>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 lewagonde = { path = "../../../common/lewagonde/", develop = true }
+fastapi = "^0.78.0"
+uvicorn = {extras = ["standard"], version = "^0.18.2"}
+requests = "^2.28.1"
+aiohttp = "^3.8.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "7.1.2"
