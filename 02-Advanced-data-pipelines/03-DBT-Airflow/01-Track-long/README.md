@@ -12,6 +12,39 @@ Make sure your terminal is in the current exercise folder and let's start by ini
 make init_db
 ```
 
+## Setup the Dockerfile
+
+First, let's note that we already added `dbt-core` and `dbt-bigquery` to your `pyproject.toml` (that Airflow will use). Then, there are several environment variables for Airflow to know in which folders to look up when running `dbt` commands. Open your `Dockerfile` and add the following lines after `ENV AIRFLOW_HOME=/opt/airflow`:
+
+```
+ENV DBT_DIR=$AIRFLOW_HOME/dbt_lewagon
+ENV DBT_TARGET_DIR=$DBT_DIR/target
+ENV DBT_PROFILES_DIR=$DBT_DIR
+ENV DBT_VERSION=1.1.1
+```
+
+You may have noticed that you set `$DBT_PROFILES` to `/opt/airflow/dbt_lewagon`, which means that you will have to create a `profiles.yml` in this folder (don't do it for now, this will be asked below).
+
+Once you are confident with what you've done, run the tests:
+
+```bash
+make test_dockerfile
+```
+
+## Setup the docker-compose.yml
+
+There are not that many things to do in that part. You should just have to add two volumes in your `airflow scheduler` to sync:
+- your local `dbt_lewagon` folder to your docker container
+- your local `.gcp_keys` folder to your docker container (you will probably have to set the entire path to your `.gcp_keys`, like `/Users/username/.gcp_keys:/opt/airflow/.gcp_keys`)
+
+Once you are confident with what you've done, run the tests:
+
+```bash
+make test_docker_compose
+```
+
+Before moving to the next part, create and fill your `.env` file as usual.
+
 ## Setup files
 
 In order to run dbt with its own configuration, Airflow needs a `profiles.yml`:
@@ -34,40 +67,6 @@ Once you are confident with what you've done, run the tests:
 ```bash
 make test_profiles_yml
 ```
-
-## Setup the Dockerfile
-
-First, let's note that we already added `dbt-core` and `dbt-bigquery` to your `pyproject.toml` (that Airflow will use). Then, there are several environment variables for Airflow to know in which folders to look up when running `dbt` commands. Open your `Dockerfile` and add the following lines after `ENV AIRFLOW_HOME=/opt/airflow`:
-
-```
-ENV DBT_DIR=$AIRFLOW_HOME/dbt_lewagon
-ENV DBT_TARGET_DIR=$DBT_DIR/target
-ENV DBT_PROFILES_DIR=$DBT_DIR
-ENV DBT_VERSION=1.1.1
-```
-
-You may have noticed that you set `$DBT_PROFILES` to `/opt/airflow/dbt_lewagon`, which make sense as we made you create your `profiles.yml` in this folder.
-
-Once you are confident with what you've done, run the tests:
-
-```bash
-make test_dockerfile
-```
-
-## Setup the docker-compose.yml
-
-There are not that many things to do in that part. You should just have to add two volumes in your `airflow scheduler` to sync:
-- your local `dbt_lewagon` folder to your docker container
-- your local `.gcp_keys` folder to your docker container (you will probably have to set the entire path to your `.gcp_keys`, like `/Users/username/.gcp_keys:/opt/airflow/.gcp_keys`)
-
-Once you are confident with what you've done, run the tests:
-
-```bash
-make test_docker_compose
-```
-
-Before moving to the next part, create and fill your `.env` file as usual.
-
 
 ## Setup the DAG
 
