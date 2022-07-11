@@ -42,10 +42,3 @@ def test_upgrade():
     makefile_fp = os.path.join(parent_dir, "Makefile")
     n_lines = sum([1 for l in open(makefile_fp) if "TAG=lewagon/imgtransform:0.2" in l])
     assert n_lines >= 1, "Seems like you haven't updated the TAG to version 0.2 in the Makefile"
-
-
-def test_upgrade_optimization():
-    parent_dir = pathlib.Path(os.path.realpath(__file__)).parent.parent
-    makefile_fp = os.path.join(parent_dir, "Makefile")
-    n_lines = sum([1 for l in open(makefile_fp) if "TAG=lewagon/imgtransform:0.3" in l])
-    assert n_lines >= 1, "Seems like you haven't updated the TAG to version 0.3 in the Makefile"

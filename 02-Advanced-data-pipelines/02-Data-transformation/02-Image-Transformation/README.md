@@ -193,12 +193,7 @@ Run your app with `make run` and go to the `Webcam` page. Now stand in front of 
 
 **Update the `TAG` variable in the `Makefile` to be of version 0.2 instead of 0.1**.
 
-## Bonus 1 - Deploy to Streamlit Cloud
-
-Your app is quite pretty, try deploying it to a different cloud: [Streamlit Community Cloud](https://streamlit.io/cloud).
-
-
-## Bonus 2 - Final optimization!
+## Bonus - Final optimization!
 
 **If you feel like you've spent enough time on this exercise, skip this part and move on to the next exercise!**
 
@@ -229,3 +224,7 @@ Let's break this down:
 - And `"import torch; torch.hub.load('ultralytics/yolov5', 'yolov5s',  _verbose=False)"` is the Python code you'd like to run. That'll download the model within your Docker image.
 
 Once you're done, tag your `TAG` in the `Makefile` to version 0.3! Does this page load faster this time?
+
+## Final note
+
+For your own projects, Streamlit offers a turnkey deployment with the [Streamlit Community Cloud](https://streamlit.io/cloud). Check it out!
