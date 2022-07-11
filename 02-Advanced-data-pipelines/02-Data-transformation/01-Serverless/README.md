@@ -139,7 +139,7 @@ We've written some code for you that will generate statistics, given
 
 - Open an IPython interactive shell by just typing `ipython` in your terminal. Jupyter works too if you prefer.
 - Import the function `generate_statistics` from the `lwserverless.statistics` package.
-- Save your API URL in a variable called `api_url=...`
+- Save your API URL in a variable called `api_url=...`. **Note: make sure you end the URL with /fast-run, we need the full API URL, not just the root**
 - Let's run the following calls:
 
   ```python
