@@ -24,9 +24,7 @@ def prepare_data(bronze_file: str, date: str):
     - Keeps only the date, trip_distance and total_amount columns (in that order)
     - Returns the DataFrame
     """
-    df = pd.read_parquet(bronze_file)
-    df["date"] = date
-    return df[["date", "trip_distance", "total_amount"]]
+    pass  # YOUR CODE HERE
 
 
 def filter_long_trips(bronze_file: str, silver_file: str, date: str, distance: int) -> None:

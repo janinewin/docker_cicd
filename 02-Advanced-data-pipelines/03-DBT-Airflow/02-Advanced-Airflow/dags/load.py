@@ -1,4 +1,3 @@
-import logging
 import os
 from datetime import datetime
 from sqlite3 import Connection
