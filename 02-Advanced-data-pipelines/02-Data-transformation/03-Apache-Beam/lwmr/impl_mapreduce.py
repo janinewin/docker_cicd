@@ -10,7 +10,7 @@ def split_words_into_groups(words: List[str], n_buckets: int = 5) -> List[List[s
     """
     Split an input list like ["I", "am", "a", "sentence"] into a given number of buckets
     For instance split_words_into_groups(["I", "am", "a", "sentence"], n_buckets = 3)
-    should return [["I", "am"], ["a"], ["sentence"]] 
+    should return [["I", "am"], ["a"], ["sentence"]]
 
     Try the np.array_split(...) function.
     """
@@ -23,10 +23,7 @@ def simple_map_word_to_word_and_one(word_group: List[str]) -> List[Tuple[str, in
     is of the format (key, value).
     Here the key is the word and the value is always 1.
     """
-    return [
-        (word, 1)
-        for word in word_group
-    ]
+    return [(word, 1) for word in word_group]
 
 
 def map_on_each_group(word_groups: List[List[str]]) -> List[List[Tuple[str, int]]]:
@@ -40,7 +37,7 @@ def map_on_each_group(word_groups: List[List[str]]) -> List[List[Tuple[str, int]
 def shuffle(word_groups_with_counts: List[List[Tuple[str, int]]]) -> Dict[str, List[int]]:
     """
     shuffle aggregates word counts for each group into a dictionary word -> list of counts
-    
+
     For instance it takes as input
     [
         [("hello", 1), ("world", 1)],
@@ -87,7 +84,7 @@ def final_reduce(groups: List[Tuple[str, List[int]]]) -> List[Tuple[str, int]]:
 
 def count_words(txt: str) -> Dict[str, int]:
     """
-    count_words implements serially all of the map/reduce steps described in the diagram 
+    count_words implements serially all of the map/reduce steps described in the diagram
     """
     # From the raw text, extract the list of words with nltk
     words = text_processing.get_words(txt)
