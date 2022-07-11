@@ -3,7 +3,7 @@ from typing import List
 import nltk
 
 # Download the corpus the first time
-nltk.download('punkt', quiet=True)
+nltk.download("punkt", quiet=True)
 
 
 def get_words(txt: str) -> List[str]:

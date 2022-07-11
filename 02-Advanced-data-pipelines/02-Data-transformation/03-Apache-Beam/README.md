@@ -32,8 +32,69 @@ Run `make test` once done, the first two tests should pass.
 
 ## Implement Map-Reduce purely in Python
 
-- Inspiration from [this tutorial](https://nyu-cds.github.io/python-bigdata/02-mapreduce/)
-- [MapReduce steps](https://cdn.educba.com/academy/wp-content/uploads/2020/04/map-flowchart.png.webp)
+As its name indicates, the Map-Reduce paradigm follows steps of either mapping or reducing.
+
+We'll implement in Python the following steps, described on [this diagram](https://cdn.educba.com/academy/wp-content/uploads/2020/04/map-flowchart.png.webp).
+
+In the `lwmr/impl_mapreduce.py` file, you'll see one function for each of the steps. The function signatures and description will indicate you what the input looks like and what the output should be.
+
+The key concept to understand in Map/Reduce is: we're looking for opportunities to parallelize our work. This means, whenever possible, we'll apply transformations that allow us to have multiple servers run computation (`map` steps). Once all servers are done, their results are coordinated and aggregated in a `reduce` phase.
+
+**While word count is the most typical example to showcase Map/Reduce, its breakdown feels a bit convoluted 🐡. It's normal that some functions, like `simple_map_word_to_word_and_one` feel useless the first time.**
+
+### Reasoning with types
+
+Each step of the process takes a dataset in some shape as input, and transforms it to a new dataset in a new shape. Inputs have a specific type, outputs have another one.
+
+Before writing any code, let's reason about each step's input and output types.
+
+### Let's work on the implementation, starting with `split_words_into_groups`
+
+- Inputs: list of words: `List[str]`
+- Output: groups, where each group is a list of word `List[str]`. "groups" are lists as well, so that's `List[List[str]]`
+
+Start with the `def split_words_into_groups(...)` function.
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  Try Numpy's [array_split](https://numpy.org/doc/stable/reference/generated/numpy.array_split.html).
+</details>
+
+### From splitting to mapping
+
+For each group of words, we'd like to apply a mapping function `def simple_map_word_to_word_and_one(...)` that has:
+
+- Inputs: a list of words `List[str]`
+- Output: a list of couples (a tuple of size 2 in Python), where each couple is the word, and (yes it's a bit silly) just 1. This gives us `List[Tuple[str, int]]`.
+
+Now that we have the function for a single group, we'd like to apply it to all groups. **⏩ In production, this would be done in parallel, and give us the huge performance benefits of Map / Reduce.**
+
+The function `map_on_each_group` takes:
+
+- Inputs: the list of each group, which is the output of the function `split_words_into_groups(...)`, that's a `List[List[str]]`
+- Output: The result of the function `def simple_map_word_to_word_and_one(...)`, but for each group, and that's a list of the output of that function. Still following 😄? So the final output is of type `List[List[Tuple[str, int]]]`.
+
+**Fill in the `map_on_each_group` function**
+
+### From mapping to shuffling
+
+Shuffling here is regrouping the groups, by word. The output will therefore be of the type:
+
+- Output: `Dict[str, List[int]]`, a dictionary where the key is the word, and the value is the list of all ones for that word from all previous groups.
+- Inputs: as input, we pass the output of the mapping, that's easy we just wrote it above: `List[List[Tuple[str, int]]]`.
+
+### From shuffling to reducing
+
+A reduce step always brings the dimension of the data down, think of it like <i>if we have a list of list as an input, we get a list as an output</i>.
+
+Here, as inputs we have:
+
+- Inputs: the output of the shuffling part which is a dictionary `Dict[str, List[int]]`
+
+And we'd like to return a final count for each word, which is a `Dict[str, int]`.
+
+**Implement the `count_within_group` function, which is used by the `final_reduce` function**
 
 ## Use Pyspark
 

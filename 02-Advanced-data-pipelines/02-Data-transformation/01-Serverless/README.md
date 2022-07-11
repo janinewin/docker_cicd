@@ -75,6 +75,8 @@ CMD poetry run uvicorn lwserverless.app:app --host 0.0.0.0 --port $PORT
 
 ## 3/5 Set up the Artifact Registry
 
+**Note: if you've already set one up in the bootcamp, reuse it ♻️ and skip this step!**
+
 We're going to deploy our application to the artifact registry.
 
 - Go to your browser > Cloud Console > Artifact Registry
@@ -90,7 +92,7 @@ We're going to deploy our application to the artifact registry.
 
 ## 4/5 Deploy the image to the artifact registry
 
-- Run `make test`
+- Run `make test`. **Note: it is expected that `test_runtimes_concurrency` fails, you'll make this one pass in the "App analytics" section later**
 - We're all set on the browser side, let's go back to the terminal and push our first Docker image to our remote repository now.
 
 Let's do:
@@ -112,6 +114,7 @@ Almost there! In the browser, go to the Cloud Run service and click `CREATE SERV
 - Pick a local region.
 - Select "CPU is only allocated during request processing" (should be selected by default).
 - Autoscaling: 0 (minimum) to 3 (maximum) instances
+- Authentication: choose `Allow unauthenticated invocations`, this allows you to call this API from anywhere on the internet.
 - Open `Container, Variables & Secrets, Connections, Security`
   - What should the container port be? Hint 💡 : what is the port the FastAPI app runs on? Check the `Makefile`, `run` target.
   - Keep the capacity at its lowest values, our app doesn't do much 🦶.
@@ -189,6 +192,6 @@ You should notice that:
   The calls all happen concurrently on 3 instances which can each accept 5 concurrent requests. Therefore running 2 requests or 5 requests on one instance shouldn't have a significant impact on the total runtime.
 </details>
 
-Once you're done, fill in the blanks in the `lwserverless/runs.py` file and run `make test`.
+Once you're done, fill in the runtimes that you got in the previous exercise into the `lwserverless/runs.py` file and run `make test` to check your results.
 
 **Well done! 🔆**
