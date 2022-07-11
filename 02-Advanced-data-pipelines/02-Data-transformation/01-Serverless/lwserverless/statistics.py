@@ -21,6 +21,8 @@ async def make_one_call(session: aiohttp.ClientSession, api_url: str, index: int
     # Note that you only need a bit of the code, given that the `session` is already given as an argument of `make_one_call`
     t0 = time.time()
     async with session.get(api_url) as response:
+        if response.status >= 400:
+            raise ValueError(f"Status error! The response status in `make_one_call` is {response.status}, is your API URL correct? It needs to be the full API URL ending with /fast-run, not just the API root.")
         response = await response.json()
     duration_seconds = time.time() - t0
 
