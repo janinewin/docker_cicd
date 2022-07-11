@@ -1,7 +1,7 @@
 import os
 import pathlib
 
-from lwmr import impl_python, impl_mapreduce, impl_pyspark, impl_beam
+from lwmr import impl_python, impl_mapreduce, impl_beam
 
 TXT = "I love apples, bananas and apples"
 
@@ -26,13 +26,11 @@ def test_mapreduce_impl():
     assert cnt.get("I") == 1, "'I' is expected to be found 1 time"
 
 
-def test_pyspark_impl():
-    cnt = impl_pyspark.count_words(TXT)
-    assert cnt.get("apples") == 2, "'Apples' is expected to be found 2 times"
-    assert cnt.get("I") == 1, "'I' is expected to be found 1 time"
-
-
 def test_beam_impl():
-    cnt = impl_beam.count_words(TXT)
+    tmp_fp = "/tmp/beam-test.txt"
+    with open(tmp_fp, "w") as f:
+        f.write(TXT)
+    cnt = impl_beam.count_words(tmp_fp)
+    print("BEAM", cnt)
     assert cnt.get("apples") == 2, "'Apples' is expected to be found 2 times"
     assert cnt.get("I") == 1, "'I' is expected to be found 1 time"

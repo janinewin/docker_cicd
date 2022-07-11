@@ -96,13 +96,89 @@ And we'd like to return a final count for each word, which is a `Dict[str, int]`
 
 **Implement the `count_within_group` function, which is used by the `final_reduce` function**
 
-## Use Pyspark
-
-- Inspiration from [this tutorial](https://nyu-cds.github.io/python-bigdata/03-spark/)
-
 ## Use Apache Beam
 
-- Count words [example](https://github.com/apache/beam/blob/master/sdks/python/apache_beam/examples/wordcount.py)
+We are going to implement the code from [the Word Count example](https://github.com/apache/beam/blob/master/sdks/python/apache_beam/examples/wordcount.py). Our code lies in `lwmr/impl_beam.py`.
+
+Let's detail block by block what's happening by breaking down the function `def count_words(...)`.
+
+The first block is quite uneventful, we set up a Beam pipeline with default option and create the output directory.
+
+```python
+# Set up the pipeline with default options
+pipeline_options = PipelineOptions()
+pipeline_options.view_as(SetupOptions).save_main_session = True
+
+output_dir = "/tmp/beam-output/"
+prefix_fn = "test-output.txt"
+output_fps_prefix = os.path.join(output_dir, prefix_fn)
+pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
+```
+
+Interesting stuff starts with
+
+```python
+with beam.Pipeline(options=pipeline_options) as p:
+```
+
+**What does the `with` keyword do?**
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  Let me [Stack Overflow](https://stackoverflow.com/a/1369553) that for you!
+
+  Essentially, when code exits the `with` block, the method `__exit__()` is called on the variable `p`.
+  It's great for database connections, file handles, etc.
+</details>
+
+In Beam, we write pipelines. Data is transformed step by step. The first step is to read the file.
+
+**Replace `lines=None` with Beam code that will read from the input file path**
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  You'll want to use the `ReadFromText` method.
+</details>
+
+At the end of this block, we now have a step which yields an iterator returning lines. We need to transform the lines into words. For that, our friend `text_processing.get_words()` is needed.
+
+**Based on the value of `words`, fill in `WordExtractingDoFn -> process()`**
+
+Great, now we have an iterator of words. Let's count them. The steps are very similar to Map / Reduce!
+
+```python
+counts = (
+    words
+    | 'PairWithOne' >> beam.Map(lambda x: (x, 1))
+    | 'GroupAndSum' >> beam.CombinePerKey(sum))
+```
+
+As you can see, we start by mapping each word `x` to `(x, 1)`, which is itself, and 1.
+
+**Next, what does `CombinePerKey` do?**
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  Check the [official doc](https://beam.apache.org/documentation/transforms/python/aggregation/combineperkey/)
+</details>
+
+Finally, we're ready to map the results and write them to disk.
+
+```python
+output = counts | 'Format' >> beam.MapTuple(format_result)
+
+# We write the output to files with the prefix `output_fps_prefix`
+output | 'Write' >> WriteToText(output_fps_prefix)
+```
+
+As we'd like our results in a dictionary, but Beam writes them to disk, we'll parse the output files into a dictionary. That's what `counts = read_results(output_dir, prefix_fn)` does.
+
+**The results should be in `/tmp/beam-output/`, check out what's in there.**
+
+🔱 BIM! Well done, you've written multiple times the Word Count algorithm. The Beam way is the most scalable, and super well integrated with the Google Cloud ecosystem. Since Beam is open source, you'll find Beam runners on most other available clouds.
 
 ## BONUS 🤝. Beam on Google Cloud
 
