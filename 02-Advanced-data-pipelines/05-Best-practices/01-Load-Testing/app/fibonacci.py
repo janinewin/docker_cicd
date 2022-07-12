@@ -12,13 +12,13 @@ class Fibonacci:
         elif n == 1:
             return 1
         else:
-            return Fibonacci(n - 1) + Fibonacci(n - 2)
+            return self.compute(n - 1) + self.compute(n - 2)
 
     @functools.lru_cache(None)
     def compute_fast(self, n):
         if n < 2:
             return n
-        return self.astFib(n - 1) + self.fastFib(n - 2)
+        return self.compute_fast(n - 1) + self.compute_fast(n - 2)
 
 
 if __name__ == "__main__":
