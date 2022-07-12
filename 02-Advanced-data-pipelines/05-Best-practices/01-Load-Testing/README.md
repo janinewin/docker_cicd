@@ -181,6 +181,8 @@ gunicorn.error logger
 - Debug level
 - handlers error_file and console
 - Propagate to true (1)
+- qualname=gunicorn.error
+
 ```
 
 gunicorn.access logger
@@ -188,6 +190,7 @@ gunicorn.access logger
 - Debug level
 - handlers error_file and console
 - Propagate to true (1)
+- qualname=gunicorn.access
 ```
 
 _Formatters_
@@ -212,21 +215,21 @@ Our handlers are responsible for redirecting the log object to the appropriate o
 console handler
 ```
 Class: StreamHandler
-formatter: Generic
+formatter: generic
 args: (sys.stdout,)
 ```
 
 error_file handler
 ```
 Class: logging.FileHandler
-formatter: Generic
+formatter: generic
 args: ('/app/app/logs/error.log',) -> this is where our error log file will be output
 ```
 
 access_file handler
 ```
 Class: logging.FileHandler
-formatter: Generic
+formatter: access
 args: ('/app/app/logs/access.log',) -> this is where our access log file will be output
 ```
 

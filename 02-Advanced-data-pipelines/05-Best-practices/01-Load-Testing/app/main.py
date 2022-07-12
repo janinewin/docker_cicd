@@ -63,7 +63,7 @@ async def addNumbers(item: AdditionInputModel):
 # Increasing response time
 @app.post("/computeFib/")
 async def computeFib(item: FibInputModel):
-    res = Fibonacci.compute(item.iteration)
+    res = Fibonacci().compute(item.iteration)
     return {"result": res}
 
 
