@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "d9-setup"
+name = "lwdb"
 version = "0.1.0"
 description = ""
 authors = ["S. Saunier <seb@lewagon.org>"]
