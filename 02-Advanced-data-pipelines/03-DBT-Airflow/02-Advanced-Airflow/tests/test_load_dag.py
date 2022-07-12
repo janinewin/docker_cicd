@@ -106,6 +106,12 @@ class TestLoadDag:
         assert task.gcp_conn_id == "google_cloud_connection"
         assert task.dataset_id.endswith("tripdata")
         assert task.table_id == "trips"
+        assert task.schema_fields[0]["name"] == "date"
+        assert task.schema_fields[0]["type"].lower() == "string"
+        assert task.schema_fields[1]["name"] == "trip_distance"
+        assert task.schema_fields[1]["type"].lower() == "float"
+        assert task.schema_fields[2]["name"] == "total_amount"
+        assert task.schema_fields[2]["type"].lower() == "float"
 
         assert list(map(lambda task: task.task_id, task.upstream_list)) == ["create_dataset"]
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["remove_existing_data"]
