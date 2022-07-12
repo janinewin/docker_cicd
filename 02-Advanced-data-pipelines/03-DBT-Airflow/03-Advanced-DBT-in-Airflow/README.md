@@ -46,7 +46,7 @@ As just explained, we have prepared the functions signatures and the functions c
 - these BashOperators will be built by the `make_dbt_task` function that will be called by the `create_tasks` function for each node by giving the proper dbt verb (`run` or `test`)
 - the `create_dags_dependencies` function will reuse this `dict` to create the Airflow tasks. To order them properly, this function will have to manipulate the `depends_on` field of the `manifest.json`
 
-This exercise is an optional and will be quite challenging to implement, so do not hesitate to check with a teacher that you have properly understood the requirements before starting.
+This exercise is quite challenging to implement, so do not hesitate to check with a teacher that you have properly understood the requirements before starting.
 
 At the end, you should have a DAG that looks like [this](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W2D3/dbt_dag.png).
 
