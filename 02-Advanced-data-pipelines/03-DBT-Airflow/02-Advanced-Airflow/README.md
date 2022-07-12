@@ -2,17 +2,15 @@
 
 ### Introduction
 
-In this challenge, you will implement a more complex ETL by using advanced Airflow concepts (`Sensor`, `BranchOperator`, `Templating`, `trigger_rule`, `xcoms` & `idempotency`).
+In this challenge, you will implement a more complex ETL by using advanced Airflow concepts (`Sensor`, `BranchOperator`, `Templating`, `trigger_rule` & `idempotency`) and a data engineering's architecture (`bronze / silver`, `Google Cloud Storage`, `BigQuery`).
 
 The goal is to have three DAGs running every month that will:
 - download the monthly New York City Taxi and Limousine Commission (NYC-TLC) data
 - filter the data based on the month to only keep outliers
-- load the filtered data into your database
+- load the filtered data into both, your Data Lake and your Data Warehouse (`Google Cloud Storage` and `BigQuery`)
 
 To get the NYC-TLC data, you will use their public [data](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page).
 For the saving system, you will use the parquet format for your bronze layer and the csv format for your silver one.
-
-PS: We also added an optional part in which you will have to load your data into Google Cloud Storage and BigQuery.
 
 ### Setup Instructions
 
@@ -89,41 +87,7 @@ Again, run the DAG on your Airflow UI to check that everything is running well a
 
 ## Load DAG Instructions
 
-Finally, you will have to create the `load` DAG. The main goal of this DAG is to take the data you put in `silver` and to load it into your database and print the number of inserted rows (while using `xcom`).
-
-As we want your `load` DAG to run only once the `transform` one is done, you will have to use a `sensor` again.
-
-You need four tasks:
-- an [ExternalTaskSensor](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/external_task_sensor.html) with a `task_id` named `transform_sensor` that should wait for the DAG `transform` to be in the `success` state, and check its state every 10 seconds for a maximum of 10 minutes (after that it should timeout)
-- a `PosgtresOperator` with a `task_id` named `create_trips_table` that should create a table named `trips` with three columns (`date`, `trip_distance` and `total_amount` that should be a not null `varchar` and two not null `real` columns).
-- a `PythonOperator` with a `task_id` named `load_to_database` that should trigger the `load_to_database` function with the proper arguments
-- a `PythonOperator` with a `task_id` named `display_number_of_inserted_rows` that should trigger the `display_number_of_inserted_rows` function with the proper arguments
-
-To help you, we have already added the `load_to_database` and `display_number_of_inserted_rows` functions signatures.
-
-The second task should be triggered only once the first one succeeds.
-The third one should be triggered only once the second one succeeds.
-The fourth one should be triggered only once the third one succeeds.
-
-For the `load_to_database` function, you should use `pandas` and its [`to_sql` function](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html) that will directly insert all data in the table. However, to benefit from this function, you have to provide a database connection (which is different than an Airflow connection). To make it easier, we already provided a function named `create_connection_from_hook` that creates a database connection from an Airflow hook and that you will have to pass to your `to_sql` function.
-
-Moreover, as said just above, we want you to print the number of inserted rows in your second task. Until now, when you had to pass data through tasks you always save it into files. For this last task, you will use [Airflow xcoms](https://airflow.apache.org/docs/apache-airflow/stable/concepts/xcoms.html) to transfer data from `load_to_database` to `display_number_of_inserted_rows`
-
-Finally, as we want your DAG to be [idempotent](https://en.wikipedia.org/wiki/Idempotence), you will have first to remove data from the current date before inserting new data.
-
-As always, once your confident with what you have done, run the following command:
-
-```bash
-make test_load_dag
-```
-
-Do not hesitate to connect to Adminer and check the content of your Database.
-
-Then, save your work in progress on GitHub 💾
-
-## Optional Google Cloud
-
-This part will guide you to load your data to BigQuery, but as mentioned, it is optional.
+Finally, you will have to create the `load` DAG. The main goal of this DAG is to take the data you put in `silver` and to load it into `Google Cloud Storage` and then `BigQuery`.
 
 In order to use BigQuery you will have to create the Airflow connection. This time, you will do it directly from the Airflow UI.
 
@@ -132,21 +96,35 @@ Once you have a local Airflow instance running, hover the `Admin` tab and select
 - set the `Connection Type` to `Google Cloud`
 - copy paste the whole content of your `service-account.json` to the `Keyfile JSON`
 
-To make your life easier, you will use the `GCSToBigQueryOperator` that will allow you to directly load file from Google Cloud Storage to BigQuery without using a hook. In order to use it, you need to push your local data to Google Cloud Storage. First, let's start by opening your google cloud console and create a bucket named `name-silver` (once again, replace with your first letter of first name and whole last name) and let the default parameters for that bucket.
+To make your life easier, you will use the `GCSToBigQueryOperator` that will allow you to directly load file from Google Cloud Storage to BigQuery without using a hook. In order to use it, you need to push your local data to Google Cloud Storage.
 
-Once the bucket creation is done, let's move to your DAG creation. Start by creating an `optional_google_cloud.py` in which you will create a DAG named `optional_google_cloud` with the same arguments as the other ones.
+In so doing:
+- open your google cloud console
+- create a bucket named `name-silver` (once again, replace with your first letter of first name and whole last name) and let the default parameters for that bucket
 
-This dag needs 5 tasks:
+Once the bucket creation is done, let's move to your DAG.
+
+This branch needs 6 tasks:
 - an [ExternalTaskSensor](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/external_task_sensor.html) with a `task_id` named `transform_sensor` that should wait for the DAG `transform` to be in the `success` state, and check its state every 10 seconds for a maximum of 10 minutes (after that it should timeout)
 - a [LocalFileSystemToGCSOperator](https://airflow.apache.org/docs/apache-airflow-providers-google/1.0.0/operators/transfer/local_to_gcs.html) with a `task_id` named `upload_local_file_to_gcs` that should load your local silver file to your Google Cloud Storage silver bucket with the same file's name
 - a [`BigQueryCreateEmptyDatasetOperator`](https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/airflow/providers/google/cloud/operators/bigquery/index.html#airflow.providers.google.cloud.operators.bigquery.BigQueryCreateEmptyDatasetOperator) with a `task_id` named `create_dataset` that should create the `name_tripdata` dataset (once again, replace with the first letter of your first name and your whole last name)
 - a [`BigQueryCreateEmptyTableOperator`](https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/airflow/providers/google/cloud/operators/bigquery/index.html#airflow.providers.google.cloud.operators.bigquery.BigQueryCreateEmptyTableOperator) with a `task_id` named `create_table` that should create a table named `trips` (once again, replace with the first letter of your first name and your whole last name) in the dataset `name_tripdata` with the proper schema (`month` as a string and `trip_distance` & `total_amount` as floats)
+- a [BigQueryInsertJobOperator](https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/airflow/providers/google/cloud/operators/bigquery/index.html#airflow.providers.google.cloud.operators.bigquery.BigQueryInsertJobOperator) with a `task_id` name `remove_existing_data` that should run a query to remove data at the current date (in order to be idempotent)
 - a [`GCSToBigQueryOperator`](https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/airflow/providers/google/cloud/transfers/gcs_to_bigquery/index.html) with a `task_id` named `load_to_bigquery` that should append the content of the `silver` file to the `trips` table
+
+All tasks should be triggered in that order as soon as the previous one succeeded.
 
 Once your confident with what you have done, run the following command:
 
 ```bash
-make test_optional_google_cloud_dag
+make test_load_dag
 ```
 
-Then, take time to launch the DAG from your Airflow UI and check your Google Cloud Storage & BigQuery instances to see if data is coming.
+WARNING: No to help you too much, we decided not to test everything in your tasks. This means that you need to manually launch the DAG and see if data is coming into your Google Cloud Storage & BigQuery instances and to update a bit your tasks if needed.
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+  YOU may need to set `schema_fields` for the task_id `create_table` and `load_to_bigquery`
+  You may need to set `useLegacySql` for the task_id `remove_existing_data`
+  You may need to set `skip_leading_rows` and `write_disposition` for the task_id `load_to_bigquery`
+</details>

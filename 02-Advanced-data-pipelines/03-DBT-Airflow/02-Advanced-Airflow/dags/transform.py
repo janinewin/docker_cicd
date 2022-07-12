@@ -1,7 +1,6 @@
 import os
 from datetime import datetime
 
-import pandas as pd
 from airflow import DAG
 
 # IMPORT YOUR PACKAGES HERE

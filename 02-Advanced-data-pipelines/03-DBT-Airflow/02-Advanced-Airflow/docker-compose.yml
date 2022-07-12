@@ -55,12 +55,3 @@ services:
             interval: 30s
             timeout: 30s
             retries: 3
-
-    adminer:
-      image: adminer:4.8.1
-      container_name: adminer
-      restart: always
-      volumes:
-        - ./data/adminer/:/data/
-      ports:
-        - 8880:8080
