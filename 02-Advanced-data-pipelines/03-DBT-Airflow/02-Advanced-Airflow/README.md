@@ -24,7 +24,11 @@ make init_db
 
 As before, create an `.env` file and set `POSTGRES_PASSWORD` to the value of your choice.
 
-As your three DAGs should have the same config, we already provided them to you.
+As your three DAGs should have the same config, we already provided them to you. For each of them, you will follow the same process:
+- create the required tasks
+- fill the functions already provided (if there are some)
+- test locally by running the Airflow instance and launching your dags
+- run the tests
 
 ## Extract DAG Instructions
 
@@ -54,26 +58,25 @@ If this is not done yet, open an Airflow instance locally and start your DAG to 
 
 ## Transform DAG Instructions
 
-It's time to create the `transform` DAG. The main goal of this DAG is to read the parquet file you saved in `bronze`, to apply a specific operation based on the month of the data and to save the transformed data into `silver`. If the month is odd, you will only keep the long trips, otherwise you will keep the expensive ones (while using BranchOperator).
+It's time to play with the `transform` DAG. The main goal of this DAG is to read the parquet file you saved in `bronze`, to apply a specific operation based on the month of the data and to save the transformed data into `silver`. If the month is odd, you will only keep the long trips, otherwise you will keep the expensive ones (while using BranchOperator). But before implementing the functions, let's focus on the tasks.
 
 As we want your `transform` DAG to run only once the `extract` one is done, you will have to use a [sensor](https://airflow.apache.org/docs/apache-airflow/stable/concepts/sensors.html).
 
-You need six tasks:
+You need five tasks:
 - a [ExternalTaskSensor](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/external_task_sensor.html) with a `task_id` named `extract_sensor` that should wait for the DAG `extract` to be in the `success` state, and check its state every 10 seconds for a maximum of 10 minutes (after that, it should timeout). No need, to specify an external `task_id`, such that it will wait for the DAG itself to succeed
 - a [BranchPythonOperator](https://airflow.apache.org/docs/apache-airflow/1.10.6/concepts.html?highlight=branch+operator#branching) with a `task_id` named `is_month_odd` that should trigger the `is_month_odd` function with the proper arguments
 - a `PythonOperator` with a `task_id` named `filter_long_trips` that should trigger the `filter_long_trips` function with the proper arguments (set the `distance` argument to `150`)
 - a `PythonOperator` with a `task_id` named `filter_expensive_trips` that should trigger the `filter_expensive_trips` function with the proper arguments (set the `amount` argument to `500`)
-- a `PythonOperator` with a `task_id` named `display_number_of_kept_rows` that should trigger the `display_number_of_kept_rows` function with the proper arguments
 - a `EmptyOperator` with a `task_id` named `end`
 
-To help you, we have already added the `is_month_odd`, `filter_long_trips`, `filter_expensive_trips` and `display_number_of_kept_rows` functions signatures, but be careful:
+To help you, we have already added the `is_month_odd`, `filter_long_trips`, `filter_expensive_trips` and functions signatures, but be careful:
 **for this part, you don't have to fill the functions but only to create the Airflow tasks that will call them.**
 
 We want your filtered parquet files to be saved as `/opt/airflow/data/silver/yellow_tripdata_YYYY-MM.csv` (adapt the date based on the execution date of course).
 
 The second task should be triggered only once the first one succeeds.
 The third or the fourth task should be triggered based on the return of the second one.
-The sixth task should be triggered only once the fifth one succeeds.
+The fifth task should be triggered only once the third/fourth one succeeds.
 
 As the fifth task should be triggered as soon as one of the third/fourth task is successful (only one of both will run), let's set its trigger_rule to [`one_success`](https://airflow.apache.org/docs/apache-airflow/1.10.5/concepts.html?highlight=trigger+rule#trigger-rules). If you wonder why we added an EmptyOperator at the end, this is just to have a single task closing your DAG and not two distinct branches which is more visual.
 
