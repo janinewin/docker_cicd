@@ -184,4 +184,4 @@ As we'd like our results in a dictionary, but Beam writes them to disk, we'll pa
 
 ## BONUS 🤝. Beam on Google Cloud
 
-- Transform the Beam code to run on [Google Dataflow](https://github.com/tuanavu/google-dataflow-examples/blob/master/examples/wordcount.py)
+- Transform the Beam code to run on [Google Dataflow](https://cloud.google.com/dataflow/docs/quickstarts/create-pipeline-python?hl=en#run-the-pipeline-on-the-dataflow-service)
