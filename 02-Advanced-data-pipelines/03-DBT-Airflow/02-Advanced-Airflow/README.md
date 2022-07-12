@@ -100,6 +100,7 @@ To make your life easier, you will use the `GCSToBigQueryOperator` that will all
 
 In so doing:
 - open your google cloud console
+- go to Google Cloud Storage
 - create a bucket named `name-silver` (once again, replace with your first letter of first name and whole last name) and let the default parameters for that bucket
 
 Once the bucket creation is done, let's move to your DAG.
@@ -124,7 +125,6 @@ WARNING: No to help you too much, we decided not to test everything in your task
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
-  YOU may need to set `schema_fields` for the task_id `create_table` and `load_to_bigquery`
   You may need to set `useLegacySql` for the task_id `remove_existing_data`
-  You may need to set `skip_leading_rows` and `write_disposition` for the task_id `load_to_bigquery`
+  You may need to set `skip_leading_rows` & `write_disposition` for the task_id `load_to_bigquery`
 </details>
