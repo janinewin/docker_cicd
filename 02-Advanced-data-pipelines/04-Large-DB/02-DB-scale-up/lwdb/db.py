@@ -10,8 +10,7 @@ import lewagonde
 
 def json_to_df(json_fp: str) -> pd.DataFrame:
     """
-    Take the IKEA raw JSON data file path as input, the final CSV file path as output.
-    Convert the JSON to a CSV and store it under `csv_fp`. Do not change the column types just yet.
+    Take the IKEA raw JSON data file path as input, load it, and return a pandas dataframe.
     """
     pass  # YOUR CODE HERE
 
