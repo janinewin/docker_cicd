@@ -10,7 +10,7 @@ AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
 
 def is_month_odd(date: str) -> str:
     """
-    Returns "filter_expensive_trips" if the month date is odd, "filter_long_trips" otherwise.
+    Returns "filter_expensive_trips" if the month date is even, "filter_long_trips" otherwise.
     Date should be formatted as YYYY-MM.
     """
     pass  # YOUR CODE HERE
