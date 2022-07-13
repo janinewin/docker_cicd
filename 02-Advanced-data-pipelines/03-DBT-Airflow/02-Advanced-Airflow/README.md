@@ -14,6 +14,19 @@ For the saving system, you will use the parquet format for your bronze layer and
 
 ### Setup Instructions
 
+In order to properly use packages and run tests, you will have to first install MySql on your laptop. Let's run the following query:
+
+```bash
+sudo apt install gcc default-mysql-server default-libmysqlclient-dev libpython3.8-dev
+```
+
+Do not hesitate to reinstall packages for this exercise by running:
+
+```bash
+make install
+```
+
+
 The `Dockerfile` and the `docker-compose.yml` are the same as the ones you used in the first week and we have already prepared the `pyproject.toml` for you.
 
 Make sure your terminal is in the current exercise folder and let's start by initiating a local Airflow database that will be used by `pytest` by running:
