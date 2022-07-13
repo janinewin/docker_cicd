@@ -147,8 +147,8 @@ def assert_dataframe_has_no_values_and_filtered_columns(df):
 
 
 def test_is_month_odd():
-    assert transform.is_month_odd("20220801") == "filter_long_trips"
-    assert transform.is_month_odd("20220802") == "filter_expensive_trips"
+    assert transform.is_month_odd("2021-06") == "filter_expensive_trips"
+    assert transform.is_month_odd("2021-07") == "filter_long_trips"
 
 
 def test_prepare_data():
