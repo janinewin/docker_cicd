@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "d9-setup"
+name = "lwqueue"
 version = "0.1.0"
 description = ""
 authors = ["S. Saunier <seb@lewagon.org>"]
@@ -8,6 +8,8 @@ authors = ["S. Saunier <seb@lewagon.org>"]
 python = "^3.8"
 lewagonde = { path = "../../../common/lewagonde/", develop = true }
 rich = "^12.5.1"
+pika = "^1.3.0"
+requests = "^2.28.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "7.1.2"
