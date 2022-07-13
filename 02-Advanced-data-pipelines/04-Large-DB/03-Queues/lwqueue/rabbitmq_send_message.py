@@ -11,13 +11,21 @@ RABBITMQ_USERNAME = "rmq"
 
 
 def send_message(host: str, port: int, username: str, message: str):
+    """
+    - Establish a connection to the RabbitMQ server
+    - Connect to the exchange
+    - Create a body
+    - Send the body over the network
+    - Close the connection
+    """
     connection = rabbitmq.get_connection(host=host, port=port)
+    
     channel = connection.channel()
-
     channel.exchange_declare(exchange=rabbitmq.EXCHANGE_NAME, exchange_type="fanout")
+    message = {"username": username, "message": message}
 
-    body = {"username": username, "message": message}
-    channel.basic_publish(exchange=rabbitmq.EXCHANGE_NAME, routing_key="", body=json.dumps(body))
+    pass  # YOUR CODE HERE
+
     print(f" [x] Sent {message}")
     connection.close()
 
@@ -35,7 +43,7 @@ def parse_args():
 def main():
     args = parse_args()
     if args.bot:
-        # In "bot" mode, send a message
+        # In "bot" mode, send a random Chuck Norris fact periodically 
         while True:
             message = requests.get("https://api.chucknorris.io/jokes/random").json()["value"]
             send_message(
@@ -48,6 +56,7 @@ def main():
             print(f"-- Sleeping {sleep_s} seconds")
             time.sleep(sleep_s)  
     else:
+        # By default, send the message passed from the command line
         send_message(
             host=args.host,
             port=args.port,
