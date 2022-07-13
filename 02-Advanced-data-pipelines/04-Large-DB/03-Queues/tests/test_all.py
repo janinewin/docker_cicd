@@ -23,7 +23,7 @@ def test_docker_compose():
 
 
 def test_exchange():
-    assert get_tests_json()["chat"] == "http://localhost:15672/#/exchanges/%2F/chat", "tests.json is incomplete"
+    assert get_tests_json()["chat"] == "http://localhost:15672/#/exchanges/%2F/chat", "tests.json is incomplete, fill in the 'chat' value"
 
 
 def test_simple_callback(capsys):
@@ -37,3 +37,7 @@ def test_rich():
     from lwqueue.ui import make_rich_table
     table = make_rich_table([{"message": "abcd", "received_at": "ok", "username": "john"}] * 2)
     assert table.row_count == 2
+
+
+def test_queue():
+    assert get_tests_json()["queues"] == "http://localhost:15672/#/queues", "tests.json is incomplete, fill in the 'queues' value"

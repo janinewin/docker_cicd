@@ -171,6 +171,14 @@ python lwqueue/rabbitmq_subscriber.py --host localhost --port 5672 --mode rich
 
 Awesome, now we're ready to talk to other folks.
 
+### Back to the management dashboard
+
+When your subscriber is up, go to the `Queues` tab. Anything new?
+
+You should see a new queue, which corresponds to your subscriber. Click on it and use the dashboard to publish a message to it. Observe the spike in the message rate.
+
+By the way, did you get the message in your terminal?
+
 ## Now, chat with your group!
 
 We'll need a bit of coordination here 🤸 🤸‍♂️. We need one person per group OR per bootcamp (depending on the setup), to make their RabbitMQ server, and credentials, accessible to the rest of the students.
