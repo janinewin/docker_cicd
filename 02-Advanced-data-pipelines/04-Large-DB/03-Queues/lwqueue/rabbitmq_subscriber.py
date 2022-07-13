@@ -18,7 +18,10 @@ class LiveParams(TypedDict):
 
 
 def print_callback(channel: str, method, properties, body):
-    print(f"Received {body}")
+    """
+    Very simple callback that just prints the body to the console
+    """
+    pass  # YOUR CODE HERE
 
 
 def make_live_callback(live_params: LiveParams):
@@ -33,6 +36,13 @@ def make_live_callback(live_params: LiveParams):
 
 
 def receive_messages(host: str, port: int, on_message_callback: Callable):
+    """
+    - Establish a connection to the RabbitMQ server
+    - Connect to the exchange
+    - Bind a queue to that exchange
+    - Hook a callback and consume incoming messages
+    - Close the connection
+    """
     connection = rabbitmq.get_connection(host=host, port=port)
     channel = connection.channel()
     channel.exchange_declare(exchange=rabbitmq.EXCHANGE_NAME, exchange_type="fanout")
@@ -44,11 +54,7 @@ def receive_messages(host: str, port: int, on_message_callback: Callable):
 
     print("[x] Waiting for messages. To exit, press CTRL+C")
 
-    channel.basic_consume(
-        queue=queue_name,
-        on_message_callback=on_message_callback,
-        auto_ack=True,
-    )
+    pass  # YOUR CODE HERE
 
     channel.start_consuming()
 
