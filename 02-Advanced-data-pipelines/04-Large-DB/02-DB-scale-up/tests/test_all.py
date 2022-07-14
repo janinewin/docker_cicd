@@ -44,8 +44,8 @@ def test_csv_cleaned():
     parent_dir = pathlib.Path(os.path.realpath(__file__)).parent.parent
     csv_fp = os.path.join(parent_dir, "data", "ikea-cols.csv")
     assert os.path.isfile(csv_fp), f"File {csv_fp} not present, fill in `cast_columns` then call `save_df_to_csv`"
-    df = pd.read_parquet(csv_fp)
-    assert ptypes.is_numeric_dtype(df.product_price) and ptypes.is_numeric_dtype(df.average_rating) and ptypes.is_int64_dtype(df.reviews_count), "product_price, average_rating must have numeric types and reviews_count be integer"
+    df = pd.read_csv(csv_fp)
+    assert ptypes.is_numeric_dtype(df.product_price) and ptypes.is_numeric_dtype(df.average_rating) and ptypes.is_numeric_dtype(df.reviews_count), "product_price, average_rating must have numeric types and reviews_count be integer"
 
 
 def test_table_creation():
