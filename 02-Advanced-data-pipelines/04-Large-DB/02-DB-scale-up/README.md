@@ -4,6 +4,37 @@ Database access patterns determine what to optimize for. A database gives us man
 
 We will use our beloved Postgres database, and load the [Ikea dataset](https://www.kaggle.com/datasets/crawlfeeds/ikea-us-products-dataset).
 
+## Recommended tooling for this exercise
+
+### IPython
+
+In this exercise, we'll build the functions one by one and open an IPython notebook (just type `ipython`) to test each of them and run them in the right sequence.
+
+As described [in the Autoreload doc](https://ipython.org/ipython-doc/3/config/extensions/autoreload.html), type
+
+```python
+%load_ext autoreload
+%autoreload 2
+```
+
+to not have to reload your code every time there is a change.
+
+### SQL with PSQL
+
+As for the SQL code, you can open a PSQL terminal with
+
+```
+docker exec -it <postgres container name> /bin/bash
+```
+
+then 
+
+```
+psql -U lewagon -d db
+```
+
+Adminer, which you've installed in previous days, is also an option! Up to you!
+
 ## Download the data
 
 Download the data under `./data/ikea-raw.json`.
@@ -104,7 +135,7 @@ psql -U lewagon -d db
 
 to get into a PSQL interactive shell and be able to type SQL queries.
 
-Then type `/timing` in the PSQL shell, you should see `Timing is on.`.
+Then type `\timing` in the PSQL shell, you should see `Timing is on.`.
 
 ### Queries
 
