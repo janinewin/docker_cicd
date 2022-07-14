@@ -35,7 +35,7 @@ Follow the [Docker Hub documentation](https://hub.docker.com/_/rabbitmq) to add 
 
 - We'll need to map ports 5672 and 15672.
 - Set the environment variables `RABBITMQ_DEFAULT_USER` to `rmq` and `RABBITMQ_DEFAULT_PASS` must be read from the `.env`.
-- Mount the volumes `./data/rabbitmq/data:/var/lib/rabbitmq/` and `./data/rabbitmq/log:/var/log/rabbitmq`.
+- Mount the volume `./data/rabbitmq/data:/var/lib/rabbitmq/`.
 
 Then run the server in the background with `docker-compose up -d`.
 
@@ -104,7 +104,7 @@ We've pre-filled `send_message(...)` in `lwqueue/rabbitmq_send_message.py`. Base
 </details>
 
 Let's see if it worked:
-- Run `python lwqueue/rabbitmq_send_message.py --host localhost --port 5672 --message "Hello, world!" --username $USER`.
+- Run `python lwqueue/rabbitmq_send_message.py --host localhost --port 5672 --message "Hello world" --username $USER`.
 - Navigate to [http://localhost:15672/#/exchanges](http://localhost:15672/#/exchanges)
 - In the `exchanges` tab, do you see `chat`?
 - Click on it and paste the URL into `tests.json`, `"chat"`
@@ -148,7 +148,7 @@ python lwqueue/rabbitmq_subscriber.py --host localhost --port 5672 --mode simple
 **The publisher**
 
 ```bash
-python lwqueue/rabbitmq_send_message.py --host localhost --port 5672 --message "Hello, world!" --username $USER
+python lwqueue/rabbitmq_send_message.py --host localhost --port 5672 --message "Hello world" --username $USER
 ```
 
 What happens? 
@@ -181,10 +181,6 @@ By the way, did you get the message in your terminal?
 
 ## Now, chat with your group!
 
-We'll need a bit of coordination here 🤸 🤸‍♂️. We need one person per group OR per bootcamp (depending on the setup), to make their RabbitMQ server, and credentials, accessible to the rest of the students.
-
-Here is a simple rule, if noone has claimed to have opened their server on the Slack / Zoom / Teams chat, claim it 👋. Otherwise, wait for credentials from that person to be shared.
-
 If you've reached this point, this means you've got RabbitMQ in a Docker network on port 5672, mapped to your host's port 5672. You can't share this port outside your host just yet because the firewall is blocking requests from outside it.
 
 ### Allow a port on GCP
@@ -193,16 +189,22 @@ If you've reached this point, this means you've got RabbitMQ in a Docker network
 - Click on `Firewall` on the left menu
 - Click `CREATE FIREWALL RULE` (right next to `CREATE FIREWALL POLICY`)
   - Give it a name
-  - Give it the target tag `rabbitmq`
+  - Give it the target tag `rabbitmq-<your username>`
   - Source IPv4 ranges: `0.0.0.0/0` which means any IP can access it
   - Protocol and ports. On the internet, search whether the RabbitMQ protocol (AMQP) uses TCP or UDP (😄 can't give you all the answers!)
   - Once you've found the protocol and checked it, type `5672` in the `Ports` input
   - Click `CREATE`
 - Now go back to your virtual machine and click `EDIT`
-  - The target tag `rabbitmq` given to your firewall rule above corresponds to a network target tag. Now look for `Network tags` and type `rabbitmq`
+  - The target tag `rabbitmq-<your username>` given to your firewall rule above corresponds to a network target tag. Now look for `Network tags` and type `rabbitmq-<your username>`
   - Then click `SAVE` which will update your instance
 
 Your RabbitMQ server should be open to the world!
+
+### One RabbitMQ server shared across the whole group
+
+We'll need a bit of coordination here 🤸 🤸‍♂️. We need one person per group OR per bootcamp (depending on the setup), to make their RabbitMQ server, and credentials, accessible to the rest of the students.
+
+Here is a simple rule, if noone has claimed to have opened their server on the Slack / Zoom / Teams chat, claim it 👋. Otherwise, wait for credentials from that person to be shared.
 
 Share the following with your mates (in Slack / Zoom / Teams):
 - Your server IP address

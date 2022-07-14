@@ -11,4 +11,3 @@ services:
       - RABBITMQ_DEFAULT_PASS=$RABBITMQ_DEFAULT_PASS
     volumes:
       - ./data/rabbitmq/data:/var/lib/rabbitmq/
-      - ./data/rabbitmq/log:/var/log/rabbitmq
