@@ -31,3 +31,8 @@ We can use resources like this [AWS article, Break a Monolith Application into M
 - Give access to our database as a service (break out monolith and scale out Postgres)
   - One more breakout of the app / 100s of calls per second on a given endpoint
   - Scale out Postgres read-only
+
+
+## Final picture
+
+<img src="https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/assets/Day9-Recap.drawio.png" width=600 />
