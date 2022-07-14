@@ -65,6 +65,17 @@ Write the following functions in `lwdb/db.py`:
   ```
 </details>
 
+<details>
+  <summary markdown='span'>💡 Code to run - Hint</summary>
+
+  ```python
+  from lwdb import db
+
+  df = db.json_to_df('../data/ikea-raw.json')
+  db.save_df_to_parquet(df, '../data/ikea-raw.parquet')
+  ```
+</details>
+
 ### Column types
 
 Now let's look at the columns, do they look like they all have the right type? Cast the columns with string type to `float` or `"Int64"` in the function `def cast_columns(...)` when it seems appropriate.
@@ -76,6 +87,18 @@ Then save the new DataFrame to `./data/ikea-cols.csv` after filling in the `def 
 
   You'll need a combination of `pandas.to_numeric` and `df[column].astype("Int64")`.
 </details>
+
+<details>
+  <summary markdown='span'>💡 Code to run - Hint</summary>
+
+  ```python
+  from lwdb import db
+
+  cleaned_df = db.cast_columns(df)
+  db.save_df_to_csv(df, '../data/ikea-cols.csv')
+  ```
+</details>
+
 
 ## Start a database
 
@@ -145,6 +168,19 @@ Then type `\timing` in the PSQL shell, you should see `Timing is on.`.
 We provide a function `def query_perf(...)` in `lwdb/db.py` to measure the performance of these queries. Write the performance numbers to `perf.json` **in milliseconds**.
 
 Do you think we can do better? Let's try 🐙!
+
+<details>
+  <summary markdown='span'>💡 Code to run - Hint</summary>
+
+  Either use `psql` with `\timing` OR do it in Python with
+
+  ```python
+  from lwdb import db
+
+  db.query_perf(sql_file_path="./sql/<sql query file>.sql")
+  ```
+</details>
+
 
 ## Indexing
 
