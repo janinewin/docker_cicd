@@ -21,8 +21,6 @@ This dichotomy allows us to speed up programs that are **not CPU bound** by havi
 
 ⭐ Enter the **event loop!**
 
-This [article](https://iximiuz.com/en/posts/explain-event-loop-in-100-lines-of-code/) brillantly explains the event loop and proposes a 100 line implementation of the event loop. We highly recommend reading this article and implementing its code as an optional exercise if you'd like to understand the internals of the event loop.
-
 ## Main concepts
 
 ### Event loop ♻️
@@ -95,3 +93,8 @@ Now fill in the blanks in the `make_one_call` function.
 
 1️⃣ Run your synchronous and asynchronous code with a number of 10. Which one wins? By how many multiples?
 2️⃣ Double the number to 20. Is the speed factor the same or twice as good?
+
+
+## BONUS. HIGHLY OPTIONAL. Skip and come back to it if you're done with everything.
+
+This [article](https://iximiuz.com/en/posts/explain-event-loop-in-100-lines-of-code/) brillantly explains the event loop and proposes a 100 line implementation of the event loop. We highly recommend reading this article and implementing its code as an optional exercise if you'd like to understand the internals of the event loop.
