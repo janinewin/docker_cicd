@@ -37,6 +37,7 @@ def parse_args():
     parser.add_argument("--username", required=True)
     parser.add_argument("--message", required=True)
     parser.add_argument("--bot", action="store_true")
+    parser.add_argument("--bot-wait-s", dest="bot_wait_s", type=int, default=60)
     return parser.parse_args()
 
 
@@ -52,7 +53,8 @@ def main():
                 username=f"bot::chuck-norris::{args.username}",
                 message=message,
             )
-            sleep_s = random.randint(45, 120)
+
+            sleep_s = random.randint(args.bot_wait_s, args.bot_wait_s + 20)
             print(f"-- Sleeping {sleep_s} seconds")
             time.sleep(sleep_s)  
     else:
