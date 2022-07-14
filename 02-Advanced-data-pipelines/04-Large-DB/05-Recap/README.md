@@ -17,3 +17,17 @@ We'll do an overview of the GCP services that can be useful when scaling up.
 
 We can use resources like this [AWS article, Break a Monolith Application into Microservices](https://aws.amazon.com/getting-started/hands-on/break-monolith-app-microservices-ecs-docker-ec2/module-four/).
 
+
+## Different stages of our app
+
+- 10 users, running one computation every now and then
+  - Show how to split the code
+- Introducing simulations, we can run 100 computations concurrently (introduce Cloud Run and break out the monolith)
+  - Break the monolith into two apps
+  - Introduce Cloud Run
+- Introducing "faster simulation" with a GPU (add a queue)
+  - GPU ressources are scarce
+  - Add a queue
+- Give access to our database as a service (break out monolith and scale out Postgres)
+  - One more breakout of the app / 100s of calls per second on a given endpoint
+  - Scale out Postgres read-only
