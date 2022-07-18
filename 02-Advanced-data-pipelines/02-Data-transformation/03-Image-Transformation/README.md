@@ -56,6 +56,12 @@ Let's look into our `pyproject.toml` file to understand which libraries we've in
 
 ## Extract faces using Scikit-image
 
+### Setup note
+
+You might need to install additional `apt` libraries. Feel free to run `sudo apt install -y <library1> <library2>` etc. for the extra libraries. If you encounter an error while running the code below, you should be hinted on what to install.
+
+### Exercise
+
 Let's start the work on `lwface/pages/Image_Upload.py`.
 
 We'll start by building the simpler face detection function `def detect_face(...)`.

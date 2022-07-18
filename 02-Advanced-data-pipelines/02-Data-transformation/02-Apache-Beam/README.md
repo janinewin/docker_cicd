@@ -100,6 +100,17 @@ And we'd like to return a final count for each word, which is a `Dict[str, int]`
 
 ## Use Apache Beam
 
+### Apache Beam Python code snippets overload the operators `|` and `>>`.
+
+In a nutshell:
+
+- A Beam pipeline is a sequence of transformations. `input_data | ATransformation(...) | AnotherTransformation(...)` means to apply the transformation implemented in `ATransformation` to `input_data`, then apply `AnotherTransformation` to it.
+- The `>>` is just used to add a name for these transforms. This name isn't used anywhere and just here to really make the code more readable, so you can disregard it.
+
+This is explained briefly in [this StackOverflow answer](https://stackoverflow.com/a/43812686). The pipe operator `|` is displayed in more details in the [Beam documentation](https://beam.apache.org/documentation/programming-guide/#transforms).
+
+### Exercise
+
 We are going to implement the code from [the Word Count example](https://github.com/apache/beam/blob/master/sdks/python/apache_beam/examples/wordcount.py). Our code lies in `lwmr/impl_beam.py`.
 
 Let's detail block by block what's happening by breaking down the function `def count_words(...)`.
@@ -181,6 +192,10 @@ As we'd like our results in a dictionary, but Beam writes them to disk, we'll pa
 **The results should be in `/tmp/beam-output/`, check out what's in there.**
 
 🔱 BIM! Well done, you've written multiple times the Word Count algorithm. The Beam way is the most scalable, and super well integrated with the Google Cloud ecosystem. Since Beam is open source, you'll find Beam runners on most other available clouds.
+
+## BONUS 🤝. Compare the speed of various methods
+
+Create a Jupyter notebook to run and compare the speed of the various methods on the full dataset.
 
 ## BONUS 🤝. Beam on Google Cloud
 

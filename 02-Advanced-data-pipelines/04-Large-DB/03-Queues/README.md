@@ -35,7 +35,6 @@ Follow the [Docker Hub documentation](https://hub.docker.com/_/rabbitmq) to add 
 
 - We'll need to map ports 5672 and 15672.
 - Set the environment variables `RABBITMQ_DEFAULT_USER` to `rmq` and `RABBITMQ_DEFAULT_PASS` must be read from the `.env`.
-- Mount the volume `./data/rabbitmq/data:/var/lib/rabbitmq/`.
 
 **Note** Your `.env` is read by `docker-compose` but not by your code when you run it directly from the terminal. When you run the `lwqueue/*.py` files in this exercise, make sure you have exported the environment variable(s) in your `.env` before with
 
