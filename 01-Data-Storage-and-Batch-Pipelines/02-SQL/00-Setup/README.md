@@ -175,7 +175,7 @@ We'll do it on a very simple file - and you'll have to do it yourself with the m
     - `/adminer` (Adminer file system)
     - `/database` (Postgres DB). This folder contains "system" folders for PostGres to work properly. What we need is a place where we would store the csv files from the movies dataset. Which would then be loaded in tables in Postgres
 2. To do so, create a folder `/files` under the `./data` folder.
-3. Move the `teacher.csv` file that's under `02-SQL/00-Setup/` to `02-SQL/00-Setup/.data/files/`
+3. Move the `teacher.csv` file that's under `02-SQL/00-Setup/` to `02-SQL/00-Setup/data/files/`
 4. Kill your container, and relaunch it:
 
     ```bash

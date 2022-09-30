@@ -23,7 +23,7 @@ COPY poetry.lock pyproject.toml ./
 COPY build/common/lewagonde/ /repo/common/lewagonde/
 
 # Now we are ready to install the packages
-RUN poetry install --no-dev
+RUN poetry install --only main
 
 # Copy this package's Python files last
 COPY ./ ./

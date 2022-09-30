@@ -15,7 +15,7 @@ class TestTask3:
                 "apt-get -y update "
                 "&& apt-get -y upgrade "
                 "&& pip install --no-cache-dir poetry "
-                "&& poetry install --no-dev "
+                "&& poetry install --only main "
                 "&& apt-get clean "
                 "&& rm -rf /var/lib/apt/lists/*"
             ),
@@ -36,7 +36,7 @@ class TestTask3:
                 "apt-get -y update "
                 "&& apt-get -y upgrade "
                 "&& pip install --no-cache-dir poetry "
-                "&& poetry install --no-dev "
+                "&& poetry install --only main "
                 "&& apt-get clean "
                 "&& rm -rf /var/lib/apt/lists/*"
             ),

@@ -21,7 +21,7 @@ Here's a scenario
   They keyword is `interface`.
 </details>
 
-That's what APIs are for. [API](https://en.wikipedia.org/wiki/API) stands for `application programming interface`, or sometimes `application programming interface`, which is as valid in the spirit.
+That's what APIs are for. [API](https://en.wikipedia.org/wiki/API) stands for `application programming interface`, or sometimes `application public interface`, which is as valid in the spirit.
 
 An API is here to delimit the bits of your code that you'd like to expose to the rest of the world 🌐.
 

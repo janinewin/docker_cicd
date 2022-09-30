@@ -25,7 +25,7 @@ def dockerfile_validation():
         ("COPY", "pyproject.toml poetry.lock ./"),
         (
             "RUN",
-            "pip3 install --upgrade --no-cache-dir pip && pip3 install poetry && poetry install --no-dev",
+            "pip3 install --upgrade --no-cache-dir pip && pip3 install poetry && poetry install --only main",
         ),
     ]
 

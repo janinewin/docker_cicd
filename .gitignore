@@ -5,7 +5,7 @@
 
 # Database folders - in 02-SQL
 02-SQL/**/data/
-*.data/
+*/.data/
 
 # DBT folders - in 01-ELT-DBT
 01-ELT-DBT/**/dbt_lewagon/
@@ -32,3 +32,6 @@ __pycache__/
 *.env
 .vscode/
 *.log
+
+# No such file in the solutions repository
+test_output.txt

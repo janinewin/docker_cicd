@@ -19,7 +19,7 @@ def dockerfile_validation():
         ("COPY", "scripts scripts"),
         ("RUN", "chmod +x scripts/entrypoint.sh"),
         ("COPY", "pyproject.toml poetry.lock ./"),
-        ("RUN", "pip3 install --upgrade --no-cache-dir pip && pip3 install poetry && poetry install --no-dev"),
+        ("RUN", "pip3 install --upgrade --no-cache-dir pip && pip3 install poetry && poetry install --only main"),
     ]
 
 

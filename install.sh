@@ -24,27 +24,14 @@ sudo apt install -y vim tmux tree git ca-certificates curl jq unzip zsh apt-tran
 # -- Skipped
 
 # Docker
-sudo apt update -y
-sudo apt install -y docker.io
-sudo groupadd docker
-sudo usermod -aG docker $USER
-newgrp docker
+# -- Skipped
 
 # Docker Compose
-# Download docker-compose standalone
-sudo curl -SL https://github.com/docker/compose/releases/download/v2.6.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
-# Apply executable permissions
-sudo chmod +x /usr/local/bin/docker-compose
-# Link
-sudo rm /usr/bin/docker-compose
-sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+# -- Skipped
 
 # TLDR
 # Remove previous installs
-sed -i "s|alias tldr='docker run --rm -it -v ~/.tldr/:/root/.tldr/ nutellinoit/tldr'||g" ~/.aliases
-sudo apt remove tldr -y
-source ~/.aliases
-cd ~/ && pip3 install tldr
+# -- Skipped
 
 # GRPCurl
 # -- Skipped
