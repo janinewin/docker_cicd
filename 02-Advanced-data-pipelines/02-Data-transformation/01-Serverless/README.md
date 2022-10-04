@@ -59,7 +59,7 @@ RUN pip3 install --upgrade --no-cache-dir pip \
 COPY poetry.lock pyproject.toml ./
 
 # Now we are ready to install the packages
-RUN poetry install --no-dev
+RUN poetry install --only main
 
 # Copy this package's Python files last
 COPY ./ ./

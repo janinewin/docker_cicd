@@ -53,7 +53,7 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
     ```dockerfile
     apt-get install -y python3-pip
     ```
-1. Install fastapi (0.78.0), SQLAchemy (1.4.36), Alembic (1.7.7) and, uvicorn[standard] (0.17.6)
+1. Install fastapi (0.78.0), SQLAlchemy (1.4.36), Alembic (1.7.7) and, uvicorn[standard] (0.17.6)
 1. Create `WORKDIR` server
 1. Copy the complete current directory into the working directory `/server`
 1. Expose port 8000 to be able to access the server from outside of the container
@@ -211,7 +211,7 @@ Previously we installed our own version of python, pip and other dependencies. T
         ```dockerfile
         #add the following lines
         pip install --no-cache-dir poetry
-        poetry install --no-dev
+        poetry install --only main
 
         #Remove all of the manual python package installations via pip
         ```

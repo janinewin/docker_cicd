@@ -14,7 +14,7 @@ RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get install -y gzip wget \
     && pip install --no-cache-dir poetry \
-    && poetry install --no-dev \
+    && poetry install --only main \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
