@@ -36,3 +36,22 @@ We can use resources like this [AWS article, Break a Monolith Application into M
 ## Final picture
 
 <img src="https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/assets/Day9-Recap.drawio.png" width=600 />
+
+# Extra fun project to review
+
+Check out [Hugging Face Datasets Server](https://github.com/huggingface/datasets-server) project.
+
+__This has been written on October 6th 2022, so if the code structure changed when you read this, make sure to navigate to the right commit.__
+
+Microservices under `/services`:
+- `admin`
+- `api`
+- `reverse-proxy`
+- `worker`
+
+Comment on:
+- Their structure, always a `pypoetry.toml`, `Dockerfile`, `Makefile`, `README.md` that documents the endpoints and environment variables.
+- `/api/pyproject.toml` uses `starlette` (`FastAPI` built on top of it) and `uvicorn`.
+- `/worker/pyproject.toml` uses `apache-beam` and `aiohttp`, so we're talking asynchronous programming and Beam magic.
+
+Then check out the Kubernetes YAML structure under `chart/values.yaml`.
