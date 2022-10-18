@@ -1,0 +1,28 @@
+version: "3.8"
+
+volumes:
+  userapp:
+  tweetapp:
+
+
+services:
+  tweet-service:
+    container_name: tweet-service
+    build:
+      context: tweets
+    ports:
+      - "5002:5000"
+    volumes:
+      - tweetapp:/tweetapp
+    restart: always
+
+  user-service:
+    container_name: user-service
+    build:
+      context: users
+    ports:
+      - "5000:5000"
+    volumes:
+      - userapp:/userapp
+    restart: always
+

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "example/ok";
+
+service Api {
+  rpc MapFaces(Image) returns (Faces) {};
+}
+
+message Image {
+  string path = 1;
+}
+
+message Faces {
+  repeated Coordinate coordinates = 1;
+}
+
+message Coordinate {
+  int32 x = 1;
+  int32 y = 2;
+}
