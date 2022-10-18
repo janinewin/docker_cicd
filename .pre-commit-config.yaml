@@ -26,3 +26,8 @@ repos:
     - id: sort-simple-yaml
     - id: trailing-whitespace
     - id: end-of-file-fixer
+
+-   repo: https://github.com/psf/black
+    rev: stable
+    hooks:
+    - id: black
