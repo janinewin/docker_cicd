@@ -230,7 +230,7 @@ In the `common/lewagonde` Python library, we've added a function `def load_dot_e
 If you encounter an error like this
 
 ```
-find: ‘./01-Data-Storage-and-Batch-Pipelines/04-ETL-and-introduction-to-Airflow/03-Local-ETL/database/pg_multixact’: Permission denied
+find: ‘./02-Data-Storage-and-Batch-Pipelines/04-ETL-and-introduction-to-Airflow/03-Local-ETL/database/pg_multixact’: Permission denied
 ```
 
 this means you've created a directory owned by `root` (system administrator) and not the user you're logged in with. We've added a little helper method in the top `Makefile` to help you fix such issues. When you run this `make` target, all files within your repo will be owned by your user.
@@ -248,28 +248,3 @@ Additionally, when your services are packaged in a Docker container, Docker (and
 Below is a diagram summing up and explaining the two levels of ports mapping you'll need to master throughout the bootcamp.
 
 ![Port mapping explained](https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/assets/Ports.drawio.png)
-
-## Docker useful commands
-
-```
-Build:
-docker build -t base-image:1.0 .   ---> remember to use the dot to pass the context
-
-List:
-docker container ls
-docker image ls
-docker network ls
-
-Volumes:
-docker volume create test-volume
-docker run -d -v test-volume:/shared-volume --name test-1 base-image:1.0
-
-Docker compose:
-docker-compose build
-docker-compose up
-docker-compose down
-
-Containers:
-docker run -it --rm base-image:1.0
-docker run -d -v "${PWD}/app:/app" --name test-1 base-image:1.0
-```
