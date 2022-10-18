@@ -248,3 +248,7 @@ Additionally, when your services are packaged in a Docker container, Docker (and
 Below is a diagram summing up and explaining the two levels of ports mapping you'll need to master throughout the bootcamp.
 
 ![Port mapping explained](https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/assets/Ports.drawio.png)
+
+
+## Docker useful commands
+
