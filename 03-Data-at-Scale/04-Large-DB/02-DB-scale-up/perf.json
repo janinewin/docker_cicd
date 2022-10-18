@@ -1,0 +1,12 @@
+{
+  "timings_milliseconds": {
+    "q1-select-sku": {
+      "v1": 0,
+      "with_index": 0
+    },
+    "q2-search-chair": {
+      "v1": 0,
+      "v2": 0
+    }
+  }
+}
