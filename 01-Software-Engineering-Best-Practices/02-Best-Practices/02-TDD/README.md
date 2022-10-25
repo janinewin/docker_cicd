@@ -8,7 +8,7 @@ The testing pattern encouraged is a four-phase one and well described in this [b
 
 ## Longest Word
 
-Let's practise TDD with a simple game that we will use until the end of the day. We will implement "The Longest Word", a game where given a list of nine letters, you have to find the longest possible English word formed by those letters.
+Let's practice TDD with a simple game that we will use until the end of the day. We will implement "The Longest Word", a game where given a list of nine letters, you have to find the longest possible English word formed by those letters.
 
 Example:
 
@@ -75,7 +75,7 @@ Now that we have a better idea of the object we want to build, we can start writ
 ```bash
 cd ~/code/<user.github_nickname>
 poetry new longest-word && cd $_
-poetry add nose pylint astroid
+poetry add pytest pylint
 
 touch longest_word/game.py
 touch tests/test_game.py
@@ -83,23 +83,21 @@ touch tests/test_game.py
 code .
 ```
 
-Let's set up our test class, inheriting from [`unittest.TestCase`](https://docs.python.org/3.8/library/unittest.html#basic-example)
+Let's set up our test class,
 
 ```python
 # tests/test_game.py
-import unittest
 import string
 from longest_word.game import Game
 
-class TestGame(unittest.TestCase):
+class TestGame:
     def test_game_initialization(self):
         new_game = Game()
         grid = new_game.grid
-        self.assertIsInstance(grid, list)
-        self.assertEqual(len(grid), 9)
+        assert type(grid) == list
+        assert len(grid) == 9
         for letter in grid:
-            self.assertIn(letter, string.ascii_uppercase)
-
+            assert letter in string.ascii_uppercase
 ```
 
 Read this code. If you have _any_ question about it, ask a teacher. You can copy/paste this code to `tests/test_game.py`.
@@ -107,29 +105,35 @@ Read this code. If you have _any_ question about it, ask a teacher. You can copy
 Now it's time to run it first to make sure those tests are **failing**:
 
 ```bash
-nosetests
+poetry run pytest
 ```
 
 What next? Now you should **read the error message**, and try to **fix** it, and only this one (don't anticipate). Let's do the first one together:
 
 ```bash
-E
-======================================================================
-ERROR: Failure: ImportError (cannot import name 'Game' from 'longest_word.game' (/Users/seb/code/ssaunier/longest-word/longest_word/game.py))
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  # [...]
-  File ".../longest-word/tests/test_game.py", line 2, in <module>
-    from game import Game
-ImportError: cannot import name 'Game' from 'game' (.../longest-word/game.py)
+============================= test session starts ==============================
+platform darwin -- Python 3.8.14, pytest-7.1.3, pluggy-1.0.0
+rootdir: /Users/olivergiles/code/ogiles1999/longest-word
+collected 0 items / 1 error
 
-----------------------------------------------------------------------
-Ran 1 test in 0.004s
-
-FAILED (errors=1)
+==================================== ERRORS ====================================
+_____________________ ERROR collecting tests/test_game.py ______________________
+ImportError while importing test module '/Users/olivergiles/code/ogiles1999/longest-word/tests/test_game.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../../.pyenv/versions/3.8.14/lib/python3.8/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_game.py:2: in <module>
+    from longest_word.game import Game
+E   ImportError: cannot import name 'Game' from 'longest_word.game' (/Users/olivergiles/code/ogiles1999/longest-word/longest_word/game.py)
+=========================== short test summary info ============================
+ERROR tests/test_game.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.04s ===============================
+FAIL
 ```
 
-OK so the error message is `ImportError: cannot import name 'Game' from 'game'`. It can't find a `Game` type.
+OK so the error message is `ImportError: cannot import name 'Game' from 'longest_word.game'`. It can't find a `Game` type.
 
 ❓ How can we fix it?
 
@@ -153,25 +157,34 @@ class Game:
 Let's run the tests again:
 
 ```bash
-nosetests
+poetry run pytest
 ```
 
 We get this error message:
 
 ```
-E
-======================================================================
-ERROR: test_game_initialization (test_game.TestGame)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File ".../longest-word/tests/test_game.py", line 7, in test_game_initialization
-    grid = new_game.grid
-AttributeError: 'Game' object has no attribute 'grid'
+============================= test session starts ==============================
+platform darwin -- Python 3.8.14, pytest-7.1.3, pluggy-1.0.0
+rootdir: /Users/olivergiles/code/ogiles1999/longest-word
+collected 1 item
 
-----------------------------------------------------------------------
-Ran 1 test in 0.004s
+tests/test_game.py F                                                     [100%]
 
-FAILED (errors=1)
+=================================== FAILURES ===================================
+______________________ TestGame.test_game_initialization _______________________
+
+self = <tests.test_game.TestGame object at 0x1016750a0>
+
+    def test_game_initialization(self):
+        new_game = Game()
+>       grid = new_game.grid
+E       AttributeError: 'Game' object has no attribute 'grid'
+
+tests/test_game.py:7: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_game.py::TestGame::test_game_initialization - AttributeErro...
+============================== 1 failed in 0.04s ===============================
+FAIL
 ```
 
 🎉 PROGRESS!!! We have a **new** error message: `AttributeError: 'Game' object has no attribute 'grid'`.
@@ -184,7 +197,7 @@ Did you get this quick feedback loop? We run the test, we get an error message, 
 
 ❓ Try to implement the `Game` code to make this test pass. Don't look at the solution just yet, try to apply TDD on this problem!
 
-💡 You can use `print()` or `import pdb; pdb.set_trace()` in combination with `nosetests -s`.
+💡 You can use you can use `pytest --pdb` to jump into the debugger on test failure.
 
 <details><summary markdown='span'>View solution
 </summary>
@@ -229,19 +242,19 @@ A possible implementation of the test would be:
 
     def test_empty_word_is_invalid(self):
         new_game = Game()
-        self.assertIs(new_game.is_valid(''), False)
+        assert new_game.is_valid('') is False
 
     def test_is_valid(self):
         new_game = Game()
         new_game.grid = list('KWEUEAKRZ') # Force the grid to a test case:
-        self.assertIs(new_game.is_valid('EUREKA'), True)
-        self.assertEqual(new_game.grid, list('KWEUEAKRZ')) # Make sure the grid remained untouched
+        assert new_game.is_valid('EUREKA') is True
+        assert new_game.grid == list('KWEUEAKRZ') # Make sure the grid remained untouched
 
     def test_is_invalid(self):
         new_game = Game()
         new_game.grid = list('KWEUEAKRZ') # Force the grid to a test case:
-        self.assertIs(new_game.is_valid('SANDWICH'), False)
-        self.assertEqual(new_game.grid, list('KWEUEAKRZ')) # Make sure the grid remained untouched
+        assert new_game.is_valid('SANDWICH') is False
+        assert new_game.grid == list('KWEUEAKRZ') # Make sure the grid remained untouched
 ```
 </details>
 
@@ -250,7 +263,7 @@ A possible implementation of the test would be:
 Run the tests to make sure they are not passing:
 
 ```bash
-nosetests
+poetry run pytest
 ```
 
 ❓ It's your turn! Update the `game.py` implementation to make the tests pass!
@@ -287,7 +300,7 @@ A possible implemantation is:
 Make sure to make `pylint` happy:
 
 ```bash
-poetry run pylint game.py
+poetry run pylint longest_word/game.py
 ```
 
 You can disable those rules:

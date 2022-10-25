@@ -12,10 +12,6 @@ GitHub put together a [nice little guide](https://guides.github.com/introduction
 
 Before we actually do our first commit, we need to create a GitHub repository!
 
-1. Log in to GitHub
-1. Go to [github.com/new](https://github.com/new) and create a _public_ repository under your _personal_ account, name it `github-flow`.
-1. Go to your terminal and create a new local repository. Add GitHub as the `origin` remote:
-
 ```bash
 mkdir -p ~/code/<user.github_nickname>/github-flow && cd $_
 
@@ -25,12 +21,12 @@ touch index.html
 git add .
 git commit -m "Initialize repository"
 
-git remote add origin git@github.com:<user.github_nickname>/github-flow.git
+gh repo create --private --source=.
 
 git push origin master
 ```
 
-Go to [github.com](https://github.com) and refresh your repository page. You should see the commit and two files!
+Use `gh browse` you should see the commit and two files!
 
 ## Your first Pull Request
 
@@ -112,9 +108,9 @@ git branch -d html-skeleton
 
 That's it! You are ready to work on the next feature branch Start over at the `git checkout -b <branch>` step.
 
-## Practise makes perfect
+## Practice makes perfect
 
-Take some time to practise this flow. You can create the following feature branches:
+Take some time to practice this flow. You can create the following feature branches:
 
 - `add-basic-css-style`
 - `add-background-image`
