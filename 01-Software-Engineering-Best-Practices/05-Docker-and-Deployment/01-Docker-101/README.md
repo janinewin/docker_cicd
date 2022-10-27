@@ -2,30 +2,8 @@
 
 🎯 The purpose of this exercise is to:
 
-* validate the Docker Desktop installation
 * guide you through common Docker commands, using the `docker` CLI,
 * while giving some details about them and the associated Docker concepts
-
----
-
-## 0. Installation validation ✅
-### Is Docker Desktop already installed ? 🐳
-
-You should already have Docker Desktop installed on your computer - as part of the **"Before your training"** section on Learn.
-
-
-👀 If you see a whale icon in the status bar stays steady, **Docker Desktop** is up-and-running, and is accessible from any terminal window. You are good to go ✅
-<p><img src="https://github.com/lewagon/fullstack-images/blob/master/reboot-python/status-bar.png?raw=true" width="250"></p>
-
-👀 If you don't see this whale icon, but already have **Docker Desktop** installed on your machine, simply start it ! Wait for the whale icon to be steady and you are good to go ✅
-<p><img src="https://github.com/lewagon/fullstack-images/blob/master/reboot-python/docker-desktop.png?raw=true" width="400"></p>
-
-
-👀 If you do not have **Docker Desktop** installed :point_right: please check out the **"Before your training"** section (here, on Learn) and follow the installation steps.
-
----
-
-Let's now make sure that everything is fine, and get familiar with the concepts introduced in the lecture.
 
 ### Docker Hub 💻
 
@@ -145,11 +123,10 @@ docker run -e POSTGRES_PASSWORD=password postgres
 
 </details>
 
-🍾 That's it! No need for a complex installer, no conflicts on your laptop, no long hours scrolling tech forums to fix your problem : you have a running database in a single command.
+🍾 That's it! No need for a complex installer, no conflicts on your laptop, no long hours scrolling tech forums to fix your problem : you have a running database in a single command. Running locally is very stable on the virtual machine but often you want to use a database without having to spin up a whole virtual machine.
 
 
 The `-e` flag in `docker run -e ...` stands for environment variable. Here, we just created a password for the database superuser, and passed it to the `docker run` command. Ideally a password should be more complex and we should not provide it from the command line, but here we'll do it this way for simplicity's sake.
-
 
 Now, you should see an output in your terminal: it looks like your database is initialized and ready to accept connections!
 
@@ -246,11 +223,6 @@ It gives you access to the Postgresql command line, where you could write SQL.
 👉 Exit the `psql` prompt: `\q` + **Enter**
 👉 Exit the container bash shell: `exit` + **Enter**
 
-
-That is typically what developers do locally when they work on a webapp project (like you did for the Twitter API): they dockerize the webserver application, and the database. This way their setup is standardized, and they can easily share it !
-
----
-
 ### Clean up
 
 #### stop & remove containers
@@ -315,10 +287,30 @@ docker images
 docker rmi postgres
 docker images
 ```
+</details>
 
 If you have other containers on your host using the `postgres` image, you will not be able to remove the image... Get rid of the containers first ! You already know how to do so !
 
+<details>
+<summary markdown='span'>Quickly stop all docker containers</summary>
+
+```bash
+docker stop $(docker ps -q)
+```
+
 </details>
+
+<details>
+<summary markdown='span'>Cleanup up your images and containers</summary>
+
+```bash
+docker system prune
+```
+
+</details>
+
+
+
 
 ---
 
@@ -390,8 +382,6 @@ So we need different things here:
 👉 Create a file named Dockerfile in this challenge folder
 
 ```bash
-cd ~/code/<user.github_nickname>/reboot-python
-cd 05-Docker/01-Docker-101
 touch Dockerfile
 ```
 
@@ -475,6 +465,8 @@ docker push $DOCKER_ID/custom-whale
 
 This way, since it is public, anyone would be able to pull it and run it as a container.
 
+You test this by removing this and re-running `docker run` and you'll see the image being pulled!
+
 👉 Same as what we saw for the Postgres image, you can see it listed [here](https://hub.docker.com/)
 
 👉 Some people went even further ... Try this one: ```docker run -it --rm danielkraic/asciiquarium``` !
@@ -495,13 +487,3 @@ That's it for this challenge ! Congratulations, you have seen how to:
 - push an image to the Docker Hub (`docker push $YOUR_IMAGE`)
 
 So you already know all the base commands to interact with images and containers !
-
-Before you jump to the next challenge (Twitter-API), let's mark your progress with the following:
-
-```bash
-cd ~/code/<user.github_nickname>/reboot-python
-cd 05-Docker/01-Docker-101
-touch DONE.md
-git add DONE.md && git commit -m "05-Docker/01-Docker-101"
-git push origin master
-```
