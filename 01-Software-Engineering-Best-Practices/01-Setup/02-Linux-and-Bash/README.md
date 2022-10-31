@@ -1,7 +1,7 @@
 # Linux Service creation
 
 ## Basics of services
-The goal of this exercise is to create a background service on your virtual machine. Here we will write a script which checks whether it is raining and then notifies you before lunch so you don't forget your umbrella before you head out.
+The goal of this exercise is to create a background service on your virtual machine. Here we will write a script which checks whether you are connected via ssh and if not shutdown the vm in order to prevent unwanted spending by leaving the vm running overnight!
 
 A service in linux is program that runs in the background outside of users which are not intended to be directly interacted with (sometimes called daemons).
 
@@ -21,26 +21,32 @@ You'll notice a couple of services that we are using already, the ssh.service is
 
 ### Creating a script
 
-Start by creating a .sh script that calls our api https://weather.lewagon.com/data/2.5/weather
-at your location and checks whether it is raining.
-
-In case it is not currently raining where you are a rain_example.json has been included in the folder in order to show you an example of the return when it is raining.
+Start by creating a .sh script which checks whether any users are currently connected `echo` if they are and if there are not any `poweroff`!
 
 Some things worth exploring in relation to the script
 - [why #!](https://www.linuxjournal.com/content/what-heck-hash-bang-thingy-my-bash-script)
-- [jq docs](https://www.google.com/search?client=firefox-b-d&q=jq+docs)
 - [control flow in bash](https://linuxcommand.org/lc3_wss0080.php)
 
+<details>
+<summary markdown='span'>Hint to check ssh users</summary>
+
 ```bash
-#!/bin/bash
-tmp=$(mktemp)
-curl -s "https://weather.lewagon.com/data/2.5/weather?lat=48.8588897&lon=2.3200410217200766" > $tmp
-weather=$(cat $tmp | jq '{weather}[][] | {main} | join(" ")')
-if [[ $weather != "Rain" ]]
-then
-    echo "Hey it looks like it is currently raining, don't forget your umbrella"
-fi
+ss | grep "tcp.*ssh"
 ```
+</details>
+
+Once you have your .sh script you need to make it executable, this is the fastest way:
+
+```bash
+chmod +x <your_file.sh>
+```
+and now if you run it
+```bash
+./<your_file.sh>
+```
+You should see that someone is connected.
+
+The command we just used `chmod` can do more than just make executable it also affects who can read, write, and execute files! Here is a great [article](https://www.computerhope.com/unix/uchmod.htm) if you want to dig a bit more into this concept.
 
 ## Creating a service
 
