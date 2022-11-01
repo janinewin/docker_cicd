@@ -220,14 +220,3 @@ Before pushing DevOps farther with the next exercise about Continuous Deployment
 - Before asking for a review, re-read your code in the `Files changed` tab. Seeing the code from this perspective (in a web browser under a diff format) will help you spot style issues, refactoring opportunities, etc. that you could not see directly in your text editor.
 - Finally, your friends at GitHub wrote a great piece on [how to properly write](https://blog.github.com/2015-01-21-how-to-write-the-perfect-pull-request/) in a Pull Request (both for the reviewee and the reviewer).
 
-## I'm done!
-
-Before you jump to the next exercise, let's mark your progress with the following:
-
-```bash
-cd ~/code/<user.github_nickname>/reboot-python
-cd 02-Best-Practices/03-Continuous-Integration
-touch DONE.md
-git add DONE.md && git commit -m "02-Best-Practices/03-Continuous-Integration done"
-git push origin master
-```
