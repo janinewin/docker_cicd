@@ -303,21 +303,11 @@ Make sure to make `pylint` happy:
 poetry run pylint longest_word/game.py
 ```
 
-You can disable those rules:
+pylint is the standard 'linter' for python, it checks the code without running. Its suggestions are mostly good practices to follow the [documentation](https://pylint.pycqa.org/en/latest/) is good if you want to follow it in more detail but most of the suggestions are pretty intuitive.
+
+You can disable those rules which you don't think should apply here for example:
 
 ```python
 # pylint: disable=missing-docstring
 # pylint: disable=too-few-public-methods
-```
-
-## I'm done!
-
-Before you jump to the next exercise, let's mark your progress with the following:
-
-```bash
-cd ~/code/<user.github_nickname>/reboot-python
-cd 02-Best-Practices/02-TDD
-touch DONE.md
-git add DONE.md && git commit -m "02-Best-Practices/02-TDD done"
-git push origin master
 ```
