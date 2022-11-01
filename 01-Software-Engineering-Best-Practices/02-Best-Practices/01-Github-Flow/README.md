@@ -164,20 +164,10 @@ Every time a commit happens in `master` (through a merged Pull Request using the
 
 If you own a domain, GitHub Pages also supports [`CNAME`](https://help.github.com/articles/using-a-custom-domain-with-github-pages/) configuration.
 
+Github pages can be super useful for holding documentation which is normally all a static site!
+
 ## Final thoughts
 
 The power of the GitHub flow comes from being accessible even to `git` beginners. `git` is a very powerful tool and can be intimidating if not introduced correctly. With that flow, anyone in the team can pick up the collaboration process with a little training (what you just did!) and just needs to remember a few commands: `status` (and `diff`), `checkout -b`, `add`, `commit -m`, `push`, `checkout`, `pull`, `branch -d` and that's it.
 
 If you talk with other developers about `git`, some advanced concepts might come up, like `stash`, `cherry-pick`, `rebase`, `reset` or `reflog`. There is plenty of time to learn about those topics (`stash` being in our opinion the easiest and most useful) and adapt your knowledge to your team. We won't cover these topics but at least you have some keywords to Google!
-
-## I'm done!
-
-Before you jump to the next exercise, let's mark your progress with the following:
-
-```bash
-cd ~/code/<user.github_nickname>/reboot-python
-cd 02-Best-Practices/01-Github-Flow
-touch DONE.md
-git add DONE.md && git commit -m "02-Best-Practices/01-Github-Flow done"
-git push origin master
-```
