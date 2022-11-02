@@ -98,7 +98,9 @@ WantedBy=multi-user.target
 ```
 </details>
 
-Now we also need a .timer file to run our service:
+## Creating a timer
+
+Now we also need a .timer file to run our service which follows a similar syntax to services. We want to try and write a timer to trigger our service every 10 seconds:
 
 <details>
     <summary markdown='span'>Timer example if you get stuck!</summary>
@@ -126,7 +128,7 @@ You need this because the root user is the only user that can edit the root dire
 
 Now you can run `sudo systemctl daemon-reload` to make your service files available.
 
-Run `sudo systemctl start <your_service>.service` to run the service once and check it does what you want it to. Then run `systemctl status test.service` to check if it is running! If you want more detailed logs you can use `sudo journalctl -r -u check_ssh`
+Run `sudo systemctl start <your_service>.service` to run the service once and check it does what you want it to. Then run `systemctl status test.service` to check if it is running! If you want more detailed logs you can use `sudo journalctl -r -u check_ssh`.
 
 Next you want to use the timer here are the key commands from systemctl.
 - `start` (starts the service/timer)
@@ -161,4 +163,4 @@ sudo crontab -e
 
 This will open a file where you should write a line starting your service at a particular time! We need sudo here as our command we need to run is a command which requires root access but if you had something you wanted to run at a particular time for just your user you can just use `crontab -e`.
 
-We now have a cron which starts a service running on our vm, stopping us spending too much money!
+We now have a cron which starts a timer running on our to check if anyone is connected and if not shut it down, stopping us spending too much money by accidentally leaving it on overnight!
