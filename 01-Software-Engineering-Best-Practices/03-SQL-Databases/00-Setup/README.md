@@ -63,7 +63,7 @@ Now we can log back in, with our newly created user because we created one with 
 
 bash
 ```
-psql postgres
+psql postgres # which is equivalent to `psql --username=$USER postgres`
 ```
 but if we wanted a different username to our `$USER` we would do this instead.
 ```bash
