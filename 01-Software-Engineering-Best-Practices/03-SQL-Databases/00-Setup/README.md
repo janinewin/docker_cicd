@@ -130,7 +130,9 @@ In VSCode, click on PORTS next to your TERMINAL section.
 Step 2:
 
 Enter 5432, and press Enter. By default, it auto populates the Local Address section with the value localhost:5432
-(if you see a different value then 5432 is probably occupied on your local machine). At this point, what it means is
+(if you see a different value then 5432 is probably occupied on your local machine - that's totally fine. You can use the local port number of your choice).
+
+At this point, what it means is
 that port 5432 on your virtual machine is forwarded to port 5432 on your local machine.
 
 ![forwarded port](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D3/forwarded-port.png)
