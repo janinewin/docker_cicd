@@ -98,14 +98,14 @@ None should be returned, lets deal with getting data into postgres next.
 
 The simplest way would be with a simple sql script:
 ```sql
-CREATE TABLE student (
+CREATE TABLE students (
     id          INTEGER PRIMARY KEY,
     first_name  VARCHAR(40) NOT NULL,
     last_name   VARCHAR(40) NOT NULL,
     batch_num   INTEGER
 );
 
-INSERT INTO student (
+INSERT INTO students (
     id
     , first_name
     , last_name
@@ -118,7 +118,7 @@ VALUES
 
 If you run this an then run `\d` you should now see a student table appearing which you can now query:
 ```sql
-SELECT * FROM student;
+SELECT * FROM students;
 ```
 
 ### Dbeaver
@@ -192,7 +192,7 @@ That we will limit to 50 characters. The list of all possible Postgres data type
 : Data Types. Run the following script to build this structure:
 
 ```sql
-CREATE TABLE teacher (
+CREATE TABLE teachers (
       id      INTEGER
     , name    VARCHAR(50)
 )
@@ -204,7 +204,7 @@ That’s why we generally don’t use the CREATE TABLE statement as is.
 We either make sure it does not exist already:
 
 ```sql
-CREATE TABLE IF NOT EXISTS teacher (
+CREATE TABLE IF NOT EXISTS teachers (
       id      INTEGER
     , name    VARCHAR(50)
 )
@@ -215,8 +215,8 @@ which will not do anything if the table has already been created
 Or we fully delete the table and recreate it:
 
 ```sql
-DROP TABLE IF EXISTS teacher;
-CREATE TABLE teacher (
+DROP TABLE IF EXISTS teachers;
+CREATE TABLE teachers (
       id      INTEGER
     , name    VARCHAR(255)
 )
