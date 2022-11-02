@@ -38,7 +38,7 @@ You should see an error like this one:
 
 The default presumption on psql is that you are trying to connect to a database with the name of your current user (to check this you can run `echo $USER`) and as a postgres user of that name as well, so we need to create a user of that name to make our workflow as easy as possible!
 
-Luckily there is a default user called "postgres": Lets login as the "postgres" user for now. To understand the command below, run `tldr sudo`
+Luckily there is a default user the postgres user so lets login as the postgres user for now. To understand this command a bit more deeply run `tldr` sudo
 we are logging in as the postgres user on our machine allowing us to log directly in as the postgres user on the database.
 ```bash
 sudo --login --user=postgres psql
