@@ -55,7 +55,7 @@ Here your goal is now to fill out the commands to fufil the main functions you n
 - stop the vm
 - connect directly vscode in the vm
 
-Try to implement these in the function shells below using the inbuilt [subprocess](https://docs.python.org/3/library/subprocess.html) module!
+❓ **Try to implement these** in the function shells below using the inbuilt [subprocess](https://docs.python.org/3/library/subprocess.html) module!
 
 ```python
 import click
