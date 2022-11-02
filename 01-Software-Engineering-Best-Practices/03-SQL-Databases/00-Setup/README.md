@@ -277,11 +277,11 @@ csv_to_postgres () {
     file_path=$(readlink -f $2)
     table_name=$(echo $2 | sed 's:.*/::')
     table_name="${table_name%.*}"
-    tmp=$(mktemp)
 
     drop_command="DROP TABLE IF EXISTS ${table_name}"
     psql -d $1 -a -c $drop_command
 
+    tmp=$(mktemp)
     csvsql -i postgresql $2 > $tmp
     psql -d $1 -a -f $tmp
 
@@ -289,3 +289,41 @@ csv_to_postgres () {
     psql -d $1 -a -c $copy_command
 }
 ```
+
+This is quite a long command so lets break it down!
+
+The first thing to note are `$1` and `$2` these are arguments passed on the command line so in this case when we use the command
+$1 is the database we want to put the table into and $2 is the file we want to put into the database!
+
+```bash
+csv_to_postgres public teachers.csv
+```
+
+The first part is getting the table name and file path:
+
+1. `readlink -f $2` gets us the file path
+2. `echo $2 | sed 's:.*/::'` gets us everything in the input file after the last /
+3. `${table_name%.*}` removes the .csv from the table name
+
+The next part is the drop command:
+
+1. Write a sql command to drop the table if it exists
+2. Then use `psql -d $1 -a -c $drop_command` to execute the command into our database
+
+Now we want to create the table with our auto generated schema:
+
+1. `tmp=$(mktemp)` creates us a temporary file we can use without having to worry about its cleanup!
+2.  `csvsql -i postgresql $2` is the most important command here this will generate us a schema based on our
+input csv this command is great on its own if you want to use it to generate a schema and work from there to
+audit that everything lines up as you expect but without manually working through everything!
+3. We then pipe that to our temporary file `> $tmp`
+4. `psql -d $1 -a -f $tmp` this is similar to our command from dropping except
+that instead of passing a sql query directly we are passing it a file containing a sql query!
+
+All that is left to do is copy the data in!
+
+1. Generate a copy command with all the correct variables
+2. Execute that into our database `psql -d $1 -a -c $copy_command`
+
+This command can be really useful as a whole but within it there are some very useful motifs for using
+`psql` to execute files into the database and for using `csvsql` to help with schema generation!
