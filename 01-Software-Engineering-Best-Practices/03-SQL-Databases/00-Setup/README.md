@@ -197,7 +197,7 @@ CREATE TABLE IF NOT EXISTS teacher (
 
 which will not do anything if the table has already been created
 
-        Or we fully delete the table and recreate it:
+Or we fully delete the table and recreate it:
 
 ```sql
 DROP TABLE IF EXISTS teacher;
