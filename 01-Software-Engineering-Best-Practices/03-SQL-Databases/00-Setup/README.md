@@ -36,14 +36,15 @@ You should see an error like this one:
 
 ![no db](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D3/psql-no-db.png)
 
-The default presumption on psql is that you are trying to connect to a database with the name of your current user and as a postgres user of that name as well!
+The default presumption on psql is that you are trying to connect to a database with the name of your current user (to check this you can run `echo $USER`) and as a postgres user of that name as well, so we need to create a user of that name to make our workflow easy as possible!
 
-Luckily there is a default user the postgres user so lets login as the postgres user for now.
+Luckily there is a default user the postgres user so lets login as the postgres user for now. To understand this command a bit more deeply run `tldr` sudo
+we are logging in as the postgres user on our machine allowing us to log directly in as the postgres user on the database.
 ```bash
 sudo --login --user=postgres psql
 ```
 
-You should enter the psql shell from here you can interact with postgres. Lets start by creating our own user the easiest thing to do here is create a user with the same name as your username. Here we are makeing the user a superuser but in general you should try to only assign the appropriate [role attributes](https://www.postgresql.org/docs/current/role-attributes.html) (for example creating a user with the appropriate connection limit to prevent your database being overwhelmed):
+You should enter the psql shell from here you can interact with postgres. Lets start by creating our own user the easiest thing to do here is create a user with the same name as your username. Here we are making the user a superuser but in general you should try to only assign the appropriate [role attributes](https://www.postgresql.org/docs/current/role-attributes.html) (for example creating a user with the appropriate connection limit to prevent your database being overwhelmed):
 
 ```bash
 CREATE USER <username> WITH SUPERUSER PASSWORD '<your password>';
@@ -55,9 +56,21 @@ We now have our user (postgres also provides `createuser` cli but you won't alwa
 Now lets log out and log back into the default `postgres` db as our new user.
 ```bash
 \q
+```
+This `\q` is a special postgres command to shortcut important actions known as [meta commands](https://www.postgresql.org/docs/current/app-psql.html)!
+
+Now we can log back in, with our newly created user because we created one with our username we can do:
+
+bash
+```
 psql postgres
 ```
-Check our current user with a sql query
+but if we wanted a different username to our `$USER` we would do this instead.
+```bash
+psql --username=username postgres
+```
+
+Lets check our current user with a sql query
 ```sql
 SELECT current_user;
 ```
