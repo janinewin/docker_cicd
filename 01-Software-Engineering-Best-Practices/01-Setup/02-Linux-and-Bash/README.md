@@ -123,17 +123,17 @@ WantedBy=timers.target
 
 ## Putting it all together
 
-❗️ **These files belong in the /etc/systemd/system directory**. The etc stands for editable text configuration, if you want a quick explanation of most of the folders in the root directory (i.e. the highest folder in the system) this explains the [linux filesystem](https://www.youtube.com/watch?v=42iQKuQodW4) well.
+❗️ **These files belong in the /etc/systemd/system directory**. The etc stands for editable text configuration, if you want a quick explanation of most of the folders in the root directory (i.e. the highest folder in the system) this videa explains the [linux filesystem](https://www.youtube.com/watch?v=42iQKuQodW4) at a high level.
 
-You might notice you get permission denied when trying to move the files into the folder you can fix this with sudo (a useful trick if you forget a sudo is running `sudo !!` runs the previous command but with sudo prepended).
+You might notice you get permission denied when trying to move the files into the folder you can fix this with sudo (**a useful trick if you forget a sudo is running `sudo !!` runs the previous command but with sudo prepended**).
 
-You need this because the root user is the only user that can edit the root directory (along with everything on the system). Running `sudo` allows you to imitate this user to run one command (a more in-depth look at [root](http://www.linfo.org/root.html)). This control over absolutely everything on the system is one of the most powerful things about linux but you also must be careful not to overwrite key files as there is a lack of guard rails.
+❗️ You need this because the root user is the only user that can edit the root directory (along with everything on the system). Running `sudo` allows you to imitate this user to run one command (a more in-depth look at [root](http://www.linfo.org/root.html)). This control over absolutely everything on the system is one of the most powerful things about linux but you also must be careful not to overwrite key files as there is a lack of guard rails.
 
 Now you can run `sudo systemctl daemon-reload` to make your service files available.
 
-Run `sudo systemctl start <your_service>.service` to run the service once and check it does what you want it to. Then run `systemctl status test.service` to check if it is running! If you want more detailed logs you can use `sudo journalctl -r -u check_ssh`.
+Run `sudo systemctl start <your_service>.service` to run the service once and check it does what you want it to. Then run `systemctl status test.service` to check if it is running! If you want more detailed logs you can use `sudo journalctl -r -u check_ssh` to see every output.
 
-Next you want to use the timer here are the key commands from systemctl.
+Next you want to use the timer **here are the key commands from systemctl.**
 - `start` (starts the service/timer)
 - `stop` (stops it)
 - `enable` (always start on reboot but does not start now without --now)
@@ -144,7 +144,7 @@ So to get our to run permanently we would use
 sudo systemctl enable --now <your_service>.timer
 ```
 
-In general though we don't want to run the service during the day after we have rebooted the vm, so lets use a different approach!
+In general though we don't want to run the service during the day after we have rebooted the vm as we can be presumed to be using it then, so lets use a different approach!
 
 ## Cron
 
@@ -164,6 +164,10 @@ Now we need to add this line but with echo replaced to start our timer and here 
 sudo crontab -e
 ```
 
-This will open a file where you should write a line starting your service at a particular time! We need sudo here as our command we need to run is a command which requires root access but if you had something you wanted to run at a particular time for just your user you can just use `crontab -e`.
+❓ This will open a file where you should write a line starting your service at a particular time!
 
-We now have a cron which starts a timer running on our to check if anyone is connected and if not shut it down, stopping us spending too much money by accidentally leaving it on overnight!
+We need sudo here as our command we need to run is a command which requires root access but if you had something you wanted to run at a particular time for just your user you can just use `crontab -e`.
+
+Services and cron are two powerful tools in the linux arsenal, here we could have achieved our goal with either on their own but it is useful to know both in case only one is appropriate!
+
+🏁 We now have a cron which starts a timer running on our to check if anyone is connected and if not shut it down, stopping us spending too much money by accidentally leaving it on overnight!
