@@ -139,17 +139,17 @@ The python package index (know as pypi) is where packages that you can install d
 
 ![pypi logo](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D1/pypi-logo.png)
 
-Signup to [pypi](https://pypi.org/account/register/). Then create an api token from
+❓ Signup to [pypi](https://pypi.org/account/register/). Then create an api token from
 [account settings](https://pypi.org/manage/account/) and make sure it has the scope entire account so that it can generate new projects!
 
-Then create a .env containing the following to store your token:
+**Then create a `.env` at the root of your package** containing the following to store your token:
 
 ```bash
 PYPI_USERNAME==__token__
 PYPI_TOKEN=<Your Token>
 ```
 
-This is the perfect place to use a .envrc. Lets create a .envrc to load our .env file:
+❗️ This is the perfect place to use **direnv**. Lets create a .envrc to load our .env file:
 
 ```bash
 echo "dotenv" > .envrc
@@ -160,18 +160,19 @@ Now you can verify that your token is available as an environment variable with:
 echo $PYPI_TOKEN
 ```
 
-Let use poetry to quickly build and publish our package!
+**Lets use poetry to quickly build and publish our package!**
 
 ```bash
 poetry publish --build --username $PYPI_USERNAME --password $PYPI_TOKEN
 ```
 
-Now go to [your package](https://pypi.org/project/<user.github_nickname>-de-toolkit/) directly on pypi. You could now install this package from any machine. Here the package is new publicly available which is okay but generally pypi is for packages intended for public consumption and you probably do not want to share code for colleagues with world. So the solution is using private package repositories instead! Go to this [page](https://pypi.org/manage/project/<user.github_nickname>-de-toolkit-de-toolkit/settings/) to delete your package.
+Now go to [your package](https://pypi.org/project/<user.github_nickname>-de-toolkit/) directly on pypi. You could now install this package from any machine. Here the package is now publicly available which is okay but generally pypi is for packages intended for public consumption and you probably do not want to share code for colleagues with world. So the solution is using private package repositories instead! Go to this [page](https://pypi.org/manage/project/<user.github_nickname>-de-toolkit-de-toolkit/settings/) to delete your package.
 
-
-#
+<br>
 
 ## Publish to private repository
+
+
 There are plenty of solutions for private repositories even hosting them [yourself](https://pypi.org/project/pypiserver/)! For ease we will use [gemfury](https://gemfury.com/), you can login with github and then go to this [page](https://manage.fury.io/manage/<user.github_nickname>/tokens/full) to get a full access token.
 
 Add this to the .env file:
