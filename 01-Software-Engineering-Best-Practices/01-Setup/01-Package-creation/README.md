@@ -1,29 +1,36 @@
 # Using poetry
 
-This exercise will use poetry to create a toolbox that will be published and available to install anywhere!
+🎯 This exercise will use **poetry** to create a toolbox that will be published and available to install anywhere!
 
 ## Creating a package
 
 Lets start by creating a new poetry package!
 
+<details>
+<summary markdown='span'>If you need a quick refresher on python packages</summary>
+https://docs.python.org/3/tutorial/modules.html
+</details>
+
+
 ```bash
 poetry new ~/code/<user.github_nickname>/<user.github_nickname>-de-toolkit && cd $_
 ```
 
-Here we are using poetry to create a new package and then a useful terminal command in `$_` which is the most recent parameter in this case the folder we just creater with `poetry new` letting us cd right into it.
+❗️ Here we are using poetry to create a new package and then a useful terminal command in `$_` which is the most recent parameter, in this case the folder we just created with `poetry new` letting us `cd` right into it.
 
-At this point we will have our README.md, basic pyproject.toml, <user.github_nickname>_de_toolkit to populate, and a tests folder if needed
-
-Our goal is to create a basic cli to help us with some of our common workflows interacting with our virtual machine!
+At this point we will have our README.md, basic pyproject.toml, <user.github_nickname>_de_toolkit to populate, and a tests folder if needed.
 
 Lets add [click](https://click.palletsprojects.com/en/8.1.x/) to our project to help develop our cli:
 ```bash
 poetry add click
 ```
 
-Let begin by creating a main file to create our entrypoint in:
+❓ Now begin by creating a main file to create our entry point and populate it with the code below:
 
-<user.github_nickname>_de_toolkit/main.py
+```bash
+touch <user.github_nickname>_de_toolkit/main.py
+```
+
 ```python
 import click
 
@@ -34,26 +41,27 @@ def cli():
 if __name__ == '__main__':
     cli()
 ```
+
 Here we are are setting up the skeleton of a cli using [group](https://click.palletsprojects.com/en/8.1.x/commands/). This is where we will add other commands to flesh it out.
 
 Now if you run `poetry run python <user.github_nickname>_de_toolkit/main.py` you should see some empty
 documentation appear, one of the great features of click is how it uses doc strings in order to generate readable cli feedback!
 
-This is not how we want to use our cli so we need to add a line to our pyproject.toml to allow it to be run more easily:
+This is not how we want to use our cli so **we need to add a line to our pyproject.toml** to allow it to be run more easily:
 
 ```toml
 [tool.poetry.scripts]
 deng = '<user.github_nickname>.main:cli'
 ```
-Now we can run our cli with `poetry run deng` instead, if we wanted multiple cli commands in one package we could just add another line in this section!
+❗️ Now we can run our cli with `poetry run deng` instead, if we wanted multiple cli commands in one package we could just add another line in this section!
 
 Now lets generate the first part of our toolkit create a new file `touch <user.github_nickname>_de_toolkit/vm.py` to contain our vm commands.
 
-Here your goal is now to fill out the commands to fufil the main functions you need:
+Here your goal is now to fill out the commands to fulfil the main functions you need:
 
-- start the vm
-- stop the vm
-- connect directly vscode in the vm
+1️⃣ Start the vm (using `gcloud`)
+2️⃣ Stop the vm (using `gcloud`)
+3️⃣ Connect directly to vscode in the vm (using `code`)
 
 ❓ **Try to implement these** in the function shells below using the inbuilt [subprocess](https://docs.python.org/3/library/subprocess.html) module!
 
@@ -77,8 +85,10 @@ def connect():
     # your code here
 ```
 
+<br>
+
 <details>
-<summary markdown='span'>start command</summary>
+<summary markdown='span'>Start command</summary>
 
 ```bash
 gcloud compute instances start --zone=<vm zone> <vm name>
@@ -87,18 +97,7 @@ gcloud compute instances start --zone=<vm zone> <vm name>
 </details>
 
 <details>
-<summary markdown='span'>start command</summary>
-
-```bash
-gcloud compute instances stop --zone=<vm zone> <vm name>
-```
-
-</details>
-
-</details>
-
-<details>
-<summary markdown='span'>start command</summary>
+<summary markdown='span'>Stop command</summary>
 
 ```bash
 gcloud compute instances stop --zone=<vm zone> <vm name>
@@ -107,7 +106,7 @@ gcloud compute instances stop --zone=<vm zone> <vm name>
 </details>
 
 <details>
-<summary markdown='span'>jump into vm</summary>
+<summary markdown='span'>Code into vm</summary>
 
 ```bash
 code --folder-uri vscode-remote://ssh-remote+<vm ip><path inside vm>
@@ -115,7 +114,9 @@ code --folder-uri vscode-remote://ssh-remote+<vm ip><path inside vm>
 
 </details>
 
-Now we have our commands we are ready to add them to the main cli go back to our original `main.py` try to add all three to our cli!
+<br>
+
+❓ **Now we have our commands we are ready to add them to our package**. Go back to our original `main.py` try to add all three to our cli group!
 
 <details>
 <summary markdown='span'>If you get stuck</summary>
@@ -126,11 +127,15 @@ cli.add_command(<your command>)
 
 </details>
 
-Now we are ready to publish our cli!
+<br>
 
 ## Publish to pypi
 
+🎯 Now we have our cli we want to publish it to make avaliable from any computer with python without needing the `.py` files.
+
 The python package index (know as pypi) is where packages that you can install directly with `pip` or in our case `poetry` so that your package can available on a new setup without having to re-clone the repository.
+
+<br>
 
 ![pypi logo](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D1/pypi-logo.png)
 
