@@ -2,36 +2,37 @@
 
 ## Basics of services
 
-The goal of this exercise is to create a background service on your virtual machine. Here we will write a script which checks whether you are connected via ssh and if not shutdown the vm in order to prevent unwanted spending by leaving the vm running overnight!
+🎯 The goal of this exercise is to create a background service on your virtual machine. Here we will write a script which checks whether you are connected via ssh and if not shutdown the vm in order to **prevent unwanted spending by leaving the vm running overnight!**
 
 A service in linux is program that runs in the background outside of users which are not intended to be directly interacted with most of the time(sometimes they are also referred to as daemons).
 
-Lets see which ones are currently on the virtual machine:
+🔎 Lets see which ones are currently on the virtual machine:
 
 ```bash
 systemctl list-units --type=service
 ```
 
-You'll get a huge list of services let reduce it to just the currently running ones:
+You'll get a huge list of services let reduce it to just the currently running ones!:
 
 ```bash
 systemctl list-units --type=service | grep running
 ```
 
-Two important bash motifs are shown in this command:
+❗️ Two important bash motifs are shown in this command:
 
-- The pipe `|` which takes the standard output of one command and passes it as the input to the next one! This is easy to confuse with passing it as an argument but for example if we do 'echo 5 | echo' we get nothing as the standard input does not affect echo.
-- [grep](https://www.gnu.org/software/grep/manual/grep.html) which searches input for a pattern, in this example lines with `running` in them and returns them.
+1️⃣ **The pipe `|`** which takes the standard output of one command and passes it as the input to the next one! This is easy to confuse with passing it as an argument but for example if we do 'echo 5 | echo' we get nothing as the standard input does not affect echo.
 
-Re-run our command above and you will notice a couple of services that we are using already, the ssh.service is what is running in the background to allow ssh operate. You'll also two things we have installed docker and postgres which both run in background as services!
+2️⃣ **[grep](https://www.gnu.org/software/grep/manual/grep.html)** which searches the input it receives for a pattern, in this example lines with `running` in them and returns only the lines matching the pattern.
 
-If you had a lot more services and it was hard to see what was running you could use grep to check whether postgres was there!
+From our command above and you will notice a couple of services that we are using already, the ssh.service is what is running in the background to allow ssh operate. **You'll also see two things we have installed docker and postgres which both run in background as services!**
 
-### Creating a script
+If you had a lot more services and it was hard to see what was running you could also use `grep` to check whether postgres was there for example!
 
-Start by creating a .sh script which checks whether any users are currently connected `echo` if they are and if there are not any `poweroff`!
+## Creating a script
 
-Some things worth exploring in relation to the script if you are not familiar with bash scripts
+❓ Start by creating a .sh script which checks whether any users are currently connected `echo` if there are and otherwise `poweroff`!
+
+📚 Some things worth exploring in relation to the script if you are not familiar with bash scripts
 - [why #!](https://www.linuxjournal.com/content/what-heck-hash-bang-thingy-my-bash-script)
 - [control flow in bash](https://linuxcommand.org/lc3_wss0080.php)
 
@@ -45,7 +46,7 @@ ss | grep "tcp.*ssh"
 </details>
 
 <details>
-<summary markdown='span'>Here is one way of writing a script if you get stuck</summary>
+<summary markdown='span'>Here is one way of writing a script if you get totally stuck</summary>
 
 ```bash
 #!/bin/bash
@@ -71,17 +72,17 @@ and now if you run it
 
 You should see that someone is connected.
 
-The command we just used `chmod` can do more than just make executable it also affects who can read, write, and execute files! Here is a great [article](https://www.computerhope.com/unix/uchmod.htm) if you want to dig a bit more into this concept.
+❗️ **The command we just used `chmod` can do more than just make a file executable**, it also affects who can read, write, and execute files! Here is a great [article](https://www.computerhope.com/unix/uchmod.htm) if you want to dig a bit more into this concept.
 
-Lets move our script into `/usr/local` before we move on!
+❓ Lets move our script into `/usr/local` before we move on, why do you think it is better to store it here?
 
 ## Creating a service
 
 Next we need something to trigger our script, this is where services come in!
 
-This [article](https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files) gives a great overview of how to create systemd units which are the building blocks we need to create our service.
+📚 This [article](https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files) gives a great overview of how to create systemd units which are the building blocks we need to create our service.
 
-Start off by creating a .service file which triggers our script:
+❓ Start off by creating a `.service` file which triggers our script:
 
 <details>
     <summary markdown='span'>Service example if you get stuck!</summary>
@@ -100,7 +101,9 @@ WantedBy=multi-user.target
 
 ## Creating a timer
 
-Now we also need a .timer file to run our service which follows a similar syntax to services. We want to try and write a timer to trigger our service every 10 seconds:
+Now we also need a .timer file to run our service which follows a similar syntax to services.
+
+❓ We want to try and write a timer to trigger our service every 10 seconds:
 
 <details>
     <summary markdown='span'>Timer example if you get stuck!</summary>
@@ -120,7 +123,7 @@ WantedBy=timers.target
 
 ## Putting it all together
 
-These files belong in the /etc/systemd/system directory. The etc stands for editable text configuration, if you want a quick explanation of most of the folders in the root directory (i.e. the highest folder in the system) this explains the [linux filesystem](https://www.youtube.com/watch?v=42iQKuQodW4) well.
+❗️ **These files belong in the /etc/systemd/system directory**. The etc stands for editable text configuration, if you want a quick explanation of most of the folders in the root directory (i.e. the highest folder in the system) this explains the [linux filesystem](https://www.youtube.com/watch?v=42iQKuQodW4) well.
 
 You might notice you get permission denied when trying to move the files into the folder you can fix this with sudo (a useful trick if you forget a sudo is running `sudo !!` runs the previous command but with sudo prepended).
 
