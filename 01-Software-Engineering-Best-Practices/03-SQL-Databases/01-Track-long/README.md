@@ -1,49 +1,157 @@
 ## High Level Description
 
-You'll reproduce the steps done in `00-Setup` but with some more complex files. The goal is to have a database structure ready to then execute SQL queries on it in the `02-SQL-Basics`, `03-SQL-Advanced` sections.
+You'll reproduce the steps done in `00-Setup` but with some more complex files.
+The goal is to have a database structure ready to then execute SQL queries on it in the challenges `02-SQL-Basics`, `03-SQL-Advanced` sections.
 
-## Steps
 
-1. Go to the movies dataset in Kaggle: [The Movies Dataset](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?resource=download), and download the 7 files into the `03-SQL-Databases/data/` folder:
-    - `credits.csv`
-    - `keywords.csv`
-    - `links_small.csv`
-    - `links.csv`
+## 1) Setup
+
+1️⃣ **Download [The IMDB Movies Dataset](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/movies_dataset/archive.zip)**, and copy the 2 files into your VM in this challenge's subfolder: `./data/`
     - `movies_metadata.csv`
-    - `ratings_small.csv`
     - `ratings.csv`
-2. Load the data from `movies_metadata.csv`, and `ratings.csv` in Postgres
 
-## `movies_metadata.csv`
+💡 Once locally dowloaded, you can copy them inside your VM via either `scp` (like a pro) or drag-and-drop (thanks to VS code!)
 
-1. Create a `movies_metadata` table using SQL commands, which contains the exact same columns as the ones in the `movies_metadata.csv` file. For the column types, let's be flexible and use only 5 different types:
-    - `VARCHAR(50)` - when you feel like the length of the data in this field should be limited
-    - `TEXT` - when you feel like the length of the data in this field could be big
-    - `INT` - if all records in this field seem to be integers
-    - `NUMERIC` - if the records may contain decimals
-    - `DATE` - self explanatory
-    (To explore the structure of the file, you can use bash commands to extract only the first 3 rows).
-    _Note: Running the same "table creation" SQL script again, after the table is already created should not fail_
-2. Load the data from this `csv` into the `movies_metadata` table. 3 records are corrupted in the CSV file. Can you identify why? Fix those records manually, in your code editor.
-    <details>
-    <summary markdown='span'>💡 Hint</summary>
-    Those are the breaking rows:
+💡 You can quickly explore the dataset on [Kaggle](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?resource=download&select=ratings.csv) if you want
 
-    - Line 19763 (ID = 82663)
-    - Line 29571 (ID = 122662)
-    - Line 35669 (ID = 249260)
+2️⃣ **Create a new postgres database called `movies`**, in which we'll later load each CSV in separate tables
 
-    There are carriage returns in the `overview` of the movie, which are interpreted as new lines. Which causes problems of shifting data into fields that are not appropriate.
-    You should fix those carriage returns manually, save the file again, and load the fixed version of the file in postgres.
-    </details>
-3. We were flexible in the way we were loading data : strings were loaded either as a `VARCHAR(50)` or as `TEXT`. In reality, `adult` and `movies` should be `BOOLEAN`: change the data type of those 2 columns to `BOOLEAN`
+💡 A nice shortcut actually does the job is
+```bash
+createdb "movies"
+```
 
-## `ratings.csv`
-Follow the same steps as for the `movies_metadata.csv` file.
-1. Create the corresponding table (store your code in `ratings_create.sql`) The columns should be named differently than in the csv (camelCase is not a standard way of naming fields in tables. snake_case is preferred)
+Check that it worked with
+```bash
+psql movies # then \l to list your databases and check you are the owner
+```
+and then connect it to DBEAVER as per previous challenge
+
+3️⃣ Lastly, **copy your`.env` file** from the previous challenge inside this challenge's folder, so you'll be able to run the tests, which will connect to your database.
+
+## 2) `ratings.csv`
+
+### 2.1) Create the corresponding table `ratings` using SQL commands
+- The columns should be named differently than in the csv (camelCase is not a standard way of naming fields in tables. snake_case is preferred)
     - user_id
     - movie_id
     - rating
     - timestamp
-2. Load the data from the csv in the destination table (it should take a while: the file is almost 1GB large and contains more than 26 million rows). Store your code in `ratings_copy.sql`.
-3. The `timestamp` column is in a format called "epoch". Check what it means online, and, in a column called `created_at_utc`, load its equivalent in more readable `YYYY-MM-DD HH:MI:SS` format. (The query should take ~5-6 minutes to run). Store your code in `ratings_update.sql`
+- Choose the correct column types from the list below:
+    - `VARCHAR(50)` - when you feel like the length of the data in this field should be limited
+    - `TEXT` - when you feel like the length of the data in this field could be big
+    - `INT` - if all records in this field seem to be integers that can be stored as 4 bytes (< 2,147,483,647 in absolute term)
+    - `BIGINT`- for larger int (8 bytes)
+    - `NUMERIC` - if the records may contain decimals
+    - `DATE` - self explanatory
+- Running the same SQL script again after the table is already created should not fail
+
+💡 To execute your queries, you can either use local DBEAVER connection, or your terminal running `psql movies`
+
+💡 To explore the structure of the CSV file, you can use bash commands to extract only the first 3 rows (`tldr head`)
+
+🧪 **Write down your query in `ratings_create.sql` when you are done, and test your results with `make_test`** (test_2 should pass)
+
+### 2.2) Load the data from the csv in the destination table
+
+- Write down your query in `ratings_copy.sql`.
+- 💡 The file path to the CSV should be absolute for DBEAVER
+- ❗️ It should take a while: the file is almost 1GB large and contains more than 26 million rows
+
+
+### 2.3) Create a better `timestamp` column
+Right now, timestamp is stored as an "epoch" as `INT` (check what it means online)
+We want date in `TIMESTAMP` in more readable `YYYY-MM-DD HH:MI:SS` format instead!
+
+- Create a new column called `created_at_utc`
+- Then, load its converted timestamp equivalent!
+- The query should take ~1 minute to run
+
+👉 Write the code in `ratings_update.sql` when you're done
+
+<details>
+  <summary markdown='span'>💡 Hints</summary>
+
+- `ALTER TABLE ... ADD ...` to create a new column
+- `UPDATE ... SET ...` to update a column
+
+</details>
+
+<br>
+
+## 3) `movies_metadata.csv`
+
+Let's do the same: create & fill a `movies_metadata` table.
+
+👉 Have a quick look at the CSV structure by printing the first two lines
+
+```shell
+cat data/movies_metadata.csv | head -n 2
+```
+
+🤯 There are 24 columns to manually create, each with its own data type!
+
+Hopefully, there exists nice tools to load CSV automatically
+
+
+### 3.1) create and load automatically with `csvkit`
+
+We have pip-installed for you the amazing [csvkit](https://csvkit.readthedocs.io/en/latest/tutorial/1_getting_started) package (check your `pyproject.toml` file !)
+
+Run the following to let csvkit analyse your CSV to create the long SQL CREATE TABLE query automatically for you!
+
+```bash
+csvsql -i postgresql data/movies_metadata.csv
+```
+
+Now that we have the query, we could copy-paste it in DBEAVER and load data as before...But hey, let's make a script that automatically does this for you! 🎭
+
+Copy-paste this script in your terminal, we'll explain it below
+
+```bash
+csv_to_postgres () {
+    file_path=$(readlink -f $2)
+    table_name="${table_name%.*}"
+
+    drop_command="DROP TABLE IF EXISTS ${table_name}"
+    psql -d --help$1 -a -c $drop_command
+
+    tmp=$(mktemp)
+    csvsql -i postgresql $2 > $tmp
+    psql -d $1 -a -f $tmp
+
+    copy_command="COPY ${table_name} FROM '${file_path}' DELIMITER ',' CSV HEADER"
+    psql -d $1 -a -c $copy_command
+}
+```
+
+🔎 **This is quite a long command so lets break it down!**
+
+It's made to be run as follow:
+
+```bash
+csv_to_postgres movies data/movies_metadata.csv
+```
+- `$1` and `$2` are the arguments passed on the command line ($1 is the database, $2 is the csv file)
+
+- The first part is getting the table name and file path:
+  - `readlink -f $2` gets us the absolute file path
+  - `${table_name%.*}` removes the .csv from the table name (--> "movies_metadata")
+
+- The next part is the drop DB command:
+  - Write a sql command to drop the table if it exists
+  - Then use `psql -d $1 -a -c $drop_command` to execute the command into our database
+
+- Next we create the table with our auto generated schema:
+  - `tmp=$(mktemp)` creates us a temporary file we can use without having to worry about its cleanup!
+  - `csvsql -i postgresql $2` is the most important command here this will generate us a schema based on our input csv. This command is great on its own if you want to use it to generate a schema and work from there to audit that everything lines up as you expect but without manually working through everything!
+  - We then pipe that to our temporary file `> $tmp`
+  - `psql -d $1 -a -f $tmp` this is similar to our command from dropping except that instead of passing a sql query directly we are passing it a file containing a sql query!
+
+- All that is left to do is copy the data in!
+  - Generate a copy command with all the correct variables
+  - Execute that into our database `psql -d $1 -a -c $copy_command`
+
+🧪 **Execute the command and test the outcome with `make_test`**: test_3 should pass.
+
+🏁 Commit and push your challenge so we can keep track of your progress (don't worry, we 'gitignored' csvs already)

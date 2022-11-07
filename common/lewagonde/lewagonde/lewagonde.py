@@ -17,6 +17,7 @@ ENV_DB_READONLY_USER = "DB_READONLY_USER"
 ENV_DB_READONLY_PASSWORD = "DB_READONLY_PASSWORD"
 ENV_DB_HOST = "DB_HOST"
 ENV_DB_NAME = "DB_NAME"
+ROOT_DIR_DATA_ENG_SOLUTION = pathlib.Path(os.path.realpath(__file__)).parent.parent.parent.parent
 
 DBT_PROFILE_PATH = "~/.dbt/profiles.yml"
 GCP_KEYS_PATH = "~/.gcp_keys/"
@@ -149,16 +150,6 @@ def docker_compose_equal_content(dc1: Dict[str, Any], dc2: Dict[str, Any]):
 
 # Environment variables
 #######################
-
-
-def dot_env_path_sql():
-    """
-    On the SQL day (Week 1 Day 2) :
-    There should be one single .env file, located in 02-Data-Storage-and-Batch-Pipelines/02-SQL/00-Setup
-    This function returns its path, when executed from the lewagonde.py package
-    """
-    dataeng_solutions_dir = pathlib.Path(os.path.realpath(__file__)).parent.parent.parent.parent
-    return os.path.join(dataeng_solutions_dir, "02-Data-Storage-and-Batch-Pipelines/02-SQL/00-Setup/.env")
 
 
 def load_dot_env(dot_env_fp: str = "./.env"):

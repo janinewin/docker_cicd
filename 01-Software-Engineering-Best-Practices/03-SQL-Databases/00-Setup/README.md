@@ -39,18 +39,32 @@ You should see an error like this one:
 The default presumption on psql is that you are trying to connect to a database with the name of your current user (to check this you can run `echo $USER`) and as a postgres user of that name as well, so we need to create a user of that name to make our workflow as easy as possible!
 
 Luckily there is a default user called "postgres": Lets login as the "postgres" user for now. To understand the command below, run `tldr sudo`
-👇 we are logging in as the "postgres" user on our machine, allowing us to log directly in as the "postgres" user on the database.
+
 ```bash
 sudo --login --user=postgres psql
 ```
+☝️ we are logging in as the "postgres" user on our linux machine, allowing us to log directly in as the "postgres" user on the database. You should have entered the psql shell from there and should be able to interact with postgres.
 
-You should enter the psql shell from here you can interact with postgres. Lets start by creating our own user the easiest thing to do here is create a user with the same name as your username. Here we are making the user a superuser but in general you should try to only assign the appropriate [role attributes](https://www.postgresql.org/docs/current/role-attributes.html) (for example creating a user with the appropriate connection limit to prevent your database being overwhelmed):
+👉 **Lets start by creating our own user / password**
+
+The easiest thing to do here is create a user with the same name as your username (`echo $USER` if you forgot).
+
 
 ```bash
-CREATE USER <username> WITH SUPERUSER PASSWORD '<your password>';
+CREATE USER <username> WITH SUPERUSER PASSWORD '<choose a password here>';
+# 🚨 Don't forget the ; (semi-column) at the end
+# it's mandatory when executing statements in psql
 ```
 
-The most important thing when executing statements in psql is terminating them with the semicolon `;`!
+☝️ We made this user a _superuser_ but in general you should try to only assign the appropriate [role attributes](https://www.postgresql.org/docs/current/role-attributes.html) (for example creating a user with the appropriate connection limit to prevent your database being overwhelmed)
+
+👉 Write down your password in a `.env` file in this challenge folder. We'll need it later on.
+
+```bash
+#.env
+POSTGRES_PASSWORD='the password you just chose'
+```
+
 We now have our user (postgres also provides `createuser` cli but you won't always have direct access to the terminal when using managed postgres solutions).
 
 Now lets log out and log back into the default `postgres` db as our new user.
@@ -65,10 +79,7 @@ bash
 ```
 psql postgres # which is equivalent to `psql --username=$USER postgres`
 ```
-but if we wanted a different username to our `$USER` we would do this instead.
-```bash
-psql --username=username postgres
-```
+
 
 Lets check our current user with a sql query
 ```sql
@@ -77,17 +88,17 @@ SELECT current_user;
 
 Now our next step is to create a new database!
 ```sql
-CREATE DATABASE public;
+CREATE DATABASE school;
 ```
-If we list the databases you should see your newly created public database
+If we list the databases you should see your newly created school database
 ```bash
 \l
 ```
 Lets connect to that one instead of the default postgres one:
 ```bash
-\c public
+\c school
 ```
-If we check the tables in the public db
+If we check the tables in the school db
 ```bash
 \d
 ```
@@ -164,10 +175,10 @@ Step 4:
 
 Fill out the postgres connection page the key areas are highlighted:
 
-- database: public
+- database: school
 - port: the port you forwarded to
-- sername: your created user
-- password: your password
+- username: your created user
+- password: your created password
 
 <br>
 
@@ -182,8 +193,7 @@ and rerun our original query and you should see the same output as before.
 
 ### Bringing in data
 
-Now we are up and running in dbeaver we are ready to deal with our next issue bringing in data from sources
-other inserting with a sql query. Lets load `teacher.csv` into a new table in our db!
+Now we are up and running in dbeaver we are ready to deal with our next issue bringing in data from external source. Lets load `teacher.csv` into a new table in our db!
 
 
 We’re now going to create the table that’s going to welcome the teacher data, which is
@@ -258,72 +268,9 @@ To see the list of columns in each table
 ```sql
 SELECT *
 FROM INFORMATION_SCHEMA.COLUMNS
-WHERE table_schema = 'public'
+WHERE table_schema = 'school'
 ORDER BY table_name, ordinal_position
 ```
 
 Now we have a fully functional postgres database and a workflow when we want to
 create new databases and tables!
-
-This can be a slightly tedious so there are some tools (like [csvkit](https://csvkit.readthedocs.io/en/latest/))
-which aim to streamline the csv-to-database workflow.
-
-### Bonus
-
-Script to automate the process using csvkit (installed with pipx)!
-
-```bash
-csv_to_postgres () {
-    file_path=$(readlink -f $2)
-    table_name=$(echo $2 | sed 's:.*/::')
-    table_name="${table_name%.*}"
-
-    drop_command="DROP TABLE IF EXISTS ${table_name}"
-    psql -d $1 -a -c $drop_command
-
-    tmp=$(mktemp)
-    csvsql -i postgresql $2 > $tmp
-    psql -d $1 -a -f $tmp
-
-    copy_command="COPY ${table_name} FROM '${file_path}' DELIMITER ',' CSV HEADER"
-    psql -d $1 -a -c $copy_command
-}
-```
-
-This is quite a long command so lets break it down!
-
-The first thing to note are `$1` and `$2` these are arguments passed on the command line so in this case when we use the command
-$1 is the database we want to put the table into and $2 is the file we want to put into the database!
-
-```bash
-csv_to_postgres public teachers.csv
-```
-
-The first part is getting the table name and file path:
-
-1. `readlink -f $2` gets us the file path
-2. `echo $2 | sed 's:.*/::'` gets us everything in the input file after the last /
-3. `${table_name%.*}` removes the .csv from the table name
-
-The next part is the drop command:
-
-1. Write a sql command to drop the table if it exists
-2. Then use `psql -d $1 -a -c $drop_command` to execute the command into our database
-
-Now we want to create the table with our auto generated schema:
-
-1. `tmp=$(mktemp)` creates us a temporary file we can use without having to worry about its cleanup!
-2.  `csvsql -i postgresql $2` is the most important command here this will generate us a schema based on our
-input csv this command is great on its own if you want to use it to generate a schema and work from there to
-audit that everything lines up as you expect but without manually working through everything!
-3. We then pipe that to our temporary file `> $tmp`
-4. `psql -d $1 -a -f $tmp` this is similar to our command from dropping except
-that instead of passing a sql query directly we are passing it a file containing a sql query!
-
-All that is left to do is copy the data in!
-
-1. Generate a copy command with all the correct variables
-2. Execute that into our database `psql -d $1 -a -c $copy_command`
-
-This command can be really useful as a whole but within it there are some very useful motifs for using
-`psql` to execute files into the database and for using `csvsql` to help with schema generation!
