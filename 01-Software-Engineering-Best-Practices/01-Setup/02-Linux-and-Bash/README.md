@@ -1,10 +1,10 @@
 # Linux Service creation
 
-## Basics of services
+## 1) Basics of services
 
-🎯 The goal of this exercise is to create a background service on your virtual machine. Here we will write a script which checks whether you are connected via ssh and if not shutdown the vm in order to **prevent unwanted spending by leaving the vm running overnight!**
+🎯 The goal of this exercise is to create a **background service** on your virtual machine. Here we will write a script which checks whether you are connected via ssh and if not shutdown the vm in order to **prevent unwanted spending by leaving the vm running overnight!**
 
-A service in linux is program that runs in the background outside of users which are not intended to be directly interacted with most of the time(sometimes they are also referred to as daemons).
+A **service** in linux is program that runs in the background outside of users which are not intended to be directly interacted with most of the time (sometimes they are also referred to as **Daemons**).
 
 🔎 Lets see which ones are currently on the virtual machine:
 
@@ -20,7 +20,12 @@ systemctl list-units --type=service | grep running
 
 ❗️ Two important bash motifs are shown in this command:
 
-1️⃣ **The pipe `|`** which takes the standard output of one command and passes it as the input to the next one! This is easy to confuse with passing it as an argument but for example if we do 'echo 5 | echo' we get nothing as the standard input does not affect echo.
+1️⃣ **The pipe `|`** which takes the standard output of one command and passes it as the input to the next one!
+This is easy to confuse with passing it as an argument but for example if we do
+```
+echo 5 | echo
+```
+we get nothing as the standard input does not affect echo.
 
 2️⃣ **[grep](https://www.gnu.org/software/grep/manual/grep.html)** which searches the input it receives for a pattern, in this example lines with `running` in them and returns only the lines matching the pattern.
 
@@ -28,25 +33,17 @@ From our command above and you will notice a couple of services that we are usin
 
 If you had a lot more services and it was hard to see what was running you could also use `grep` to check whether postgres was there for example!
 
-## Creating a script
+## 2) Creating a script
 
-❓ Start by creating a .sh script which checks whether any users are currently connected `echo` if there are and otherwise `poweroff`!
+❓ Let's start by creating a `check_ssh.sh` script which checks whether any users are currently connected, `echo` if there are and otherwise `poweroff` the VM!
 
 📚 Some things worth exploring in relation to the script if you are not familiar with bash scripts
-- [why #!](https://www.linuxjournal.com/content/what-heck-hash-bang-thingy-my-bash-script)
-- [control flow in bash](https://linuxcommand.org/lc3_wss0080.php)
+- Start by `#!/bin/bash` to tell your computer that this file should be run by `bash`
+- Check [if/then/else syntax in bash](https://linuxcommand.org/lc3_wss0080.php)
+- Use `ss | grep "tcp.*ssh"` to check for SSH users
 
 <details>
-<summary markdown='span'>Hint to check ssh users</summary>
-
-```bash
-ss | grep "tcp.*ssh"
-```
-
-</details>
-
-<details>
-<summary markdown='span'>Here is one way of writing a script if you get totally stuck</summary>
+<summary markdown='span'>Solution</summary>
 
 ```bash
 #!/bin/bash
@@ -60,23 +57,24 @@ fi
 ```
 </details>
 
-Once you have your .sh script you need to make it executable, this is the fastest way:
+❓ Let's now make `check_ssh.sh` executable (`x`):
 
 ```bash
-chmod +x <your_file.sh>
+chmod +x check_ssh.sh
 ```
-and now if you run it
+and now if you run it:
 ```bash
-./<your_file.sh>
+./check_ssh.sh
 ```
 
 You should see that someone is connected.
 
-❗️ **The command we just used `chmod` can do more than just make a file executable**, it also affects who can read, write, and execute files! Here is a great [article](https://www.computerhope.com/unix/uchmod.htm) if you want to dig a bit more into this concept.
+❗️ **The command we just used `chmod` can do more than just make a file executable**, it also affects who can read, write, and execute files! Bookmark this [great article](https://www.computerhope.com/unix/uchmod.htm) for later if you want to dig a bit more into this concept.
+<img src='https://cdn.thegeekdiary.com/wp-content/uploads/2017/11/Files-permissions-and-ownership-basics-in-Linux.png' width=300>
 
 ❓ Lets move our script into `/usr/local` before we move on, why do you think it is better to store it here?
 
-## Creating a service
+## 3) Creating a service
 
 Next we need something to trigger our script, this is where services come in!
 
@@ -99,7 +97,7 @@ WantedBy=multi-user.target
 ```
 </details>
 
-## Creating a timer
+## 4) Creating a timer
 
 Now we also need a .timer file to run our service which follows a similar syntax to services.
 
@@ -121,7 +119,7 @@ WantedBy=timers.target
 ```
 </details>
 
-## Putting it all together
+## 5) Putting it all together
 
 ❗️ **These files belong in the /etc/systemd/system directory**. The etc stands for editable text configuration, if you want a quick explanation of most of the folders in the root directory (i.e. the highest folder in the system) this videa explains the [linux filesystem](https://www.youtube.com/watch?v=42iQKuQodW4) at a high level.
 
@@ -146,7 +144,7 @@ sudo systemctl enable --now <your_service>.timer
 
 In general though we don't want to run the service during the day after we have rebooted the vm as we can be presumed to be using it then, so lets use a different approach!
 
-## Cron
+## 6) Cron
 
 Cron is an alternative way of running commands at a specific time of day, there are pros and cons to both but it is good to understand both. Cron is good for running short scripts at a particular time whereas services are much better for long running processes or process that have to be executed very often!
 
