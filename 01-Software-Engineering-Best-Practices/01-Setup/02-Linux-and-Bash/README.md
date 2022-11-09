@@ -39,7 +39,7 @@ If you had a lot more services and it was hard to see what was running you could
 
 📚 Some things worth exploring in relation to the script if you are not familiar with bash scripts
 - Start by `#!/bin/bash` to tell your computer that this file should be run by `bash`
-- Check [if/then/else syntax in bash](https://linuxcommand.org/lc3_wss0080.php)
+- Go back to the lecture and check the control flow syntax there!
 - Use `ss | grep "tcp.*ssh"` to check for SSH users
 
 <details>
