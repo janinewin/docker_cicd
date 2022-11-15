@@ -1,6 +1,6 @@
 # Linux Service creation
 
-## 1) Basics of services
+## 1️⃣ Basics of services
 
 🎯 The goal of this exercise is to create a **background service** on your virtual machine. Here we will write a script which checks whether you are connected via ssh and if not shutdown the vm in order to **prevent unwanted spending by leaving the vm running overnight!**
 
@@ -20,14 +20,14 @@ systemctl list-units --type=service | grep running
 
 ❗️ Two important bash motifs are shown in this command:
 
-1️⃣ **The pipe `|`** which takes the standard output of one command and passes it as the input to the next one!
+**a) The pipe `|`** which takes the standard output of one command and passes it as the input to the next one!
 This is easy to confuse with passing it as an argument but for example if we do
 ```
 echo 5 | echo
 ```
 we get nothing as the standard input does not affect echo.
 
-2️⃣ **[grep](https://www.gnu.org/software/grep/manual/grep.html)** which searches the input it receives for a pattern, in this example lines with `running` in them and returns only the lines matching the pattern.
+**b) [grep](https://www.gnu.org/software/grep/manual/grep.html)** which searches the input it receives for a pattern, in this example lines with `running` in them and returns only the lines matching the pattern.
 
 From our command above and you will notice a couple of services that we are using already, the ssh.service is what is running in the background to allow ssh operate. **You'll also see two things we have installed docker and postgres which both run in background as services!**
 
@@ -47,8 +47,8 @@ If you had a lot more services and it was hard to see what was running you could
 
 ```bash
 #!/bin/bash
-connections=$(ss | grep "tcp.*ssh")
-if [[ $connections ]]
+connections=$(ss | grep "tcp.*ssh" | wc -l)
+if [[ $connections > 0 ]]
 then
     echo "Hey it looks like someone is connected"
 else
@@ -80,14 +80,14 @@ Next we need something to trigger our script, this is where services come in!
 
 📚 This [article](https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files) gives a great overview of how to create systemd units which are the building blocks we need to create our service.
 
-❓ Start off by creating a `.service` file which triggers our script:
+❓ Start off by creating a `check_ssh.service` file which triggers our script:
 
 <details>
-    <summary markdown='span'>Service example if you get stuck!</summary>
+    <summary markdown='span'>💡 Service example</summary>
 
 ```bash
 [Unit]
-Description=test
+Description=some description
 
 [Service]
 ExecStart=/bin/bash /usr/local/test.sh
@@ -99,16 +99,14 @@ WantedBy=multi-user.target
 
 ## 4) Creating a timer
 
-Now we also need a .timer file to run our service which follows a similar syntax to services.
-
-❓ We want to try and write a timer to trigger our service every 10 seconds:
+❓ Now create a `check_ssh.timer` file to trigger our service every 10 seconds
 
 <details>
-    <summary markdown='span'>Timer example if you get stuck!</summary>
+    <summary markdown='span'>💡 Timer example</summary>
 
 ```bash
 [Unit]
-Description=test
+Description=some description
 
 [Timer]
 OnUnitActiveSec=10s
@@ -121,9 +119,9 @@ WantedBy=timers.target
 
 ## 5) Putting it all together
 
-❗️ **These files belong in the /etc/systemd/system directory**. The etc stands for editable text configuration, if you want a quick explanation of most of the folders in the root directory (i.e. the highest folder in the system) this videa explains the [linux filesystem](https://www.youtube.com/watch?v=42iQKuQodW4) at a high level.
+❗️ **These files belong in the /etc/systemd/system directory**. The etc stands for editable text configuration, if you want a quick explanation of most of the folders in the root directory (i.e. the highest folder in the system) this video explains the [linux filesystem](https://www.youtube.com/watch?v=42iQKuQodW4) at a high level.
 
-You might notice you get permission denied when trying to move the files into the folder you can fix this with sudo (**a useful trick if you forget a sudo is running `sudo !!` runs the previous command but with sudo prepended**).
+You might notice you get permission denied when trying to move the files into the folder you can fix this with sudo (💡 a useful trick if you forget a sudo is running `sudo !!` runs the previous command but with sudo prepended).
 
 ❗️ You need this because the root user is the only user that can edit the root directory (along with everything on the system). Running `sudo` allows you to imitate this user to run one command (a more in-depth look at [root](http://www.linfo.org/root.html)). This control over absolutely everything on the system is one of the most powerful things about linux but you also must be careful not to overwrite key files as there is a lack of guard rails.
 
