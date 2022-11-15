@@ -33,7 +33,7 @@ From our command above and you will notice a couple of services that we are usin
 
 If you had a lot more services and it was hard to see what was running you could also use `grep` to check whether postgres was there for example!
 
-## 2) Creating a script
+## 2️⃣) Creating a script
 
 ❓ Let's start by creating a `check_ssh.sh` script which checks whether any users are currently connected, `echo` if there are and otherwise `poweroff` the VM!
 
@@ -72,13 +72,21 @@ You should see that someone is connected.
 ❗️ **The command we just used `chmod` can do more than just make a file executable**, it also affects who can read, write, and execute files! Bookmark this [great article](https://www.computerhope.com/unix/uchmod.htm) for later if you want to dig a bit more into this concept.
 <img src='https://cdn.thegeekdiary.com/wp-content/uploads/2017/11/Files-permissions-and-ownership-basics-in-Linux.png' width=300>
 
-❓ Lets move our script into `/usr/local` before we move on, why do you think it is better to store it here?
+❓ Lets move our script into `/usr/local` before we move on.
 
-## 3) Creating a service
+You might notice you get permission denied when trying to move the files into the folder you can fix this with sudo (💡 a useful trick if you forget a sudo is running `sudo !!` runs the previous command but with sudo prepended).You need this because the root user is the only user that can edit the root directory (along with everything on the system). Running `sudo` allows you to imitate this user to run one command (a more in-depth look at [root](http://www.linfo.org/root.html)). This control over absolutely everything on the system is one of the most powerful things about linux but you also must be careful not to overwrite key files as there is a lack of guard rails.
 
-Next we need something to trigger our script, this is where services come in!
+<details>
+  <summary markdown='span'>💡 Why do/user/local ?</summary>
 
-📚 This [article](https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files) gives a great overview of how to create systemd units which are the building blocks we need to create our service.
+If you want a quick explanation of most of the folders in the root directory (i.e. the highest folder in the system) this 2 min video explains the [linux filesystem](https://www.youtube.com/watch?v=42iQKuQodW4) at a high level.
+
+</details>
+
+
+## 3️⃣) Creating a service
+
+Next we need something to trigger our script, this is where **services** come in!
 
 ❓ Start off by creating a `check_ssh.service` file which triggers our script:
 
@@ -97,7 +105,7 @@ WantedBy=multi-user.target
 ```
 </details>
 
-## 4) Creating a timer
+## 4️⃣) Creating a timer
 
 ❓ Now create a `check_ssh.timer` file to trigger our service every 10 seconds
 
@@ -117,13 +125,9 @@ WantedBy=timers.target
 ```
 </details>
 
-## 5) Putting it all together
+## 5️⃣) Running the service
 
-❗️ **These files belong in the /etc/systemd/system directory**. The etc stands for editable text configuration, if you want a quick explanation of most of the folders in the root directory (i.e. the highest folder in the system) this video explains the [linux filesystem](https://www.youtube.com/watch?v=42iQKuQodW4) at a high level.
-
-You might notice you get permission denied when trying to move the files into the folder you can fix this with sudo (💡 a useful trick if you forget a sudo is running `sudo !!` runs the previous command but with sudo prepended).
-
-❗️ You need this because the root user is the only user that can edit the root directory (along with everything on the system). Running `sudo` allows you to imitate this user to run one command (a more in-depth look at [root](http://www.linfo.org/root.html)). This control over absolutely everything on the system is one of the most powerful things about linux but you also must be careful not to overwrite key files as there is a lack of guard rails.
+❗️ **Move these `check_ssh.service` and `check_ssh.timer` in the `/etc/systemd/system` directory**.
 
 Now you can run `sudo systemctl daemon-reload` to make your service files available.
 
@@ -140,30 +144,35 @@ So to get our to run permanently we would use
 sudo systemctl enable --now <your_service>.timer
 ```
 
-In general though we don't want to run the service during the day after we have rebooted the vm as we can be presumed to be using it then, so lets use a different approach!
+In general though we don't want to run the service during the day after we have rebooted the vm as we can be presumed to be using it then, so lets use a different approach! Disable the service and move on to next section.
 
-## 6) Cron
+## 6) Cron 🕘
 
-Cron is an alternative way of running commands at a specific time of day, there are pros and cons to both but it is good to understand both. Cron is good for running short scripts at a particular time whereas services are much better for long running processes or process that have to be executed very often!
+Cron is an alternative way of running commands at a **specific time** of day, there are pros and cons to both but it is good to understand both. Cron is good for running short scripts at a particular time whereas services are much better for long running processes or process that have to be executed very often!
 
-The syntax for cron is a little strange but to run `echo` once a day at 8pm you would write:
-
-```bash
-0 8 * * * echo 8
-```
-
-This [website](https://crontab.guru/#0_8_*_*_*) is great for checking your syntax!
-
-Now we need to add this line but with echo replaced to start our timer and here is where we use crontab!
+Let's open the crontab that keep track of cron jobs
 
 ```bash
 sudo crontab -e
 ```
+❓ This will open a file where you should write a line starting your service at a particular time! Now you need to add a line to start our `check_ssh.timer`!
 
-❓ This will open a file where you should write a line starting your service at a particular time!
+The syntax for cron is a little strange but for instance, to run `echo` once a day at 8pm you would write:
 
-We need sudo here as our command we need to run is a command which requires root access but if you had something you wanted to run at a particular time for just your user you can just use `crontab -e`.
+```bash
+0 8 * * * echo "I'm going to be printed every day at 8pm"
+```
 
+This [website](https://crontab.guru/#0_8_*_*_*) is great for checking your syntax!
+
+<details>
+  <summary markdown='span'>💡 crontab solution</summary>
+
+```bash
+0 8 * * * sudo systemctl start check_ssh.time
+````
+
+</details>
 Services and cron are two powerful tools in the linux arsenal, here we could have achieved our goal with either on their own but it is useful to know both in case only one is appropriate!
 
 🏁 We now have a cron which starts a timer running on our to check if anyone is connected and if not shut it down, stopping us spending too much money by accidentally leaving it on overnight!
