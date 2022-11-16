@@ -6,7 +6,7 @@ Test-driven development (aka **TDD**) is a software development process that rel
 
 The testing pattern encouraged is a four-phase one and well described in this [blog article by Thoughtbot](https://robots.thoughtbot.com/four-phase-test)
 
-## Longest Word
+## 1️⃣ Our challenge: Longest Word
 
 Let's practice TDD with a simple game that we will use until the end of the day. We will implement "The Longest Word", a game where given a list of nine letters, you have to find the longest possible English word formed by those letters.
 
@@ -21,7 +21,7 @@ The word [`baroque`](https://en.wiktionary.org/wiki/baroque) is valid as it exis
 
 Note that the word [`bower`](https://en.wiktionary.org/wiki/bower) is also valid. The goal here is **not** to write code which finds the longest word, but to analyze a human player attempt and judge if this word is valid or not against the given grid!
 
-### A first approach
+## 2️⃣ A first approach
 
 We need to **break down** the problem in tiny pieces. We also need to find the right level of **modelling** against the Object-Oriented paradigm.
 
@@ -70,7 +70,7 @@ We can create a `Game` class which will have the following blueprint:
 
 ### Starting the project with TDD
 
-Now that we have a better idea of the object we want to build, we can start writing a test. First of all, let's create a new Python project:
+Now that we have a better idea of the object we want to build, we can start writing a test. First of all, let's create a new Python project using poetry:
 
 ```bash
 cd ~/code/<user.github_nickname>
@@ -100,7 +100,10 @@ class TestGame:
             assert letter in string.ascii_uppercase
 ```
 
-Read this code. If you have _any_ question about it, ask a teacher. You can copy/paste this code to `tests/test_game.py`.
+Read this code. If you have _any_ question about it, ask a teacher.
+
+👉 Can copy/paste this code to `tests/test_game.py` and setup VScode python interpreter path to that created by poetry.
+
 
 Now it's time to run it first to make sure those tests are **failing**:
 
