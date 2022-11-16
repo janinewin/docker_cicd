@@ -4,6 +4,8 @@ This exercise will try and take some of the magic away from containers and
 guide you through creating a python script which creates your own fully isolated
 ubuntu container!
 
+TODO: Give more precise explanation of what we are going to do, in which order.
+
 ## Starting our project
 
 This time, we don't want to give you a pre-defined virtual env in which to hook into poetry for reasons that will be demonstrated later!
@@ -14,6 +16,8 @@ This time, we don't want to give you a pre-defined virtual env in which to hook 
 poetry new <script_name> && cd $_
 touch <script_name>/main.py
 ```
+TODO: what script_name do you want us to create?
+TODO: Where is the solution of the script? pyocker.py? Why not part of a packaged and called main.py in that case?
 
 Now we have somewhere to install packages
 
@@ -23,29 +27,28 @@ To start our container off we are going to stick to ubuntu for simplicity but
 we are going to hook into the [docker api](https://docs.docker.com/registry/spec/api/).
 So that our containerization script could be generalized to run other docker images!
 
+TODO: I don't understand this sentence - without more context on what we are trying to do, it makes little sense. Neither can't I understand anything from the docs, without context.
+
 Here are some resources to get you started
 
-- [auth explained](https://docs.docker.com/registry/spec/auth/token/)
-- Token api https://auth.docker.io/token
-- Registry api https://registry-1.docker.io/v2/
-- https://requests.readthedocs.io/en/latest/
-- https://docs.python.org/3/library/subprocess.html
+- [Docker - auth explained](https://docs.docker.com/registry/spec/auth/token/)
+- [Docker - Token api](https://auth.docker.io/token)
+- [Docker - Registry api](https://registry-1.docker.io/v2/)
+- [Requests - Docs](https://requests.readthedocs.io/en/latest/)
+- [Subprocess - Docs](https://docs.python.org/3/library/subprocess.html)
 
 Lets create a python function to extract ubuntu into a given directory
 (although it might be easier to use the endpoints in postman initially)!
 
 The pseudo code is as follows:
 
-```python
-1.
-Call token api and get a token
-2.
-Get manifest for ubuntu from registry api
-3.
-Get layer for ubuntu from registry api
-4.
-extract into a given api
+```markdown
+1. Call token api and get a token
+2. Get manifest for ubuntu from registry api
+3. Get layer for ubuntu from registry api
+4. extract into a given api
 ```
+TODO: I have 0 idea what you are trying us to do here.
 
 If you get stuck on any of the four parts the hints follow
 <details>
