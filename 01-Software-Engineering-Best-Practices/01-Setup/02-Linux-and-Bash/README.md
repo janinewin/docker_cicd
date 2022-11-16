@@ -169,7 +169,7 @@ This [website](https://crontab.guru/#0_8_*_*_*) is great for checking your synta
   <summary markdown='span'>💡 crontab solution</summary>
 
 ```bash
-0 8 * * * sudo systemctl start check_ssh.time
+0 8 * * * systemctl start check_ssh.time
 ````
 
 </details>
