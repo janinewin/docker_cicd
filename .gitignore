@@ -27,6 +27,7 @@ __pycache__/
 
 #virtual env
 .venv/*
+.python-version
 
 #env files
 *.env
