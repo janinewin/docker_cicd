@@ -17,7 +17,7 @@ To keep this exercise simple, we will use Github Actions, as it integrates perfe
 
 ## Service installation
 
-We will deploy the repository you created in the previous exercise:
+We will deploy the repository you created in the previous exercise. First, create an empty `longest-word` repository in your Github account. After that you can push your changes:
 
 ```bash
 cd ~/code/<user.github_nickname>/longest-word
@@ -26,7 +26,7 @@ git init
 git add .
 git commit -m "Game development with TDD"
 
-gh repo create --private --source=.
+git remote add origin git@github.com:<user.github_nickname>/longest-word.git
 
 git push origin master
 ```
@@ -66,16 +66,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
         poetry install
-    - name: Run tests
+    - name: Test with nose
       run: |
-        poetry run pytest
+        poetry run nosetests
 ```
 
 Save this file in VS Code, and perform a commit:
 
 ```bash
 git add .github/workflows/python-ci.yml
-git commit -m "Configure Github Actions CI to run pytest"
+git commit -m "Configure Github Actions CI to run nosetests"
 ```
 
 Awesome! Before we actually push, go to this page:
@@ -89,8 +89,6 @@ git push origin master
 ```
 
 When the push is done, go back to the page, and **reload** it. You should see the commit get a yellow circle, and then a green tick! This is the integration between GitHub and Github Actions. It will run everytime you push commits to GitHub.
-
-You can view the actions in browser or through the cli with `gh run watch`!
 
 ## Continuous Integration & Pull Request
 
@@ -124,7 +122,7 @@ Following the TDD paradigm, we need to add a test:
     def test_unknown_word_is_invalid(self):
       new_game = Game()
       new_game.grid = list('KWIENFUQW') # Force the grid to a test case:
-      assert new_game.is_valid('FEUN') is False
+      self.assertIs(new_game.is_valid('FEUN'), False)
 ```
 
 Let's commit this right now:
@@ -136,8 +134,6 @@ git push origin dictionary-api
 ```
 
 Now let's open a Pull Request on GitHub for this branch. You might find it a bit early but that's something which is actually encouraged by the [GitHub flow](http://scottchacon.com/2011/08/31/github-flow.html):
-
-To make a pull request quickly you can use `gh pr create` or to directly open the correct page use `gh pr create --web`!
 
 If you are stuck in the progress of your feature or branch and need help or advice, or if you are a developer and need a designer to review your work (or vice versa), or even if you have little or no code but some screenshot comps or general ideas, you open a pull request.
 
@@ -156,7 +152,7 @@ The benefit is really important. You have a direct feedback, right in GitHub, ab
 Let's go back to the implementation of our feature. We want to pass the following test:
 
 ```python
-poetry run pytest -k test_unknown_word_is_invalid
+poetry run nosetests tests/test_game.py:TestGame.test_unknown_word_is_invalid
 # See how we just run *one* test and not the whole suite?
 ```
 
@@ -220,3 +216,14 @@ Before pushing DevOps farther with the next exercise about Continuous Deployment
 - Before asking for a review, re-read your code in the `Files changed` tab. Seeing the code from this perspective (in a web browser under a diff format) will help you spot style issues, refactoring opportunities, etc. that you could not see directly in your text editor.
 - Finally, your friends at GitHub wrote a great piece on [how to properly write](https://blog.github.com/2015-01-21-how-to-write-the-perfect-pull-request/) in a Pull Request (both for the reviewee and the reviewer).
 
+## I'm done!
+
+Before you jump to the next exercise, let's mark your progress with the following:
+
+```bash
+cd ~/code/<user.github_nickname>/reboot-python
+cd 02-Best-Practices/03-Continuous-Integration
+touch DONE.md
+git add DONE.md && git commit -m "02-Best-Practices/03-Continuous-Integration done"
+git push origin master
+```

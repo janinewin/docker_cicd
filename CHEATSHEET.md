@@ -141,6 +141,8 @@ Note: you don't need to give the local port a different number, that was just fo
 
 In your exercise's directory, type `which python` to get the path to the right Python for the exercise, previously installed for you. In VSCode, open the commande palette, type `Python: Select interpreter` and then paste the path from `which python`. This will ensure the autocomplete works as expected.
 
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/vs-code-select-interpreter.png" width=600>
+
 For the best possible experience, click `File > Add folder to workspace` and only add the specific exercise's folder instead of the entire bootcamp repo. This will make VSCode's life easier, when trying to figure out which project you're working on.
 
 ## Configuration through environment variables
@@ -248,7 +250,3 @@ Additionally, when your services are packaged in a Docker container, Docker (and
 Below is a diagram summing up and explaining the two levels of ports mapping you'll need to master throughout the bootcamp.
 
 ![Port mapping explained](https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/assets/Ports.drawio.png)
-
-
-## Docker useful commands
-

@@ -69,4 +69,11 @@ Checkout `LEAD()` SQL function
     - `perc_records_bad` (percentage of records where budget or revenue is NULL or equal to 0). Rounded to 0 decimals
 - Store your code in `exercice-4.sql`.
 
-**🏁 🧪 `make test` to check all your results at once, and Push your code so we can track your process!**
+<br>
+
+**🏁 Congratulation for the day ! 🧪 `make test` to check all your results at once, and _Push_ your code so we can track your progress!**
+
+
+## Optional: Read and understand our tests
+- Try to wrap your head around our `tests` folder in this challenge to see how they work
+- In particular, notice how we use `lewagonde.read_sql_query` (option-click on a method in VS-code to Go-to-definition) and `psycopg2` to query your database with your own username & password, and convert query results to a pandas dataframe.
