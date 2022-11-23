@@ -11,7 +11,7 @@ By the end of this exercise you should:
 - Be able to check out [http://localhost:8501](http://localhost:8501) and see the welcome message
 
 ## Exercise
-1. Run the `make install target` at the root directory of this exercise to add all the necessary dependencies and download the necessary content for the day
+1. As usual, run the `make install` at the root directory of this exercise to add all the necessary dependencies and download the necessary content for the day
 
 2. In the docker-compose file - Create the database service:
 - based on PostgreSQL 14
@@ -20,9 +20,9 @@ By the end of this exercise you should:
 - with the Environment variables:
 
 ```yaml
-      - POSTGRES_DB=f1db
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
+- POSTGRES_DB=f1db
+- POSTGRES_PASSWORD=postgres
+- POSTGRES_USER=postgres
 ```
 
 
