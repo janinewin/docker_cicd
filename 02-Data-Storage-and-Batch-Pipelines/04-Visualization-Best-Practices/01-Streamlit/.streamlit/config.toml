@@ -1,0 +1,11 @@
+[server]
+
+
+[theme]
+# $DEL_BEGIN
+primaryColor="#635c5c"
+backgroundColor="#17181d"
+secondaryBackgroundColor="#e20701"
+textColor="#ffffff"
+font="monospace"
+# $DEK_END

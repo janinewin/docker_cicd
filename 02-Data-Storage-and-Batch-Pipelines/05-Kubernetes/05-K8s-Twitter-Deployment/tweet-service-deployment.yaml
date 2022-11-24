@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: tweeter-service
+  name: tweeter-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: tweeter-service
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: tweeter-service
+    spec:
+      containers:
+        - image: tweet-service
+          name: tweet-service
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+          resources: {}
+          volumeMounts:
+            - mountPath: /tweetapp
+              name: tweetapp
+      restartPolicy: Always
+      volumes:
+        - name: tweetapp
+          persistentVolumeClaim:
+            claimName: tweetapp
+status: {}

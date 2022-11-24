@@ -1,0 +1,7 @@
+
+target/
+dbt_packages/
+logs/
+dbt_lewagon/
+dbt_lewagon_final/
+dbt_lewagon_final_post_setup/
