@@ -61,4 +61,4 @@ You'll see that one column duplication of the ID seems to regularly be coming fr
 - Store your code in `exercice-4-2.sql`
 
 
-**🏁 🧪 `make test` to check all your results, and Push your code so we can track your process!**
+**🏁 🧪 `make test` to check all your results, and Push your code so we can track your progress!**

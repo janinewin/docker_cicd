@@ -1,0 +1,27 @@
+# .python-ci.yml
+
+name: Publish to gemfury
+on:
+  push:
+    branches: [master, main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install
+      - name: Publish to fury
+        env:
+          GEMFURY_TOKEN: ${{ secrets.GEMFURY_TOKEN }}
+        run: |
+          poetry config repositories.fury https://pypi.fury.io/ogiles1999/
+          poetry config http-basic.fury $GEMFURY_TOKEN ""
+          poetry publish --build --repository fury

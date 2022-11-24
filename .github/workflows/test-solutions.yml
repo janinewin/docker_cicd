@@ -1,0 +1,19 @@
+name: Test solutions
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  test-solutions:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Run test-solutions-action
+        id: test-solutions-action
+        uses: ./test-solutions-action # Uses an action in the root directory

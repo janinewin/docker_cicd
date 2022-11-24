@@ -15,7 +15,7 @@ class User(Base):
     # Relationships
     pass  # YOUR CODE HERE
 
-class Tweet(): # YOUR CODE HERE: Please add "Base" inheritence to this class when you start working on Tweet, to allow running `alembic revision --autogenerate`
+class Tweet(Base):
     """Class to represent the tweets table"""
 
     # Table name
@@ -28,7 +28,7 @@ class Tweet(): # YOUR CODE HERE: Please add "Base" inheritence to this class whe
     pass  # YOUR CODE HERE
 
 
-class Like(): # YOUR CODE HERE: Please add "Base" inheritence to this class when you start working on Like to allow running `alembic revision --autogenerate`
+class Like(Base):
     """Class to represent the likes table"""
 
     # Table name

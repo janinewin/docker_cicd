@@ -1,10 +1,8 @@
-# Continuous Deployment
-
 The DevOps graal that teams want to achieve is **Continuous Deployment**. The idea is to configure your hosting environment in such a way that every change in `master` which yields a green build on the Build Automation tool _can_ and _will_ be pushed to production as soon as possible.
 
 In this exercise, we will set up a [**PaaS**](https://en.wikipedia.org/wiki/Platform_as_a_service) to host our longest word game.
 
-## HTTP server
+# 1️⃣ HTTP server
 
 Before pushing our code to a hosting provider, we would like to be able to interact with it. The easiest way to do this is to encapsulate the game around a small HTTP server.
 
@@ -14,7 +12,7 @@ When clicking the button, the form will be submitted and will reload the page to
 
 ![](https://res.cloudinary.com/wagon/image/upload/v1560714935/longest-word-mockup_mwtd3d.png)
 
-Go back to your code, and create a branch to start working on this feature.
+Open VS code workspace at your "longest-word" folder, and create a branch to start working on this feature.
 
 ```bash
 cd ~/code/<user.github_nickname>/longest-word
@@ -30,8 +28,7 @@ We are going to use [Flask](http://flask.pocoo.org/), a microframework to quickl
 
 ```bash
 poetry add flask
-touch wsgi.py
-code .
+touch wsgi.py # "Web Server Gateway Interface"
 ```
 
 Open the `wsgi.py` file and copy paste the following code:
@@ -56,7 +53,7 @@ FLASK_DEBUG=true poetry run flask run
 
 Open your browser and go to [localhost:5000](http://localhost:5000/). Is it working, do you get "Hello World" as a text response from the server? If not, call a teacher.
 
-This exercise goal is not about implementing the little application, we will cover Flask in details in tomorrow's lecture. So let's build together our application:
+This exercise's goal is **not** about implementing the little application (we will cover Flask or FastAPI in details in future lectures. Let's just build together our User Interface:
 
 ```bash
 mkdir static
@@ -72,7 +69,7 @@ We just created a CSS stylesheet and the HTML template for the Home page. Let's 
 # pylint: disable=missing-docstring
 
 from flask import Flask, render_template
-from game import Game
+from longest_world.game import Game
 
 app = Flask(__name__)
 
@@ -83,7 +80,7 @@ def home():
 ```
 
 In the code above, we are initializing a new `Game` instance to generate a grid. We pass this grid as a local variable to the `home.html` template, so that we can use it in the view.
-Since our `Game` logic only take care of uppercase letters, we decided to force the `<input name="word">` content to uppercase using some JavaScript.
+
 Let's add this code in `templates/home.html`:
 
 ```html
@@ -102,13 +99,17 @@ Let's add this code in `templates/home.html`:
         <span class="letter">{{ letter }}</span>
       {% endfor %}
     </div>
+    <!-- Let's build an input "form" so user can type letters -->
     <form action="/check" id="form" method="post">
+      <!--hidden input form that contains the game.grid to be sent alongside the word letters-->
       <input type="hidden" name="grid" value="{{ ''.join(grid) }}">
+      <!--explicit input form which forces content to uppercase since our `Game` logic only take care of uppercase letters-->
       <input type="text" name="word" onkeyup="this.value = this.value.toUpperCase();">
       <button>Check!</button>
     </form>
   </body>
 </html>
+
 ```
 
 We give you also some CSS to add in `static/style.css`:
@@ -142,7 +143,7 @@ body {
 }
 ```
 
-Phew! Now let's try this, head over to your browser and reload the page. Can you see the grid with a form? Awesome!
+Phew! 🥵 Now let's try this, head over to your browser and reload the page. Can you see the grid with a form? Awesome!
 
 If you try to play, you will get an error. It's because we have not implemented the `/check` endpoint yet (the one where the form gets submitted to).
 Let's do it :
@@ -164,9 +165,13 @@ def check():
     return render_template('check.html', is_valid=is_valid, grid=game.grid, word=word)
 ```
 
-The idea is that we get the grid (as a hidden field) and the word (the one you typed in the input) from the previous request, then we build a `Game` instance and check if the word is valid. We feed this information back to the `check.html` view to be used to display the results.
+❓ Take some time to understand how this works.
+- When we GET "/", we generate a grid and send game.grid to the `home.html`
+- When we POST "/check", the `home.html` l:19 sends us back the `form['grid']` that we can parse in python
+- We also receive `form['word']` that we check for validity
+- We finally feed all this information back to the `check.html` view to be used to display the results...
 
-💡 We need to actually pass the grid in the `POST` request as HTTP is **stateless**.
+💡 Notice how we need to actually pass the grid in the `POST` request as HTTP is **stateless**.
 
 ```bash
 touch templates/check.html
@@ -213,63 +218,75 @@ git push origin http-server
 # head to github.com to open a Pull Request!
 ```
 
-## Heroku Setup
 
-Before we can deploy our neat little web application, we need to set up a Heroku account. If you have done the setup on day one, you should already have one. Otherwise, [sign up](https://signup.heroku.com/) (it's free to try). Put an email address that you can easily access as you will need to click on a confirmation link.
+# 2️⃣ Deployment with Google App Engine (GAE)
 
-Once your account is created, if you have not yet installed the command line tool, it's time do to it. Go to [this Heroku Dev Center page](https://devcenter.heroku.com/articles/getting-started-with-python#set-up), download the CLI and install it. Do not leave the `Git` option tick in the components to install as you already have it! Leave `Heroku CLI` and `Set PATH...` ticked.
+We'll put our app in production on a live server accessible through world-wide-web.
 
-Open Git Bash and log in:
+There are various ways to do so, but we'll start today by the easiest one: Platform as a service (PaaS). In PaaS, you just give the application-code (here, our python package) to your cloud provider, which is going to "pip install it" for you on its own server, and make it readily available through public https address. Most importantly, it will auto-scale the servers for you should you start making lots of requests to the app. For all these convenient reasons, PaaS are almost never free.
 
-```bash
-heroku update
-heroku login
-```
+In Google Cloud, the relevant service is called **Google App Engine**. Equivalents options are:
+- AWS Elastic Beanstalk
+- Azure App Service
+- Salesforce Heroku
 
-If there is an issue, you may [need to use `winpty`](https://github.com/heroku/cli/issues/84)
-
-We can now prepare our app to run on Heroku. There is just one little missing piece: we need to tell Heroku how to **start** our application. To do so, we need to create a special file:
+According to the [Google App Engine docs](https://cloud.google.com/appengine/docs/standard/python3/building-app/writing-web-service), your package requires at least the following minimal structure on top of our python package
 
 ```bash
-git status # is it clean?
-git checkout master
-git pull origin master
+├── app.yaml # Config file for GCE
+├── main.py # Entry point for GCE
+├── requirements.txt # to tell server to `pip install -r requirements.txt`
+├── longest_word # Your package
+│   ├── ...
+│   ├── ...
 
-# Let's work on `master` for this specific case, not in a branch.
-touch Procfile
 ```
 
-And put the following in this `Procfile`:
+
+#### 2.1) `main.py`
+This entrypoint should simply call your app instantiated in `wsgi.py`
+
+```python
+from longest_word.wsgi import app
+
+if __name__ == '__main__':
+    # This is used when running locally only. When deploying to Google App
+    # Engine, a webserver process such as Gunicorn will serve the app
+    app.run(host='127.0.0.1', port=8080, debug=True)
+
+```
+
+#### 2.2) `requirements.txt`
+
+Google AE is not taking into account the modern poetry syntax but is going to try to "pip install -r requirements.txt" the good old way. Therefore, we need to convert `poetry.lock` into `requirements.txt` format:
 
 ```bash
-# Procfile
-web: gunicorn wsgi:app
+poetry export --without-hashes --output requirements.txt
+```
+#### 2.3) `app.yaml`
+```bash
+touch app.yaml
 ```
 
-We can't use the regular `flask run` command in production, we must use [`gunicorn`](https://devcenter.heroku.com/articles/python-gunicorn) which stills need to be added to the `Pipfile`:
+```yaml
+runtime: python38 # Define the python version pre-installed on the machine
+service: longest-world # Give a name to your app
+handlers: # Define how to handle incoming requests. Here, any request will be handled by main.py
+- url: /.*
+  script: main.py
+```
+
+🎉 And that's it! There are tons of other potential configuration parameters to play with for a real app, (how to scale, how to handle secrets etc...) but we don't need them today!
+
+#### d) Deploy
 
 ```bash
-pipenv install gunicorn
-git add .
-git commit -m "Add Procfile to prepare Heroku deployment"
-git push origin master
+gcloud app deploy
 ```
+Should give you a public https address with your game playing!
 
-Our app is now ready to be deployed to Heroku. First we need to create a remote application which will provision a [dyno](https://www.heroku.com/dynos) in their cloud.
 
-```bash
-heroku create --region=eu # We want to use the EU datacenter to be closer to us
-git remote -v
-# See? There's not only `origin` as a remote now!
-git push heroku master # That's the actual deployment command!
-
-# Once our application is deploy, we can open it in Chrome with:
-heroku open
-```
-
-All good? If not, you can debug production with `heroku logs --tail` and of course ask a TA.
-
-## Continuous Deployment
+# 3️⃣ Continuous Deployment with Google App Engine + Gihub Actions
 
 We are almost there. A quick recap gives us:
 
@@ -277,23 +294,70 @@ We are almost there. A quick recap gives us:
 1. We have Continuous Integration set up thanks to Github Actions
 1. Every commit (in `master` or a feature branch) triggers a compilation from Github Actions
 1. A Pull Request status is updated by  Github Actions and gives context to reviewer
-1. We still need to **manually** run the `git push heroku master` command to deploy
+1. We still need to **manually** run the `gcloud app deploy` command to deploy
 
 Let's automated this last part and reach the graal!
 
-Head over to [dashboard.heroku.com](https://dashboard.heroku.com). Click on your application hosting the `longest-word`.
+## 3.1) Create new Github Action `cd.yml`
 
- Go to the `Deploy` tab (the third one). If you scroll down, you would see a `Deployment method` section. Click on `GitHub`. Scroll down and click on the `Connect to GitHub` purple button.
+We want to create a GHA that is going to "gcloud app deploy" at each "push" on "master".
 
- You will then be able to select the `longest-word` repository and **connect** it to this Heroku app.
+Remember how we told you that there are tons of officially maintained github actions that you can re-use? Well, we're going to use Google official [deploy-appengine](https://github.com/google-github-actions/deploy-appengine) GHA! (Google talking Microsoft language, how cool is that?)
 
- After this step, if you scroll down a bit again, you will find the `Automatic deploys` section. That's where you'll be able to tick the `Wait for CI to pass before deploy`, select `master` (default) in the dropdown, and click on the **Enable Automatic Deploys** black button.
+The only difficulty is to give GitHub VMs your Google Cloud Credentials.
+
+👉 Go to [console.cloud.google.com](console.cloud.google.com), "IAM", "Service Accounts", "Create Service Account"
+- Name: "gha-longest-word"
+- Description: "github action account for longest-word app"
+- Grant the following roles, according to the deploy-appengine [documentation](https://github.com/google-github-actions/deploy-appengine#authorization)
+  - App Engine Admin (roles/appengine.appAdmin): can manage all App Engine resources
+  - Service Account User (roles/iam.serviceAccountUser): to deploy as the service account
+  - Storage Admin (roles/compute.storageAdmin): to upload files
+  - Cloud Build Editor (roles/cloudbuild.builds.editor): to build the application
+- "Key" --> "Create new KEY" and download the JSON (keep it safe!)
+
+👉 Now, go to your github repo, "Settings", "Secrets", "Actions secrets"
+- Add this JSON as a new secret, name it for instance `GCP_SA_KEY`
+- You can now use the this key in your GHA using `'${{ secrets.GCP_SA_KEY }}'`
+
+👉 Let's now create the GHA passing these secrets
+```bash
+touch .github/workflows/.app-engine-cd.yml
+```
+
+```yml
+# app-engine-cd.yml
+name: basic CD
+on:
+  push:
+    branches: [ master, main ]
+jobs:
+  deploy-to-app-engine:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+
+    # Checkout current branch
+    - uses: 'actions/checkout@v3'
+
+    # Authenticate via Service Account Key JSON
+    # See https://github.com/google-github-actions/auth#authenticating-via-service-account-key-json-1
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+    # Use Google official GHA to deploy 🎉
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-appengine@v1'
+
+```
+
+## 3.2) Let's test it!
 
  That's it! But is it really working?
-
- ---
-
- Let's test it!
 
  Let's do a very simple change. We will update the background-color of grid letters.
 
@@ -311,7 +375,7 @@ git checkout -b yellow-letter
 }
 ```
 
-You can test it locally with `FLASK_ENV=development pipenv run flask run`. If the CSS change are not picked up, do a [force-refresh](https://superuser.com/a/89811).
+You can test it locally with `FLASK_ENV=development poetry run flask run`. If the CSS change are not picked up, do a [force-refresh](https://superuser.com/a/89811).
 
 Happy with the color? Let's commit:
 
@@ -321,35 +385,28 @@ git commit -m "Change letter grid background-color to yellow"
 git push origin yellow-letter
 ```
 
-Go to github.com, create a Pull Request and wait for Github Actions to turn it green.
-
-While Github Actions is working, open another Chrome tab and go back to [dashboard.heroku.com](https://dashboard.heroku.com), then select your `longest-word` project.
-Look at the `Activity` tab (the 5th one) of your Heroku application to visualize your acitivty feed. Leave this tab open.
-
-Come back to the Pull Request, and as soon as it is green, merge it to `master`. Go back to the Heroku tab, and wait ~1 minute (in GitHub you can have a look at the `Commits` page and see that the latest merge commit is being tested by Github Actions, thanks to the little orange dot).
-
-Did you get it? Did you get an automated build/deployment on Heroku thanks to a green light from  Github Actions to a new merge commit on `master` on GitHub?
+Go to github.com:
+- create a Pull Request
+- wait for your "CI" Action to turn it green
+- merge it to `master`
+- **Go check your new "CD Action" running** --> It should work!
+- Check your updated app online 🎉
 
 👏 👏 👏
 
-## Going further
+**Going further**
 
 This kind of development with small feature branches which are automatically deployed to production as soon as they are merged to master might not work for big feature which need several steps, several pull request, etc. You don't want to keep a feature branch open for weeks as the Pull Request would be basically horrible to review, and merging it back to `master` would be a nightmare. We still encourage small pull requests, but hide the feature being developed behind a [**feature toggle**](https://en.wikipedia.org/wiki/Feature_toggle).
 
-## (Optional) Score & Session
 
-If you are done with all the exercises of the day, go back to the optional sudoku from yesterday if you did not finish it (or exercises before).
+# 5️⃣(Optional) Score & Session
 
-If this is done as well, have a look at the [Flask documentation](http://flask.pocoo.org/). We will cover Flask in tomorrow's lecture, in the meantime, you can try to implement a feature in the Longest Word Game: a global **score**! The idea is that every time a user finds a valid word, you increments points (1 point per letter). As HTTP is stateless, you need to use the Flask extension [Flask-Session](https://flask-session.readthedocs.io/en/latest/) to handle the concept of **session** (with `SESSION_TYPE='filesystem'`).
 
-## I'm done!
+If this is done as well, you can try to implement a feature in the Longest Word Game: a global **score**! The idea is that every time a user finds a valid word, you increment points (1 point per letter). As HTTP is stateless, you need to use the Flask extension [Flask-Session](https://flask-session.readthedocs.io/en/latest/) to handle the concept of **session** (with `SESSION_TYPE='filesystem'`).
 
-Before you jump to the next exercise, let's mark your progress with the following:
-
-```bash
-cd ~/code/<user.github_nickname>/reboot-python
-cd 02-Best-Practices/04-Continuous-Deployment
-touch DONE.md
-git add DONE.md && git commit -m "02-Best-Practices/04-Continuous-Deployment done"
-git push origin master
-```
+# 🏁 Delete your Google App to save costs
+In the Google Cloud console, go to
+- App Engine
+- --> Settings
+- --> Disable application
+- --> Enter your project ID
