@@ -64,10 +64,10 @@ class F1Queries:
 
         races = self._run_query(
             f"""
-        SELECT 
-        * 
-        FROM races 
-        WHERE year={year} 
+        SELECT
+        *
+        FROM races
+        WHERE year={year}
         ORDER BY round ASC
         """
         )
@@ -92,11 +92,11 @@ class F1Queries:
 
         race_id = self._run_query(
             f"""
-        SELECT 
-        race_id 
-        FROM races 
-        WHERE year={year} 
-        ORDER BY round DESC 
+        SELECT
+        race_id
+        FROM races
+        WHERE year={year}
+        ORDER BY round DESC
         LIMIT 1
         """
         ).iloc[0]["race_id"]
@@ -308,7 +308,7 @@ class F1Queries:
         race_id = self.f1_cache.getValueForKey(F1Constants.SELECTED_RACE)
         laps_df = self._run_query(
             f"""
-            SELECT 
+            SELECT
             lap
             , position
             , lap_times.time
