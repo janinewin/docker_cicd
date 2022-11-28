@@ -22,4 +22,4 @@ EXPOSE 8501
 
 ENTRYPOINT [ "poetry", "run" ]
 
-CMD ["streamlit", "run", "basic/main.py"]
+CMD ["streamlit", "run", "app/basic.py"]
