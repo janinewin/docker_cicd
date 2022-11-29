@@ -39,7 +39,7 @@ jobs:
             echo "[NO-GO] data-engineering-challenges branch ${BRANCH_NAME} not found"
             exit 1
           fi
-          gh pr merge ${BRANCH_NAME} --body "${BRANCH_NAME} auto merged" --squash --auto
+          gh pr merge ${BRANCH_NAME} --body "${BRANCH_NAME} auto merged" --squash --auto --delete-branch
           if [[ `gh pr view ${BRANCH_NAME} 2>&1` =~ "no pull requests found" ]]
           then
             echo "[OK] PR from ${BRANCH_NAME} merged into data-engineering-challenges"
