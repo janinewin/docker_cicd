@@ -240,13 +240,14 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 - `get_db` creates a sqlalchemy [Session](https://docs.sqlalchemy.org/en/14/orm/session_basics.html) that will be active until the API call end: As soon as `main.read_user` returns, the `finally` condition line 24 is called and session is closed. What we are doing here is making sure every single call to the api has its own session with the db. This is important for when we have multiple users making calls to create new users at the same time!
 
 <details>
-  <summary markdown='span'>💡 equivalent syntax without FastAPI magic</summary>
+  <summary markdown='span'>💡 equivalent syntax without FastAPI "Depends" magic</summary>
 
 ```python
 @app.get("/users/{user_id}", response_model=schemas.User, tags=["users"])
 def read_user(user_id: int):
     """get endpoint to read a given user"""
-    with SessionLocal() as db: # "with xxx" clause always run xxx.close() when finished
+    with SessionLocal() as db:
+        # "with xxx" clause always run xxx.close() when finished
         db_user = crud.read_user(db, user_id=user_id)
         if db_user is None:
             raise HTTPException(status_code=404, detail="User not found")

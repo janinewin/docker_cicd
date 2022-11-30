@@ -1,3 +1,5 @@
+🚨 TODO: recycle this challenge to make it a very short 30min one about indexes. Should use Movies Database if possible.
+
 # Scaling a database
 
 Database access patterns determine what to optimize for. A database gives us many tools to make queries more efficient. Assuming the data schema is sensible, adding indexes to the database is the next best thing to work on, that's what will keep us busy in this exercise.
@@ -27,7 +29,7 @@ As for the SQL code, you can open a PSQL terminal with
 docker exec -it <postgres container name> /bin/bash
 ```
 
-then 
+then
 
 ```
 psql -U lewagon -d db
@@ -220,7 +222,7 @@ Now that we have a suitable text column, we'd like to add a **search engine** to
 
 Postgres can index keywords efficiently in text columns using the `GIN` index on a `tsvector`. Essentially, text is parsed into a [tsvector](https://www.postgresql.org/docs/current/datatype-textsearch.html) (check out the examples to understand how Postgres reads text vectors). Then, a GIN index is used to speed up lookups by keywords.
 
-Read the [official documentation, section 12.2.2](https://www.postgresql.org/docs/current/textsearch-tables.html#TEXTSEARCH-TABLES-INDEX). 
+Read the [official documentation, section 12.2.2](https://www.postgresql.org/docs/current/textsearch-tables.html#TEXTSEARCH-TABLES-INDEX).
 
 Note that there are two ways to index a text column. Either index it directly by having an on-the-fly transform to `tsvector`, OR (recommended) create a `tsvector` column, then index that column with the GIN index.
 
@@ -230,7 +232,7 @@ We'll follow the second method. Add the new `tsvector` column, name it `textsear
   <summary markdown='span'>💡 Hint</summary>
 
   First create the column
-  
+
   ```sql
   ALTER TABLE <table name>
   ADD COLUMN <new tsvector column name> tsvector
@@ -252,7 +254,7 @@ Now rewrite the second query in `sql/q2-v2-search-chair.sql`. The [bottom of the
   <summary markdown='span'>💡 Hint</summary>
 
   Break down the query as:
-  
+
   ```sql
   SELECT count(*)
   FROM ikea_products
