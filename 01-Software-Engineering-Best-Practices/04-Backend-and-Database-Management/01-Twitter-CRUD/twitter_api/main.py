@@ -16,10 +16,13 @@ app = FastAPI(title="Twitter Database", openapi_tags=tags)
 
 
 def get_db():
-    """Helper function which opens a connection to the database and also manages closing the connection"""
+    """Helper function which opens a connection to the database and also manages closing the connection
+    See https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-with-yield/
+    """
+
     db = SessionLocal()
     try:
-        yield db
+        yield db # yield statement suspends the function’s execution and sends db value back to the caller, but retains enough state to enable the function to resume where it left off as soon as the caller has finished executing.
     finally:
         db.close()
 
