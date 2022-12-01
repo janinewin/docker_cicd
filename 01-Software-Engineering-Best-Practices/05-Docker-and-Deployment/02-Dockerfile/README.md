@@ -3,11 +3,13 @@ This exercise perfectly illustrates the general way of starting a new project or
 
 As data scientist or data engineers packaging your code and infrastructure using docker is essential to ensure portability and reproducibility of your results on different hosts.
 
-Docker is the perfect antidote to the famous catchphrase: “But it works on my machine! &copy;”
+Docker is the perfect antidote to the famous catchphrase:
+> “But it works on my machine! &copy;”
+
 Creating clean and extensible docker images will also help the work downstream of infrastructure/DevOps engineers responsible to run & test them inside CI/CD systems and in production (Docker swarm, virtual instances, kubernetes).
 
 
-## Goal 🎯
+# Goal 🎯
 This exercise aims at validating the docker fundamentals necessary to stand up and operate a docker container.
 To do so we will teach you how to:
 - Create a `Dockerfile` leveraging all the best practices
@@ -25,9 +27,7 @@ By the end of this exercise you should be able to:
 - Build, run & push docker images
 - Use GCP container registry
 
----
-
-## Task 1️⃣ - Layers 🥞
+# Task 1️⃣ - Layers 🥞
 This task illustrates the concept of layers. We will purposely write a bad Dockerfile to highlight the internal structure of an image.
 
 **❓Write a single Dockerfile (use `dockerfile-task-1`) with the following requirements:**
@@ -55,6 +55,14 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
 1. Install fastapi (0.78.0), SQLAlchemy (1.4.36), Alembic (1.7.7) and, uvicorn[standard] (0.17.6)
 1. Create `WORKDIR` server
 1. Copy the complete current directory into the working directory `/server`
+1. Excludes useless files with `.dockerignore`
+    ```markdown
+    dockerfile*
+    makefile
+    Readme.md
+    .pytest*
+    .venv
+    ```
 1. Expose port 8000 to be able to access the server from outside of the container
 1. Create an `ENTRYPOINT` for `uvicorn`
 1. Create a `CMD` to run fastapi via uvicorn, listening on all interfaces `0.0.0.0` and on port `8000`
@@ -124,9 +132,7 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
 
 **🧪 Test your code with `make testTask1`**
 
----
-
-## Task 2️⃣ - Caching 👻 - easy wins
+# Task 2️⃣ - Caching 👻 - easy wins
 
 This tasks illustrates the concept of caching and unwanted dependencies installed via regular commands. When doing a simple `apt install` or `pip install` by default those package managers install quantity of life dependencies to make any development work easy. To reduce the size of a docker image, one can easily trim down the fat by installing **only** what's necessary and using as fewer layers as possible.
 
@@ -174,9 +180,7 @@ This tasks illustrates the concept of caching and unwanted dependencies installe
 
 **🧪 Test your code with `make testTask2`**
 
----
-
-## Task 3️⃣ - The importance of a base image 🖼
+# Task 3️⃣ - The importance of a base image 🖼
 
 This task elaborates on the concept of a base image and how it can be used in real life scenarios to spin up images/containers easily and efficiently.
 Previously we installed our own version of python, pip and other dependencies. The community already built many robust base images. Using the right base image can save time, space and headaches.
@@ -184,7 +188,7 @@ Previously we installed our own version of python, pip and other dependencies. T
 **❓ Enhance the performance of your image**
 
 1. Using the content of `dockerfile-task-2` do the following tasks in `dockerfile-task-3-1`
-1. Update the `dockerfile-task-3` to use python:3.8.10 as a base image, you may need to remove some of the installations you’ve done in it, since now python and pip come with it.
+1. Update the `dockerfile-task-3` to use python:3.8.14 as a base image, you may need to remove some of the installations you’ve done in it, since now python and pip come with it.
 1. We are going to use [poetry](https://python-poetry.org/) to handle all the dependencies and package management for python, instead of using the traditional `pip` and `requirements.txt` to install our packages. To do so:
     1. Replace all the previously added pip packages using poetry running in your terminal
         ```bash
@@ -228,7 +232,7 @@ Previously we installed our own version of python, pip and other dependencies. T
 **❓ Shrink your image size**
 
 1. Copy the content of `dockerfile-task-3-1` into `dockerfile-task-3-2`
-1. Now switch to `python:3.8.10-slim` base image
+1. Now switch to `python:3.8.14-slim` base image
 1. Build image using the tag `base-image-fastapi:dev`
 1. Run container to make sure it’s functional
 1. Inspect size and layers using dive
@@ -242,31 +246,69 @@ Previously we installed our own version of python, pip and other dependencies. T
 
 <br>
 
----
-
-## Task 4️⃣ - Inspect what's inside a running container!
+# Task 4️⃣ - Inspect what's inside a running container!
 
 So far, we've been focusing on inspecting built **images** with dive.
 Let's now *run* an image and inspect what's insider a running container!
 
-1. 🆚 Install [VS Code Docker extension](https://code.visualstudio.com/docs/containers/overview)
-1. Run your latest `base-image-fastapi:dev` image with interactive shell control:
+- 🆚 Install [VS Code Docker extension](https://code.visualstudio.com/docs/containers/overview)
+- Run your latest `nonroot-image-fastapi:dev` image with interactive shell control:
 ```bash
 docker run --rm -it -p 8000:8000 base-image-fastapi:dev /bin/bash
 ```
-1. Inspect where you are located with `pwd`, and what's inside with `ls`. You should be able to find your local files copied inside the container!
-1. Touch a new file `toto.py`. Check that it's there with `ls`, then use VS Code docker extension to navigate there too!
+- Inspect where you are located with `pwd`, and what's inside with `ls`. You should be able to find your local files copied inside the container!
+- Touch a new file `toto.py`. Check that it's there with `ls`, then use VS Code docker extension to navigate there too!
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/docker_extension_vs_code.png" width=200>
-1. Now, exit the container (exit, or ctrl-D), so that the container is stopped (`docker ps` is empty). Run again your container, and try to find `toto.py`? It's gone! Containers are running instances of `images`, and only contains additional variables in memory during the time the container is running! You will see soon how to "persist" data inside a container...
+
+- Now, exit the container (exit, or ctrl-D), so that the container is stopped (`docker ps` is empty). Run again your container, and try to find `toto.py`? It's gone! Containers are running instances of `images`, and only contains additional variables in memory during the time the container is running! You will see soon how to "persist" data inside a container...
+
+# Task 5️⃣ - Improve security
+
+This task will fix an issue you might have seen when building so far.
+
+<img src=https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D5/pip-root.png >
+
+<br>
+
+For pip we are actually happy to ignore this as we were running as the root user so far so everything still worked! It points us too a deeper issue though: **in general when possible it is better to run containers as a non root user**. The isolation of containers is mostly broken with tools only avaliable to the root user, so to maximise security non-root is better when possible!
+
+**❓ Make you image non-root**
+
+1. Copy the content of `dockerfile-task-3-2` into `dockerfile-nonroot`
+1. Update update your `Dockerfile` with the following guide
+
+```dockerfile
+RUN ...
+    ...
+    # ❗️ We create a user called `"runner"`, with id `10000`
+    && useradd --uid 10000 -ms /bin/bash runner
+
+# ❗️ We want to work inside the user local folder now
+WORKDIR /home/runner/server
+
+# ❗️ We swap from root to that user
+USER 10000
+
+# ❗️ We make sure that the user`s files are on path
+ENV PATH="${PATH}:/home/runner/.local/bin"
+
+COPY ./  ./
+
+# Now we will be running pip to install packages for the user not as root!
+RUN pip install ...
+```
+
+❓ Build the image using the tag `nonroot-image-fastapi:dev` and run container to make sure it’s functional.
+
+👉 This time, you shouldn't be able to `touch` any file when running it with /bin/bash as we did previously. You don't have sudo access anymore either! And that's exactly what we wanted!
 
 
-### 🏁 Congratulation for completing the challenge!
+# 🏁 Congratulation for completing the challenge!
 - 🧪 Run the final `make test`
 - 💾 Save your work in progress on GitHub so we can track your progress
 
----
 
-## Some cool tools (to keep for later)!
+# Some cool tools (to keep for later)!
 
 ✨ [Haskell Dockerfile Linter](https://github.com/hadolint/hadolint)
 

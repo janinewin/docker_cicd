@@ -2,7 +2,7 @@ include ../../../make.inc
 
 .PHONY: install test testTask1 testTask2 testTask3
 
-#Build tasks
+# Build tasks
 buildTask1:
 	docker build -t base-image-fastapi-ubuntu-fat:test -f dockerfile-task-1 .
 
@@ -14,6 +14,7 @@ buildTask3-1:
 
 buildTask3-2:
 	docker build -t base-image-fastapi:dev -f dockerfile-task-3-2 .
+
 
 # Run tasks
 runTask1:
@@ -29,7 +30,6 @@ runTask3-2:
 	docker run --rm -it -p 8000:8000 base-image-fastapi:dev
 
 # Test Tasks
-# Build the image before testing maybe overkill?
 test: pytest
 
 testTask1: buildTask1
