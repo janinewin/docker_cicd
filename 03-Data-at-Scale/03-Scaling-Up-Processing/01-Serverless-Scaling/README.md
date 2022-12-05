@@ -14,15 +14,6 @@ In the exercise below, we'll assume you're on GCP. The steps are fairly similar 
 
 We've built a small FastAPI application. It has two endpoints, one fast, one small (the code just artificially "sleeps" with random values picked from different distributions, to mimic its behaviour if it were doing some heavy calculations in the background)
 
-**Update `lwserverless/app.py` and give a value to `wait_time_seconds` in the functions `fast_run` and `slow_run`**. This determines how much time you'd like each endpoint to take to respond.
-
-<details>
-  <summary markdown='span'>💡 Hint</summary>
-
-  - A value between 0.5 and 2 for fast is good
-  - A value between 2 and 5 for slow is good
-</details>
-
 Run the app locally with `make run`. Now let's check that the endpoints work:
 
 - Run `curl http://127.0.0.1:8080/slow-run -w %{time_total}`
