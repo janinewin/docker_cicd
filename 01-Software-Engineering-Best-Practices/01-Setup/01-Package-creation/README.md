@@ -60,10 +60,9 @@ deng = '<user.github_nickname>_de_toolkit.main:cli'
 ```
 Now we can run our cli with `poetry run deng` instead 👌
 
-🤔 **How to select VS-code Python interpreter and enable IDE-capabilities?**
+🤔 **How to select VS-code Python interpreter and enable IDE-capabilities if not active?**
 
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/vs-code-select-interpreter.png">
-Do this at for each challenge! It'll help you get the most out of your IDE in this bootcamp!
 
 ### 1.2) Core logic
 🎯 The goal of this package is to help you start and stop your VM every morning and evening in one line of code!

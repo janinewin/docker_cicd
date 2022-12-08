@@ -1,5 +1,5 @@
 include ../../../make.inc
 
-.PHONY: pytest
+.PHONY: test
 
 test: pytest

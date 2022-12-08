@@ -2,31 +2,7 @@
 
 Below you'll find a bunch of pre-requisite and useful knowledge for the bootcamp.
 
-## Tips on any linux command ❓
-
-You're wondering what `cat`, `make`, `wget` do and how to use them?
-
-Two tools to the rescue, pre-installed on your servers:
-- Type `tldr tar` to get info about the `tar` command. That's [tldr](https://tldr.sh/).
-- Or type `man tar` to get the "official", but more old school manual.
-
-## Download a file to the Virtual Machine 📁
-
-Either **directly download the file**, for that
-
-- In your browser, right click and "Copy link address" to get the URL
-- Use `wget` to download the file: open a terminal and type `wget -O <name for the file> <url>`. For more information and examples, use `tldr wget`.
-
-Or by downloading it to your laptop then copying it over to the virtual machine.
-- Download it on your laptop, as you usually do, or use `wget` as described above 👆.
-- Copy it to the server with `scp -i <path to your private SSH key> /path/to/the/file <username on the VM>@<VM IP>:/path/on/the/vm`. For instance:
-  - My SSH key is located at `~/.ssh/id_rsa`
-  - I've downloaded the file on my machine at `~/Downloads/some-file.txt`
-  - On the server, my username is `joe` and IP is 33.442.44.112
-  - I'd like to copy it to `/home/joe/hello/world/` on the server (this folder must already exist)
-  - I'll do 👉 - `ssh -i ~/.ssh/id_rsa ~/Downloads/some-file.txt joe@33.442.44.112:/home/joe/hello/world/some-file.txt`
-
-## Managing Python libraries in your projects with Poetry 📃
+# 1️⃣ Managing Python libraries with Poetry 📃
 
 Python3 is installed by default on your system. For our work, we install additional Python packages. Let's imagine that we have 2 projects going on, one depends on [Protobuf v4.21.1](https://pypi.org/project/protobuf/) and the other on an older version [Protobuf v3.15.8](https://pypi.org/project/protobuf/3.15.8/).
 
@@ -37,7 +13,7 @@ We've got a **few problems**:
 
 Thankfully, these are all **solved problems**:
 
-### By hand
+## By hand
 
 🙆‍♂️ [Pip](https://pip.pypa.io/en/stable/) is the Python package installer. You'd install the required version of Protobuf with Pip.
 
@@ -47,7 +23,7 @@ Thankfully, these are all **solved problems**:
 
 The combination of tools above works but it's not super easy is it? So we've simplified things for you, read on.
 
-### Breathe with Poetry + Direnv
+## Poetry + Direnv
 
 🙆‍♀️ [Poetry](https://python-poetry.org/) is a modern Python packaging and dependency management. Please read the [basic usage](https://python-poetry.org/docs/basic-usage/) instructions. Poetry will:
 - Create virtual environments for you
@@ -62,14 +38,15 @@ The combination of tools above works but it's not super easy is it? So we've sim
 
 **In summary**, we've explained above how your bootcamp has been setup. What you really need to know is: **you don't have to worry about it 🌴**, just `cd` to an exercise and any `python` related command you run will pick the right configuration.
 
-### Within Docker
+## Within Docker
 
 - Install Poetry with `pip3 install poetry`
 - Copy your code, most importantly the `poetry.lock` and `pyproject.toml`
 - Run `poetry install`
 - Prefix commands with `poetry run ...`
 
-## Makefile 🔃
+
+# 2️⃣ Makefile
 
 You'll notice there are `Makefile` in each of the exercises' directory. Here's a good [primer on Makefile](https://ocw.mit.edu/courses/1-124j-foundations-of-software-engineering-fall-2000/pages/lecture-notes/makefile_primer/) if you're interested.
 
@@ -81,7 +58,7 @@ Try running
 
 Pro note: there is a `make.inc` file at the root of the repository, which is included in all subsequent `Makefile`. This avoid copy/pasting this same code everywhere!
 
-### PHONY?
+## .PHONY?
 
 By default, targets correspond to the name of a file. For instance if you run `make say-hi`, `make` will look for a file named `say-hi`. But not if you add `.PHONY: say-hi` above your target. It's a bit of a strange an unelegant terminology, but it's good practice. This explains why you'll find a lot of `.PHONY` in our Makefiles.
 
@@ -91,7 +68,7 @@ Tests are written with [Pytest](https://docs.pytest.org/en/7.1.x/). Each test sh
 
 ⚠️ This `test_output.txt` file is then used by Kitt to track your progress, be sure to `git add ...` it, commit and push it when you've made progress on a given exercise. Good luck with making your tests pass ☘️!
 
-### How to read the output of `make test`.
+## How to read the output of `make test`.
 
 - when it passes `tests/test_all.py::test_csv PASSED`
 - when there are errors, look at the end for the `short test summary info` then go back up for details
@@ -99,15 +76,9 @@ Tests are written with [Pytest](https://docs.pytest.org/en/7.1.x/). Each test sh
 FAILED tests/test_all.py::test_csv - AssertionError: file ratings.csv not found under data/
 ```
 
-## Manage your VM
+# 3️⃣ VSCode
 
-- Navigate to the [cloud instances](https://console.cloud.google.com/compute/).
-- Turn on your VM every morning by selecting its checkbox ✅, clicking on the three dots, then "Start / Resume"
-- Turn it off every evening by selecting its checkbox ✅, clicking on the three dots, then "Stop". That'll save money and energy.
-
-## VSCode
-
-### Main commands
+## Main commands
 
 Here is a cheatsheet
 - For [Windows](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf)
@@ -120,7 +91,7 @@ The most important ones are:
 - Show Search (across all files)
 - Show integrated terminal (you'll constantly have a terminal open)
 
-### How to open a port and connect to your apps and databases from your machine
+## How to open a port and connect to your apps and databases from your machine
 
 When running apps / databases on your server, you typically access them using ports (5432 for Postgres, 8080 for Jupyter, 3000 for some apps, etc.). Now, these ports are protected by the server's firewall by default so you can't access them, even by going to `http://<server ip>:<port>` in the browser.
 
@@ -137,17 +108,63 @@ In the browser, going to `http://localhost:3001` will forward the requests to th
 
 Note: you don't need to give the local port a different number, that was just for demo purposes.
 
-### VSCode - Select the correct "Python interpreter"
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D1/port-forwarding-vscode.png">
+
+## Select the correct "Python interpreter"
 
 In your exercise's directory, type `which python` to get the path to the right Python for the exercise, previously installed for you. In VSCode, open the commande palette, type `Python: Select interpreter` and then paste the path from `which python`. This will ensure the autocomplete works as expected.
 
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/vs-code-select-interpreter.png" width=600>
 
-For the best possible experience, click `File > Add folder to workspace` and only add the specific exercise's folder instead of the entire bootcamp repo. This will make VSCode's life easier, when trying to figure out which project you're working on.
+You may have noticed that it works automatically if you open VScode exactly at the challenge root. It's because we setup for you the following parameters in your VSCode settings (have a look and try to find it)
+```json
+{
+  ...
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  ...
+}
+```
 
-## Configuration through environment variables
 
-### Environment variables
+# 4️⃣ Linux
+
+## glob patterns
+
+Pattern matching file very useful in linux (For `.gitignore`, `.dockerignore`, `git add "<glob_pattern>"` etc...)
+
+**Examples**
+- `foo`  (files or folder `foo`, at root or any sub-directory) Equivalent to  `**/foo`
+- `/foo` (file or folder `foo`, at root-level only)
+
+- `foo/`  (folder `foo`, at root or any sub-directory)
+- `/foo/` (folder `foo`, at root-level only)
+
+Usual cases
+- `.env`  (all .env files or folders anywhere)
+- `*.csv` (all files ending with .csv anywhere)
+
+**Rules**
+- If there is a separator at the beginning or middle (or both) of the pattern, then the pattern is relative to the directory level of the particular `.gitignore` file itself
+  - Otherwise the pattern may also match at any level below the `.gitignore` level.
+- The character "`?`" matches any **one** character except "`/`"
+- An asterisk "`*`" matches anything except a slash
+- A leading "`**/` means match in all directories. e.g `**/abc`
+- A trailing "`/**`" matches everything inside.
+
+## Permissions
+
+If you encounter an error like this
+
+```
+find: './database/pg_multixact': Permission denied
+```
+
+this means you've created a directory owned by `root` (system administrator) and not the user you're logged in with. We've added a little helper method in the top `Makefile` to help you fix such issues. When you run this `make` target, all files within your repo will be owned by your user.
+
+Go to the top of your git repository and run `make own-repo`.
+
+
+# 5️⃣ Configuration through environment variables
 
 To share secrets and/or configuration values, it's better to not store them in code.
 
@@ -193,7 +210,7 @@ PASSWORD=abcd python my_program.py
 
 It's recommended you use environment variables for configuration and passwords.
 
-### Configuration files with `.env`
+## Configuration files with `.env`
 
 In Docker Compose, when you see the use of variable prefixed by a dollar sign, like `$POSTGRES_PASSWORD`, this means the `docker-compose` command will use an environment variable named `POSTGRES_PASSWORD`. Because there can be many such configuration variables, `docker-compose` will look for their values in a `.env` file (note that `.env` has been added to the root `.gitignore` so they won't ever be committed).
 
@@ -223,21 +240,43 @@ and we expect you to create a `.env` file filled out from the template.
 POSTGRES_PASSWORD=abcd
 ```
 
-### Load `.env` into Python
+## Load `.env` into Python
 
 In the `common/lewagonde` Python library, we've added a function `def load_dot_env(dot_env_fp: str)` which takes the path to a `.env` file as input, and loads its values into environment variables for you. This mimics the behaviour of Docker Compose in your Python programs, if you need.
 
-## Permissions
 
-If you encounter an error like this
+# 6️⃣ Manage your VM
 
+## Start/stop
+
+```bash
+gcloud compute instances list # CHECK YOU VM STATUS
+
+gcloud compute instances start <your_vm_name>
+gcloud compute instances stop <your_vm_name>
 ```
-find: ‘./02-Data-Storage-and-Batch-Pipelines/04-ETL-and-introduction-to-Airflow/03-Local-ETL/database/pg_multixact’: Permission denied
-```
 
-this means you've created a directory owned by `root` (system administrator) and not the user you're logged in with. We've added a little helper method in the top `Makefile` to help you fix such issues. When you run this `make` target, all files within your repo will be owned by your user.
+OR:
+- Navigate to the [cloud instances](https://console.cloud.google.com/compute/).
+- Turn on your VM every morning by selecting its checkbox ✅, clicking on the three dots, then "Start / Resume"
+- Turn it off every evening by selecting its checkbox ✅, clicking on the three dots, then "Stop". That'll save money and energy.
 
-Go to the top of your git repository and run `make own-repo`.
+## Download a file to the Virtual Machine 📁
+
+Either **directly download the file**, for that
+
+- In your browser, right click and "Copy link address" to get the URL
+- Use `wget` to download the file: open a terminal and type `wget -O <name for the file> <url>`. For more information and examples, use `tldr wget`.
+
+Or by downloading it to your laptop then copying it over to the virtual machine.
+- Download it on your laptop, as you usually do, or use `wget` as described above 👆.
+- Copy it to the server with `scp -i <path to your private SSH key> /path/to/the/file <username on the VM>@<VM IP>:/path/on/the/vm`. For instance:
+  - 👉 `ssh -i ~/.ssh/id_rsa ~/Downloads/some-file.txt joe@33.442.44.112:/home/joe/hello/world/some-file.txt`
+  - My SSH key is located at `~/.ssh/id_rsa`
+  - I've downloaded the file on my machine at `~/Downloads/some-file.txt`
+  - On the server, my username is `joe` and IP is 33.442.44.112
+  - I'd like to copy it to `/home/joe/hello/world/` on the server (this folder must already exist)
+
 
 ## Networking / Port mapping
 
