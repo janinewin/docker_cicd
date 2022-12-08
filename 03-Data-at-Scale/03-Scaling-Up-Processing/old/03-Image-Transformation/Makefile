@@ -7,7 +7,7 @@ TAG=lewagon/imgtransform:0.1
 REGISTRYPREFIX=
 
 # Run the tests
-test: pytest
+test: pytest-and-write-output
 
 # Run the application locally
 run:

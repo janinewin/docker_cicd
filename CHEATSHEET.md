@@ -52,11 +52,12 @@ You'll notice there are `Makefile` in each of the exercises' directory. Here's a
 
 Essentially, the `make <command>` command looks for a `Makefile` file in the directory it's run, and a `<command>: ...` task in it. If found, the commands in that block will be run.
 
+There is a `make.inc` file at the root of the repository, which is included in all subsequent `Makefile`. This avoid copy/pasting this same code everywhere!
+
 Try running
 - `make install`: will install the Poetry packages for you (should already be done)
-- `make test`: to run all Pytest tests
+- `make test`: to run all pytest tests and save outputs
 
-Pro note: there is a `make.inc` file at the root of the repository, which is included in all subsequent `Makefile`. This avoid copy/pasting this same code everywhere!
 
 ## .PHONY?
 

@@ -11,4 +11,4 @@ test_dockerfile:
 test_files_and_folders:
 	poetry run pytest -v tests/test_files_and_folders.py
 
-test: pytest
+test: pytest-and-write-output

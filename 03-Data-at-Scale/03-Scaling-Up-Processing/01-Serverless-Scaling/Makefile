@@ -6,7 +6,7 @@ TAG=lewagon/serverless:0.1
 # Insert the Docker registry prefix here, remove the trailing slash /
 REGISTRYPREFIX=
 
-test: pytest
+test: pytest-and-write-output
 
 run:
 	poetry run uvicorn lwserverless.app:app --host 0.0.0.0 --port 8080

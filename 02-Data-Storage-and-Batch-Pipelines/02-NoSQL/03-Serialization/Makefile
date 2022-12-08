@@ -15,4 +15,4 @@ compile-proto-2-macos:
 	# We need this corner case as `sed` on Mac doesn't behave exactly like `sed` on Linux for the saddest reasons
 	sed -i '' 's/import api_pb2 as api__pb2/from lwapi import api_pb2 as api__pb2/g' ./lwapi/api_pb2_grpc.py
 
-test: pytest
+test: pytest-and-write-output

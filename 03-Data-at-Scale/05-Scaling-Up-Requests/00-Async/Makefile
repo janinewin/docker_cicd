@@ -1,6 +1,6 @@
 include ../../../make.inc
 
-test: pytest
+test: pytest-and-write-output
 
 run-server:
 	poetry run uvicorn lwasync.server:app --port 8080

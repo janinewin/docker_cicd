@@ -30,7 +30,7 @@ runTask3-2:
 	docker run --rm -it -p 8000:8000 base-image-fastapi:dev
 
 # Test Tasks
-test: pytest
+test: pytest-and-write-output
 
 testTask1: buildTask1
 	PYTHONDONTWRITEBYTECODE=1 poetry run pytest -v --color=yes -k TestTask1

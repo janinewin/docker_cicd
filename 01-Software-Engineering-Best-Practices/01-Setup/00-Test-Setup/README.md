@@ -49,6 +49,10 @@ Open two separate vscode windows (you can use `code folder_path`):
 
 ❓ Open your VScode at 00-Test-Setup level, then try to fill your code in `app.main`
 
+Have a look at the tests/ folder:
+- there are some mandatory tests that will NOT be checked by running `make test` (which does a `pytest -m "not optional"` under the hood: checkout in `make.inc` !)
+- optional tests can still be tested by running pytest manually (e.g `pytest tests/test_our_function.py`)
+
 Run
 ```
 make tests

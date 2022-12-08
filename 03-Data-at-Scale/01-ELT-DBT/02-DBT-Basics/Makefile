@@ -1,3 +1,3 @@
 include ../../../make.inc
 
-test: pytest
+test: pytest-and-write-output
