@@ -1,8 +1,9 @@
+import pytest
 from tests import lewagonde
 from yaml import load
 from yaml.loader import SafeLoader
 
-
+@pytest.mark.optional
 def test_docker_compose():
     with open("docker-compose.yml") as f:
         docker_compose_data = load(f, SafeLoader)
@@ -26,7 +27,7 @@ def test_docker_compose():
     ]
     assert postgres.get("healthcheck", {}).get("interval") == "5s"
     assert postgres.get("healthcheck", {}).get("retries") == 5
-    assert postgres.get("ports") == ["5432:5432"]
+    assert postgres.get("ports") == ["5433:5432"]
     assert postgres.get("restart") == "always"
 
     scheduler = docker_compose_data["services"]["scheduler"]
@@ -37,11 +38,12 @@ def test_docker_compose():
     assert lewagonde.dict_or_kvlist_to_dict(scheduler.get("environment")) == {
         "AIRFLOW__CORE__EXECUTOR": "LocalExecutor",
         "AIRFLOW__DATABASE__SQL_ALCHEMY_CONN": "postgresql+psycopg2://airflow:$POSTGRES_PASSWORD@postgres:5432/db",
+        "AIRFLOW__CORE__LOAD_EXAMPLES": "false"
     }
     assert set(scheduler.get("volumes")) == {
-        "./dags:/opt/airflow/dags",
-        "./data:/opt/airflow/data",
-        "./logs:/opt/airflow/logs",
+        "./dags:/app/airflow/dags",
+        "./data:/app/airflow/data",
+        "./logs:/app/airflow/logs",
     }
 
     webserver = docker_compose_data["services"]["webserver"]
@@ -60,15 +62,13 @@ def test_docker_compose():
         "POSTGRES_USER": "airflow",
     }
     assert set(webserver.get("volumes")) == {
-        "./dags:/opt/airflow/dags",
-        "./data:/opt/airflow/data",
-        "./logs:/opt/airflow/logs",
+        "./dags:/app/airflow/dags",
+        "./data:/app/airflow/data",
+        "./logs:/app/airflow/logs",
     }
     assert webserver.get("ports") == ["8080:8080"]
     assert webserver.get("healthcheck", {}).get("test") == [
-        "CMD-SHELL",
-        "[ -f /home/airflow/airflow-webserver.pid ]",
-    ]
+        "CMD", "-f", "/home/airflow/airflow-webserver.pid"]
     assert webserver.get("healthcheck", {}).get("interval") == "30s"
     assert webserver.get("healthcheck", {}).get("timeout") == "30s"
     assert webserver.get("healthcheck", {}).get("retries") == 3

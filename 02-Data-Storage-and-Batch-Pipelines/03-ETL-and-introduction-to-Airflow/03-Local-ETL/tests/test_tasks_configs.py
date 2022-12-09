@@ -9,14 +9,14 @@ from pendulum.datetime import DateTime
 from pendulum.tz.timezone import Timezone
 
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
-os.environ["AIRFLOW_HOME"] = "/opt/data"
+os.environ["AIRFLOW_HOME"] = "/app/data"
 
 
 class TestTasksConfigs:
     dagbag = DagBag(dag_folder=DAG_BAG, include_examples=False)
     hook = SqliteHook(sqlite_conn_id="sqlite_connection")
-    joke_file_prefix = "/opt/data/data/bronze/joke_"
-    swedified_joke_file_prefix = "/opt/data/data/silver/swedified_joke_"
+    joke_file_prefix = "/app/data/data/bronze/joke_"
+    swedified_joke_file_prefix = "/app/data/data/silver/swedified_joke_"
     start_date = DateTime(2022, 1, 1, 0, 0, 0, tzinfo=Timezone("UTC"))
 
     def test_tasks(self):

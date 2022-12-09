@@ -4,7 +4,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV PYTHONUNBUFFERED 1
 
-ENV AIRFLOW_HOME=/opt/airflow
+ENV AIRFLOW_HOME=/app/airflow
 
 WORKDIR $AIRFLOW_HOME
 
@@ -20,7 +20,6 @@ RUN apt-get update \
 
 COPY scripts scripts
 RUN chmod +x scripts/entrypoint.sh
-RUN chmod +x scripts/init_connections.sh
 
 COPY pyproject.toml poetry.lock ./
 

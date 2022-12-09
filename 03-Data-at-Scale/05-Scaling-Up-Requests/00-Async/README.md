@@ -21,15 +21,15 @@ This dichotomy allows us to speed up programs that are **not CPU bound** by havi
 
 ⭐ Enter the **event loop!**
 
-## Main concepts
+# 1️⃣ Main concepts
 
-### Event loop ♻️
+## Event loop ♻️
 
 The event loop is the core of every asyncio application. Event loops run asynchronous tasks and callbacks, perform network IO operations, and run subprocesses.
 
 In short, there is one master process called the **event loop**. You can schedule tasks on it (mainly I/O bound tasks), it will run the I/O operations in the background and "alert you" when they're done. This way, if you have many simultaneous I/O bound operations to run, scheduling them on an event loop in Python is an easy way to speed up the work.
 
-### `async` / `await`
+## `async` / `await`
 
 Python introduced in version 3+ two keywords: `async` and `await`.
 
@@ -42,7 +42,7 @@ Typically, here's how you use them:
 
 Let's do a practical example together.
 
-## First Python `async` program
+# 2️⃣ First Python `async` program
 
 The files are under the `lwasync` directory.
 
@@ -70,7 +70,7 @@ Synchronous code lies in the `client_synchronous.py`. Fill in the blanks in the 
 
 When you're done:
 - Make sure the server is running in a terminal window. If not, open one and run `make run-server`.
-- Run your code with `python lwasync/client_synchronous.py --number 10`, feel free to replace 10 by any other number. **How long did it take?** 
+- Run your code with `python lwasync/client_synchronous.py --number 10`, feel free to replace 10 by any other number. **How long did it take?**
 
 ### An asynchronous equivalent
 
@@ -80,7 +80,7 @@ Open the files `client_synchronous.py` and `client_asynchronous.py` side by side
   <summary markdown='span'>💡 Hint</summary>
 
   Try
-  
+
   ```python
   async with session.get("http://localhost:8080/say-hi") as response:
         response = await response.json()

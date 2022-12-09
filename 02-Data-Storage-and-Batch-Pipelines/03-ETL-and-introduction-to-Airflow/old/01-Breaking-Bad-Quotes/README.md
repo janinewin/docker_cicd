@@ -65,7 +65,7 @@ You thus need two tasks:
 To help you, we have already added the `create_file_if_not_exist` and `get_quote_and_save_if_new` functions signatures, but be careful:
 **for this part, you don't have to fill the functions but only to create the Airflow tasks that will call them.**
 
-We want your quotes to be saved to `/opt/airflow/data/quotes.csv`.
+We want your quotes to be saved to `/app/airflow/data/quotes.csv`.
 
 The second task should be triggered only once the first one succeeds.
 

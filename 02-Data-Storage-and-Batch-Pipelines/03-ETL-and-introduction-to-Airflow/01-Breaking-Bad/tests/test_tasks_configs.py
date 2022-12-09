@@ -3,7 +3,7 @@ import os.path
 from airflow.models import DagBag
 
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
-os.environ["AIRFLOW_HOME"] = "/opt/airflow"
+os.environ["AIRFLOW_HOME"] = "/app/airflow"
 
 
 class TestTasksConfigs:
@@ -25,7 +25,7 @@ class TestTasksConfigs:
 
         assert task.__class__.__name__ == "PythonOperator"
         assert task.python_callable.__name__ == "create_file_if_not_exist"
-        assert task.op_kwargs == {"quotes_file": "/opt/airflow/data/quotes.csv"}
+        assert task.op_kwargs == {"quotes_file": "/app/airflow/data/quotes.csv"}
         assert list(map(lambda task: task.task_id, task.upstream_list)) == []
         assert list(map(lambda task: task.task_id, task.downstream_list)) == [
             "get_quote_and_save_if_new"
@@ -38,7 +38,7 @@ class TestTasksConfigs:
 
         assert task.__class__.__name__ == "PythonOperator"
         assert task.python_callable.__name__ == "get_quote_and_save_if_new"
-        assert task.op_kwargs == {"quotes_file": "/opt/airflow/data/quotes.csv"}
+        assert task.op_kwargs == {"quotes_file": "/app/airflow/data/quotes.csv"}
         assert list(map(lambda task: task.task_id, task.upstream_list)) == [
             "create_file_if_not_exist"
         ]
