@@ -1,8 +1,10 @@
+database/
+logs/**
+!**/.gitkeep
 airflow.cfg
 airflow.db
 webserver_config.py
-database/
-logs/**
-*.json
+tests/temp/*
+!tests/temp/.gitkeep
 !**/.gitkeep
-!**/tests/data/**
+!**/tests/data/*

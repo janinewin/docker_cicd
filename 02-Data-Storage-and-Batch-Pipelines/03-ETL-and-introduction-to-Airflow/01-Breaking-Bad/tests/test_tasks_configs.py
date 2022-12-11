@@ -3,6 +3,8 @@ import os.path
 from airflow.models import DagBag
 
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
+
+# Set this variable temporarily back to student config but without affecting airflow test configuration.
 os.environ["AIRFLOW_HOME"] = "/app/airflow"
 
 

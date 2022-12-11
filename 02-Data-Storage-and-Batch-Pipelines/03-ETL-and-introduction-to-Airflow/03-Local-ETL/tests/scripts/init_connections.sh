@@ -4,4 +4,4 @@ set -x
 echo "Add connection"
 airflow connections add 'sqlite_connection' \
                     --conn-type sqlite \
-                    --conn-host "$PWD/airflow.db"
+                    --conn-host "$PWD/tests/temp/airflow.db"

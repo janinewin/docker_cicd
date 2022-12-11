@@ -64,4 +64,8 @@ with DAG(
     "local_etl",
     # YOUR CODE HERE
 ) as dag:
+    data_url = "https://api.chucknorris.io/jokes/random"
+    joke_file = f"{AIRFLOW_HOME}/data/bronze/joke_{{{{ ds_nodash }}}}.json"
+    swedified_joke_file = f"{AIRFLOW_HOME}/data/silver/swedified_joke_{{{{ ds_nodash }}}}.json"
+
     pass  # YOUR CODE HERE

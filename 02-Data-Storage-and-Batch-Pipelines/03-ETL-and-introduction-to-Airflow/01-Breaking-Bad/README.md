@@ -146,7 +146,7 @@ You need to create a DAG with the following requirements:
 - it should not catchup the missing runs
 - it should be scheduled to run every 5 minutes
 - it should run no matter if the previous runs failed
-- it should not depend on past (`default_args={"depends_on_past": False}`)
+- it should not depend on previous runs (`default_args={"depends_on_past": False}`)
 
 Once, you are confident with your code run:
 ```bash
@@ -204,4 +204,56 @@ Once you are confident with your code run:
 make test_python_functions
 ```
 
-Now, you should be able to trigger the DAG, see green results and have your `quotes.csv` being filled.
+🎉 Now, you should be able to trigger the DAG, see green results and have your `quotes.csv` being filled every few minutes ;)
+
+## Final words on Airflow
+
+The docker layer of complexity should not divert your from how airflow work in a nutshell: important commands are located in `entrypoint.sh`.
+
+```bash
+airflow db upgrade # Create an airflow DB with correct schema and empty tables
+
+airflow users create ... # Create a user for the webserver
+
+airflow webserver # launch webserver
+```
+
+You could have run it all without docker after a `pip install airflow`, but it's never how you'd use it in practice.
+
+Let's see one more important airflow command...
+
+### 💡 How to reset my airflow metadata DB entirely?
+In case you want to replay your your DAGs as if the were never run before, the best option is to reset your airflow db entirely!
+
+You want to run `airflow db reset`, which will burn down and rebuild the metadata database
+
+❓ **What command should you run to execute such command from inside your airflow webserver service**?
+
+👉 Give it a try ! Check on your DBEAVER, the `dag` table should be reset (click "refresh"), then after 1 min the scheduler will re-populate all your DAGS!
+
+<details>
+  <summary markdown='span'>💡 Hints</summary>
+- You can either use `docker-compose exec <your command>` directly inside your already-running container
+- Or you stop all your running containers first, then try using `docker-compose run -it ....`
+</details>
+
+<details>
+  <summary markdown='span'>🎁 Solution</summary>
+
+```bash
+docker-compose exec webserver poetry run airflow db reset
+
+# OR
+docker-compose down
+docker-compose run -it webserver poetry run airflow db reset
+docker-compose up
+```
+
+</details>
+
+
+## 🏁 Congratulation! `make test` to create test_output.txt, then add, commit and push your code so we can track your progress!
+
+```bash
+docker-compose down # To free-up your ports for next challenges
+```
