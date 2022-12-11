@@ -1,6 +1,4 @@
-include ../../../make.inc
-
-.PHONY: install test_dag_config test_tasks_configs test_python_functions test
+.PHONY: test_dag_config test_tasks_configs test_python_functions test
 
 # Our tests will re-create a SQLite copy of your postgres db inside the "temp" folder, and then test against this sqlite db
 AIRFLOW_HOME=${PWD}/tests/temp

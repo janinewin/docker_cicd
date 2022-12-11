@@ -1,4 +1,5 @@
 import os.path
+import pytest
 
 from airflow.hooks.sqlite_hook import SqliteHook
 from airflow.models import DagBag
@@ -50,6 +51,7 @@ class TestTasksConfigs:
         assert list(map(lambda task: task.task_id, task.upstream_list)) == []
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["extract"]
 
+    @pytest.mark.optional
     def test_extract_task(self):
         assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="local_etl")
@@ -85,6 +87,7 @@ class TestTasksConfigs:
             "transform"
         ]
 
+    @pytest.mark.optional
     def test_transform_task(self):
         assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="local_etl")
@@ -115,6 +118,7 @@ class TestTasksConfigs:
         assert list(map(lambda task: task.task_id, task.upstream_list)) == ["extract"]
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["load"]
 
+    @pytest.mark.optional
     def test_load_task(self):
         assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="local_etl")

@@ -4,7 +4,8 @@ import os
 from airflow.hooks.sqlite_hook import SqliteHook
 
 from dags import local_etl
-
+# Set this variable temporarily back to student-config but without affecting airflow test configuration.
+os.environ["AIRFLOW_HOME"] = "/app/airflow"
 
 def test_read_from_json():
     content = local_etl.read_from_json("tests/data/joke_without_single_quote.json")
