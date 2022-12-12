@@ -9,7 +9,7 @@ The goal is to have a DAG running every day that will:
 
 As for the previous exercise, we split the instructions in four parts to help you create this local ETL.
 
-# 1️⃣ Setup
+# 1️⃣ Setup ⚙️
 
 The Dockerfile and docker-compose are similar to that of previous challenge, with one exception: the entrypoint.sh now contains an additional line:
 
@@ -44,16 +44,15 @@ You should be able to:
 - access airflow webserver on `localhost:8080`
 - access airflow db via DBeaver on port `localhost:5433`
 
-# 2️⃣ DAG Instructions
+# 2️⃣ DAG Instructions ↪
 
 First, let's focus on creating the proper DAG configuration (no tasks or python functions needed for now).
 
 You need to create a DAG with the following requirements:
 - it should be named `local_etl`
-- it should have a start date equal to five days ago
+- it should be scheduled to run every day, with a start date equal to five days ago (so we'll simulate 5 runs)
 - it should have a description saying `A local etl`
 - it should catchup the missing runs
-- it should be scheduled to run every day
 - it should run only if the previous runs succeed
 
 🧪 Once, you are confident with your code run:
@@ -62,7 +61,7 @@ You need to create a DAG with the following requirements:
 make test_dag_config
 ```
 
-## Tasks Instructions
+## Tasks 🏋️
 
 Then, we want you to create the tasks that your DAG will use. This time you will create more tasks that will do less things.
 
@@ -75,19 +74,18 @@ You need four tasks:
 - `joke` (varchar not null)
 - `swedified_joke` (varchar not null)
 
-### b) A `extract` task_id
+### b) `extract` task_id
 - as a [BashOperator](https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/bash.html):
 - that [curl](https://en.wikipedia.org/wiki/CURL) a random Chuck Norris' joke from [https://api.chucknorris.io](https://api.chucknorris.io).
-- The joke should be saved to the bronze folder under the name `joke_{execution_date}.json` where {execution_date} corresponds to the execution date of the Airflow dag (for instance: */app/airflow/data/bronze/joke_20220521.json*).
-- 💡 Check [airflow template variables](https://airflow.apache.org/docs/apache-airflow/stable/templates-ref.html)
+- The joke should be saved to the bronze folder under the name `joke_{execution_date}.json` where {execution_date} corresponds to the execution date of the Airflow dag (for instance: */app/airflow/data/bronze/joke_20220521.json*). 💡 Check [airflow template variables](https://airflow.apache.org/docs/apache-airflow/stable/templates-ref.html)
 
-### c) A `transform` task_id
+### c) `transform` task_id
 - as a [PythonOperator](https://airflow.apache.org/docs/apache-airflow/2.2.0/howto/operator/python.html)
 - that should trigger the `transform` function with the proper arguments (don't fill the python function yet)
 - The transformed joke should be saved to the silver folder under the name joke_{execution_date}.json (for instance: */app/airflow/data/silver/joke_20220521.json*).
 
 
-### d) A `load` task_id
+### d) `load` task_id
 - as a `PythonOperator`
 - that should trigger the `load` function with the proper arguments (don't fill python function yet)
 
@@ -105,7 +103,7 @@ Once you passed the tests, launch your Airflow instance and open [localhost](htt
 
 You should see your four tasks. Turn the DAG on and see what happens! It should be all green 🟢 as your tasks called functions that do not do anything for now.
 
-## 3️⃣ Python Functions 🐍
+## Python Functions 🐍
 
 To help you, we have already added the signature of 6 functions. This is now your turn to implement them in the current order.
 
@@ -114,11 +112,47 @@ To help you, we have already added the signature of 6 functions. This is now you
 make test_python_functions
 ```
 
-Now, you should be able to trigger the DAG, see green results and have your `swedified_jokes` table being filled.
+Now, you should be able to trigger the DAG, see green results and have your `swedified_jokes` table being filled. Check it out on DBEAVER!
 
-## 💡 Optional: How does our tests work?
+See below for tips if you are stuck!
 
-It can be interesting to learn how to test your airflow DAGs.
+# 4️⃣ Airflow Pro Tips 💡
+
+## 🐛 Debugging in Airflow ?
+
+**Reset Airflow DB**
+In case you want to replay your challenge history from scratch, you can reset your airflow metadata database as if the were never run before
+
+```bash
+docker-compose exec webserver poetry run airflow db reset
+```
+
+Otherwise, you can also `sudo rm -rf database` entirely, but that's not a great skill to master in real life ;)
+
+**Check logs on Airflow UI**
+It's our recommended approach to begin with. Below, the second task of our first run has failed. And 4 other run are planned and running (they wait for the next 4 days to be finish)
+You can click on "Log" to inspect logs
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/airflow_failing.png">
+
+
+
+**Check logs from your Terminal**
+
+You can access your logs from your terminal, but mixing logs of 3 services at once can be messy. Simply open 3 terminal, each with one of the commands:
+
+```bash
+docker-compose logs -f postgres
+docker-compose logs -f scheduler
+docker-compose logs -f webserver
+```
+
+**Check logs from logs folder**
+You should be able to see the exact same information in your `logs` folder, which is precious to grep for "ERROR" lines etc...!
+
+## 🧪 Testing in Airflow ?
+
+It can be interesting to read our tests to learn how to test your DAGs.
 
 👉 Have a look at your `makefile`, and let's focus on `test_dag_config`
 
@@ -133,4 +167,6 @@ It can be interesting to learn how to test your airflow DAGs.
     - compare it to that of your currently running app: `docker-compose exec webserver poetry run airflow config get-value database sql_alchemy_conn`!
 - Then we also have to change the postgres hook connection, to add/remove fake jokes to that sqlite DB instead of your postgres! This is why we have to run `tests/scripts/init_connections.sh` in our makefile.
 
-## 🏁 Congratulation! `make test` to create test_output.txt, then add, commit and push your code so we can track your progress!
+# 🏁 Congratulation!
+
+Run `make test` to create test_output.txt, then git add, commit and push your code so we can track your progress!

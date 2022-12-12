@@ -8,6 +8,8 @@ ENV AIRFLOW_HOME=/app/airflow
 
 WORKDIR $AIRFLOW_HOME
 
+RUN apt-get update && apt-get install curl -y
+
 COPY scripts scripts
 RUN chmod +x scripts/entrypoint.sh
 RUN chmod +x scripts/init_connections.sh

@@ -223,7 +223,7 @@ You could have run it all without docker after a `pip install airflow`, but it's
 Let's see one more important airflow command...
 
 ### 💡 How to reset my airflow metadata DB entirely?
-In case you want to replay your your DAGs as if the were never run before, the best option is to reset your airflow db entirely!
+In case you want to replay your DAGs as if the were never run before, the best option is to reset your airflow db entirely!
 
 You want to run `airflow db reset`, which will burn down and rebuild the metadata database
 
