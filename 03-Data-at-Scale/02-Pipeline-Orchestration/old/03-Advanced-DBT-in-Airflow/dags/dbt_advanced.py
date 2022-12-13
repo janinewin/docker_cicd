@@ -25,13 +25,13 @@ def make_dbt_task(node: str, dbt_verb: str) -> BashOperator:
     >>> print(make_dbt_task('model.dbt_lewagon.my_first_dbt_model', 'run'))
     BashOperator(
         task_id=model.dbt_lewagon.my_first_dbt_model,
-        bash_command= "dbt run --models my_first_dbt_model --project-dir /opt/airflow/dbt_lewagon"
+        bash_command= "dbt run --models my_first_dbt_model --project-dir /app/airflow/dbt_lewagon"
     )
 
     >>> print(make_dbt_task('test.dbt_lewagon.not_null_my_first_dbt_model_id.5fb22c2710', 'test'))
     BashOperator(
         task_id=test.dbt_lewagon.not_null_my_first_dbt_model_id,
-        bash_command= "dbt test --models not_null_my_first_dbt_model_id --project-dir /opt/airflow/dbt_lewagon"
+        bash_command= "dbt test --models not_null_my_first_dbt_model_id --project-dir /app/airflow/dbt_lewagon"
     )
     """
     pass  # YOUR CODE HERE

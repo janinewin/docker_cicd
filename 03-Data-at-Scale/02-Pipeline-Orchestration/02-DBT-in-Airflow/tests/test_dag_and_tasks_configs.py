@@ -4,8 +4,8 @@ import pendulum
 from airflow.models import DagBag
 
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
-os.environ["AIRFLOW_HOME"] = "/opt/airflow"
-os.environ["DBT_DIR"] = "/opt/airflow/dbt_lewagon"
+os.environ["AIRFLOW_HOME"] = "/app/airflow"
+os.environ["DBT_DIR"] = "/app/airflow/dbt_lewagon"
 
 
 class TestDagConfig:
@@ -33,7 +33,7 @@ class TestDagConfig:
         dag = self.dagbag.get_dag(dag_id="dbt_basics")
         task = dag.get_task("dbt_run")
         assert task.__class__.__name__ == "BashOperator"
-        assert task.bash_command == "dbt run --project-dir /opt/airflow/dbt_lewagon"
+        assert task.bash_command == "dbt run --project-dir /app/airflow/dbt_lewagon"
         assert list(map(lambda task: task.task_id, task.upstream_list)) == []
         assert list(map(lambda task: task.task_id, task.downstream_list)) == [
             "dbt_test"
@@ -43,6 +43,6 @@ class TestDagConfig:
         dag = self.dagbag.get_dag(dag_id="dbt_basics")
         task = dag.get_task("dbt_test")
         assert task.__class__.__name__ == "BashOperator"
-        assert task.bash_command == "dbt test --project-dir /opt/airflow/dbt_lewagon"
+        assert task.bash_command == "dbt test --project-dir /app/airflow/dbt_lewagon"
         assert list(map(lambda task: task.task_id, task.upstream_list)) == ["dbt_run"]
         assert list(map(lambda task: task.task_id, task.downstream_list)) == []

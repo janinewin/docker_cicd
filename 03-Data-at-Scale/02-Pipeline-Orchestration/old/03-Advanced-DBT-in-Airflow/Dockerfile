@@ -4,7 +4,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV PYTHONUNBUFFERED 1
 
-ENV AIRFLOW_HOME=/opt/airflow
+ENV AIRFLOW_HOME=/app/airflow
 
 # DBT
 ENV DBT_DIR=$AIRFLOW_HOME/dbt_lewagon

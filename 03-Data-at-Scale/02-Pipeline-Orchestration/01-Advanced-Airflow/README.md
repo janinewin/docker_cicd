@@ -54,7 +54,7 @@ You should have in your `extract.py` file a DAG with the following requirements:
 - it should run every month
 
 Then, you need one task:
-- a BashOperator named `curl_trip_data` that will curl monthly data from a s3 bucket and store it locally. The s3 bucket path is designed like this `https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_YYYY-MM.parquet` (use [airflow_variable](https://airflow.apache.org/docs/apache-airflow/stable/templates-ref.html) to generate the date dynamically). You should save the parquet file to `/opt/airflow/data/bronze/yellow_tripdata_YYYY-MM.parquet`.
+- a BashOperator named `curl_trip_data` that will curl monthly data from a s3 bucket and store it locally. The s3 bucket path is designed like this `https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_YYYY-MM.parquet` (use [airflow_variable](https://airflow.apache.org/docs/apache-airflow/stable/templates-ref.html) to generate the date dynamically). You should save the parquet file to `/app/airflow/data/bronze/yellow_tripdata_YYYY-MM.parquet`.
 
 
 Once, you are confident with your code run:
@@ -85,7 +85,7 @@ You need five tasks:
 To help you, we have already added the `is_month_odd`, `filter_long_trips`, `filter_expensive_trips` and functions signatures, but be careful:
 **for this part, you don't have to fill the functions but only to create the Airflow tasks that will call them.**
 
-We want your filtered parquet files to be saved as `/opt/airflow/data/silver/yellow_tripdata_YYYY-MM.csv` (adapt the date based on the execution date of course).
+We want your filtered parquet files to be saved as `/app/airflow/data/silver/yellow_tripdata_YYYY-MM.csv` (adapt the date based on the execution date of course).
 
 The second task should be triggered only once the first one succeeds.
 The third or the fourth task should be triggered based on the return of the second one.

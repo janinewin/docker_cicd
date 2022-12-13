@@ -9,7 +9,7 @@ from pendulum.datetime import DateTime
 from pendulum.tz.timezone import Timezone
 
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
-os.environ["AIRFLOW_HOME"] = "/opt/airflow"
+os.environ["AIRFLOW_HOME"] = "/app/airflow"
 
 
 class TestLoadDag:
@@ -78,7 +78,7 @@ class TestLoadDag:
             ti.dry_run()
 
             assert task.gcp_conn_id == "google_cloud_connection"
-            assert ti.task.src == f"/opt/airflow/data/silver/yellow_tripdata_2021-0{month}.csv"
+            assert ti.task.src == f"/app/airflow/data/silver/yellow_tripdata_2021-0{month}.csv"
             assert ti.task.dst == f"yellow_tripdata_2021-0{month}.csv"
             assert ti.task.bucket is not None
 

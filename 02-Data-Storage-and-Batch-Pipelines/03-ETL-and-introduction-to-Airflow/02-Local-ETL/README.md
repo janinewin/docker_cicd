@@ -2,16 +2,25 @@
 
 In this challenge, you will focus on creating a more complex **ETL**, without caring about setting-up the docker-compose.
 
-The goal is to have a DAG running every day that will:
-- (**Extract**) Downloads a Chuck Norris' joke, using this [api](https://api.chucknorris.io), saving them as [JSON](https://en.wikipedia.org/wiki/JSON) into your "Lake" (our local `data` folder)
-- (**Transform**) Translates it to Swedish, saving them again in the "Lake"
-- (**Load**) Inserts them it into your "Data Warehouse" (our local `db` postgres used also to store airflow metadata)
+We'll have:
+- an API to call for data as JSON
+- a "lake" (`data` folder) to store raw JSON in "bronze" folder, transformed JSON in "silver" folder
+- a "warehouse" (`postgres db`) to store transformed data in a structured manner.
 
-As for the previous exercise, we split the instructions in four parts to help you create this local ETL.
+The goal is to have a DAG running every day that will:
+- (**Extract**) Downloads a Chuck Norris' joke, using this [api](https://api.chucknorris.io), saving them as [JSON](https://en.wikipedia.org/wiki/JSON) into your "Lake"
+- (**Transform**) Translates it to Swedish, saving them again in the "Lake"
+- (**Load**) Inserts them it into your "Warehouse"
+
+For sake of simplicity, in this challenge, the postgres "warehouse" will be the same postgres database than the one used by airflow as DATA metadata, and is called `db`, as per docker-compose:
+- POSTGRES_DB=db
+- POSTGRES_USER=airflow
+
+We will see later in the bootcamp how to connect to an external BigQuery warehouse instead.
 
 # 1️⃣ Setup ⚙️
 
-The Dockerfile and docker-compose are similar to that of previous challenge, with one exception: the entrypoint.sh now contains an additional line:
+The Dockerfile and docker-compose are similar to that of previous challenge, with one exception: the entrypoint.sh now contains an additional line to reference the warehouse.
 
 ```bash
 
@@ -24,7 +33,7 @@ airflow connections add 'postgres_connection' \
                     --conn-port "5432"
 ```
 
-👉 Naming such connections explicitly is required to interact with the DB "warehouse" in our **load**  stage:
+👉 Adding such connections is required to interact the warehouse explicitely in our **load**  stage:
 
 ```python
 PostgresOperator(
@@ -150,22 +159,27 @@ docker-compose logs -f webserver
 **Check logs from logs folder**
 You should be able to see the exact same information in your `logs` folder, which is precious to grep for "ERROR" lines etc...!
 
-## 🧪 Testing in Airflow ?
+## 🧪 Understand tests in Airflow (optional) ?
 
 It can be interesting to read our tests to learn how to test your DAGs.
 
 👉 Have a look at your `makefile`, and let's focus on `test_dag_config`
 
 - We don't want to test your code against your "production" database `db`.
-- Therefore, everytime you're running `make test_dag_config`, we're creating a local sqlite copy of your postgres db.
-- How does it work? We're changing AIRFLOW_HOME to a new temp folder, by default when running `airflow db init`, this will create a brand new airflow project which by default runs a sqlite metadata db.
+- Therefore, everytime you're running `make test_dag_config`, we're creating a local sqlite metadata db on which we will run your dags.
+- How does it work?
+  - We're changing AIRFLOW_HOME to a new temp folder.
+  - Then run `airflow db init`, which will create a brand new airflow project which by default creates a sqlite metadata db with correct schema migrations.
 - You can inspect the 3 files that were created inside `tests/temp`
-  - `airflow.db` is the sqlite copy of you postgresdb
+  - `airflow.db` is the sqlite copy of you postgresdb. You can peer inside with VSCode SQLlite extension: you should see some sweedified jokes inside it!
   - `webserver_config.py`
   - `airflow.cfg`
     - check line 185: your `sql_alchemy_conn` refers to that local sqlite!
-    - compare it to that of your currently running app: `docker-compose exec webserver poetry run airflow config get-value database sql_alchemy_conn`!
-- Then we also have to change the postgres hook connection, to add/remove fake jokes to that sqlite DB instead of your postgres! This is why we have to run `tests/scripts/init_connections.sh` in our makefile.
+    - compare it to that of your currently running app: `docker-compose exec webserver poetry run airflow config get-value database sql_alchemy_conn`
+- Open our `test_tasks_config.py`
+  - line 18 we're using a DagBag to "parse" your dags from your local folder `./dags`. We'll then be able to tests your dag syntax without actually running anything (ex. line 39)
+  - Then we also want to make fake "runs" of you dag against the temporary sqlite. For that, we first have to redirect the postgres connection by loading another `tests/scripts/init_connections.sh` from Makefile context. This allows us to override the Postgres hook on your DAB by a SqliteHook in our test (line 19). We can then `hook.run(...)` anything we want and launch your dag via `dag.create_dagrun(...)`. The process of replacing a variable by another one of same name at test time is called "mocking".
+
 
 # 🏁 Congratulation!
 

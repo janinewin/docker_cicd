@@ -290,3 +290,13 @@ Additionally, when your services are packaged in a Docker container, Docker (and
 Below is a diagram summing up and explaining the two levels of ports mapping you'll need to master throughout the bootcamp.
 
 ![Port mapping explained](https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/assets/Ports.drawio.png)
+
+## Error proxy: listen tcp4 0.0.0.0:xxx: bind: "address already in use"
+It often comes from a previous challenge's container that wasn't correctly removed.
+
+```bash
+# First, check what's running on that port
+sudo ss -lptn 'sport = :5432'  # e.g. users:(("postgres",pid=790,fd=3))
+# Then, you can kill this process if you are sure
+sudo kill 790
+```

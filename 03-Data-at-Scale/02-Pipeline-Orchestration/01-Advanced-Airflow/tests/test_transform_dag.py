@@ -17,7 +17,7 @@ COLUMNS_TO_KEEP = [
     "total_amount",
     "trip_distance",
 ]
-os.environ["AIRFLOW_HOME"] = "/opt/airflow"
+os.environ["AIRFLOW_HOME"] = "/app/airflow"
 
 
 class TestTransformDag:
@@ -103,8 +103,8 @@ class TestTransformDag:
             ti_filter_long_trips.dry_run()
 
             assert ti_filter_long_trips.task.op_kwargs == {
-                "bronze_file": f"/opt/airflow/data/bronze/yellow_tripdata_2021-0{month}.parquet",
-                "silver_file": f"/opt/airflow/data/silver/yellow_tripdata_2021-0{month}.csv",
+                "bronze_file": f"/app/airflow/data/bronze/yellow_tripdata_2021-0{month}.parquet",
+                "silver_file": f"/app/airflow/data/silver/yellow_tripdata_2021-0{month}.csv",
                 "date": f"2021-0{month}",
                 "distance": 150,
             }
@@ -113,8 +113,8 @@ class TestTransformDag:
             filter_expensive_trips_ti.dry_run()
 
             assert filter_expensive_trips_ti.task.op_kwargs == {
-                "bronze_file": f"/opt/airflow/data/bronze/yellow_tripdata_2021-0{month}.parquet",
-                "silver_file": f"/opt/airflow/data/silver/yellow_tripdata_2021-0{month}.csv",
+                "bronze_file": f"/app/airflow/data/bronze/yellow_tripdata_2021-0{month}.parquet",
+                "silver_file": f"/app/airflow/data/silver/yellow_tripdata_2021-0{month}.csv",
                 "date": f"2021-0{month}",
                 "amount": 500,
             }

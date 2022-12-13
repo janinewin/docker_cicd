@@ -9,7 +9,7 @@ from pendulum.datetime import DateTime
 from pendulum.tz.timezone import Timezone
 
 DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
-os.environ["AIRFLOW_HOME"] = "/opt/airflow"
+os.environ["AIRFLOW_HOME"] = "/app/airflow"
 
 
 class TestExtractDag:
@@ -60,5 +60,5 @@ class TestExtractDag:
             ti.dry_run()
 
             url = f"https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-0{month}.parquet"
-            filename = f"/opt/airflow/data/bronze/yellow_tripdata_2021-0{month}.parquet"
+            filename = f"/app/airflow/data/bronze/yellow_tripdata_2021-0{month}.parquet"
             assert ti.task.bash_command == f"curl {url} > {filename}"

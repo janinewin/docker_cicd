@@ -33,5 +33,5 @@ def test_profiles_yml():
         assert dev["project"] is not None
         assert dev["threads"] == 1
         assert dev["type"] == "bigquery"
-        assert dev["keyfile"].startswith("/opt/airflow/.gcp_keys/")
+        assert dev["keyfile"].startswith("/app/airflow/.gcp_keys/")
         assert dev["keyfile"].endswith(".json")

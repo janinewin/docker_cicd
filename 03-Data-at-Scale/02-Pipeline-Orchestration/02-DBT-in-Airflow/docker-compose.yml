@@ -13,7 +13,7 @@ services:
             interval: 5s
             retries: 5
         ports:
-          - "5432:5432"
+          - "5433:5432"
         restart: always
 
     scheduler:
@@ -27,9 +27,9 @@ services:
             - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:$POSTGRES_PASSWORD@postgres:5432/db
             - AIRFLOW__CORE__LOAD_EXAMPLES=false
         volumes:
-            - ./dags:/opt/airflow/dags
-            - ./data:/opt/airflow/data
-            - ./logs:/opt/airflow/logs
+            - ./dags:/app/airflow/dags
+            - ./data:/app/airflow/data
+            - ./logs:/app/airflow/logs
             
     webserver:
         build: .
@@ -45,9 +45,9 @@ services:
             - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
             - POSTGRES_USER=airflow
         volumes:
-            - ./dags:/opt/airflow/dags
-            - ./data:/opt/airflow/data
-            - ./logs:/opt/airflow/logs
+            - ./dags:/app/airflow/dags
+            - ./data:/app/airflow/data
+            - ./logs:/app/airflow/logs
         ports:
             - "8080:8080"
         healthcheck:
