@@ -3,7 +3,7 @@ import os
 import pendulum
 from airflow.models import DagBag
 
-DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
+DAG_BAG = os.path.join(os.path.dirname(__file__), "../../dags/basic")
 os.environ["AIRFLOW_HOME"] = "/app/airflow"
 os.environ["DBT_DIR"] = "/app/airflow/dbt_lewagon"
 

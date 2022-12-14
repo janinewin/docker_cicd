@@ -2,6 +2,7 @@ import os
 
 from airflow import DAG
 from airflow.operators.bash import BashOperator
+import pendulum
 
 # IMPORT YOUR PACKAGES HERE
 
@@ -12,7 +13,9 @@ def load_manifest(file: str) -> dict:
     """
     Reads the json `file` and returns it as a dict.
     """
-    pass  # YOUR CODE HERE
+    with open(file) as f:
+        data = json.load(f)
+    return data
 
 
 def make_dbt_task(node: str, dbt_verb: str) -> BashOperator:
@@ -55,9 +58,13 @@ def create_dags_dependencies(data: dict, dbt_tasks: dict):
 
 with DAG(
     "dbt_advanced",
-    # YOUR CODE HERE
+    default_args={"depends_on_past": False,},
+    start_date=pendulum.today("UTC").add(days=-1),
+    schedule_interval="@daily",
+    catchup=True,
 ) as dag:
 
-    data = load_manifest(f"{DBT_DIR}/manifest.json")
+    with open(f"{DBT_DIR}/manifest.json") as f:
+        data = json.load(f)
     dbt_tasks = create_tasks(data)
     create_dags_dependencies(data, dbt_tasks)

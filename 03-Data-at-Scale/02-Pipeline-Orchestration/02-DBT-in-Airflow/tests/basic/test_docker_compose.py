@@ -1,4 +1,4 @@
-from tests import lewagonde
+import lewagonde
 from yaml import load
 from yaml.loader import SafeLoader
 import pytest

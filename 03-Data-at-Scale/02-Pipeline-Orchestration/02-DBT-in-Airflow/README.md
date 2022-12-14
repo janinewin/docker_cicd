@@ -1,16 +1,16 @@
-### 🎯 Introduction
+# 🎯 Introduction
 
-The goal of this exercise is to have dbt installed on Airflow and to have a DAG with two tasks that trigger `dbt run` and `dbt test`.
+Let's use Airflow to orchestrate our dbt jobs! For that purpose, we will mount a live copy of our DBT models inside the airflow instances.
 
-We already created a dbt project (`dbt_lewagon`) for you that contains the models coming from `dbt init`, which will be enough to test your setup.
+More precisely, we will have 3 containers running:
+- a postgres db storing airflow metadata
+- 2 Airflow services (scheduler + webserver), in which we will **mount** our DBT folders.
 
-Make sure your terminal is in the current exercise folder and let's start by initiating a local Airflow database that will be used by `pytest` by running:
+The *actual datasets and models* will be saved in Big Query.
 
-```bash
-make init_db
-```
+# 1️⃣ Setup
 
-# 1️⃣ Setup Docker
+We already created a dbt project (`dbt_lewagon`) for you that contains the basic models coming from `dbt init`, which will be enough to test your setup.
 
 ## Dockerfile
 First, let's note that we already added `dbt-core` and `dbt-bigquery` to your `pyproject.toml` (that Airflow will use). Then, there are several environment variables for Airflow to know in which folders to look up when running `dbt` commands. Open your `Dockerfile` and add the following lines after `ENV AIRFLOW_HOME=/app/airflow`:
@@ -70,8 +70,12 @@ Once you are confident with what you've done, run the tests:
 make test_profiles_yml
 ```
 
-## Setup the DAG
+# 2️⃣ Basic DAG: dbt run ➡ dbt test
 
+The goal of this exercise is to have dbt installed on Airflow and to have a DAG with two tasks that trigger `dbt run` and `dbt test`.
+
+
+## `dags/basic/dbt_basic.py`
 Open the `dbt_basics.py` file and add your DAG inside. It should:
 - be named `dbt_basics`
 - depend on past
@@ -82,7 +86,7 @@ Then you should have **two tasks that run one after the other**:
 1. `dbt_run` BashOperator that runs dbt models, be careful, [you will have to specify the dbt_dir folder](https://docs.getdbt.com/dbt-cli/configure-your-profile#advanced-customizing-a-profile-directory)
 2. `dbt_test` BashOperator that run dbt tests, be careful, [you will have to specify the dbt_dir folder](https://docs.getdbt.com/dbt-cli/configure-your-profile#advanced-customizing-a-profile-directory)
 
-## Run your DAG
+## Run it!
 Run your DAG by unpausing it from the UI (or from the command line like a boss 😎, with `airflow dags unpause <dag_id>` but with in the correct docker context ;)
 
 Then check that your setup worked, by opening your [BigQuery console](https://console.cloud.google.com/bigquery) and verify that you have a new dataset named `dbt_your_name_name_day2` that contains your two models.
@@ -97,11 +101,63 @@ Got 1 result, configured to fail if != 0
 Once you are confident with what you've done, run the tests:
 
 ```bash
-make test_dag_and_tasks_configs
+make test_dag_and_task_basic
 ```
 
+### optional - test it with any other dbt project!
 
+>💡 If you want to make sure that this setup would scale with other dbt_projects, just replace the `dbt_lewagon` folder with the project that you've done in the previous day, make sure that it runs properly and go to BigQuery to check that your models have been created.
 
-# Optional Part
+# 3️⃣ Advanced DAG: one task per DBT model
 
-If you want to make sure that this setup would scale with other dbt_projects, replace the `dbt_lewagon` folder with the project that you've done in the previous day, make sure that it runs properly and go to BigQuery to check that your models have been created.
+## Setup
+
+In previous section, we integrated dbt to Airflow at a **project level**: One task was running "all dbt models", while the second was just about testing them. You could have done the same with a simple github action that would trigger `dbt test` at each pull-request.
+
+In this exercise, your will integrate it at a **model level**. This means that your goal will be to have **a DAG containing one task per model**.
+
+👉 First, let's change our target bigquery database by **updating your dbt/profile.yml**:
+```
+dataset: dbt_..._day2_advanced
+```
+
+## The DAG
+
+**💡 How will we proceed?**
+
+Here, we only have 2 dbt models, but imagine we had hundreds of them: We don't want to write hundred-times airflow tasks manually!
+
+Hopefully, DBT generates a **[`manifest.json`](https://docs.getdbt.com/reference/artifacts/manifest-json)** file that we can parse!
+- Have a look at `dbt_lewagon/manifest.json`: this file contains all models and their dependencies.
+- PS: In reality, this manifest is much longer and is located at `manifest.json` in dbt_lewagon/target/manifest. We have trimmed the JSON for you to keep only the needed parts and make it more readable :)
+
+👉 You won't manually declare your task but you will **generate them iteratively by using python functions**. To help you understand this new concept called meta-programming, we already added for you the functions calls such that you just have to code the functions themselves.
+
+❓ **Open the `dbt_advanced.py` file and check the DAG inside. Your goal is to fill the python function accordingly.** Here is a summary of the flow:
+
+- the `load_manifest` function will be called first and will be given the `manifest.json` path that it will load as a `dict` and return
+- the returned `dict` will be given to the `create_tasks` function that will build a dict containing the `nodes` of the `manifest.json` as keys and their corresponding BashOperators as values
+- these BashOperators will be built by the `make_dbt_task` function that will be called by the `create_tasks` function for each node by giving the proper dbt verb (`run` or `test`)
+- the `create_dags_dependencies` function will reuse this `dict` to create the Airflow tasks. To order them properly, this function will have to manipulate the `depends_on` field of the `manifest.json`
+
+🏋🏽‍♂️ This exercise is quite challenging to implement, so do not hesitate to check with a teacher that you have properly understood the requirements before starting.
+
+At the end, you should have a DAG that looks like this
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W2D3/dbt_dag.png">.
+
+As always, once your confident with what you have done, try to run it and see if it worked on BigQuery!
+
+Then, run the following command:
+
+```
+test_dag_and_task_advanced
+```
+
+Again, once done, do not hesitate to make it work with your own models.
+
+# 🏁 Congratulation
+
+🧪 Run all tests at once and git add, commit and your test_output.txt!
+```
+make test
+```

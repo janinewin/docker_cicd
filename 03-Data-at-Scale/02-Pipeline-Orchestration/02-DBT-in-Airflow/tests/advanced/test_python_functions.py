@@ -1,7 +1,7 @@
 import os
 
 from airflow import DAG
-from dags import dbt_advanced
+from dags.advanced import dbt_advanced
 from pendulum.datetime import DateTime
 from pendulum.tz.timezone import Timezone
 
@@ -9,7 +9,7 @@ DBT_DIR = os.getenv("DBT_DIR")
 
 
 def test_load_manifest():
-    data = dbt_advanced.load_manifest("tests/dbt_light/target/manifest.json")
+    data = dbt_advanced.load_manifest("tests/advanced/dbt_light/target/manifest.json")
     assert list(data.keys()) == [
         "metadata",
         "nodes",
@@ -39,7 +39,7 @@ def test_load_manifest():
         "test.dbt_lewagon.not_null_my_first_dbt_model_id.5fb22c2710": ["model.dbt_lewagon.my_first_dbt_model"],
     }
 
-    data = dbt_advanced.load_manifest("tests/dbt/target/manifest.json")
+    data = dbt_advanced.load_manifest("tests/advanced/dbt/target/manifest.json")
     assert list(data.keys()) == [
         "metadata",
         "nodes",
@@ -82,7 +82,7 @@ def test_load_manifest():
 
 
 def test_create_tasks():
-    data = dbt_advanced.load_manifest("tests/dbt_light/target/manifest.json")
+    data = dbt_advanced.load_manifest("tests/advanced/dbt_light/target/manifest.json")
     dir_locations = f"--project-dir {DBT_DIR}"
     bash_command_by_task_name = {
         "model.dbt_lewagon.my_first_dbt_model": f"dbt run --models my_first_dbt_model {dir_locations}",
@@ -98,7 +98,7 @@ def test_create_tasks():
         assert task.__class__.__name__ == "BashOperator"
         assert task.bash_command == bash_command
 
-    data = dbt_advanced.load_manifest("tests/dbt/target/manifest.json")
+    data = dbt_advanced.load_manifest("tests/advanced/dbt/target/manifest.json")
     bash_command_by_task_name = {
         "model.dbt_lewagon.my_first_dbt_model": f"dbt run --models my_first_dbt_model {dir_locations}",
         "model.dbt_lewagon.my_second_dbt_model": f"dbt run --models my_second_dbt_model {dir_locations}",
@@ -125,7 +125,7 @@ def test_create_dags_dependencies():
         schedule_interval="@monthly",
         default_args={"start_date": start_date},
     ) as dag:
-        data = dbt_advanced.load_manifest("tests/dbt_light/target/manifest.json")
+        data = dbt_advanced.load_manifest("tests/advanced/dbt_light/target/manifest.json")
         dbt_advanced.create_dags_dependencies(data, dbt_advanced.create_tasks(data))
 
     task = dag.get_task("model.dbt_lewagon.my_first_dbt_model")
@@ -147,7 +147,7 @@ def test_create_dags_dependencies():
         schedule_interval="@monthly",
         default_args={"start_date": start_date},
     ) as dag:
-        data = dbt_advanced.load_manifest("tests/dbt/target/manifest.json")
+        data = dbt_advanced.load_manifest("tests/advanced/dbt/target/manifest.json")
         dbt_advanced.create_dags_dependencies(data, dbt_advanced.create_tasks(data))
 
     task = dag.get_task("model.dbt_lewagon.my_first_dbt_model")

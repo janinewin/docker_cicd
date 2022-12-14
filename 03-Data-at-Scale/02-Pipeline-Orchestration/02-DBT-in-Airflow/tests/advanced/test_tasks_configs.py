@@ -2,7 +2,7 @@ import os
 
 from airflow.models import DagBag
 
-DAG_BAG = os.path.join(os.path.dirname(__file__), "../dags")
+DAG_BAG = os.path.join(os.path.dirname(__file__), "../../dags/advanced")
 DBT_DIR = os.getenv("DBT_DIR")
 
 
