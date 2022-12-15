@@ -27,9 +27,9 @@ To do so we will teach you how to:
 
 ## Prerequisite
 
-- The previously created `base-fastapi:dev` image stored in your Google container registry.
+- The previously created `base-image-fastapi:dev` image stored in your Google container registry.
 - Or you can also use this base image
-`europe-west9-docker.pkg.dev/subtle-creek-348507/data-engineering-docker/base-image-fastapi:dev`
+`europe-west1-docker.pkg.dev/data-engineering-students/student-images/base-image-fastapi:dev`
 
 
 ## Task 1️⃣ - Services 🤲
@@ -123,14 +123,14 @@ We want to achieve two goals here:
     - The postgres image will run the scripts contained in this specific dir at [initialization time](https://hub.docker.com/_/postgres)
     - Change the script's permission to make it executable on your system `chmod +x database/01-init.sh`
 We need to make
-1. Setup the [environment](https://docs.docker.com/compose/compose-file/#environment) variables, postgres has default credentials, we will use them to create our own admin user and our own database
+1. Setup the [environment](https://docs.docker.com/compose/compose-file/#environment) variables, postgres has default credentials, we will use them to create our own admin user and our own database here lets create the db as `movies`.
     ```yaml
 
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=postgres
-    - APP_DB_USER=goldenspice
-    - APP_DB_PASS=whatsupdawg
-    - APP_DB_NAME=gangstadb
+    - APP_DB_USER=lewagon
+    - APP_DB_PASS=password
+    - APP_DB_NAME=movies
 
     ```
 1. [Expose](https://docs.docker.com/compose/compose-file/#expose) port 5432
@@ -149,5 +149,22 @@ We need to make
 1. While the stack is running, update the `database.py` file with the right connection string, save the file (it will reload the server), now access again the endpoint. Voila! ✨
 
 **🧪 Test your code with `make testTask3`**
+
+## Task 4️⃣ - Connect to the database 🗄
+
+**❓ Connect to the database**
+
+1. First check which port you forwarded in the docker compose or if you did not add it now! For example:
+```yml
+ports:
+  - 5432:5432
+```
+1. Make sure that port is then also forwarded to your host machine!
+1. Connect with dbeaver now using the enviroment variables you set in the docker-compose!
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D1/dockercompose-dbeaver.png" width=700>
+
+1. Make sure you can interact with it and create a table!
+
 
 **💾 Save your work in progress on GitHub**
