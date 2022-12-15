@@ -1,0 +1,14 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.14, pytest-7.1.2, pluggy-1.0.0 -- /home/brunolajoie/code/lewagon/data-engineering-solutions/03-Data-at-Scale/02-Pipeline-Orchestration/01-Track-long/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/brunolajoie/code/lewagon/data-engineering-solutions/03-Data-at-Scale/02-Pipeline-Orchestration/01-Track-long
+plugins: mock-3.2.0, anyio-3.6.2, responses-0.4.0
+collecting ... collected 7 items / 2 deselected / 5 selected
+
+tests/test_dag_and_tasks_configs.py::TestDagConfig::test_dag_config PASSED [ 20%]
+tests/test_dag_and_tasks_configs.py::TestDagConfig::test_tasks PASSED    [ 40%]
+tests/test_dag_and_tasks_configs.py::TestDagConfig::test_dbt_run_task PASSED [ 60%]
+tests/test_dag_and_tasks_configs.py::TestDagConfig::test_dbt_test_task PASSED [ 80%]
+tests/test_profiles_yml.py::test_profiles_yml PASSED                     [100%]
+
+================= 5 passed, 2 deselected, 20 warnings in 1.41s =================
