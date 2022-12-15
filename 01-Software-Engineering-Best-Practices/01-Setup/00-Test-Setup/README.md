@@ -1,3 +1,4 @@
+## Test the setup
 This first challenge will test if your setup is correct, and make you understand how the bootcamp works.
 
 Open two separate vscode windows (you can use `code folder_path`):

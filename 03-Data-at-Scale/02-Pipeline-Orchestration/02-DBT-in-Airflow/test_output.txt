@@ -1,14 +1,18 @@
 ============================= test session starts ==============================
-platform linux -- Python 3.8.14, pytest-7.1.2, pluggy-1.0.0 -- /home/brunolajoie/code/lewagon/data-engineering-solutions/03-Data-at-Scale/02-Pipeline-Orchestration/01-Track-long/.venv/bin/python
+platform linux -- Python 3.8.14, pytest-7.1.2, pluggy-1.0.0 -- /home/brunolajoie/code/lewagon/data-engineering-solutions/03-Data-at-Scale/02-Pipeline-Orchestration/02-DBT-in-Airflow/.venv/bin/python
 cachedir: .pytest_cache
-rootdir: /home/brunolajoie/code/lewagon/data-engineering-solutions/03-Data-at-Scale/02-Pipeline-Orchestration/01-Track-long
+rootdir: /home/brunolajoie/code/lewagon/data-engineering-solutions/03-Data-at-Scale/02-Pipeline-Orchestration/02-DBT-in-Airflow, configfile: pyproject.toml
 plugins: mock-3.2.0, anyio-3.6.2, responses-0.4.0
-collecting ... collected 7 items / 2 deselected / 5 selected
+collecting ... collected 12 items / 3 deselected / 9 selected
 
-tests/test_dag_and_tasks_configs.py::TestDagConfig::test_dag_config PASSED [ 20%]
-tests/test_dag_and_tasks_configs.py::TestDagConfig::test_tasks PASSED    [ 40%]
-tests/test_dag_and_tasks_configs.py::TestDagConfig::test_dbt_run_task PASSED [ 60%]
-tests/test_dag_and_tasks_configs.py::TestDagConfig::test_dbt_test_task PASSED [ 80%]
-tests/test_profiles_yml.py::test_profiles_yml PASSED                     [100%]
+tests/advanced/test_dag_config.py::TestDagConfig::test_dag_config PASSED [ 11%]
+tests/advanced/test_python_functions.py::test_load_manifest PASSED       [ 22%]
+tests/advanced/test_python_functions.py::test_create_tasks PASSED        [ 33%]
+tests/advanced/test_python_functions.py::test_create_dags_dependencies PASSED [ 44%]
+tests/advanced/test_tasks_configs.py::TestTasksConfigs::test_tasks PASSED [ 55%]
+tests/basic/test_dag_and_tasks_configs.py::TestDagConfig::test_dag_config PASSED [ 66%]
+tests/basic/test_dag_and_tasks_configs.py::TestDagConfig::test_tasks PASSED [ 77%]
+tests/basic/test_dag_and_tasks_configs.py::TestDagConfig::test_dbt_run_task PASSED [ 88%]
+tests/basic/test_dag_and_tasks_configs.py::TestDagConfig::test_dbt_test_task PASSED [100%]
 
-================= 5 passed, 2 deselected, 20 warnings in 1.41s =================
+================= 9 passed, 3 deselected, 36 warnings in 1.01s =================

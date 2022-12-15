@@ -1,0 +1,21 @@
+Creating virtualenv d3-setup-u8Vh7Fjh-py3.8 in /home/brunolajoie/.cache/pypoetry/virtualenvs
+============================= test session starts ==============================
+platform linux -- Python 3.8.14, pytest-7.2.0, pluggy-1.0.0 -- /home/brunolajoie/.local/pipx/venvs/pytest/bin/python
+cachedir: .pytest_cache
+rootdir: /home/brunolajoie/code/lewagon/data-engineering-solutions/02-Data-Storage-and-Batch-Pipelines/02-NoSQL/04-Graph
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting tests/test_all.py ______________________
+ImportError while importing test module '/home/brunolajoie/code/lewagon/data-engineering-solutions/02-Data-Storage-and-Batch-Pipelines/02-NoSQL/04-Graph/tests/test_all.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/home/brunolajoie/.pyenv/versions/3.8.14/lib/python3.8/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_all.py:4: in <module>
+    import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+=========================== short test summary info ============================
+ERROR tests/test_all.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
