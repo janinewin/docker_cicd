@@ -92,7 +92,7 @@ class TestLoadDag:
 
         assert task.__class__.__name__ == "BigQueryCreateEmptyDatasetOperator"
         assert task.gcp_conn_id == "google_cloud_connection"
-        assert task.dataset_id.endswith("tripdata")
+        assert task.dataset_id.endswith("gold")
 
         assert list(map(lambda task: task.task_id, task.upstream_list)) == ["upload_local_file_to_gcs"]
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["create_table"]
@@ -104,7 +104,7 @@ class TestLoadDag:
 
         assert task.__class__.__name__ == "BigQueryCreateEmptyTableOperator"
         assert task.gcp_conn_id == "google_cloud_connection"
-        assert task.dataset_id.endswith("tripdata")
+        assert task.dataset_id.endswith("gold")
         assert task.table_id == "trips"
         assert task.schema_fields[0]["name"] == "date"
         assert task.schema_fields[0]["type"].lower() == "string"
@@ -144,7 +144,7 @@ class TestLoadDag:
 
             assert ti.task.gcp_conn_id == "google_cloud_connection"
             assert ti.task.configuration["query"]["query"].lower().startswith("delete from ")
-            assert ti.task.configuration["query"]["query"].lower().endswith(f"_tripdata.trips where date = '2021-0{month}'")
+            assert ti.task.configuration["query"]["query"].lower().endswith(f"gold.trips where date = '2021-0{month}'")
 
         assert list(map(lambda task: task.task_id, task.upstream_list)) == ["create_table"]
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["load_to_bigquery"]
@@ -175,9 +175,9 @@ class TestLoadDag:
             ti.dry_run()
 
             assert ti.task.gcp_conn_id == "google_cloud_connection"
-            assert ti.task.bucket.endswith("-silver")
+            assert ti.task.bucket.endswith("silver")
             assert ti.task.source_objects == f"yellow_tripdata_2021-0{month}.csv"
-            assert ti.task.destination_project_dataset_table.endswith("tripdata.trips")
+            assert ti.task.destination_project_dataset_table.endswith("gold.trips")
 
         assert list(map(lambda task: task.task_id, task.upstream_list)) == ["remove_existing_data"]
         assert list(map(lambda task: task.task_id, task.downstream_list)) == []

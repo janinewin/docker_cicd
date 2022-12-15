@@ -6,21 +6,14 @@ ENV PYTHONUNBUFFERED 1
 
 ENV AIRFLOW_HOME=/app/airflow
 
-WORKDIR $AIRFLOW_HOME
+# Install curl and mysql that will be needed for our tests
+RUN apt-get update && apt-get install -y curl \
+    gcc default-mysql-server default-libmysqlclient-dev
 
-RUN apt-get update \
-    && apt-get -y upgrade \
-    && apt-get -y install gnupg2 wget lsb-release\
-    && sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
-    && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-    && apt-get update \
-    && apt-get -y install curl postgresql-14 postgresql-contrib gcc default-mysql-server default-libmysqlclient-dev\
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR $AIRFLOW_HOME
 
 COPY scripts scripts
 RUN chmod +x scripts/entrypoint.sh
-RUN chmod +x scripts/init_connections.sh
 
 COPY pyproject.toml poetry.lock ./
 

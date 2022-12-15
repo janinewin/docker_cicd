@@ -1,8 +1,11 @@
+data/
+database/
+logs/**
+!**/.gitkeep
 airflow.cfg
 airflow.db
 webserver_config.py
-logs/**
-database/
-data/*/*.parquet
+tests/temp/*
+!tests/temp/.gitkeep
 !**/.gitkeep
-!**/tests/data/**
+!**/tests/data/*

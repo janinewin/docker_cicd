@@ -2,9 +2,7 @@ import os
 from datetime import datetime
 
 from airflow import DAG
-
-# IMPORT YOUR PACKAGES HERE
-
+from airflow.operators.bash import BashOperator
 
 AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
 
@@ -15,4 +13,13 @@ with DAG(
     end_date=datetime(2021, 12, 31),
     schedule_interval="@monthly",
 ) as dag:
-    pass  # YOUR CODE HERE
+    object_name = "yellow_tripdata_" + "{{ ds[:7] }}.parquet"
+    trip_data_url = f"https://d37ci6vzurychx.cloudfront.net/trip-data/{object_name}"
+    filename = f"{AIRFLOW_HOME}/data/bronze/{object_name}"
+
+    curl_trip_data_task = BashOperator(
+        task_id="curl_trip_data",
+        bash_command=f"curl {trip_data_url} > {filename}",
+    )
+
+    curl_trip_data_task

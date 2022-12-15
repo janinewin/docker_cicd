@@ -109,13 +109,13 @@ In the browser, going to `http://localhost:3001` will forward the requests to th
 
 Note: you don't need to give the local port a different number, that was just for demo purposes.
 
-<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D1/port-forwarding-vscode.png">
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D1/port-forwarding-vscode.png" width=400>
 
 ## Select the correct "Python interpreter"
 
 In your exercise's directory, type `which python` to get the path to the right Python for the exercise, previously installed for you. In VSCode, open the commande palette, type `Python: Select interpreter` and then paste the path from `which python`. This will ensure the autocomplete works as expected.
 
-<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/vs-code-select-interpreter.png" width=600>
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/vs-code-select-interpreter.png" width=400>
 
 You may have noticed that it works automatically if you open VScode exactly at the challenge root. It's because we setup for you the following parameters in your VSCode settings (have a look and try to find it)
 ```json
@@ -291,7 +291,7 @@ Below is a diagram summing up and explaining the two levels of ports mapping you
 
 ![Port mapping explained](https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/assets/Ports.drawio.png)
 
-## Error proxy: listen tcp4 0.0.0.0:xxx: bind: "address already in use"
+### Error proxy: listen tcp4 0.0.0.0:xxx: bind: "address already in use"
 It often comes from a previous challenge's container that wasn't correctly removed.
 
 ```bash
@@ -300,3 +300,26 @@ sudo ss -lptn 'sport = :5432'  # e.g. users:(("postgres",pid=790,fd=3))
 # Then, you can kill this process if you are sure
 sudo kill 790
 ```
+
+### Blank page on localhost:xxxx without error messages
+First check if port-forwarding is well activated in VScode "port" tab on your VM.  
+If still doesn't fix it, it may be an backlog of badly closed port-forwarding that you need to kill manually:
+- check on your local machine what's running on this specific xxxx port you try to get
+  ```bash
+  # Mac os
+  lsof -i tcp:xxx
+
+  # linux
+  sudo ss -lptn 'sport = :xxx'
+  ```
+- if you see something that starts as below It can be an old connexion that you can kill manually with `kill 6679`
+  ```
+  Code\x20H 6679 .... (CLOSED)
+  ```
+- Try again to forward port on your VM-VScode and see if that's better, rebooting VScode too.
+- If none of this work, port-forward via command line in your local machine
+
+  ```bash
+  # On your local machine (not your VM)
+  ssh -L xxx:localhost:xxx <vm_IP_address>
+  ```

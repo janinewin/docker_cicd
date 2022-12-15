@@ -6,7 +6,7 @@ More precisely, we will have 3 containers running:
 - a postgres db storing airflow metadata
 - 2 Airflow services (scheduler + webserver), in which we will **mount** our DBT folders.
 
-The *actual datasets and models* will be saved in Big Query.
+The *actual datasets and models* will then be saved in Big Query.
 
 # 1️⃣ Setup
 

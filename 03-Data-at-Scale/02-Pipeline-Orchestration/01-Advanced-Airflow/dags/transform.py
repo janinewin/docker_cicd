@@ -51,4 +51,34 @@ with DAG(
     end_date=datetime(2021, 12, 31),
     schedule_interval="@monthly",
 ) as dag:
+    date = "{{ ds[:7] }}"
+    bronze_file = f"{AIRFLOW_HOME}/data/bronze/yellow_tripdata_{date}.parquet"
+    silver_file = f"{AIRFLOW_HOME}/data/silver/yellow_tripdata_{date}.csv"
+
+    wait_for_extract = ExternalTaskSensor(
+        task_id="extract_sensor",
+        # YOUR CODE HERE
+    )
+
+    is_month_odd_task = BranchPythonOperator(
+        task_id="is_month_odd",
+        # YOUR CODE HERE
+    )
+
+    filter_long_trips_task = PythonOperator(
+        task_id="filter_long_trips",
+        # YOUR CODE HERE
+    )
+
+    filter_expensive_trips_task = PythonOperator(
+        task_id="filter_expensive_trips",
+        # YOUR CODE HERE
+    )
+
+    end_task = EmptyOperator(
+        task_id="end",
+        # YOUR CODE HERE
+    )
+
+    # Organise your tasks hierachy here
     pass  # YOUR CODE HERE
