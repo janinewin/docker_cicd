@@ -59,5 +59,4 @@ with DAG(
     )
     
     # Organise your tasks hierachy here
-    (wait_for_transform_task >> upload_local_file_to_gcs_task >> create_dataset_task >> create_table_task >> remove_existing_data_task >> load_to_bigquery_task)
-    # $CHA_END
+    pass  # YOUR CODE HERE
