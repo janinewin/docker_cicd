@@ -53,7 +53,7 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
     apt-get install -y python3-pip
     ```
 1. Install fastapi (0.78.0), SQLAlchemy (1.4.36), Alembic (1.7.7) and, uvicorn[standard] (0.17.6)
-1. Create `WORKDIR` server
+1. Create `WORKDIR` app
 1. Copy the complete current directory into the working directory `/server`
 1. Excludes useless files with `.dockerignore`
     ```markdown
@@ -240,7 +240,6 @@ Previously we installed our own version of python, pip and other dependencies. T
     docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest <your_image_name:tag>
     ```
 1. Inspect the layers, check the image size, check the wasted space.
-1. Push the slim image to remote hub
 
 **🧪 Test your code with `make testTask3-2`**
 
@@ -252,7 +251,7 @@ So far, we've been focusing on inspecting built **images** with dive.
 Let's now *run* an image and inspect what's insider a running container!
 
 - 🆚 Install [VS Code Docker extension](https://code.visualstudio.com/docs/containers/overview)
-- Run your latest `nonroot-image-fastapi:dev` image with interactive shell control:
+- Run your latest `base-image-fastapi:dev` image with interactive shell control:
 ```bash
 docker run --rm -it -p 8000:8000 base-image-fastapi:dev /bin/bash
 ```
