@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.14, pytest-7.1.2, pluggy-1.0.0 -- /home/brunolajoie/code/lewagon/data-engineering-solutions/02-Data-Storage-and-Batch-Pipelines/03-ETL-and-introduction-to-Airflow/01-Breaking-Bad/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/brunolajoie/code/lewagon/data-engineering-solutions/02-Data-Storage-and-Batch-Pipelines/03-ETL-and-introduction-to-Airflow/01-Breaking-Bad, configfile: pyproject.toml
+plugins: anyio-3.6.2
+collecting ... collected 15 items / 5 deselected / 10 selected
+
+tests/test_dag_config.py::TestDagConfig::test_dag_config PASSED          [ 10%]
+tests/test_python_functions.py::test_create_file_if_not_exist_with_new_file PASSED [ 20%]
+tests/test_python_functions.py::test_create_file_if_not_exist_with_existing_file PASSED [ 30%]
+tests/test_python_functions.py::test_is_quote_new_with_existing_quote PASSED [ 40%]
+tests/test_python_functions.py::test_get_quote_and_save_if_new_with_new_quote PASSED [ 50%]
+tests/test_python_functions.py::test_get_quote_and_save_if_new_with_existing_quote PASSED [ 60%]
+tests/test_setup.py::test_setup_webserver PASSED                         [ 70%]
+tests/test_tasks_configs.py::TestTasksConfigs::test_tasks PASSED         [ 80%]
+tests/test_tasks_configs.py::TestTasksConfigs::test_create_file_if_not_exist_task PASSED [ 90%]
+tests/test_tasks_configs.py::TestTasksConfigs::test_get_quote_and_save_if_new_task PASSED [100%]
+
+======================= 10 passed, 5 deselected in 1.53s =======================

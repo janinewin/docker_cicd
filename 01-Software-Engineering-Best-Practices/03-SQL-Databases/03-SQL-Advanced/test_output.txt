@@ -1,0 +1,16 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.14, pytest-7.1.2, pluggy-1.0.0 -- /home/brunolajoie/.cache/pypoetry/virtualenvs/00-setup-exercise-XgwHu7Iv-py3.8/bin/python
+cachedir: .pytest_cache
+rootdir: /home/brunolajoie/code/lewagon/data-engineering-solutions/01-Software-Engineering-Best-Practices/03-SQL-Databases/03-SQL-Advanced, configfile: pyproject.toml
+collecting ... collected 8 items
+
+tests/test_exercice_1.py::test_correct_columns PASSED                    [ 12%]
+tests/test_exercice_1.py::test_correct_filters PASSED                    [ 25%]
+tests/test_exercice_2.py::test_correct_columns_and_size PASSED           [ 37%]
+tests/test_exercice_2.py::test_correct_metric_calculation PASSED         [ 50%]
+tests/test_exercice_3.py::test_correct_columns_and_size PASSED           [ 62%]
+tests/test_exercice_3.py::test_correct_yoy_values PASSED                 [ 75%]
+tests/test_exercice_4.py::test_correct_columns_and_size PASSED           [ 87%]
+tests/test_exercice_4.py::test_correct_metric_calculation PASSED         [100%]
+
+============================== 8 passed in 1.36s ===============================
