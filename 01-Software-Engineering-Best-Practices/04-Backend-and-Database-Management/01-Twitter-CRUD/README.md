@@ -282,11 +282,25 @@ This one is slightly more complex, because you cannot create two users that have
 - If so, raise HTTPException
 - If not, call `crud.create_user` to create a python instance of User within the current alchemy [db Session](https://docs.sqlalchemy.org/en/14/orm/session_basics.html), then add and commit it to the db.
 
-💡 Test your code and actually create a user using the API docs!
+🧪 Test your code and actually create a user using the API docs!
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D4/try.png" width=400>
 
+You can now run the `users` tests (feel free to check them out for code to test apis!):
+
+```bash
+make test_users
+```
+
+If you have 3/3
+
+```bash
+git add .
+git commit -m "users done"
+git push origin main
+```
 
 </details>
+
 
 # 5️⃣ Tweets 🦜
 
@@ -351,7 +365,23 @@ alembic upgrade head
 - Start by the `POST/users/{user_id}/tweets/` route, and create some tweets!
 - Then, code the `GET/users/{user_id}/tweets/,` route and check that the relationship works by using `user.tweets` syntax
 
+🧪 You can now run the `tweets` tests:
+
+```bash
+make test_tweets
+```
+
+If you have 3/3
+
+```bash
+git add .
+git commit -m "tweets done"
+git push origin main
+```
+
 </details>
+
+
 
 # 6️⃣ Likes ❤️ (optional)
 
@@ -391,5 +421,20 @@ ADD COLUMN like_count INT DEFAULT 0
     - *A "tweet" has many "likers"*
 
 🏁 **Congratulation! You're now able to build your own REST API!**
+
+Let us know your progress status by running
+```bash
+make test
+```
+
+```bash
+git add .
+git commit -m "completed twitter api"
+git push origin main
+```
+
+### Optional Challenge: 
+
+If you're done already, have a look at the way we build our tests, using a FastAPI [TestClient](https://fastapi.tiangolo.com/tutorial/testing/) to spawn a new server at each test, as well as a temporary local sqlite database to mimic your postgres! 
 
 </details>
