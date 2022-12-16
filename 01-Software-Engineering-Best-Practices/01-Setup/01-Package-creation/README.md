@@ -1,10 +1,8 @@
-# Using poetry
-
 🎯 This exercise will use **poetry** to create a toolbox that will be published and available to install anywhere!
 
-## 1) Creating the `de_toolkit` package
+# 1️⃣ Creating the `de_toolkit` package
 
-### 1.1) Lets start by creating a new poetry package!
+## 1.1) Lets start by creating a new poetry package!
 
 <details>
 <summary markdown='span'>If you need a quick refresher on python packages</summary>
@@ -60,11 +58,8 @@ deng = '<user.github_nickname>_de_toolkit.main:cli'
 ```
 Now we can run our cli with `poetry run deng` instead 👌
 
-🤔 **How to select VS-code Python interpreter and enable IDE-capabilities if not active?**
 
-<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/vs-code-select-interpreter.png">
-
-### 1.2) Core logic
+## 1.2) Core logic
 🎯 The goal of this package is to help you start and stop your VM every morning and evening in one line of code!
 
 At the end, we'll want to use it as follows, from your local machine:
@@ -135,7 +130,8 @@ Commands:
 
 <br>
 
-## 2) Publish to pypi
+# 2️⃣ Publish to pypi
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D1/pypi-logo.png" width=100>
 
 🎯 Now we have our cli we want to publish it to make avaliable from any computer with python without needing the `.py` files.
 
@@ -143,7 +139,6 @@ The python package index (know as pypi) is where packages that you can install d
 
 <br>
 
-![pypi logo](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D1/pypi-logo.png)
 
 ❓ Signup to [pypi](https://pypi.org/account/register/). Then create an api token from
 [account settings](https://pypi.org/manage/account/) and make sure it has the scope entire account so that it can generate new projects!
@@ -182,7 +177,7 @@ Now go to [your package](https://pypi.org/project/<user.github_nickname>-de-tool
 
 <br>
 
-## 3) Publish to private repository instead with `Gemfury`
+# 3️⃣ Publish to private repository instead with `Gemfury`
 
 
 There are plenty of solutions for private repositories even hosting them [yourself](https://pypi.org/project/pypiserver/)! For ease we will use [gemfury](https://gemfury.com/), you can login with github and then go to this [page](https://manage.fury.io/manage/<user.github_nickname>/tokens/full) to get a full access token.
@@ -214,9 +209,10 @@ You can see this workflow is slightly more long-winded than publishing to pypi b
 
 <br>
 
-## 4) Install your private package to you LOCAL machine
+# 4️⃣ Install your private package to you LOCAL machine
 
-🚨 ONLY DO THIS IF PYTHON IS INSTALLED ON YOUR LOCAL HOST MACHINE, OTHERWISE SKIP.
+>🚨 *ONLY DO THIS SECTION IF PYTHON IS INSTALLED ON YOUR LOCAL HOST MACHINE, OTHERWISE SKIP.*
+
 - You do not need to have python locally installed on your machine for this bootcamp
 - You don't have time to configuring your local machine today
 
@@ -239,6 +235,6 @@ Option 2: Just give the gemfury as a one-off, with pip or pipx
 pipx install <user.github_nickname>-de-toolkit --pip-args='--extra-index-url https://<YOUR_GEMFURY_TOKEN_HERE>@repo.fury.io/<user.github_nickname>/'
 ```
 
-👉 Try to `deng connect` !
-👉 `deng stop` every evening
-👉 `deng start` every morning
+👉 Try to `deng connect` !  
+👉 `deng stop` every evening  
+👉 `deng start` every morning  
