@@ -175,9 +175,7 @@ import random
 
 class Game:
     def __init__(self):
-        self.grid = []
-        for _ in range(9):
-            self.grid.append(random.choice(string.ascii_uppercase))
+        self.grid = random.choices(string.ascii_uppercase, k=9)
 ```
 
 </details>
