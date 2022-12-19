@@ -160,16 +160,16 @@ sudo crontab -e
 The syntax for cron is a little strange but for instance, to run `echo` once a day at 8pm you would write:
 
 ```bash
-0 8 * * * echo "I'm going to be printed every day at 8pm"
+0 20 * * * echo "I'm going to be printed every day at 8pm"
 ```
 
-This [website](https://crontab.guru/#0_8_*_*_*) is great for checking your syntax!
+This [website](https://crontab.guru/#0_20_*_*_*) is great for checking your syntax!
 
 <details>
   <summary markdown='span'>💡 crontab solution</summary>
 
 ```bash
-0 8 * * * systemctl start check_ssh.time
+0 20 * * * systemctl start check_ssh.time
 ````
 
 </details>
