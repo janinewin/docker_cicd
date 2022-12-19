@@ -134,7 +134,7 @@ Commands:
 # 2️⃣ Publish to pypi
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D1/pypi-logo.png" width=100>
 
-🎯 Now we have our cli we want to publish it to make avaliable from any computer with python without needing the `.py` files.
+🎯 Now we have our cli we want to publish it to make available from any computer with python without needing the `.py` files.
 
 The python package index (know as pypi) is where packages that you can install directly with `pip` or in our case `poetry` so that your package can available on a new setup without having to re-clone the repository.
 
