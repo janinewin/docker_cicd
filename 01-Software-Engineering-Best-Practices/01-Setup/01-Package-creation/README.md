@@ -101,7 +101,8 @@ gcloud compute instances start --zone=<vm zone> <vm name>
 # stop vm
 gcloud compute instances stop --zone=<vm zone> <vm name>
 # code into vm
-code --folder-uri vscode-remote://ssh-remote+<vm ip>/<path inside vm>
+code --folder-uri vscode-remote://ssh-remote+username@<vm ip>/<path inside vm>
+# eg. code --folder-uri vscode-remote://ssh-remote+brunolajoie@35.240.107.210/home/brunolajoie/
 ```
 </details>
 
