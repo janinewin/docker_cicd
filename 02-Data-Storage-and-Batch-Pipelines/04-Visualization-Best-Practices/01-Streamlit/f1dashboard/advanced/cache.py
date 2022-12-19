@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 class F1Cache:
     def cache_key_value(self, key, value):
         st.session_state[key] = value

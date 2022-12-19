@@ -1,14 +1,13 @@
+import altair as alt
+import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
-import matplotlib.pyplot as plt
-
 from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
-import altair as alt
 
 
 conn_string = URL.create(**st.secrets["postgres"])
-conn = create_engine(conn_string, echo = False)
+conn = create_engine(conn_string, echo=False)
 
 pass  # YOUR CODE HERE
 def load_data():
@@ -21,6 +20,7 @@ def load_data():
     data = pd.read_sql_query("select * from races", conn)
     return data
 
+
 def create_main_page():
     """
     Creates the following Streamlit headers:
@@ -32,12 +32,14 @@ def create_main_page():
     st.title("Formula 1 Dashboard")
     pass  # YOUR CODE HERE
 
+
 def summary_statistics(data):
     """
     Creates a subheader and writes the summary statistics for the data
     """
     st.subheader("Summary statistics")
     pass  # YOUR CODE HERE
+
 
 @st.experimental_memo
 def top_drivers():
@@ -53,6 +55,7 @@ def top_drivers():
     top_drivers = "Write a query to get the top 5 drivers and visualize the results."
     pass  # YOUR CODE HERE
     return lewis_points
+
 
 def session_state(data):
     """
@@ -73,7 +76,8 @@ def session_state(data):
     # Update the session state using the dataframe
     pass  # YOUR CODE HERE
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     create_main_page()
 
     data = load_data()
@@ -81,6 +85,9 @@ if __name__ == '__main__':
 
     summary_statistics(data)
     session_state(data)
+
+    st.subheader("session state data")
+    st.write(st.session_state["data"])
 
     st.subheader("Top 5 Drivers")
     top_driver_data = top_drivers()

@@ -6,7 +6,12 @@
 By the end of the setup, you should have a working stack using docker-compose (PostgreSQL, Streamlit) with the Formula 1 database loaded into PostgreSQL after running a SQL script in DBeaver. You will be able to access the Streamlit app at http://localhost:8501.
 
 ### Instructions 📔
-1. Run `make download-sql-file`. This will download a SQL file that you need to run in DBeaver in order to create the data for today (we will do this in a later step).
+1. Run the following command:
+```
+curl --output ./database/init/f1db.sql.gz https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/f1/f1db.sql.gz
+```
+
+This will download a SQL file that you need to run in DBeaver in order to create the data for today (we will do this in a later step). It is still zipped, unzip it yourself using the `gzip` command from the terminal.
 
 2. In the `docker-compose-basic.yml` file - create the database service:
 - based on PostgreSQL 14
