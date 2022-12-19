@@ -69,7 +69,7 @@ We just created a CSS stylesheet and the HTML template for the Home page. Let's 
 # pylint: disable=missing-docstring
 
 from flask import Flask, render_template
-from longest_world.game import Game
+from longest_word.game import Game
 
 app = Flask(__name__)
 
@@ -247,7 +247,7 @@ According to the [Google App Engine docs](https://cloud.google.com/appengine/doc
 This entrypoint should simply call your app instantiated in `wsgi.py`
 
 ```python
-from longest_word.wsgi import app
+from wsgi import app
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
