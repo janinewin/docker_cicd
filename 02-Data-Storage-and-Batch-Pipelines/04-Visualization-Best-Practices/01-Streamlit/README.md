@@ -81,14 +81,12 @@ to be reusable across different pages in Streamlit, implement that functionality
 - Copy and paste the contents of `docker-compose-basic.yml` to `docker-compose-advanced.yml`, but change the Streamlit file that you run from `command: ["streamlit", "run", "f1dashboard/basic.py"]` to `command: ["streamlit", "run", "f1dashboard/advanced.py"]`.
 - Run `docker-compose -f docker-compose-advanced.yml up`
 - Convert your basic application into a multi-page app. In the `pages` folder there are two files. Each of these files create a separate page in the Streamlit app, which is visible in the sidebar. To keep the app clean, you can implement different parts of your application functionality on different pages. To also keep your code clean you are also going to separate the code that you created in `basic.py` into different files. All things considered, use the following structure:
-  - `pages/01_descriptives.py` - Import the relevant libraries, load the data and implement your `summary_statistics` function here
-  - `pages/02_visualizations.py` - Import the relevant libraries, load the data and move your visualizations to this page
+  - `pages/01_descriptives.py` - Implement your `summary_statistics` function here
+  - `pages/02_visualizations.py` - Move your visualizations to this page
   - `advanced/database.py` - For initializing the database connection
   - `advanced/cache.py` - The session_state() function
-  - `advanced/constants.py` - The constants that you use in your code
   - `advanced/queries.py` - Your queries for retrieving the data
-  - `advanced/transforms.py` - Any additional Python transformations if needed
-  - `advanced.py` - The code with the Streamlit commands on the main page, this is the file where all the results come together and you use Streamlit commands to show the results on the web page.
+  - `advanced.py` - The code with the Streamlit commands on the main page
 
 ## Storytelling 📢
 Now that the engineering structure is in place, it is time to explore the data further 📊 . You have been assigned to a Formula 1 team in pairs, and it is your job to give a presentation to the management of your team (played by the TA and teacher) on how well you think your team will perform in 2019 based on data from previous years. 📈

@@ -1,11 +1,17 @@
 import pandas as pd
 import streamlit as st
-from advanced.cache import F1Cache
+from advanced.database import F1Database
 
-# $CHALLENGIFY_BEGIN
+
 class F1Queries:
-    def __init__(self, databaseConnection, f1Cache: F1Cache) -> None:
-        self.conn = databaseConnection
+    def __init__(self) -> None:
+        self.conn = F1Database().db_connection
+
+        # Mapping of the methods in this class to the names of the queries
+        self.method_mapping = {
+            "top_drivers": self.top_drivers,
+            "lewis_years": self.lewis_over_the_years,
+        }
 
     # # Perform query.
     # # Uses st.experimental_memo to only rerun when the query changes or after 10 min.
@@ -52,11 +58,9 @@ class F1Queries:
                         - driver_name
                         - total_points
         """
-        top_drivers = (
-            "Write a query to get the top 5 drivers and visualize the results."
-        )
+        top_drivers = "Write a query to get the top 5 drivers and visualize the results."
         top_drivers = self._run_query(
-            f"""
+            """
         select
             concat(forename,' ',surname) as driver_name,
             sum(points) as total_points
@@ -89,7 +93,7 @@ class F1Queries:
         """
         lewis_points = "Write a query to get the points of Lewis Hamilton over the years and visualize the results."
         lewis_points = self._run_query(
-            f"""
+            """
         with lewis_id as (
             select driver_id from drivers where surname = 'Hamilton'
         ),

@@ -1,16 +1,9 @@
-import altair as alt
-import pandas as pd
 import streamlit as st
-from advanced.cache import F1Cache
-from advanced.database import F1Database
-from advanced.queries import F1Queries
 
 
 class F1Dashboard:
     def __init__(self) -> None:
-        self.f1_cache = F1Cache()
-        self.f1_database = F1Database()
-        self.f1_queries = F1Queries(self.f1_database.db_connection, self.f1_cache)
+        pass
 
     def introduction_page(self):
         """Layout the views of the dashboard"""
