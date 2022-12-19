@@ -64,8 +64,8 @@ Now we can run our cli with `poetry run deng` instead 👌
 
 At the end, we'll want to use it as follows, from your local machine:
 
-1️⃣ `deng connect`: Start the vm (using `gcloud`)
-2️⃣ `deng start`: Stop the vm (using `gcloud`)
+1️⃣ `deng start`: Start the vm (using `gcloud`)
+2️⃣ `deng stop`: Stop the vm (using `gcloud`)
 3️⃣ `deng connect` Connect directly to VScode inside your challenge folder!
 
 ❓ Create a new file `touch <user.github_nickname>_de_toolkit/vm.py` to contain our vm commands and **Try to implement these** in the function shells below using the inbuilt [subprocess](https://docs.python.org/3/library/subprocess.html) module!
@@ -212,7 +212,7 @@ You can see this workflow is slightly more long-winded than publishing to pypi b
 
 # 4️⃣ Install your private package to you LOCAL machine
 
->🚨 *ONLY DO THIS SECTION IF PYTHON IS INSTALLED ON YOUR LOCAL HOST MACHINE, OTHERWISE SKIP.*
+>🚨 *ONLY DO THIS SECTION IF PYTHON IS INSTALLED ON YOUR LOCAL HOST MACHINE, OTHERWISE PLEASE SKIP.*
 
 - You do not need to have python locally installed on your machine for this bootcamp
 - You don't have time to configuring your local machine today
@@ -233,6 +233,9 @@ pip install <user.github_nickname>-de-toolkit
 Option 2: Just give the gemfury as a one-off, with pip or pipx
 
 ```bash
+# Inside your local python virtualenv
+pip install <user.github_nickname>-de-toolkit --index-url https://<your-token>@repo.fury.io/<gemfury-username>/
+# OR globally with pipx
 pipx install <user.github_nickname>-de-toolkit --pip-args='--extra-index-url https://<YOUR_GEMFURY_TOKEN_HERE>@repo.fury.io/<user.github_nickname>/'
 ```
 
