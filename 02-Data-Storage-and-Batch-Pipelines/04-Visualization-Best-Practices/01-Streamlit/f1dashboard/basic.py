@@ -1,5 +1,4 @@
 import altair as alt
-import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 from sqlalchemy import create_engine
@@ -8,16 +7,32 @@ from sqlalchemy.engine.url import URL
 
 conn_string = URL.create(**st.secrets["postgres"])
 conn = create_engine(conn_string, echo=False)
+tables = [
+    "races",
+    "circuits",
+    "constructor_results",
+    "constructor_standings",
+    "constructors",
+    "driver_standings",
+    "drivers",
+    "lap_times",
+    "pit_stops",
+    "qualifying",
+    "results",
+    "seasons",
+    "status",
+]
+
 
 pass  # YOUR CODE HERE
-def load_data():
+def load_data(table_name):
     """
     Loads the races data from the F1 database.
     Implement the right caching decorator.
     Returns:
         pd.DataFrame: The race dataset
     """
-    data = pd.read_sql_query("select * from races", conn)
+    data = pd.read_sql_query(f"select * from {table_name}", conn)
     return data
 
 
@@ -31,6 +46,7 @@ def create_main_page():
     """
     st.title("Formula 1 Dashboard")
     pass  # YOUR CODE HERE
+    return selected_table
 
 
 def summary_statistics(data):
@@ -78,16 +94,13 @@ def session_state(data):
 
 
 if __name__ == "__main__":
-    create_main_page()
+    selected_table = create_main_page()
 
-    data = load_data()
+    data = load_data(selected_table)
     st.dataframe(data)
 
     summary_statistics(data)
     session_state(data)
-
-    st.subheader("session state data")
-    st.write(st.session_state["data"])
 
     st.subheader("Top 5 Drivers")
     top_driver_data = top_drivers()

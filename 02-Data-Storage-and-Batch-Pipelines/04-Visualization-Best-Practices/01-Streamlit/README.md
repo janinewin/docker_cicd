@@ -67,13 +67,12 @@ Use the [documentation](https://docs.streamlit.io/library/api-reference) of Stre
 In the `f1dashboard` folder there is a file called `basic.py`. It is already
 partly filled with code, but your goal is to enhance the main Streamlit page
 with the following:
-- Add the right caching decorator to the `load_data()` function
-- Create a Streamlit subheader using the `create_main_page()` function. You should also have a title and subheader in the sidebar.
-- Do some summary statistics on the data using the `describe()` method from the `Pandas` package
+- Add the right caching decorator to the `load_data()` function. This function loads the data from the database
+- Create a Streamlit subheader in the `create_main_page()` function. You should also have a title and subheader in the sidebar. Use the `selectbox` widget to choose a table to load from the `load_data()` function
+- Do summary statistics on the data using the `describe()` method from the `Pandas` package in the `summary_statistics` function
 - Create a bar chart that shows the number of points for the 5 best-performing drivers in descending order (show the driver with the most points on the left side of the graph). Write a query in the `top_driver()` function to retrieve the data and create a bar chart under `if __name__ == '__main__':` after having assigned the data to `top_driver_data`.
-- Create a line chart with the number of points for the driver **Lewis Hamilton** over the years
-- The data that is loaded needs to be stored into the session state for it
-to be reusable across different pages in Streamlit, implement that functionality in the `session_state()` function.
+- Create a line chart with the number of points for the driver **Lewis Hamilton** over the years, with years on the x-axis and the number of points on the y-axis
+- The data that is loaded needs to be stored into the session state for it to be reusable across different pages in Streamlit. Add the loaded_data into the Streamlit session state in the `session_state()` function.
 
 **Commit and push** your code when you are finished.✨
 
@@ -83,6 +82,8 @@ to be reusable across different pages in Streamlit, implement that functionality
 - Convert your basic application into a multi-page app. In the `pages` folder there are two files. Each of these files create a separate page in the Streamlit app, which is visible in the sidebar. To keep the app clean, you can implement different parts of your application functionality on different pages. To also keep your code clean you are also going to separate the code that you created in `basic.py` into different files. All things considered, use the following structure:
   - `pages/01_descriptives.py` - Implement your `summary_statistics` function here
   - `pages/02_visualizations.py` - Move your visualizations to this page
+
+  A lot of the other code has already been implemented. Object-oriented-programming is used to create classes and methods.
   - `advanced/database.py` - For initializing the database connection
   - `advanced/cache.py` - The session_state() function
   - `advanced/queries.py` - Your queries for retrieving the data
