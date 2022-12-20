@@ -1,0 +1,15 @@
+FROM golang:1.19.4 AS builder
+
+WORKDIR /go/src/github.com/ogiles1999/ping/
+
+RUN go mod init  \
+    && go mod tidy \
+    && go get github.com/gin-gonic/gin
+
+COPY . .
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/main
+
+ENV GIN_MODE=release
+
+CMD ["/go/bin/main"]
