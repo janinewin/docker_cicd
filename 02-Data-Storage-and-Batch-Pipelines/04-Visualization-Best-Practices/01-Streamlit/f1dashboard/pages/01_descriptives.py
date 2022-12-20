@@ -1,5 +1,6 @@
 import streamlit as st
 from advanced.cache import F1Cache
+from advanced.constants import F1Constants
 from advanced.database import F1Database
 from advanced.queries import F1Queries
 
@@ -15,7 +16,6 @@ class DescriptiveStatistics:
         """Select the table to explore"""
         with st.sidebar:
             st.subheader("Select table to explore")
-            st.sidebar.warning("Implement your selectbox widget to select a table from the database")
             self.selected_table = "races"
             pass  # YOUR CODE HERE
 
