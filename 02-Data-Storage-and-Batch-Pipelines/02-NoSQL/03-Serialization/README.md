@@ -1,7 +1,5 @@
 # APIs, JSON + HTTP versus Protobuf + gRPC
 
-❗️ Before you begin this exercise, it is required to _at least_ read until `4. Load it with Pandas` from the `Serialization` exercise.
-
 ## Introduction
 
 First of all, let's remember what an API is.
@@ -27,14 +25,9 @@ An API is here to delimit the bits of your code that you'd like to expose to the
 
 And ideally, it's language-agnostic, meaning it's accessible from Python, Go, Rust, C++, Java, Javascript, etc. And even web browsers, apps like Postman (but that's because they use one of the programming languages mentioned earlier 👈  of course).
 
-In the `Serialization` exercise, we've talked about two dualities:
-
-- CSV and Parquet -- and we've played with both.
-- JSON and Protobuf. In this exercise, we'll play with both and expose JSON data, and Protobuf data, in their respective APIs.
+We'll build simple APIs, then more complex ones, for both formats that we discussed in the lecture:
   - For JSON, it will be a HTTP API using the [popular and modern FastAPI library](https://fastapi.tiangolo.com/). You may have heard of [Flask](https://flask.palletsprojects.com/en/2.1.x/), it's similar but for modern, typed, asynchronous Python 3.x.
   - For Protobuf, it will be a [gRPC](https://grpc.io/) API. Note we'll use Protobuf version 3 for the record.
-
-We'll build simple APIs, then more complex ones, for both formats.
 
 ### Before we start, let's discover the Python packages we'll use
 
@@ -60,9 +53,9 @@ for the Protobuf + gRPC part.
 
 ## First off, let's write our JSON HTTP API ⛏️
 
-> We'll edit the file `lwapi/jsonrpc.py`.
+> We'll edit the file `src/json_rest.py`.
 
-Let's start simple, we want to return the current hour `h`, minute `m`, second `s`, broken down in a JSON that looks like this.
+Let's start simple, we want to return the current hour `h`, minute `m`, second `s`, broken down in a JSON that looks something like this.
 
 ```json
 {
@@ -77,7 +70,7 @@ Let's start simple, we want to return the current hour `h`, minute `m`, second `
 <details>
   <summary markdown='span'>💡 Hint</summary>
 
-  Check out the [datetime](https://docs.python.org/3/library/datetime.html) package of the standard library.
+  Check out the [datetime](https://docs.python.org/3/library/datetime.html) package of the standard library. Return the hour, minute and second using this package.
 </details>
 
 Then, hook this function to an endpoint.
@@ -99,7 +92,7 @@ The answer to run the app [lies here](https://fastapi.tiangolo.com/#run-it), but
 
   The tutorial suggests `uvicorn main:app --reload`, because it's
   - a variable `app`, like us
-  - in a file `main.py`, ❗ we don't have this file, we have a file `jsonrpc.py` in a directory `lwapi`. A little bit of help here: `uvicorn` reads that as `lwapi.jsonrpc`
+  - in a file `main.py`, ❗ we don't have this file, we have a file `json_rest.py` in a directory `src`. A little bit of help here: `uvicorn` reads that as `src.json_rest`
   - `--reload` simply says it'll reload the app whenever there is a code change, which is handy in development mode.
 </details>
 
@@ -113,20 +106,11 @@ Once this is running, run `curl http://localhost:8000/time` in your terminal, wh
 
 ## Now Protobuf + gRPC 🔧
 
-Protobuf, by its "compiled" nature, is a different beast 🐈.
+For the record, we're following our own simpler version of the [gRPC Python tutorial](https://grpc.io/docs/languages/python/basics/). You might want to take a look anyways, as that is the official reference.
 
-🚸 **I thought Python wasn't compiled, what are you talking about?**
+### 1. Start writing your `.proto` file
 
-Here, by compilation, we mean there is an extra step required to go from the `.proto` file definition to Python code. Take a look at the generated files
-
-- `lwapi/api_pb2.py` which contains the Protobuf structures
-- `lwapi/api_pb2_grpc.py` which contains the gRPC services.
-
-That probably doesn't make sense just yet. Let's deconstruct the pieces. For the record, we're following our own simpler version of the [gRPC Python tutorial](https://grpc.io/docs/languages/python/basics/). You might want to take a look anyways, as that is the official reference.
-
-### It starts with a `proto` file
-
-All the messages exchanged within our gRPC service are Protobuf messages. And these messages are defined in the `protos/api.proto` file (pre-filled for you), in the `message <> {...}` blocks.
+All the messages exchanged within our gRPC service are Protobuf messages. And these messages are defined in the `protos/api.proto` file (partly pre-filled for you), in the `message <> {...}` blocks.
 
 An example from the official doc
 ```proto
@@ -140,7 +124,7 @@ message Point {
 }
 ```
 
-These protobuf messages define what are the inputs and outputs of any API that uses them.
+These protobuf messages define what are the inputs and outputs of any API that uses them. It is your task to replicate the functionalities from the REST API using GRPC and protobuf.
 
 Now, we also define the API endpoints in the protobuf message, by defining a `service` block, with `rpc` lines. Each `rpc` line is like a new function that can be called on the API. Here is an example from [the official tutorial](https://github.com/grpc/grpc/blob/v1.46.3/examples/protos/helloworld.proto).
 
@@ -152,13 +136,14 @@ service Greeter {
 }
 ```
 
+### 1. Compile your `.proto` file
 Once the protobuf file is well defined, we need to compile it into actual "semi-finished" code. We've written this for you, run `make compile-proto`.
 
 This compilation step
 1. writes the message definitions to be used by Python
 2. writes the API glue code
 
-Cool 👌.
+You can see that two new files were created in the `src` subdirectory.
 
 **There is one last step, fill in the logic!**
 
@@ -192,13 +177,13 @@ Then, like we defined an API service signature for the FastAPI app, we define
   - Tip: each field needs to have a unique number, which increments every time. Check the `message Point` above, note the `=1`, then `=2`, then `=3`.
 </details>
 
-**Task: fill out the `GetTime` service endpoint**
+**Task: fill out the `get_time` service endpoint**
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
 
   - Look at how this is done in the [official tutorial](https://github.com/grpc/grpc/blob/v1.46.3/examples/protos/route_guide.proto#L25)
-  - Something like `rpc GetTime(...) returns (...) {}`
+  - Something like `rpc get_time(...) returns (...) {}`
 </details>
 
 **Task: recompile the protos**
@@ -207,18 +192,18 @@ We've already added the command for that in the `Makefile`: `make compile-proto`
 
 **Task: fill out the service code!**
 
-In `lwapi/protorcp.py`, you'll need to fill out the `GetTime(...)` method of the `Api` class. Again, this mimics what we've done earlier in the HTTP API ; just this time it's a `TimeResponse` instance that is returned.
+In `src/protorcp.py`, you'll need to fill out the `get_time(...)` method of the `Api` class. Again, this mimics what we've done earlier in the HTTP API ; just this time it's a `TimeResponse` instance that is returned.
 
 **Task: test it!**
 
 To put this all together, we've created the server and client code for you to test.
 
-- In one terminal, run `python protorpc_server.py`, this runs a server on a default port 50051.
-- In a second terminal, run `python protorpc_client.py`, this tests a client against this server ✌️.
+- In one terminal, run `python proto_rpc_server.py`, this runs a server on a default port 50051.
+- In a second terminal, run `python proto_rpc_client.py`, this tests a client against this server ✌️.
 
 ## Pimp your APIs! 🍕
 
-This part is a bonus if you feel like a Proto-boss 🤦. Are you up for the challenge? It uses your work from the `Serialization` exercise, so you'll need that completed first. At the very least, do the first part of that exercise, until the CSV data is downloaded and in the `./data` directory. To keep you going in this `APIs` exercise, the code you need to play with the rural CSV data is in the file `lwapi/rural.py`.
+This part is a bonus if you feel like a Proto-boss 🤦. Are you up for the challenge? It uses your work from the `Serialization` exercise, so you'll need that completed first. At the very least, do the first part of that exercise, until the CSV data is downloaded and in the `./data` directory. To keep you going in this `APIs` exercise, the code you need to play with the rural CSV data is in the file `src/rural.py`.
 
 Let's start by creating a `data` directory here, and copying the `API-rural.csv` file from the `Serialization` exercise under this `./data/` directory.
 
@@ -242,10 +227,10 @@ If you've reached this part, congratulations. You should have all the ingredient
 
 2. **Task 2**. Still in the `protos/api.proto` file. Add an `rpc` endpoint in the `service Api` that takes the `RuralRequest` as input and returns a `RuralResponse`.
 
-3. **Task 3**. Recompile the Protobuf code with `make compile-proto` to generate the latest stubs (the 2 `lwapi/api_pb2*.py` files)
+3. **Task 3**. Recompile the Protobuf code with `make compile-proto` to generate the latest stubs (the 2 `src/api_pb2*.py` files)
 
-4. **Task 4**. Now implement the request in Python in `lwapi/protorpc.py`.
+4. **Task 4**. Now implement the request in Python in `src/proto_rpc.py`.
 
 5. **Task 5**. Run the new server.
 
-6. **Task 6**. Adapt the `protorpc_client.py` file to test the request. 👏
+6. **Task 6**. Adapt the `proto_rpc_client.py` file to test the request. 👏

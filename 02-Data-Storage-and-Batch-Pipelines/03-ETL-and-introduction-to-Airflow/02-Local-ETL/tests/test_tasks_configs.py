@@ -17,8 +17,8 @@ os.environ["AIRFLOW_HOME"] = "/app/airflow"
 class TestTasksConfigs:
     dagbag = DagBag(dag_folder=DAG_BAG, include_examples=False)
     hook = SqliteHook(sqlite_conn_id="sqlite_connection")
-    joke_file_prefix = "/app/airflow/data/bronze/joke_"
-    swedified_joke_file_prefix = "/app/airflow/data/silver/swedified_joke_"
+    joke_file_prefix = "/app/data/data/bronze/joke_"
+    swedified_joke_file_prefix = "/app/data/data/silver/swedified_joke_"
     start_date = DateTime(2022, 1, 1, 0, 0, 0, tzinfo=Timezone("UTC"))
 
     def test_tasks(self):
@@ -51,10 +51,12 @@ class TestTasksConfigs:
         assert list(map(lambda task: task.task_id, task.upstream_list)) == []
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["extract"]
 
+    @pytest.mark.optional
     def test_extract_task(self):
         assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="local_etl")
         task = dag.get_task("extract")
+
         assert task.__class__.__name__ == "BashOperator"
         data_url = "https://api.chucknorris.io/jokes/random"
 
@@ -85,7 +87,7 @@ class TestTasksConfigs:
             "transform"
         ]
 
-
+    @pytest.mark.optional
     def test_transform_task(self):
         assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="local_etl")
@@ -116,6 +118,7 @@ class TestTasksConfigs:
         assert list(map(lambda task: task.task_id, task.upstream_list)) == ["extract"]
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["load"]
 
+    @pytest.mark.optional
     def test_load_task(self):
         assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="local_etl")

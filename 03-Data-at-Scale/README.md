@@ -1,5 +1,5 @@
 1. ELT and DBT
-1. Pipeline Orchestration
-1. Scaling-up processing
-1. Streaming
-1. Scaling-up requests
+1. Data transformation
+1. DBT and Airflow
+1. Large database
+1. Best Practices

@@ -35,7 +35,7 @@ There are 4 steps in this setup
 
 ## Build the DBT project
 
-- In your terminal, go at current-challenge root. This is where we'll create the DBT project.
+- In your terminal, go to the `02-Data-at-Scales/01-ELT-DBT/01-Setup-DBT` path. This is where we'll create the DBT project.
 - Once there, you need to init (create the folder structure) of the DBT project - we'll call it `dbt_lewagon`.
   - In command lines, run `dbt init`. When prompted:
     - _Enter a name for your project (letters, digits, underscore)_ Enter: `dbt_lewagon`. If prompted : _The profile dbt_lewagon already exists in ~/.dbt/profiles.yml. Continue and overwrite it?_ Hit `N`.

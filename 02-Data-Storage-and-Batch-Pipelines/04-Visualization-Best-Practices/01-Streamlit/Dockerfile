@@ -22,4 +22,6 @@ EXPOSE 8501
 
 ENTRYPOINT [ "poetry", "run" ]
 
-CMD ["streamlit", "run", "app/basic.py"]
+CMD ["streamlit", "run", "app/main.py"]
+
+#size: 143MB

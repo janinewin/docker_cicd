@@ -7,10 +7,7 @@ authors = ["S. Saunier <seb@lewagon.org>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 pandas = "^1.4.2"
-psycopg2-binary = "^2.9.3"
 pyarrow = "^8.0.0"
-neo4j = "^4.4.4"
-elasticsearch = {extras = ["async"], version = "^8.2.2"}
 openpyxl = "^3.0.10"
 jupyterlab = "^3.4.2"
 fastapi = "^0.78.0"

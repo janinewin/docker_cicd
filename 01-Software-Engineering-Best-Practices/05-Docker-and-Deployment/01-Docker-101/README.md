@@ -5,7 +5,7 @@
 
 **⏩ Feel free to skip to next challenge (DockerFile) if you are already familiar with this**
 
-# 1️⃣ Docker Hub 💻
+## 1) Docker Hub 💻
 
 #### Sign up
 Docker Hub is a hosted repository service provided by Docker for finding and sharing container images with your team. Once you create a Docker ID (a user), you will be able to pull and push images to the Hub.
@@ -24,8 +24,9 @@ You will be prompted for your username and password:
 
 When successful, your terminal should tell you "Login Succeeded" 🙌!
 
+---
 
-# 2️⃣ Hello-World ! 👋
+## 2) Hello-World ! 👋
 
 Let's validate our Docker installation by running our first container: `hello-world`. To do so, run the following in your terminal:
 
@@ -44,7 +45,7 @@ Hello from Docker!
 ```
 
 
-### To see the containers you have running on your VM 👀:
+#### To see the containers you have running on your VM 👀:
 
 ```
 docker ps
@@ -55,14 +56,14 @@ Your `hello-world` container is not running anymore: it exited as soon as it was
 
 In fact, the `docker ps` command can take arguments
 
-### To view all containers (even non-running ones), run:
+#### To view all containers (even non-running ones), run:
 ```
 docker ps -a
 ```
 
 You should see a container here. What is its name ? Which image was used to run it ? What is its state ?
 
-### To view images on your host:
+#### To view images on your host:
 ```
 docker images
 ```
@@ -73,10 +74,11 @@ You should see your `hello-world` image, freshly pulled. You also have access to
 * the image tag (used to convey important information about the image. By default, the tag is "latest",
 * the image size
 
+---
 
-# 3️⃣ Common Docker commands 🎹
+## 3) Common Docker commands 🎹
 
-## 3.1) Run a container
+### 3.1) Run a container
 
 The [**`docker run`**](https://docs.docker.com/engine/reference/run/) command is used to run a container from an image: you should pass the image name to it, like
 ```bash
@@ -112,8 +114,9 @@ Now, you should see an output in your terminal: it looks like your database is i
 
 👉 Stop the container by hitting CTRL-C.
 
+---
 
-## 3.2) Run a container in the background
+### 3.2) Run a container in the background
 
 One other thing you can do, is run a container in the background (using the "detached" mode). This way, your terminal prompt will be available.
 
@@ -129,8 +132,9 @@ docker run -d -e POSTGRES_PASSWORD=password --name=pg postgres
 You should see it running in `docker ps`
 (FYI, docker generates some random names for us if we do not pass any)
 
+---
 
-## 3.3) Access the Postgres database
+### 3.3) Access the Postgres database
 
 Now that your container is running, you might want to run a SQL query.
 Let's first get a bash shell in the container:
@@ -157,9 +161,9 @@ It gives you access to the Postgresql command line, where you could write SQL.
 👉 Exit the `psql` prompt: `\q` + **Enter**
 👉 Exit the container bash shell: `exit` + **Enter**
 
-# 4️⃣ Clean up 🧹
+### 4) Clean up 🧹
 
-## stop & remove containers
+#### stop & remove containers
 
 To stop a container, use the [`docker stop`](https://docs.docker.com/engine/reference/commandline/stop/) command. You will need to pass the container ID, or the container name.
 
@@ -183,7 +187,7 @@ You should see that your container changed state, from `running` to `exited`, bu
 docker rm pg
 ```
 
-## 🧹 remove an image
+#### 🧹 remove an image
 
 So you have stopped and removed your postgres container, but how about the postgres image that your host initially pulled from the Docker Hub.
 

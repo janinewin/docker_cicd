@@ -1,8 +1,10 @@
+# Using poetry
+
 🎯 This exercise will use **poetry** to create a toolbox that will be published and available to install anywhere!
 
-# 1️⃣ Creating the `de_toolkit` package
+## 1) Creating the `de_toolkit` package
 
-## 1.1) Lets start by creating a new poetry package!
+### 1.1) Lets start by creating a new poetry package!
 
 <details>
 <summary markdown='span'>If you need a quick refresher on python packages</summary>
@@ -58,14 +60,17 @@ deng = '<user.github_nickname>_de_toolkit.main:cli'
 ```
 Now we can run our cli with `poetry run deng` instead 👌
 
+🤔 **How to select VS-code Python interpreter and enable IDE-capabilities if not active?**
 
-## 1.2) Core logic
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/vs-code-select-interpreter.png">
+
+### 1.2) Core logic
 🎯 The goal of this package is to help you start and stop your VM every morning and evening in one line of code!
 
 At the end, we'll want to use it as follows, from your local machine:
 
-1️⃣ `deng start`: Start the vm (using `gcloud`)
-2️⃣ `deng stop`: Stop the vm (using `gcloud`)
+1️⃣ `deng connect`: Start the vm (using `gcloud`)
+2️⃣ `deng start`: Stop the vm (using `gcloud`)
 3️⃣ `deng connect` Connect directly to VScode inside your challenge folder!
 
 ❓ Create a new file `touch <user.github_nickname>_de_toolkit/vm.py` to contain our vm commands and **Try to implement these** in the function shells below using the inbuilt [subprocess](https://docs.python.org/3/library/subprocess.html) module!
@@ -101,8 +106,7 @@ gcloud compute instances start --zone=<vm zone> <vm name>
 # stop vm
 gcloud compute instances stop --zone=<vm zone> <vm name>
 # code into vm
-code --folder-uri vscode-remote://ssh-remote+username@<vm ip>/<path inside vm>
-# eg. code --folder-uri vscode-remote://ssh-remote+brunolajoie@35.240.107.210/home/brunolajoie/
+code --folder-uri vscode-remote://ssh-remote+<vm ip>/<path inside vm>
 ```
 </details>
 
@@ -131,15 +135,15 @@ Commands:
 
 <br>
 
-# 2️⃣ Publish to pypi
-<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D1/pypi-logo.png" width=100>
+## 2) Publish to pypi
 
-🎯 Now we have our cli we want to publish it to make available from any computer with python without needing the `.py` files.
+🎯 Now we have our cli we want to publish it to make avaliable from any computer with python without needing the `.py` files.
 
 The python package index (know as pypi) is where packages that you can install directly with `pip` or in our case `poetry` so that your package can available on a new setup without having to re-clone the repository.
 
 <br>
 
+![pypi logo](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D1/pypi-logo.png)
 
 ❓ Signup to [pypi](https://pypi.org/account/register/). Then create an api token from
 [account settings](https://pypi.org/manage/account/) and make sure it has the scope entire account so that it can generate new projects!
@@ -178,7 +182,7 @@ Now go to [your package](https://pypi.org/project/<user.github_nickname>-de-tool
 
 <br>
 
-# 3️⃣ Publish to private repository instead with `Gemfury`
+## 3) Publish to private repository instead with `Gemfury`
 
 
 There are plenty of solutions for private repositories even hosting them [yourself](https://pypi.org/project/pypiserver/)! For ease we will use [gemfury](https://gemfury.com/), you can login with github and then go to this [page](https://manage.fury.io/manage/<user.github_nickname>/tokens/full) to get a full access token.
@@ -210,10 +214,9 @@ You can see this workflow is slightly more long-winded than publishing to pypi b
 
 <br>
 
-# 4️⃣ Install your private package to you LOCAL machine
+## 4) Install your private package to you LOCAL machine
 
->🚨 *ONLY DO THIS SECTION IF PYTHON IS INSTALLED ON YOUR LOCAL HOST MACHINE, OTHERWISE PLEASE SKIP.*
-
+🚨 ONLY DO THIS IF PYTHON IS INSTALLED ON YOUR LOCAL HOST MACHINE, OTHERWISE SKIP.
 - You do not need to have python locally installed on your machine for this bootcamp
 - You don't have time to configuring your local machine today
 
@@ -233,12 +236,9 @@ pip install <user.github_nickname>-de-toolkit
 Option 2: Just give the gemfury as a one-off, with pip or pipx
 
 ```bash
-# Inside your local python virtualenv
-pip install <user.github_nickname>-de-toolkit --index-url https://<your-token>@repo.fury.io/<gemfury-username>/
-# OR globally with pipx
 pipx install <user.github_nickname>-de-toolkit --pip-args='--extra-index-url https://<YOUR_GEMFURY_TOKEN_HERE>@repo.fury.io/<user.github_nickname>/'
 ```
 
-👉 Try to `deng connect` !  
-👉 `deng stop` every evening  
-👉 `deng start` every morning  
+👉 Try to `deng connect` !
+👉 `deng stop` every evening
+👉 `deng start` every morning
