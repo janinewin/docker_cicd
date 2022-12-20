@@ -1,0 +1,10 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.14, pytest-7.1.2, pluggy-1.0.0 -- /home/brunolajoie/.cache/pypoetry/virtualenvs/00-setup-exercise-m7CbduSb-py3.8/bin/python
+cachedir: .pytest_cache
+rootdir: /home/brunolajoie/code/lewagon/data-engineering-solutions/01-Software-Engineering-Best-Practices/03-SQL-Databases/02-SQL-Basics, configfile: pyproject.toml
+collecting ... collected 2 items
+
+tests/test_exercice_4_1.py::test_duplicate_movies_metadata PASSED        [ 50%]
+tests/test_exercice_5.py::test_referential_integrity PASSED              [100%]
+
+============================== 2 passed in 11.43s ==============================

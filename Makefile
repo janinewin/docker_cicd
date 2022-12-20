@@ -1,41 +1,44 @@
 IDU := $(shell id -u)
 IDG := $(shell id -g)
 
-.PHONY: install-base
-install-base:
-	./install.sh
+######## Initial setup #######
 
+# Create all poetry.lock and install requirements in all challenge at once!
 .PHONY: install-poetry
 install-poetry:
 	find . -name pyproject.toml -exec sh -c 'echo $$(exec dirname {}) && cd $$(exec dirname {}) && poetry install' \;
 
-.PHONY: install
-install: install-base install-poetry add-envrc allow-envrc
-
-.PHONY: format
-format:
-	find . -name pyproject.toml -exec sh -c 'cd $$(exec dirname {}) && make format' \;
-
-.PHONY: test
-test:
-	find . -name pyproject.toml -exec sh -c 'cd $$(exec dirname {}) && make test' \;
-
-.PHONY: update
-update:
-	find . -name pyproject.toml -exec sh -c 'echo $$(exec dirname {}) && cd $$(exec dirname {}) && poetry update' \;
-
-.PHONY: add-envrc
-add-envrc:
-	find . -name pyproject.toml -exec sh -c 'echo "layout poetry" > "$$(exec dirname {})/.envrc"' \;
-
+# direnv allow in all challenge at once!
 .PHONY: allow-envrc
 allow-envrc:
 	find . -name pyproject.toml -exec sh -c 'echo $$(exec dirname {}) && cd $$(exec dirname {}) && direnv allow .' \;
 
-.PHONY: del-test-output
-del-test-output:
-	find . -name test_output.txt | xargs rm
-
+# make you the owner of all challenge folders
 .PHONY: own-repo
 own-repo:
 	@sudo chown $(IDU):$(IDG) -R .
+
+.PHONY: install
+install: install-poetry allow-envrc own-repo
+
+######## Ongoing commands #######
+
+# Format all your code everywhere!
+.PHONY: format
+format:
+	find . -name pyproject.toml -exec sh -c 'cd $$(exec dirname {}) && make format' \;
+
+# Run all challenges' tests at once!
+.PHONY: test
+test:
+	find . -name pyproject.toml -exec sh -c 'cd $$(exec dirname {}) && make test' \;
+
+# Update all your virtualenvs at once!
+.PHONY: update
+update:
+	find . -name pyproject.toml -exec sh -c 'echo $$(exec dirname {}) && cd $$(exec dirname {}) && poetry update' \;
+
+# Delete all your test outputs used by Kitt to track your progress
+.PHONY: del-test-output
+del-test-output:
+	find . -name test_output.txt | xargs rm

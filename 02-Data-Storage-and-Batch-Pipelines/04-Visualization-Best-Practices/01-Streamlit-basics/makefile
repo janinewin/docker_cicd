@@ -27,4 +27,4 @@ docs: ## generate Sphinx HTML documentation, including API docs
 test-f1transforms:
 	poetry run pytest -v -k TestF1Transforms
 
-test: pytest
+test: pytest-and-write-output

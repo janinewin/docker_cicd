@@ -4,7 +4,7 @@ Having tests on a repository gives you a tremendous advantage: you can set up [*
 
 The goal of this exercise is to link our version control software with a build automation tool. The idea is that you want the build automation to run every time a commit reaches the version control, in any branch, a build is triggered to give feedback to the developers as soon as possible if this commit is _green_ or _red_ (meaning the tests are passing / the build can complete).
 
-## Tools
+## 1️⃣ Tools
 
 As for version control software, there are many tools available to achieve Continuous Integration:
 
@@ -15,9 +15,9 @@ As for version control software, there are many tools available to achieve Conti
 
 To keep this exercise simple, we will use Github Actions, as it integrates perfectly with GitHub (and you'll see that's important) without any configuration effort on the developer's side. Plus, it's **free** for public GitHub repositories!
 
-## Service installation
+## 2️⃣ Service installation
 
-We will deploy the repository you created in the previous exercise. First, create an empty `longest-word` repository in your Github account. After that you can push your changes:
+We will deploy the repository you created in the previous exercise:
 
 ```bash
 cd ~/code/<user.github_nickname>/longest-word
@@ -26,15 +26,17 @@ git init
 git add .
 git commit -m "Game development with TDD"
 
-git remote add origin git@github.com:<user.github_nickname>/longest-word.git
+gh repo create --public --source=.
 
 git push origin master
+
+code . # Let's work directly on your package for this challenge
 ```
 
 
-## Worfklow CI
+## 3️⃣ Worfklow CI
 
-You now need to write a CI configuration file. Those tools are _generic_, they can build programs in many languages, with many frameworks. We need to be specific and explain to Github Actions that our project is a Python 3 one, that we use `poetry` to handle external dependencies and that we use `nosetests` to run tests.
+You now need to write a CI configuration file. Those tools are _generic_, they can build programs in many languages, with many frameworks. We need to be specific and explain to Github Actions that our project is a Python 3 one, that we use `poetry` to handle external dependencies and that we use `pytest` to run tests.
 
 In order to do that, Github reads the `.python-ci.yml` file located in the folder  `.github/workflows` :
 
@@ -53,10 +55,12 @@ on:
   pull_request:
     branches: [ master, main ]
 jobs:
-  build:
+  build-and-run-pytest:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    # First step (unnamed here) is to checkout to the branch that triggered the event
+    - uses: actions/checkout@v3
+    # Second step: install python 3.8
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -66,16 +70,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
         poetry install
-    - name: Test with nose
+    - name: Run tests
       run: |
-        poetry run nosetests
+        poetry run pytest
 ```
 
 Save this file in VS Code, and perform a commit:
 
 ```bash
-git add .github/workflows/python-ci.yml
-git commit -m "Configure Github Actions CI to run nosetests"
+git add .github
+git commit -m "Configure Github Actions CI to run pytest"
 ```
 
 Awesome! Before we actually push, go to this page:
@@ -90,7 +94,11 @@ git push origin master
 
 When the push is done, go back to the page, and **reload** it. You should see the commit get a yellow circle, and then a green tick! This is the integration between GitHub and Github Actions. It will run everytime you push commits to GitHub.
 
-## Continuous Integration & Pull Request
+You can view the actions in browser or through the cli with `gh run watch`!
+
+📚 Take 10min to read this [Github Docs](https://docs.github.com/en/actions/using-workflows/about-workflows) to better understand how workflows work
+
+## 4️⃣ Continuous Integration & Pull Request
 
 Let's enhance our Game with a refined validation. Right now, you can win with the following scenario:
 
@@ -120,48 +128,48 @@ Following the TDD paradigm, we need to add a test:
 # tests/test_game.py
 # [...]
     def test_unknown_word_is_invalid(self):
-      new_game = Game()
-      new_game.grid = list('KWIENFUQW') # Force the grid to a test case:
-      self.assertIs(new_game.is_valid('FEUN'), False)
+        """A word that is not in the english directory should no be valid"""
+        new_game = Game()
+        new_game.grid = list('KWIENFUQW') # Force the grid to a test case:
+        assert new_game.is_valid('FEUN') is False
 ```
 
 Let's commit this right now:
 
 ```bash
-git add test_game.py
+git add tests/test_game.py
 git commit -m "TDD: Check that attempt exists in the English dictionary"
 git push origin dictionary-api
 ```
 
-Now let's open a Pull Request on GitHub for this branch. You might find it a bit early but that's something which is actually encouraged by the [GitHub flow](http://scottchacon.com/2011/08/31/github-flow.html):
+Now let's open a Pull Request on GitHub for this branch.
+- 💡 To make a pull request quickly you can use `gh pr create` or to directly open the correct page use `gh pr create --web`!
+- You might find it a bit early but that's something which is actually encouraged by the [GitHub flow](http://scottchacon.com/2011/08/31/github-flow.html): If you are stuck in the progress of your feature or branch and need help or advice, or if you are a developer and need a designer to review your work (or vice versa), or even if you have little or no code but some screenshot comps or general ideas, you open a pull request.
+- At Le Wagon, developers open Pull Request early on for their feature branches to show teammates what they are doing and solicit feedback early. No need to wait to be code-complete to open the Pull Request! Here is a screenshot of our main application, using the `[WIP]` prefix in the pull request titles to showcase the fact that the branch is not ready yet to be merged:
 
-If you are stuck in the progress of your feature or branch and need help or advice, or if you are a developer and need a designer to review your work (or vice versa), or even if you have little or no code but some screenshot comps or general ideas, you open a pull request.
+<img src="https://res.cloudinary.com/wagon/image/upload/v1560714921/kitt-wip-prs_obp6e7.png" width=600>
 
-At Le Wagon, developers open Pull Request early on for their feature branches to show teammates what they are doing and sollicitate feedback early. No need to wait to be code-complete to open the Pull Request! Here is a screenshot of our main application, using the `[WIP]` prefix in the pull request titles to showcase the fact that the branch is not ready yet to be merged:
+Back to our Pull Request. If you scroll a bit below the PR description and the list of commits, you will see the Github Actions shine:
 
-![](https://res.cloudinary.com/wagon/image/upload/v1560714921/kitt-wip-prs_obp6e7.png)
-
-Back to our Pull Request. If you scroll a bit below the PR description and the list of commits, you will see the Github Actions  shine:
-
-<p><img src="https://github.com/lewagon/fullstack-images/blob/master/reboot-python/github_actions_picture.png?raw=true" width="900"></p>
+<img src="https://github.com/lewagon/fullstack-images/blob/master/reboot-python/github_actions_picture.png?raw=true" width="700">
 
 The benefit is really important. You have a direct feedback, right in GitHub, about the build status of your branch. Of course here we actually _want_ to have a red branch as we added a test but did not implement the behavior yet. Still, you can imagine that someone pushing some code and forgetting to run the tests locally on their machine will be warned directly on GitHub that they broke the build.
 
 ---
 
-Let's go back to the implementation of our feature. We want to pass the following test:
+❓ **Let's go back to the implementation of our feature: Try to pass the following test**
 
 ```python
-poetry run nosetests tests/test_game.py:TestGame.test_unknown_word_is_invalid
-# See how we just run *one* test and not the whole suite?
+poetry run pytest -k test_unknown_word_is_invalid
+# 💡 See how we just run *one* test and not the whole suite?
 ```
+Using Le Wagon's homemade simple [Dictionary API](https://wagon-dictionary.herokuapp.com/)
+  - [https://wagon-dictionary.herokuapp.com/tomato](https://wagon-dictionary.herokuapp.com/tomato)
+  - [https://wagon-dictionary.herokuapp.com/notomato](https://wagon-dictionary.herokuapp.com/notomato)
 
-❓ Here are some tips to implement this feature:
+💡 You can `poetry add requests` to make [HTTP requests](http://docs.python-requests.org/en/master/) to this API in Python
 
-- You can use Le Wagon's homemade simple [Dictionary API](https://wagon-dictionary.herokuapp.com/)
-- You can `poetry add requests` to make [HTTP requests](http://docs.python-requests.org/en/master/) to this API.
-
-<details><summary markdown='span'>View solution
+<details><summary markdown='span'>🎁 View solution
 </summary>
 
 We can implement a private `__check_dictionary` method to run an API call.
@@ -177,7 +185,7 @@ class Game:
     def is_valid(self, word):
         # [...]
 
-        return self.__check_dictionary(word)
+        return self.__check_dictionary(word) # instead of return True
 
 
     @staticmethod
@@ -201,11 +209,11 @@ git push origin dictionary-api
 
 Go back to your Pull Request page, you should see the icons turning from red crosses to yellow dots. It means that Github Actions is building the code against the latest commit. Wait a few seconds, and it should update the status. This is what you should see:
 
-![](https://res.cloudinary.com/wagon/image/upload/v1560714701/github-travis-passing_vppc1l.png)
+<img src="https://res.cloudinary.com/wagon/image/upload/v1560714701/github-travis-passing_vppc1l.png" width=500>
 
 Awesome job 🎉! Invite your buddy as a repo collaborator to review the code in the Pull Request and **merge** it.
 
-## Conclusion
+## 🏁 Conclusion
 
 Adding tests to a repository and coupling GitHub with a service like Github Actions gives the developer peace of mind when adding code, checking for possible regressions, exercising the whole test suite for _every single_ commit!
 
@@ -213,17 +221,5 @@ Before pushing DevOps farther with the next exercise about Continuous Deployment
 
 - Keep Pull Request diffs as short as possible. A good size is **less than 100 lines** in the diff (`Files changed` tab on the Pull Request)
 - Keep Pull Request focused on a _single_ feature. Add at least a test for each pull request
-- Before asking for a review, re-read your code in the `Files changed` tab. Seeing the code from this perspective (in a web browser under a diff format) will help you spot style issues, refactoring opportunities, etc. that you could not see directly in your text editor.
+- Before asking for a review, re-read your code in the `Files chan ged` tab. Seeing the code from this perspective (in a web browser under a diff format) will help you spot style issues, refactoring opportunities, etc. that you could not see directly in your text editor.
 - Finally, your friends at GitHub wrote a great piece on [how to properly write](https://blog.github.com/2015-01-21-how-to-write-the-perfect-pull-request/) in a Pull Request (both for the reviewee and the reviewer).
-
-## I'm done!
-
-Before you jump to the next exercise, let's mark your progress with the following:
-
-```bash
-cd ~/code/<user.github_nickname>/reboot-python
-cd 02-Best-Practices/03-Continuous-Integration
-touch DONE.md
-git add DONE.md && git commit -m "02-Best-Practices/03-Continuous-Integration done"
-git push origin master
-```
