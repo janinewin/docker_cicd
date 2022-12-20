@@ -45,6 +45,15 @@ def create_main_page():
     - A markdown section in the sidebar
     """
     st.title("Formula 1 Dashboard")
+    st.info(
+        """
+    Create a subheader, a title in the sidebar and a markdown section in the sidebar.
+    Also create a widget in the sidebar to select a table from the database.
+    Return the selected table (instead of the hard-coded races value"
+    """
+    )
+    selected_table = "races"
+
     pass  # YOUR CODE HERE
     return selected_table
 
@@ -54,6 +63,7 @@ def summary_statistics(data):
     Creates a subheader and writes the summary statistics for the data
     """
     st.subheader("Summary statistics")
+    st.info("Use the describe method to get the summary statistics")
     pass  # YOUR CODE HERE
 
 
@@ -68,9 +78,8 @@ def top_drivers():
                       - driver_name
                       - total_points
     """
-    top_drivers = "Write a query to get the top 5 drivers and visualize the results."
+    st.info("Write a query to get the top 5 drivers and visualize the results.")
     pass  # YOUR CODE HERE
-    return lewis_points
 
 
 def session_state(data):
@@ -86,7 +95,8 @@ def session_state(data):
         data (pd.DataFrame): The formula 1 dataset
     """
 
-    # Initialization of session state
+    # Initialization of session state, assign a random value
+    # to the session state
     pass  # YOUR CODE HERE
 
     # Update the session state using the dataframe
@@ -101,11 +111,14 @@ if __name__ == "__main__":
 
     summary_statistics(data)
     session_state(data)
+    st.subheader("Data loaded into session state")
+    st.write(st.session_state.data)
 
     st.subheader("Top 5 Drivers")
     top_driver_data = top_drivers()
     st.write(top_driver_data)
 
+    st.warning("Use the Altair library to create a bar chart with the top drivers")
     # create a bar chart with the top drivers, you can use the Altair library
     pass  # YOUR CODE HERE
 
@@ -113,5 +126,5 @@ if __name__ == "__main__":
     lewis_years = lewis_over_the_years()
     st.write(lewis_years)
 
-    # create a line chart with lewis_years, use the Altair library
+    st.warning("Create a line chart with the lewis_years, use the Altair library")
     pass  # YOUR CODE HERE

@@ -15,8 +15,9 @@ class DescriptiveStatistics:
         """Select the table to explore"""
         with st.sidebar:
             st.subheader("Select table to explore")
-            pass  # YOUR CODE HERE
+            st.sidebar.warning("Implement your selectbox widget to select a table from the database")
             self.selected_table = "races"
+            pass  # YOUR CODE HERE
 
     def summary_statistics(self):
         """Use the describe method to get the summary statistics"""
@@ -31,7 +32,7 @@ class DescriptiveStatistics:
             self.f1_cache.store_in_cache(self.selected_table, table_results)
 
         # describe the table_results data
-        st.write(table_results.describe())
+        pass  # YOUR CODE HERE
 
 
 if __name__ == "__main__":
