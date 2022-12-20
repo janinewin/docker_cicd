@@ -36,7 +36,7 @@ code . # Let's work directly on your package for this challenge
 
 ## 3️⃣ Worfklow CI
 
-You now need to write a CI configuration file. Those tools are _generic_, they can build programs in many languages, with many frameworks. We need to be specific and explain to Github Actions that our project is a Python 3 one, that we use `poetry` to handle external dependencies and that we use `pytest` to run tests.
+You now need to write a CI configuration file. Those tools are _generic_, they can build programs in many languages, with many frameworks. We need to be specific and explain to Github Actions that our project is a Python 3 one, that we use `poetry` to handle external dependencies and that we use `nosetests` to run tests.
 
 In order to do that, Github reads the `.python-ci.yml` file located in the folder  `.github/workflows` :
 
@@ -137,7 +137,7 @@ Following the TDD paradigm, we need to add a test:
 Let's commit this right now:
 
 ```bash
-git add tests/test_game.py
+git add test_game.py
 git commit -m "TDD: Check that attempt exists in the English dictionary"
 git push origin dictionary-api
 ```
@@ -185,7 +185,7 @@ class Game:
     def is_valid(self, word):
         # [...]
 
-        return self.__check_dictionary(word) # instead of return True
+        return self.__check_dictionary(word)
 
 
     @staticmethod
@@ -221,5 +221,5 @@ Before pushing DevOps farther with the next exercise about Continuous Deployment
 
 - Keep Pull Request diffs as short as possible. A good size is **less than 100 lines** in the diff (`Files changed` tab on the Pull Request)
 - Keep Pull Request focused on a _single_ feature. Add at least a test for each pull request
-- Before asking for a review, re-read your code in the `Files chan ged` tab. Seeing the code from this perspective (in a web browser under a diff format) will help you spot style issues, refactoring opportunities, etc. that you could not see directly in your text editor.
+- Before asking for a review, re-read your code in the `Files changed` tab. Seeing the code from this perspective (in a web browser under a diff format) will help you spot style issues, refactoring opportunities, etc. that you could not see directly in your text editor.
 - Finally, your friends at GitHub wrote a great piece on [how to properly write](https://blog.github.com/2015-01-21-how-to-write-the-perfect-pull-request/) in a Pull Request (both for the reviewee and the reviewer).
