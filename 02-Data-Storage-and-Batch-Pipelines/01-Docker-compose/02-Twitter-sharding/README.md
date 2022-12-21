@@ -1,59 +1,42 @@
+# Basic Docker stack
+
 After doing the `01-Docker-Compose` exercise, you should by now have a good understanding of a Docker Compose stack, and how to use it to set up a standard web app with a database and a FastAPI web server.
 
-# 0️⃣ Context
+## Desired outcome
 
-### 🎯 Goal
-Remember challenge `010401-Tweet-CRUD` where we built a Twitter fast API connected to a postgres service, both running on our linux VM without containers? Well, this time we'll containarize it. But hey, let's spice things up a bit more 🌶
+🏁 We want to reuse our skills to help us build a versions of the tweets table partitioned across two apis. Our app is struggling to manage the load so we want to create shards of the tweets table based on the location of the tweet, so that users in Europe can be served their tweets locally and the same in the USA.
 
-Today we'll build a version of the tweets table **partitioned across two apis**. Indeed, let's imagine our app is struggling to manage the load so we want to create **shards** of the tweets table based on the location of the tweet: Users in Europe can be served their tweets locally and the same in the USA.
+- Our vm running **Postgres** this will be the base database!
+- Two **Postgres** containers with the data volume mapped, and environment variables set up.
+- Two **FastAPI** app containers for the EU and US database.
 
 This is the architecture we are aiming for:
 
-- Our VM will run **Postgres** as a linux service directly without containers: this will be the full database!
-- We'll spawn two **Postgres** containers (two shards EU and US of the full db) with the data volume mapped
-- Plus two **FastAPI** app containers for the EU and US database.
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D1/sharded-db.png" width=700>
 
-<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D1/sharded-db.png" width=300>
+Once we can shard to these two regions we could potentially add further sharding. Sharding helps us reduce the size of the tables making queries quicker but can also help us place those tables where they will be accessed (lower latency for users in both regions). In this case by location but we might also shard by time creation at some point as we expect the most recent tweets to be the most demanded by users!
 
+## 1️⃣ Setup
 
-**Sharding you said ??**  
-- When we split a table into several *subsets* that are still part of the same *database*, they are called **partitions**. Partitions are often done by splitting over a particular index (eg. in our case, the user-location column). 
-- When we distribute each partitions table into different databases, each partition is a standalone database called a **shard**. 
-- When *sharding* or *partitionning*, there is no physical database centralizing all data somewhere anymore! However, we'll still be able to virtually recreate a "full database" in the same way views are just immaterial tables that are created dynamically as you query them. 
+First lets create a new database on our vm for the exercise.
 
-**Why sharding?**
-- ↔️ Sharding helps us reduce the size of the tables making queries quicker, but can also help us place those tables where they will be accessed (lower latency for users in both regions).
-- 🧙‍♀️ You could think of potentially add further sharding in a real case: More locations, or shard by time creation at some point as we expect the most recent tweets to be the most demanded by users!
-
-### Browse `tweets_api` folder rapidly
-
-☝️ Note that it's a simplified version of `010401-Tweet-CRUD`, with much less routes and data complexity.
-
-- Only one model: `Tweet`
-- Two routes `get/tweets/` and `post/tweets/`
-
-We'll leave the complexity of routing EU vs. US requests to web developers (Web Browser gives IP address, which can be geo-localized, then routed to EU or US accordingly).  As Data Engineers, we just want to focus on building 2 api containers that connect their respective get/post requests in their respective shard db.
-
-# 1️⃣ Setup postgres on VM
-
-Lets create a new database on our VM for the exercise.
-
-❓ Read again beginning of challenge [01/03/00-Setup/README.md](https://github.com/lewagon/data-engineering-challenges/tree/main/01-Software-Engineering-Best-Practices/03-SQL-Databases/00-Setup#setting-up-postgres) to recall how we created a postgres superuser and password on our VM.
-
-❓ Then, create a database named `tweets` and try to connect to it with DBEAVER
 ```bash
 createdb tweets
 ```
 
-# 2️⃣ Docker-compose
+Then connect with dbeaver to your new database.
 
-## 2.1. Networks
+
+## 2️⃣ Docker-compose
+
+
+### 2.1. Networks
 
 ❓ In your `docker-compose.yml` add two bridge networks: `europe` &  `usa`.
 
-## 2.2. Databases
+### 2.2. Databases
 
-❓ In the `docker-compose.yml` create two database postgres services (`us_database`, `eu_database`), one for each network, as below for USA.
+❓ In the `docker-compose.yml` create a databases for each network you can reuse the differences being enviroment variables, forwarded ports, network, and service name!
 
 <details>
 <summary markdown='span'>💡 Example for USA</summary>
@@ -63,7 +46,7 @@ us_database:
   image: postgres:14.2
   restart: on-failure
   healthcheck:
-    test: ["CMD", "pg_isready", "-U", "postgres"]
+    test: ["CMD", "pg_isready -U postgres"]
     interval: 5s
     timeout: 5s
     retries: 5
@@ -72,6 +55,7 @@ us_database:
   ports:
     - "5401:5432"
   environment:
+    - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=postgres
     - APP_DB_USER=usa
     - APP_DB_PASS=uspassword
@@ -82,59 +66,48 @@ us_database:
 
 </details>
 
-💡 Reuse or adjust for EU these different environment variables, forwarded ports and network name as you see fit! You can always change them later on.
+### 2.3. APIs
 
+Time to add api services to docker-compose, create two more services in your docker-compose
+launching the `tweets_api` fastapi. The first step is to go to `model.py` and **update the tablename attribute so that it can be set dynamically with an enviroment variable.**
 
-## 2.3. APIs
+<details>
+<summary markdown='span'> Tablename solution</summary>
 
-❓ Start the creation of two fastapi services in your docker-compose: `eu_webapi` and `us_webapi` (get inspiration from previous challenge)
-- Each should be based on the same `dockerfile-fastapi` that we coded for you
-- Each should depend on its respective regional database
-- Each should restart on failure
-- Each should be only part of their respective regional network
-- Each should have POSTGRES_DATABASE_URL equals to the connection string to their regional database
-- Each should launch the same command to launch a fastapi server from `tweets_api.main` in port 8000 inside their respective network
-
-**🤔 But how are we we going to differentiate behavior between the US and the EU database then?**
-
-The key is to update the SQLAchemy variable __tablename__ attribute in `model.py` so that it can be set dynamically with an enviroment variable to their respective regional_db_name!
 ```python
 __tablename__ = os.environ.get("TWEETS_TABLE", "tweets")
 ```
 
-```yml
-us_webapi:
-  environment:
-    - TWEETS_TABLE=us_tweets
+</details>
 
-eu_webapi:
-  environment:
-    - TWEETS_TABLE=eu_tweets
-```
 
+❓ Now write the services for the two fastapis the key parts to add here are the enviroment variables:
+
+- POSTGRES_DATABASE_URL=the connection to the database
+- TWEETS_TABLE=the name of the table here because we are going to be sharding it should help identify the shard. For example `us_tweets` for the us section of the tweets!
 
 <details>
-<summary markdown='span'>🎁 Solution for US - only look if errors pops up!</summary>
+<summary markdown='span'>Example for US fastapi</summary>
 
 ```yml
-  us_webapi:
-    container_name: us_api
-    build:
-      context: .
-      dockerfile: dockerfile-fastapi
-    restart: on-failure
-    ports:
-      - "8001:8000"
-    volumes:
-      - ./tweets_api:/app/tweets_api
-    environment:
-      - POSTGRES_DATABASE_URL=postgresql+psycopg2://usa:uspassword@us_database:5432/ustweets
-      - TWEETS_TABLE=us_tweets
-    command: ["uvicorn", "tweets_api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
-    networks:
-      - usa
-    depends_on:
-      - us_database
+us_webapi:
+  container_name: us_api
+  build:
+    context: .
+    dockerfile: dockerfile-fastapi
+  restart: on-failure
+  ports:
+    - "8001:8000"
+  volumes:
+    - ./tweets_api:/app/tweets_api
+  environment:
+    - POSTGRES_DATABASE_URL=postgresql+psycopg2://usa:uspassword@us_database:5432/ustweets
+    - TWEETS_TABLE=us_tweets
+  command: ["uvicorn", "tweets_api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+  networks:
+    - usa
+  depends_on:
+    - us_database
 ```
 
 </details>
@@ -146,35 +119,42 @@ eu_webapi:
 
 - `docker ps` should show all 4 containers are up and healthy
 - You can connect to the two apis on your local machine 
-- You can connect to the 3 DB in Dbeaver
+- You can connect to the 3 DB in Dbeaver (do it you'll need it later)
 
-Then we are ready to create our `tweets` main tables and shard it across our other two databases!
+❓ `docker-compose up` and connect to the two apis to check they are running. Make sure you can connect to all three dbs through dbeaver then we are ready to create our database and shard it across our other two databases!
 
 
-# 3️⃣ Sharding
+## 3️⃣ Sharding
 
-## 3.1 Setup
+## 3.1 Setup Foreign Data Wrappers (FDW)
 
-Our first call on our host database is to activate the postgres foreign data wrapper extension. This allows us to use new functions to access SQL data on other servers.
+**🌐 On our host database (`tweets`)**:
+
+Our first call is to activate the postgres foreign data wrapper extension. This allows us to use new functions to access SQL data on other servers.
 ```sql
 CREATE EXTENSION postgres_fdw;
 ```
 
-Lets connect to our foreign server (in this example europe). Here **take care for the dbname and port** depending on what you defined in your compose file! This creates a new SQL object called a server.
+Lets connect to our two foreign servers (in this example us). Here **take care for the dbname and port** depending on what you defined in your compose file! This creates a new SQL object called a server.
 ```sql
-CREATE SERVER europe FOREIGN DATA WRAPPER postgres_fdw
-    OPTIONS (host '127.0.0.1', port '5400', dbname 'eutweets');
+CREATE SERVER usa FOREIGN DATA WRAPPER postgres_fdw
+    OPTIONS (host '127.0.0.1', port '5401', dbname 'ustweets');
 ```
 
-Now login in to the server. Here in the example I want my current user "oliver.giles" to be able to execute SQL on the foreign server `europe` as the user `europe` and I also give the password. This means when I am connected to the host database as the `oliver.giles` user I can execute SQL on the europe server SQL database as well ❗️
+Now login in to the server. Here in the example below I want my current user "oliver.giles" to be able to execute SQL on the foreign server `usa` as the user `usa` and I also give the password. This means when I am connected to the host database as the `oliver.giles` user I can execute SQL on the usa server SQL database as well ❗️
 ```sql
-CREATE USER MAPPING FOR "oliver.giles" SERVER europe
-    OPTIONS (user 'europe', password 'eupassword');
+CREATE USER MAPPING FOR "oliver.giles" SERVER usa
+    OPTIONS (user 'usa', password 'uspassword');
 ```
+
+You should see it on DBEAVER (refresh if needed)!  
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D1/foreign_data_wrapper.png" height=300>
+
 
 ## 3.2. Table creation
 
-We need to create a new table **on the host machine** and add a new call `partion by` which describes how the database will be seperated. In this case by the `string` appearing in the location column.
+**🌐 on your host db again** we need to create a new table  and add a new call `partion by` which describes how the database will be seperated. In this case by "location" column.
+
 ```sql
 CREATE TABLE tweets (
 	id serial4 NOT NULL,
@@ -182,37 +162,12 @@ CREATE TABLE tweets (
 	"text" varchar NOT NULL,
 	owner_id int4 NOT NULL,
 	like_count int4 NOT NULL
-) partition by list ("location");
+) 
+partition by list ("location");
 ```
 
-**Logged into the european server** we need to create a table with matching columns!
 
-```sql
-CREATE TABLE europe_tweets (
-	id serial4 NOT NULL,
-	"location" varchar NOT NULL,
-	"text" varchar NOT NULL,
-	owner_id int4 NOT NULL,
-	like_count int4 NOT NULL
-);
-```
-
-We are now ready to use the SERVER object we created to connected the master table to this foreign partion.
-
-## 3.3. Connection
-
-**On our host server** lets connect the two and define the values which should be fed into the european partion. So here when `europe` is the string in the `location` column it should be stored in this partion!
-
-```sql
-CREATE FOREIGN TABLE europe_tweets
-    PARTITION OF tweets
-    FOR VALUES IN ('europe')
-    SERVER europe;
-```
-
-Lets repeat that for the us!
-
-1. Create the table on the US server.
+**🇺🇸 Logged into the us server**: we need to create a similar table with matching columns!
 
 ```sql
 CREATE TABLE us_tweets (
@@ -224,38 +179,63 @@ CREATE TABLE us_tweets (
 );
 ```
 
-2. Create the connection !
+We are now ready to use the SERVER object we created to connect the master table (`tweets`) to this foreign partition!
+
+### 3.3. Connection
+
+**🌐 On our host server again** lets connect the to the us and eu_tweets, and define the values which should be fed into the us partion. So here when `usa` is the string in the `location` column it should be stored in this partion!
 
 ```sql
-CREATE SERVER usa FOREIGN DATA WRAPPER postgres_fdw
-    OPTIONS (host '127.0.0.1', port '5401', dbname 'ustweets');
-CREATE USER MAPPING FOR "oliver.giles" SERVER usa
-    OPTIONS (user 'usa', password 'uspassword');
 CREATE FOREIGN TABLE us_tweets
     PARTITION OF tweets
     FOR VALUES IN ('usa')
     SERVER usa;
 ```
 
-## 3.4. Edge cases
 
-What about when our systems break and they don't fit in either partion we need somewhere for the overflow to go.
+🇪🇺 Repeat the whole process for europe too in a table `eu_tweets` with location string `europe`, you should see the following
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D1/partitions_visible.png" height=600>
+
+
+# 4️⃣ Testing it all!
+
+- 🇺🇸 Put yourself in the shoes of an americal use, and create one new tweet located in "usa" using the american Fast API server `localhost:xxxx/docs` `/POST` request.
+- 🇪🇺 Do the same from the European server
+- 🌐 Head over to DBEAVER and you should see the sharding working!
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D1/sharding_working.png">
+
+Finally, check also that `/GET` only display regional tweets in their respective FastAPI ! 👏
+
+## 3.4. Additional stuff
+
+**default location**
+What if you posted something where location is set to "asia"? 
+
+The sharding will break break. If data doens't fit in either partion, we need somewhere default for the overflow to go.
 
 ```sql
-CREATE TABLE tweets_default
+CREATE TABLE default_tweets
     PARTITION OF tweets
     DEFAULT;
 ```
 
-# 4️⃣ Testing
+**importing foreign data** instead of "viewing" it.
 
-Now you can start inserting tweets into the databases and see where the data is avaliable from. For example when you insert into the original tweets table how it becomes avaliable on the foreign server. You can also go the other way and insert into the table on the EU server and query the eu server on the main server with `select * from europe_tweets;`
-
-🏁 This exercise shows the power of using docker compose to test new database architectures quickly without having to launch lots of extra postgres servers on their own hardware!
-
-🤯 You can also use the foreign data wrapper to import other databases once you create the server object:
+🤯 You can also use the foreign data wrapper to physically import (as opposed to simply connecting a 'view' over the network) other databases once you create the server object...
 
 ```sql
 IMPORT FOREIGN SCHEMA public
     FROM SERVER <foreign server> INTO public;
+```
+
+But we're getting a little bit too far for today...
+
+🏁 We hope this challenge illustrated the power of using docker-compose to test new database architectures quickly without having to launch lots of extra postgres servers on your own hardware!
+
+```bash
+git add .
+git commit -m "020102 finished"
+git push origin main
 ```
