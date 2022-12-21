@@ -208,7 +208,7 @@ Previously we installed our own version of python, pip and other dependencies. T
 
         #Remove all of the manual python package installations via pip
         ```
-        ☝️ `--only main` is equivalent to `--without dev` and skip `pyproject.toml` [tool.poetry.group.dev.dependencies] category
+        ☝️ `--only main` is equivalent to `--without dev` and skip `pyproject.toml` [tool.poetry.dev-dependencies] category
 1. Change the `ENTRYPOINT` to use poetry
     ```dockerfile
     poetry run

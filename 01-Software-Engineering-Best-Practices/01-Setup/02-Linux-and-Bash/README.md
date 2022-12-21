@@ -1,6 +1,4 @@
-# Linux Service creation
-
-## 1️⃣ Basics of services
+# 1️⃣ Basics of services
 
 🎯 The goal of this exercise is to create a **background service** on your virtual machine. Here we will write a script which checks whether you are connected via ssh and if not shutdown the vm in order to **prevent unwanted spending by leaving the vm running overnight!**
 
@@ -33,7 +31,7 @@ From our command above and you will notice a couple of services that we are usin
 
 If you had a lot more services and it was hard to see what was running you could also use `grep` to check whether postgres was there for example!
 
-## 2️⃣) Creating a script
+# 2️⃣ Creating a script
 
 ❓ Let's start by creating a `check_ssh.sh` script which checks whether any users are currently connected, `echo` if there are and otherwise `poweroff` the VM!
 
@@ -84,7 +82,7 @@ If you want a quick explanation of most of the folders in the root directory (i.
 </details>
 
 
-## 3️⃣) Creating a service
+# 3️⃣ Creating a service
 
 Next we need something to trigger our script, this is where **services** come in!
 
@@ -105,7 +103,7 @@ WantedBy=multi-user.target
 ```
 </details>
 
-## 4️⃣) Creating a timer
+# 4️⃣ Creating a timer
 
 ❓ Now create a `check_ssh.timer` file to trigger our service every 10 seconds
 
@@ -125,7 +123,7 @@ WantedBy=timers.target
 ```
 </details>
 
-## 5️⃣) Running the service
+# 5️⃣ Running the service
 
 ❗️ **Move these `check_ssh.service` and `check_ssh.timer` in the `/etc/systemd/system` directory**.
 
@@ -146,7 +144,7 @@ sudo systemctl enable --now <your_service>.timer
 
 In general though we don't want to run the service during the day after we have rebooted the vm as we can be presumed to be using it then, so lets use a different approach! Disable the service and move on to next section.
 
-## 6) Cron 🕘
+# 6️⃣ Cron 🕘
 
 Cron is an alternative way of running commands at a **specific time** of day, there are pros and cons to both but it is good to understand both. Cron is good for running short scripts at a particular time whereas services are much better for long running processes or process that have to be executed very often!
 
@@ -160,16 +158,16 @@ sudo crontab -e
 The syntax for cron is a little strange but for instance, to run `echo` once a day at 8pm you would write:
 
 ```bash
-0 8 * * * echo "I'm going to be printed every day at 8pm"
+0 20 * * * echo "I'm going to be printed every day at 8pm"
 ```
 
-This [website](https://crontab.guru/#0_8_*_*_*) is great for checking your syntax!
+This [website](https://crontab.guru/#0_20_*_*_*) is great for checking your syntax!
 
 <details>
   <summary markdown='span'>💡 crontab solution</summary>
 
 ```bash
-0 8 * * * systemctl start check_ssh.time
+0 20 * * * systemctl start check_ssh.time
 ````
 
 </details>
