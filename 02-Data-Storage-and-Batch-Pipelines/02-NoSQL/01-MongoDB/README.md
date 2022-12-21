@@ -5,10 +5,9 @@
 We will use 2 different images, one from `Mongo` and one from `Mongo Express`, which is an interactive lightweight Web-Based Administrative Tool 💻  to interact with the MongoDB Databases through the UI.
 
 ### MongoDB service
-1. ❓ Add the following line: `version: '3.1'` to the top of the `docker-compose` file.
+1 ❓ Add the following line: `version: '3.1'` to the top of the `docker-compose` file.
 
-2. ❓ Add a new service named `mongo` with the following properties (use Google for examples):
-
+2 ❓ Add a new service named `mongo` with the following properties (use Google for examples):
 - `image`: specify the name of the Docker image to use for the MongoDB instance and use version `6.0`
 - `restart`: `always`
 - `environment`:
@@ -23,7 +22,7 @@ We will use 2 different images, one from `Mongo` and one from `Mongo Express`, w
 
 ### MongoDB Express service
 
-3. ❓ In the `docker-compose.yml` file, add a new service named `mongo-express` with the following properties (use the [mongo-express-docker documentation](https://github.com/mongo-express/mongo-express-docker#configuration))
+3 ❓ In the `docker-compose.yml` file, add a new service named `mongo-express` with the following properties (use the [mongo-express-docker documentation](https://github.com/mongo-express/mongo-express-docker#configuration))
 - `image`: specify the name of the Docker image to use for the MongoDB Express web interface and use version `1.0.0-alpha`
 - `restart`: `always`
 - `ports`:
@@ -33,19 +32,19 @@ We will use 2 different images, one from `Mongo` and one from `Mongo Express`, w
   - specify the URL of the MongoDB instance
 
 ### Get it up and running
-4. ❓ Run
+4 ❓ Run
 ```bash
 `docker-compose up`
 ```
 and visit http://localhost:8081 after initialization
 
-5. 💡 The `docker exec` command allows you to run commands inside a Docker container. This allows us to interact with MongoDB inside the container. ❓ Run the following command, which will give you a bash shell inside your mongo container:
+5 💡 The `docker exec` command allows you to run commands inside a Docker container. This allows us to interact with MongoDB inside the container. ❓ Run the following command, which will give you a bash shell inside your mongo container:
 
 ```bash
 $ docker exec -it [CONTAINER NAME] bash
 ```
 
-6. ❓ Run `mongosh` inside the container to interact with Mongo using your username and password (replace the values with the credentials that you specified in the environment variables)
+6 ❓ Run `mongosh` inside the container to interact with Mongo using your username and password (replace the values with the credentials that you specified in the environment variables)
 ```bash
 $ mongosh admin -u username -p password
 ```
@@ -56,55 +55,55 @@ $ mongosh admin -u username -p password
 
 ## 2️⃣ MongoDB Basics
 
-1. ❓ Switch the database
+1 ❓ Switch the database
 ```bash
 $ use food
 ```
 
-2. ❓ Create a collection 📁
+2 ❓ Create a collection 📁
 ```bash
 db.createCollection("fruits")
 ```
 ✅ Verify in `Mongo-express` that the database has been created.
 
-3. ❓ Insert documents 📄
+3 ❓ Insert documents 📄
 ```bash
 db.fruits.insertMany([ {name: "apple", origin: "usa", price: 5}, {name: "orange", origin: "italy", price: 3}, {name: "mango", origin: "malaysia", price: 3} ])
 ```
 
-4. ❓ Search for the documents using the find command
+4 ❓ Search for the documents using the find command
 ```bash
 db.fruits.find().pretty()
 ```
 
-5. ❓ Insert another record, but now also containing the color, 💡 this is no problem for Mongodb due to it being **schemaless**
+5 ❓ Insert another record, but now also containing the color, 💡 this is no problem for Mongodb due to it being **schemaless**
 ```bash
 db.fruits.insertOne( { name: "apple", origin: "usa", price: 3, color: "red" } )
 ```
 
-6. ❓ Use the `updateOne` command to update the record you just inserted in the previous step ☝️. For example, you can change the price to 4 and the color to green
+6 ❓ Use the `updateOne` command to update the record you just inserted in the previous step ☝️. For example, you can change the price to 4 and the color to green
 ```bash
 db.fruits.updateOne( { name: "orange", origin: "italy" }, { $set: { price: 4, color: "green" } } )
 ```
 
-7. ❓ Use the `countDocuments` command to count the number of documents in the collection
+7 ❓ Use the `countDocuments` command to count the number of documents in the collection
 ```bash
 db.fruits.countDocuments()
 ```
 
-8. ❓ Use the `find` command with a query to search for only the fruits that are from the USA
+8 ❓ Use the `find` command with a query to search for only the fruits that are from the USA
 ```bash
 db.fruits.find( { origin: "usa" } ).pretty()
 ```
 
 💡 What happens when you try to query a country that does not exist in the db, e.g. `FRA`?
 
-9. ❓ Use the `deleteMany` command to delete all the fruits that are from Italy:
+9 ❓ Use the `deleteMany` command to delete all the fruits that are from Italy:
 ```bash
 db.fruits.deleteMany( { origin: "italy" } )
 ```
 
-10. ❓ Use the `drop` command to drop the entire collection 💥
+10 ❓ Use the `drop` command to drop the entire collection 💥
 ```bash
 db.fruits.drop()
 ```
@@ -119,21 +118,21 @@ We will use the `pymongo` library to interact with the MongoDB database from Pyt
 
 Lets start by setting up the database connection in `app/pymongo_get_database.py`.
 
-1. ❓ The connection string consists of the following format: `mongodb://username:password@localhost:27017/`. Load your username and password from the `.env` file and use them in the connection string (instead of hardcoding) them. This is used to create a connection to the MongoDB server using the MongoClient object. By loading them from a `.env` file and including that file in `.gitignore`, you are making sure to not store any credentials in `Git` 💀.
+1 ❓ The connection string consists of the following format: `mongodb://username:password@localhost:27017/`. Load your username and password from the `.env` file and use them in the connection string (instead of hardcoding) them. This is used to create a connection to the MongoDB server using the MongoClient object. By loading them from a `.env` file and including that file in `.gitignore`, you are making sure to not store any credentials in `Git` 💀.
 
-2. ❓ Use the client object to access the restaurant database and create a new database called `restaurant`. A database is used to create and manipulate collections of documents. We will use this client object in other parts of our code to interact with this specific database. 💡 Note: the database will only be visible in Mongo Express after you have inserted some documents in step 4️⃣
+2 ❓ Use the client object to access the restaurant database and create a new database called `restaurant`. A database is used to create and manipulate collections of documents. We will use this client object in other parts of our code to interact with this specific database. 💡  Note: the database will only be visible in Mongo Express after you have inserted some documents in step 4️⃣
 
 🚀 Nice, you have set up the database connection using python and created a database called `restaurant`! We are now going to ingest documents into this database. Switch to `ingest.py`.
 
 ### Inserting the documents
-3. ❓ Create a collection named `customers` and insert the following documents 📄 into it from the `ingest_data` function:
+3 ❓ Create a collection named `customers` and insert the following documents 📄 into it from the `ingest_data` function:
 ```bash
 { "name": "John Doe", "age": 35, "gender": "male", "address": "123 Main St" },
 { "name": "Jane Smith", "age": 28, "gender": "female", "address": "456 Park Ave" },
 { "name": "Michael Johnson", "age": 41, "gender": "male", "address": "789 Oak St" }
 ```
 
-4. ❓ Count the number of documents in the "customers" collection in the `ingest` file. You can also check in mongo express whether the documents have been successfully inserted.
+4 ❓ Count the number of documents in the "customers" collection in the `ingest` file. You can also check in mongo express whether the documents have been successfully inserted.
 
 ### Reading data
 👉 We are now ready to read the data from the database. Continue working in the `app/query.py` file.  💡 The type hints and docstrings give a good indication about the values that you are expected to return from the functions. One function has already been filled, ❓ run `python query.py` to run the full script. 💡 Pymongo returns a cursor when running a MongoDB command, extract the values using the `list()` function.
@@ -144,14 +143,14 @@ Lets start by setting up the database connection in `app/pymongo_get_database.py
 💡 By default the pymongo functinalities return a `pymongo.cursor.Cursor`, because it allows for the efficient iteration over a large number of results. To see the values that are in the cursor, you can simply use the `list()` function
 </details>
 
-5. ❓ Use the `find` command to search for customers who are 35 years old or older
+5 ❓ Use the `find` command to search for customers who are 35 years old or older
 
-6. ❓ Use the `aggregate` command to calculate the average age of the customers in the collection
+6 ❓ Use the `aggregate` command to calculate the average age of the customers in the collection
 
-7. ❓ Use the `updateMany` command to update all customers with a new field called "membership" that has a value of "gold":
+7 ❓ Use the `updateMany` command to update all customers with a new field called "membership" that has a value of "gold":
 
-8. ❓ Use the `find` command with the sort modifier to search for customers and sort the results by their age in descending order:
+8 ❓ Use the `find` command with the sort modifier to search for customers and sort the results by their age in descending order:
 
-9. ❓ Use the `deleteOne` command to delete the customer with the name "Jane Smith"
+9 ❓ Use the `deleteOne` command to delete the customer with the name "Jane Smith"
 
 🏁🚀 Congratulation on finishing these MongoDB exercises!
