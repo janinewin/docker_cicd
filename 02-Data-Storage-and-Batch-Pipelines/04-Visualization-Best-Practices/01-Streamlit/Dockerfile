@@ -21,5 +21,3 @@ RUN apt-get update \
 EXPOSE 8501
 
 ENTRYPOINT [ "poetry", "run" ]
-
-CMD ["streamlit", "run", "app/basic.py"]
