@@ -246,11 +246,18 @@ readlink -f <file>
 </details>
 
 
+```bash
+# fist connect to psql
+> psql --user=your_db_superuser_name -d school
+```
+Then launch 
+
 ```sql
-COPY teacher
-FROM '<path to teachers.csv>'
-DELIMITER ','
-CSV HEADER
+school=# 
+\copy teachers 
+FROM '</home/..../absolute/path/to/teachers.csv>' 
+DELIMITER ',' 
+CSV HEADER;
 ```
 
 Checking the resulting structure of the database
@@ -274,3 +281,5 @@ ORDER BY table_name, ordinal_position
 
 Now we have a fully functional postgres database and a workflow when we want to
 create new databases and tables!
+
+🏁 Run `make test` to create test_output.txt, then git add, commit and push so we can track your progress!

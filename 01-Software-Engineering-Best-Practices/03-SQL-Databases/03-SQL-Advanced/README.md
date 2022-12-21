@@ -67,7 +67,7 @@ Checkout `LEAD()` SQL function
     - `num_records_bad` (budget or revenue is NULL or equal to 0)
     - `num_records_total` (total number of records in the table)
     - `perc_records_bad` (percentage of records where budget or revenue is NULL or equal to 0). Rounded to 0 decimals
-- Store your code in `exercice-4.sql`.
+- Store your code in `exercice-5.sql`.
 
 <br>
 

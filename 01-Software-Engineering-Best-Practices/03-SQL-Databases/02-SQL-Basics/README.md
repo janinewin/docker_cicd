@@ -58,7 +58,7 @@ You'll see that one column duplication of the ID seems to regularly be coming fr
 👉 Check whether this happens or not:
 - The output of the query should be 1 column, called `movie_id_ratings_table`, which lists all the *distinct* `movie_id` that exist in the `ratings` table *but don't exist* in the `movies_metadata` table.
 - This query should take ~ 10 seconds to execute - and it will also increase the duration of your tests execution, so make sure you do this exercice at the end.
-- Store your code in `exercice-4-2.sql`
+- Store your code in `exercice-5.sql`
 
 
 **🏁 🧪 `make test` to check all your results, and Push your code so we can track your progress!**

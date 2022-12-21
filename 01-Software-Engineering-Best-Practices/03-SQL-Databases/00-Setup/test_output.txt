@@ -1,0 +1,9 @@
+[1m============================= test session starts ==============================[0m
+platform linux -- Python 3.8.14, pytest-7.1.2, pluggy-1.0.0 -- /home/brunolajoie/code/lewagon/data-engineering-solutions/01-Software-Engineering-Best-Practices/03-SQL-Databases/00-Setup/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/brunolajoie/code/lewagon/data-engineering-solutions/01-Software-Engineering-Best-Practices/03-SQL-Databases/00-Setup, configfile: pyproject.toml
+[1mcollecting ... [0mcollected 1 item
+
+tests/test_db.py::test_correct_tables [32mPASSED[0m[32m                             [100%][0m
+
+[32m============================== [32m[1m1 passed[0m[32m in 1.07s[0m[32m ===============================[0m

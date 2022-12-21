@@ -69,7 +69,7 @@ We just created a CSS stylesheet and the HTML template for the Home page. Let's 
 # pylint: disable=missing-docstring
 
 from flask import Flask, render_template
-from longest_word.game import Game
+from longest_world.game import Game
 
 app = Flask(__name__)
 
@@ -247,7 +247,7 @@ According to the [Google App Engine docs](https://cloud.google.com/appengine/doc
 This entrypoint should simply call your app instantiated in `wsgi.py`
 
 ```python
-from wsgi import app
+from longest_word.wsgi import app
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
@@ -270,11 +270,13 @@ touch app.yaml
 
 ```yaml
 runtime: python38 # Define the python version pre-installed on the machine
-service: longest-world # Give a name to your app
+service: default # Give a name to your app. ❗️ First deployment must be called "default"
 handlers: # Define how to handle incoming requests. Here, any request will be handled by main.py
 - url: /.*
   script: main.py
 ```
+
+💡 [Stack Overflow post](https://stackoverflow.com/questions/42360790/why-do-i-need-to-deploy-a-default-app-before-i-can-deploy-multiple-services-in) explaining why the first service deployed should be named "default"
 
 🎉 And that's it! There are tons of other potential configuration parameters to play with for a real app, (how to scale, how to handle secrets etc...) but we don't need them today!
 
