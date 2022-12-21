@@ -1,7 +1,7 @@
 import altair as alt
 import streamlit as st
 from advanced.cache import F1Cache
-
+import pandas as pd
 
 class DataVisualizations:
     def __init__(self) -> None:
@@ -10,7 +10,7 @@ class DataVisualizations:
     def top_drivers(self):
         st.subheader("Top 5 Drivers")
 
-        top_drivers_data = self.f1_cache.get_data("top_drivers")
+        top_driver_data = self.f1_cache.get_data("top_drivers")
 
         pass  # YOUR CODE HERE
 
@@ -18,6 +18,8 @@ class DataVisualizations:
         st.subheader("Lewis Hamilton over the years")
 
         lewis_years = self.f1_cache.get_data("lewis_over_the_years")
+
+        lewis_years['year'] = pd.to_datetime(lewis_years['year'],format='%Y')
 
         # create a line chart with lewis_years, use the Altair library
         pass  # YOUR CODE HERE
