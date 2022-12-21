@@ -126,16 +126,11 @@ Now that the engineering structure is in place, it is time to explore the data f
 Some analytical questions that you should answer in your presentation include:
 
 - ❓ How many points has your team scored over the years?
-
 - ❓ Who are your current drivers?
-
 - ❓ If a driver is not performing well, which drivers from other teams should
 your team consider getting?
-
 - ❓ What has historically been the best racetrack for your team? 👍
-
 - ❓ What has been the worst racetrack? 👎
-
 - ❓ Which two teams are your closest competitors? 💥
 
 Use your creativity to come up with additional analysis if you have time. Support your analysis using Streamlit titles and text using Markdown. At the end of the day, we will ask you to present your findings to the group using your Streamlit application 📉. There is no need to create any slides for your presentation. No worries if you do not get to finish all the questions!
