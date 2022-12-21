@@ -28,7 +28,7 @@ Your output should at least contain 3 fields :
 <br>
 
 2️⃣ **❓ What's the average absolute profit, the average revenue, and the average profit percentage per year?**
-- Order your output by the most recent year, still filtering out movies with a `budget` or a `revenue` <= 10 000.
+- Order your output by the most recent year, still excluding movies with a `budget` or a `revenue` <= 10 000.
 - The output of the query should be 4 columns:
     - `release_year`
     - `avg_revenue` (Rounded to 0 decimal)
@@ -67,7 +67,7 @@ Checkout `LEAD()` SQL function
     - `num_records_bad` (budget or revenue is NULL or equal to 0)
     - `num_records_total` (total number of records in the table)
     - `perc_records_bad` (percentage of records where budget or revenue is NULL or equal to 0). Rounded to 0 decimals
-- Store your code in `exercice-5.sql`.
+- Store your code in `exercice-4.sql`.
 
 <br>
 
