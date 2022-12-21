@@ -6,9 +6,9 @@ By the end of the setup, you should have a working stack using docker-compose (P
 
 ### Instructions
 1️⃣ ❓ Run the following command to download a `SQL` file and place it in your `database/init/` subdirectory:
-  ```bash
-  curl --output ./database/init/f1db.sql.gz https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/f1/f1db.sql.gz
-  ```
+```bash
+curl --output ./database/init/f1db.sql.gz https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/f1/f1db.sql.gz
+```
 
 2️⃣ ❓ You need to run the contents of this SQL file in DBeaver in order to create the data for today (we will do this in a later step). It is still zipped, unzip it yourself using the `gzip` command from the terminal.
 
@@ -17,11 +17,10 @@ By the end of the setup, you should have a working stack using docker-compose (P
 - with a Restart policy: `Always`
 - Loading the database f1db.sql located in `database/init/f1db.sql` into PostgreSQL leveraging volumes and the image's entrypoint `/docker-entrypoint-initdb.d/`
 - with the Environment variables:
-  ```bash
   - POSTGRES_DB=f1db
   - POSTGRES_PASSWORD=postgres
   - POSTGRES_USER=postgres
-  ```
+```
 
 4️⃣ ❓ Create the Streamlit service
 - Building the image (Dockerfile) located at the root folder
@@ -121,23 +120,23 @@ We have a basic Streamlit app now, which we have coded in a single python file. 
 
 ## 4️⃣ Storytelling 📢
 Now that the engineering structure is in place, it is time to explore the data further 📊. You have been assigned to a Formula 1 team in pairs, and it is your job to:
-❓ Give a **presentation** to the management of your team (played by the TA and teacher) on how well you think your team will perform in 2019 based on data from previous years 📈.
-❓ The CTO (also us) is also interested in learning about the **technical details** of your Streamlit application. Therefore, you should create an extra page in your Streamlit app where you explain how you ensure that your web app stays **fast**, even if the amount of data increases.
+- ❓ Give a **presentation** to the management of your team (played by the TA and teacher) on how well you think your team will perform in 2019 based on data from previous years 📈.
+- ❓ The CTO (also us) is also interested in learning about the **technical details** of your Streamlit application. Therefore, you should create an extra page in your Streamlit app where you explain how you ensure that your web app stays **fast**, even if the amount of data increases.
 
 Some analytical questions that you should answer in your presentation include:
 
-❓ How many points has your team scored over the years?
+- ❓ How many points has your team scored over the years?
 
-❓ Who are your current drivers?
+- ❓ Who are your current drivers?
 
-❓ If a driver is not performing well, which drivers from other teams should
+- ❓ If a driver is not performing well, which drivers from other teams should
 your team consider getting?
 
-❓ What has historically been the best racetrack for your team? 👍
+- ❓ What has historically been the best racetrack for your team? 👍
 
-❓ What has been the worst racetrack? 👎
+- ❓ What has been the worst racetrack? 👎
 
-❓ Which two teams are your closest competitors? 💥
+- ❓ Which two teams are your closest competitors? 💥
 
 Use your creativity to come up with additional analysis if you have time. Support your analysis using Streamlit titles and text using Markdown. At the end of the day, we will ask you to present your findings to the group using your Streamlit application 📉. There is no need to create any slides for your presentation. No worries if you do not get to finish all the questions!
 
