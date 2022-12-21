@@ -17,7 +17,7 @@ By the end of the setup, you should have a working stack using docker-compose (P
 - with a Restart policy: `Always`
 - Loading the database f1db.sql located in `database/init/f1db.sql` into PostgreSQL leveraging volumes and the image's entrypoint `/docker-entrypoint-initdb.d/`
 - with the Environment variables:
-  ```yaml
+  ```bash
   - POSTGRES_DB=f1db
   - POSTGRES_PASSWORD=postgres
   - POSTGRES_USER=postgres
@@ -38,16 +38,16 @@ By the end of the setup, you should have a working stack using docker-compose (P
 1️⃣ ❓ In the `.streamlit` folder there is an existing config file responsible for the configuration of a few key elements in Streamlit. In the same folder add a `secrets.toml` file
 
 2️⃣ ❓ In the `secrets.toml` file add the required credentials to connect to the PostgresSQL instance
-    ```toml
-    [postgres]
+  ```toml
+  [postgres]
 
-    drivername = "postgresql"
-    host = "database"
-    port = 5432
-    database = "f1db"
-    username = "postgres"
-    password = "postgres"
-    ```
+  drivername = "postgresql"
+  host = "database"
+  port = 5432
+  database = "f1db"
+  username = "postgres"
+  password = "postgres"
+  ```
 
 3️⃣ ❓ Run
 ```bash
@@ -86,32 +86,33 @@ In the `f1dashboard` folder there is a file called `basic.py`. It is already par
 
 6️⃣ ❓ Create a line chart with the number of points for the driver **Lewis Hamilton** over the years, with years on the x-axis and the number of points on the y-axis. You need the `drivers`, `driver_standings` and `races` table.
 
-7️⃣ ❓ The data that is loaded needs to be stored into the session state for it to be reusable across different pages in Streamlit. Add the loaded_data into the Streamlit session state in the `session_state()` function. Validate that you can access the data on the `descriptives` page from the session state. See the [docs](https://docs.streamlit.io/library/api-reference/session-state) for more info.
+7️⃣ ❓ The data that is loaded needs to be stored into the [session state](https://docs.streamlit.io/library/api-reference/session-state) for it to be reusable across different pages in Streamlit. Add the loaded_data into the Streamlit session state in the `session_state()` function. Validate that you can access the data on the `descriptives` page from the session state. See the [docs](https://docs.streamlit.io/library/api-reference/session-state) for more info.
 
 💾  **Commit and push** your code when you are finished.✨
 
 ---
 
 ## 3️⃣ Engineering 😱
+We have a basic Streamlit app now, which we have coded in a single python file. In order to make the app scalable and future-proof, we have some refactoring to do.
+
 1️⃣ ❓ Copy and paste the contents of `docker-compose-basic.yml` to `docker-compose-advanced.yml`, but change the Streamlit file that you run from `command: ["streamlit", "run", "f1dashboard/basic.py"]` to `command: ["streamlit", "run", "f1dashboard/advanced.py"]`. Run `docker-compose -f docker-compose-advanced.yml up`
 
-2️⃣ ❓ Convert your basic application into a (multi-page app)[https://blog.streamlit.io/introducing-multipage-apps/]. In the `pages` folder there are two files. Each of these files create a separate page in the Streamlit app, which is visible in the sidebar. To keep the app clean, you can implement different parts of your application functionality on different pages. All things considered, use the following structure:
+2️⃣ ❓ Convert your basic application into a [multi-page app](https://blog.streamlit.io/introducing-multipage-apps/). In the `pages` folder there are two files. Each of these files create a separate page in the Streamlit app, which is visible in the sidebar. To keep the app clean, you can implement different parts of your application functionality on different pages. All things considered, use the following structure:
   - `pages/01_descriptives.py` - Implement your `summary_statistics` function here. Implement the `selectbox` widget that you created before and assign it to `self.selected_table`, replacing the hard-coded `races` value with it. There is a list with the different tables in the `constants.py` file. You should be able to select one of these tables and get the descriptive statistics of that table.
   - `pages/02_visualizations.py` - Move your visualizations to this page. You can see that the data for the top drivers and for the points of Lewis Hamilton over the years is retrieved using the `get_data` function of the F1Cache class.
-
-  <details>
-    <summary markdown='span'>🤯 How?</summary>
-  💡 How it works is that `get_data("top_drivers")` triggers the function of `top_drivers` in the `queries.py` file. Similarly, `get_data("lewis_over_the_years")` triggers the `lewis_over_the_years` function in `queries.py`. If you want to create a new function using this structure:
-  1) Create the function in `queries.py` (e.g. called `get_fastest_lap_time`)
-  2) Trigger it in the `02_visualizations` page using `get_data("get_fastest_lap_time")`. You are welcome to ignore this structure and write your own logic of course for retrieving data, this is only intended to help you out a bit.
-  </details>
+    <details>
+      <summary markdown='span'>🤯 get_data?</summary>
+    💡 How it works is that `get_data("top_drivers")` triggers the function of `top_drivers` in the `queries.py` file. Similarly, `get_data("lewis_over_the_years")` triggers the `lewis_over_the_years` function in `queries.py`. If you want to create a new function using this structure:
+    1) Create the function in `queries.py` (e.g. called `get_fastest_lap_time`)
+    2) Trigger it in the `02_visualizations` page using `get_data("get_fastest_lap_time")`. You are welcome to ignore this structure and write your own logic of course for retrieving data, this is only intended to help you out a bit.
+    </details>
 
   - `advanced/queries.py` - Move your queries to retrieve the data here
   - `advanced.py` - The code with the Streamlit commands on the main page. You can move your titles and subheaders here.
 
   A lot of the other code has already been implemented. Object-oriented-programming is used to create classes and methods. The following files were created:
   - `advanced/database.py` - For initializing the database connection
-  - `advanced/cache.py` - Contains the session_state() logic
+  - `advanced/cache.py` - Contains the `session_state()` logic
   - `advanced/constants.py` - Contains the table names of the database
 
 💡 Check that everything is running smoothly, if not, contact the teacher/TA!
@@ -126,10 +127,18 @@ Now that the engineering structure is in place, it is time to explore the data f
 Some analytical questions that you should answer in your presentation include:
 
 ❓ How many points has your team scored over the years?
+
 ❓ Who are your current drivers?
-❓ If a driver is not performing well, which drivers from other teams should your team consider getting?
+
+❓ If a driver is not performing well, which drivers from other teams should
+your team consider getting?
+
 ❓ What has historically been the best racetrack for your team? 👍
+
 ❓ What has been the worst racetrack? 👎
+
 ❓ Which two teams are your closest competitors? 💥
 
 Use your creativity to come up with additional analysis if you have time. Support your analysis using Streamlit titles and text using Markdown. At the end of the day, we will ask you to present your findings to the group using your Streamlit application 📉. There is no need to create any slides for your presentation. No worries if you do not get to finish all the questions!
+
+🚀 Good luck and enjoy!
