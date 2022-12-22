@@ -1,8 +1,13 @@
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/streamlit-logo.png" alt="drawing" width="600"/>
+
 ## 1️⃣ Set-up
-<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/streamlit-logo.png" alt="drawing" width="200"/>
+<details>
+<summary markdown='span'>❓ Instructions (expand me)</summary>
 
 ### 🎯 Goal
 By the end of the setup, you should have a working stack using docker-compose (PostgreSQL, Streamlit) with the Formula 1 database loaded into PostgreSQL after running a SQL script in DBeaver. You will be able to access the Streamlit app at http://localhost:8501.
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/localhost8501.png" alt="drawing" width="600"/>
 
 ### Instructions
 1️⃣ ❓ Run the following command to download a `SQL` file and place it in your `database/init/` subdirectory:
@@ -20,7 +25,6 @@ curl --output ./database/init/f1db.sql.gz https://storage.googleapis.com/lewagon
   - POSTGRES_DB=f1db
   - POSTGRES_PASSWORD=postgres
   - POSTGRES_USER=postgres
-```
 
 4️⃣ ❓ Create the Streamlit service
 - Building the image (Dockerfile) located at the root folder
@@ -59,9 +63,16 @@ into the Postgres database through the DBeaver interface (if this did not happen
 
 🚀 You are now ready to continue with the UI implementation.
 
+</details>
+
 ---
 
 ## 2️⃣ Streamlit basics 😎
+
+<details>
+<summary markdown='span'>❓ Instructions (expand me)</summary>
+
+
 🎯 We are going to use real Formula 1 data. The goal of this exercise is to get you familiar with the basic functionalities of Streamlit, while exploring the Formula 1 dataset 🚗.
 
 📚 Use the [documentation](https://docs.streamlit.io/library/api-reference) of Streamlit to help you.
@@ -83,15 +94,26 @@ In the `f1dashboard` folder there is a file called `basic.py`. It is already par
 
 5️⃣ ❓ Create a bar chart that shows the number of points for the 5 best-performing drivers in descending order (show the driver with the most points on the left side of the graph). Write a query in the `top_driver()` function to retrieve the data and create a bar chart under `if __name__ == '__main__':` after having assigned the data to `top_driver_data`. Use the `drivers` and `driver_standings` tables.
 
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/top_drivers.png" alt="drawing" width="600"/>
+
+
 6️⃣ ❓ Create a line chart with the number of points for the driver **Lewis Hamilton** over the years, with years on the x-axis and the number of points on the y-axis. You need the `drivers`, `driver_standings` and `races` table.
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/lewis_over_the_years.png" alt="drawing" width="600"/>
+
 
 7️⃣ ❓ The data that is loaded needs to be stored into the [session state](https://docs.streamlit.io/library/api-reference/session-state) for it to be reusable across different pages in Streamlit. Add the loaded_data into the Streamlit session state in the `session_state()` function. Validate that you can access the data on the `descriptives` page from the session state. See the [docs](https://docs.streamlit.io/library/api-reference/session-state) for more info.
 
 💾  **Commit and push** your code when you are finished.✨
 
+</details>
+
 ---
 
 ## 3️⃣ Engineering 😱
+<details>
+<summary markdown='span'>❓ Instructions (expand me)</summary>
+
 We have a basic Streamlit app now, which we have coded in a single python file. In order to make the app scalable and future-proof, we have some refactoring to do.
 
 1️⃣ ❓ Copy and paste the contents of `docker-compose-basic.yml` to `docker-compose-advanced.yml`, but change the Streamlit file that you run from `command: ["streamlit", "run", "f1dashboard/basic.py"]` to `command: ["streamlit", "run", "f1dashboard/advanced.py"]`. Run `docker-compose -f docker-compose-advanced.yml up`
@@ -116,9 +138,14 @@ We have a basic Streamlit app now, which we have coded in a single python file. 
 
 💡 Check that everything is running smoothly, if not, contact the teacher/TA!
 
+</details>
+
 ---
 
 ## 4️⃣ Storytelling 📢
+<details>
+<summary markdown='span'>❓ Instructions (expand me)</summary>
+
 Now that the engineering structure is in place, it is time to explore the data further 📊. You have been assigned to a Formula 1 team in pairs, and it is your job to:
 - ❓ Give a **presentation** to the management of your team (played by the TA and teacher) on how well you think your team will perform in 2019 based on data from previous years 📈.
 - ❓ The CTO (also us) is also interested in learning about the **technical details** of your Streamlit application. Therefore, you should create an extra page in your Streamlit app where you explain how you ensure that your web app stays **fast**, even if the amount of data increases.
@@ -136,3 +163,5 @@ your team consider getting?
 Use your creativity to come up with additional analysis if you have time. Support your analysis using Streamlit titles and text using Markdown. At the end of the day, we will ask you to present your findings to the group using your Streamlit application 📉. There is no need to create any slides for your presentation. No worries if you do not get to finish all the questions!
 
 🚀 Good luck and enjoy!
+
+</details>

@@ -3,6 +3,7 @@ import pandas as pd
 import streamlit as st
 from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
+from timeit import default_timer as timer
 
 
 conn_string = URL.create(**st.secrets["postgres"])
@@ -33,6 +34,7 @@ def load_data(table_name):
         pd.DataFrame: The race dataset
     """
     data = pd.read_sql_query(f"select * from {table_name}", conn)
+
     return data
 
 
@@ -106,7 +108,12 @@ def session_state(data):
 if __name__ == "__main__":
     selected_table = create_main_page()
 
+    # used to time the loading of the data
+    start = timer()
     data = load_data(selected_table)
+    end = timer()
+    st.sidebar.info(f"{round(end-start,4)} seconds to load the data")
+
     st.dataframe(data)
 
     summary_statistics(data)

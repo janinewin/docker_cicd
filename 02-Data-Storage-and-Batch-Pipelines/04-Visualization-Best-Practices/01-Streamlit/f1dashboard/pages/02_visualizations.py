@@ -8,6 +8,9 @@ class DataVisualizations:
         self.f1_cache = F1Cache()
 
     def top_drivers(self):
+        """Create a bar chart with the top 5 drivers
+        """
+
         st.subheader("Top 5 Drivers")
 
         top_driver_data = self.f1_cache.get_data("top_drivers")
@@ -15,6 +18,8 @@ class DataVisualizations:
         pass  # YOUR CODE HERE
 
     def lewis_hamilton_over_the_years(self):
+        """Create a line chart with the points of Lewis Hamilton over the years
+        """
         st.subheader("Lewis Hamilton over the years")
 
         lewis_years = self.f1_cache.get_data("lewis_over_the_years")
