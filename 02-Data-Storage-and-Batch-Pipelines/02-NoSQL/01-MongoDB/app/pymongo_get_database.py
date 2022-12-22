@@ -18,7 +18,9 @@ def get_database() -> MongoClient:
     pass  # YOUR CODE HERE
     # Create a connection using MongoClient
     client = MongoClient(CONNECTION_STRING)
-    return client['random']
+
+    # Create the database (if it does not exist) and return it
+    return client['restaurant']
 
 
 
