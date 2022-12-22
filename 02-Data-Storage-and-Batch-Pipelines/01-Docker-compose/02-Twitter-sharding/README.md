@@ -208,7 +208,7 @@ CREATE TABLE us_tweets (
 
 We are now ready to use the SERVER object we created to connect the master table (`tweets`) to this foreign partition!
 
-### 3.3. Connection
+## 3.3. Connection
 
 **🌐 On our host server again** lets connect the to the us and eu_tweets, and define the values which should be fed into the us partion. So here when `usa` is the string in the `location` column it should be stored in this partion!
 
@@ -227,39 +227,64 @@ CREATE FOREIGN TABLE us_tweets
 
 # 4️⃣ Testing it all!
 
-- 🇺🇸 Put yourself in the shoes of an americal use, and create one new tweet located in "usa" using the american Fast API server `localhost:xxxx/docs` `/POST` request.
-- 🇪🇺 Do the same from the European server
-- 🌐 Head over to DBEAVER and you should see the sharding working!
+1. 🇺🇸 Put yourself in the shoes of an American user, and create one new tweet located in "usa" using the american Fast API server `localhost:xxxx/docs` `/POST` request.
+
+2. 🇪🇺 Do the same from the European server as European user
+
+3. 🌐 Head over to your host db again on DBEAVER and you should see the sharding working!
 
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D1/sharding_working.png">
 
-Finally, check also that `/GET` only display regional tweets in their respective FastAPI ! 👏
+```sql
+-- You should be access your remote shards from your host db as if they were local tables!
+SELECT * FROM us_tweets
+UNION
+SELECT * FROM eu_tweets
+````
 
-## Additional stuff
+👉 Finally, check on your *regional* FastAPI that `/GET` requests only display *regional* tweets in their respective ! 👏
+
+
+
+
+## Advanced FDW concepts...just scratching the surface! 🤯 
 
 **default location**
-What if you posted something where location is set to "asia"? 
 
-The sharding will break break. If data doens't fit in either partion, we need somewhere default for the overflow to go.
+What if you posted something where location is set to "asia"? 
+Currently, the sharding will break. If data doesn't fit in either partition, we need some default partition for the overflow to go.
 
 ```sql
+-- This will redirect all other "locations" to this table
 CREATE TABLE default_tweets
     PARTITION OF tweets
     DEFAULT;
 ```
 
-**importing foreign data** instead of "viewing" it.
+**Materialized import of foreign data** 
 
-🤯 You can also use the foreign data wrapper to physically import (as opposed to simply connecting a 'view' over the network) other databases once you create the server object...
+Instead of simply allowing you to view the data, you can also use the foreign data wrapper to physically import (as opposed to simply connecting a 'view' over the network) other databases once you create the server object...
 
 ```sql
 IMPORT FOREIGN SCHEMA public
     FROM SERVER <foreign server> INTO public;
 ```
 
-But we're getting a little bit too far for today...
 
-🏁 We hope this challenge illustrated the power of using docker-compose to test new database architectures quickly without having to launch lots of extra postgres servers on your own hardware!
+**FDW to anything!**  
+
+Thanks to the numerous [open-source FDWs](https://wiki.postgresql.org/wiki/Foreign_data_wrappers), you can create FDW to many other databases than postgres.
+- Other SQL (MySQL, Oracle ...)
+- NoSQL (MongoDB, Cassandra ...)
+- Python (SQL_Alchemy...)
+- File Wrapper (CSV ...)
+- Big Data (BigQuery ...)
+- Spreadsheets (GSheets ...)
+
+📺 Later on, watch this 1h talk [PostgresOpen 2019 Intro To FDW](https://www.youtube.com/watch?v=Swl0P7cP3-w) to dig deeper!
+
+
+### 🏁 We hope this challenge illustrated the power of FDW using docker-compose to test new database architectures quickly without having to launch lots of extra postgres servers on your own hardware!
 
 ```bash
 git add .
