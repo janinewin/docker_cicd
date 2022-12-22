@@ -94,8 +94,8 @@ Your mapping should be the equivalent to the SQL
 ```sql
 CREATE TABLE users (
 	id serial4 PRIMARY KEY,
-	email varchar NOT NULL,
-	hashed_password varchar NOT NULL UNIQUE
+	email varchar NOT NULL UNIQUE,
+	hashed_password varchar NOT NULL
 );
 ```
 
@@ -433,8 +433,8 @@ git commit -m "completed twitter api"
 git push origin main
 ```
 
-### Optional Challenge: 
+### Optional Challenge:
 
-If you're done already, have a look at the way we build our tests, using a FastAPI [TestClient](https://fastapi.tiangolo.com/tutorial/testing/) to spawn a new server at each test, as well as a temporary local sqlite database to mimic your postgres! 
+If you're done already, have a look at the way we build our tests, using a FastAPI [TestClient](https://fastapi.tiangolo.com/tutorial/testing/) to spawn a new server at each test, as well as a temporary local sqlite database to mimic your postgres!
 
 </details>
