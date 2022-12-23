@@ -8,32 +8,27 @@
 
 # 1️⃣ Setup a Google cloud sql instance
 
-First copy the `.env.sample` into a new `.env`. You will notice we have a few extra environment variables than our original twitter app! You can start just by filling out `POSTGRES_PASSWORD` with the password you want.
+First copy the `.env.sample` into a new `.env`. You will notice we have a few extra environment variables than our original twitter app! Fill:
+- `POSTGRES_PASSWORD` with the password you want.
+- `LOCATION` where your VM is located (e.g. europe-west1)
 
-Run this command to create a cloud sql instance, it will take a little while to provision so read what the options are below! Note that you could have done everything from the [console UI](https://console.cloud.google.com/sql/choose-instance-engine) instead
+Then, go to [gcp console UI - SQL section](https://console.cloud.google.com/sql/choose-instance-engine), and create a DB with the following property
+- instanceID=twitter-prod
+- root-password=$POSTGRES_PASSWORD
+- database-version=POSTGRES_14
+- region=$LOCATION
+- connections: 
+    - Private IP
+    - default network
+    - Allocated IP range: USe automatically assigned IP range
 
-```bash
-gcloud sql instances create twitter-prod \
---database-version=POSTGRES_14 \
---region=europe-west1 \
---root-password=$POSTGRES_PASSWORD \
---no-assign-ip \
---network=default \
---cpu=2 \
---memory=8GiB
-```
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D5/cloudSQL.png" width=500>
 
-- The first argument after create is the name for instance we want to create in this case `twitter-prod`.
+**about networks ☝️**
 
-- `--database-version` tells cloud sql the version of SQL we want to run.
+- Here, we tell GCP not to give any public ip to our database: there is no need for anyone external to be able to access the database directly except through the api. This way even if we somehow leak our password no-one can connect without also breaking into GCP 🔐
 
-- --region is where we want to run the instance, here we are placing it in the same region as our virtual machine for fast access. We should make sure to place our api here as well!
-
-- --root-password is the password for the `postgres` user on the new sql instance.
-
-- --no-assign-ip tells GCP not to give a public ip to our database, there is no need for anyone external to be able to access the database directly except through the api. This way even if we somehow leak our password no-one can connect without also breaking into GCP.
-
-- --network tells GCP where to host it privately, given that we don't want it exposed with a public ip. Here we picked default as it is the same network across all your current GCP project's services (which includes your beloved VM). We could equally have created a separate private network just for the app for even more isolation!
+- We picked "default" as it is the same network across all your current GCP project's services (which includes your beloved VM). We could equally have created a separate private network just for the app for even more isolation!
 
 # 2️⃣ Setup the tables
 
