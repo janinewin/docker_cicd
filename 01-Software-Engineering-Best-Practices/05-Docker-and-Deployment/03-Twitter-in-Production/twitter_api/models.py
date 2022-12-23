@@ -7,35 +7,45 @@ class User(Base):
     """Class to represent the users table"""
 
     # Table name
-    pass  # YOUR CODE HERE
+    __tablename__ = "users"
 
     # Columns
-    pass  # YOUR CODE HERE
+    id = Column(Integer, primary_key=True)
+    email = Column(String, unique=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
 
     # Relationships
-    pass  # YOUR CODE HERE
+    tweets = relationship("Tweet", back_populates="owner")
+    likes = relationship("Like", back_populates="owner")
 
 class Tweet(Base):
     """Class to represent the tweets table"""
 
     # Table name
-    pass  # YOUR CODE HERE
+    __tablename__ = "tweets"
 
     # Columns
-    pass  # YOUR CODE HERE
+    id = Column(Integer, primary_key=True)
+    text = Column(String, nullable=False)
+    owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    like_count = Column(Integer, default=0, nullable=False)
 
     # Relationships
-    pass  # YOUR CODE HERE
+    owner = relationship("User", back_populates="tweets")
+    likes = relationship("Like", back_populates="tweet")
 
 
 class Like(Base):
     """Class to represent the likes table"""
 
     # Table name
-    pass  # YOUR CODE HERE
+    __tablename__ = "likes"
 
     # Columns
-    pass  # YOUR CODE HERE
+    id = Column(Integer, primary_key=True, nullable=False)
+    owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    tweet_id = Column(Integer, ForeignKey("tweets.id"), nullable=False)
 
     # Relationships
-    pass  # YOUR CODE HERE
+    owner = relationship("User", back_populates="likes")
+    tweet = relationship("Tweet", back_populates="likes")

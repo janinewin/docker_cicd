@@ -42,12 +42,16 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 @app.get("/users/", response_model=List[schemas.User], tags=["users"])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """get endpoint to read all the the users"""
-    pass  # YOUR CODE HERE
+    users = crud.read_users(db, skip=skip, limit=limit)
+    return users
 
 @app.post("/users/", response_model=schemas.User, tags=["users"])
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     """post endpoint to create a new user for a given email"""
-    pass  # YOUR CODE HERE
+    db_user = crud.read_user_by_email(db, email=user.email)
+    if db_user:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    return crud.create_user(db=db, user=user)
 
 
 ####### Tweets section #######
@@ -58,17 +62,20 @@ def create_tweet_for_user(
     user_id: int, tweet: schemas.TweetCreate, db: Session = Depends(get_db)
 ):
     """post endpoint to create a new tweet for a given user id"""
-    pass  # YOUR CODE HERE
+    return crud.create_tweet(db=db, tweet=tweet, user_id=user_id)
 
 @app.get("/tweets/", response_model=List[schemas.Tweet], tags=["tweets"])
 def read_tweets(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """get endpoint to read all the the tweets"""
-    pass  # YOUR CODE HERE
+    tweets = crud.read_tweets(db, skip=skip, limit=limit)
+    return tweets
 
 
 @app.get("/users/{user_id}/tweets/", response_model=List[schemas.Tweet], tags=["tweets"])
 def read_users_tweets(user_id: int, db: Session = Depends(get_db)):
-    pass  # YOUR CODE HERE
+    """get endpoint to read all the the tweets for a given user id"""
+    tweets = crud.read_users_tweets(db=db, user_id=user_id)
+    return tweets
 
 
 ####### Likes section #######
@@ -77,15 +84,24 @@ def read_users_tweets(user_id: int, db: Session = Depends(get_db)):
 @app.post("/users/{user_id}/likes/", response_model=schemas.Like, tags=["likes"])
 def create_like(user_id: int, like: schemas.LikeCreate, db: Session = Depends(get_db)):
     """post endpoint to create a new like for given user id given that they have not already liked the tweet"""
-    pass  # YOUR CODE HERE
+    db_like = crud.read_like(db, tweet_id=like.tweet_id, owner_id=user_id)
+    if db_like:
+        raise HTTPException(
+            status_code=400, detail="This user has already liked this tweet"
+        )
+    print("Not yet liked")
+    crud.update_tweet_like_count(db=db, tweet_id=like.tweet_id)
+    return crud.create_like(db=db, user_id=user_id, like=like)
 
 
 @app.get("/users/{user_id}/likes/", response_model=List[schemas.Like], tags=["likes"])
 def read_user_likes(user_id: int, db: Session = Depends(get_db)):
     """get endpoint to read all the the likes for a given user id"""
-    pass  # YOUR CODE HERE
+    likes = crud.read_users_likes(db=db, user_id=user_id)
+    return likes
 
 @app.get("/users/{user_id}/liked_tweets/", response_model=List[schemas.Tweet], tags=["likes"])
 def read_user_liked_tweets(user_id: int, db: Session = Depends(get_db)):
     """get endpoint to read all liked_tweets from a user"""
-    pass  # YOUR CODE HERE
+    tweets = crud.read_user_liked_tweets(db=db, user_id=user_id)
+    return tweets

@@ -4,42 +4,55 @@ from pydantic import BaseModel
 
 
 class UserBase(BaseModel):
-    pass  # YOUR CODE HERE
+    email: str
 
 
 class UserCreate(UserBase):
-    pass  # YOUR CODE HERE
+    password: str
 
 
 class User(UserBase):
-    pass  # YOUR CODE HERE
+    id: int
+
+    class Config:
+        orm_mode = True
+
 
 
 # Tweet section
 
 
 class TweetBase(BaseModel):
-    pass  # YOUR CODE HERE
+    text: str
 
 
 class TweetCreate(TweetBase):
-    pass  # YOUR CODE HERE
+    pass
 
 
 class Tweet(TweetBase):
-    pass  # YOUR CODE HERE
+    id: int
+    owner_id: int
+
+    class Config:
+        orm_mode = True
+
 
 
 # Like section
 
 
 class LikeBase(BaseModel):
-    pass  # YOUR CODE HERE
+    tweet_id: int
 
 
 class LikeCreate(LikeBase):
-    pass  # YOUR CODE HERE
+    pass
 
 
 class Like(LikeBase):
-    pass  # YOUR CODE HERE
+    id: int
+    owner_id: int
+
+    class Config:
+        orm_mode = True
