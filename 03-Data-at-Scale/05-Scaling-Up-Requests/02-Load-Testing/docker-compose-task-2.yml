@@ -1,14 +1,15 @@
 version: '3.9'
 services:
 # YOUR CODE HERE
+
   master:
     image: locustio/locust
     ports:
      - "8089:8089"
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/locust.py --master -H http://01-load-testing-webapi-1:8000
-  
+    command: -f /mnt/locust/locust.py --master -H http://03-load-testing-webapi-1:8000
+
   worker:
     image: locustio/locust
     volumes:

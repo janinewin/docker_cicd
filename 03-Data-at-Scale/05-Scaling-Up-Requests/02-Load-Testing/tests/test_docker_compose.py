@@ -3,7 +3,7 @@ from yaml import load
 from yaml.loader import SafeLoader
 
 
-class TestTask1:
+class TestDockerCompose:
     def test_docker_compose(self):
         keys_to_check = [
             "webapi",
@@ -15,6 +15,7 @@ class TestTask1:
             "volumes",
             "master",
             "worker",
+            "env_file",
         ]
 
         def get_keys(d, keys=None):
@@ -26,7 +27,7 @@ class TestTask1:
                 _ = [get_keys(x, keys) for x in d]
             return list(set(keys))
 
-        with open("docker-compose-task-1.yml") as f:
+        with open("docker-compose-task-2.yml") as f:
             docker_compose_data = load(f, SafeLoader)
 
             keys = get_keys(docker_compose_data)
