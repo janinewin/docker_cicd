@@ -1,12 +1,27 @@
+FROM python:3.8.14-slim
 
-FROM python:3.8-buster
+#Do not use env as this would persist after the build and would impact your containers, children images
+ARG DEBIAN_FRONTEND=noninteractive
 
-COPY wsgi.py /wsgi.py
+# force the stdout and stderr streams to be unbuffered.
+ENV PYTHONUNBUFFERED 1
 
-COPY requirements.txt /requirements.txt
+#Setup workdir
+WORKDIR /app
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+COPY ./ ./
 
-# Notice here the port parameter, it is required by google cloud run
-CMD flask run --host 0.0.0.0
+RUN apt-get update \
+    && apt-get -y upgrade \
+    && pip install --no-cache-dir poetry \
+    && poetry install --only main \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+EXPOSE 8000
+
+ENTRYPOINT [ "poetry", "run" ]
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+#size: 143MB
