@@ -3,6 +3,7 @@ name = "test_setup"
 version = "0.1.0"
 description = ""
 authors = ["S. Saunier <seb@lewagon.org>"]
+packages = [{include = "app"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"

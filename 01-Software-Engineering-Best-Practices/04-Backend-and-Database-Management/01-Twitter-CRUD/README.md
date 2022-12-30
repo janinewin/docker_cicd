@@ -420,7 +420,7 @@ ADD COLUMN like_count INT DEFAULT 0
     - *A "user" has many " liked_tweets"*
     - *A "tweet" has many "likers"*
 
-🏁 **Congratulation! You're now able to build your own REST API!**
+**🏁 Congratulation! You're now able to build your own REST API!**
 
 Let us know your progress status by running
 ```bash
@@ -433,8 +433,29 @@ git commit -m "completed twitter api"
 git push origin main
 ```
 
-### Optional Challenge:
+</details>
 
+# Further Read
+
+<details>
+  <summary markdown='span'>❓ Instruction (expand me)</summary>
+
+
+## Optional 1
 If you're done already, have a look at the way we build our tests, using a FastAPI [TestClient](https://fastapi.tiangolo.com/tutorial/testing/) to spawn a new server at each test, as well as a temporary local sqlite database to mimic your postgres!
+
+
+## Optional 2
+📚 Bookmark and save for later this well-thought **[FastAPI-Backend-Template](https://github.com/Aeternalis-Ingenium/FastAPI-Backend-Template)** made by one of our Alumni [Nino Lindenberg](https://kitt.lewagon.com/alumni/Artificial-Ninoligence)
+
+It contains:
+- FastAPI
+- PostgreSQL via asynchronous SQLAlchemy 2.0
+- Alembic for async database migration
+- Docker
+- CI for backend application with GitHub Actions
+- CI for Pre-Commit auto-update
+- Pre-Commit hooks
+- CodeCov test report monitoring
 
 </details>
