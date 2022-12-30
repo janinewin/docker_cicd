@@ -179,13 +179,14 @@ def get_db_connection(
     user: str = os.environ.get(ENV_DB_READONLY_USER, ""),
     host: str = os.environ.get(ENV_DB_HOST, ""),
     dbname: str = os.environ.get(ENV_DB_NAME, ""),
+    port: str = "5432"
 ) -> pgext.connection:
     """
     _get_db_connection will get you a Postgres connection
     Try not to use directly, prefer the pd_read_sql_query helper which will open and close the DB connection for you
     Helper method to get a Postgres DB connection, with sane read-only overridable defaults
     """
-    return pg.connect(f"host={host} dbname={dbname} user={user} password={password}")
+    return pg.connect(f"host={host} port={port} dbname={dbname} user={user} password={password}")
 
 
 def read_sql_query(
@@ -199,13 +200,14 @@ def read_sql_query(
     password: str = os.environ.get(ENV_DB_READONLY_PASSWORD, ""),
     user: str = os.environ.get(ENV_DB_READONLY_USER, ""),
     host: str = os.environ.get(ENV_DB_HOST, ""),
+    port: str = "5432",
     dbname: str = os.environ.get(ENV_DB_NAME, ""),
 ) -> pd.DataFrame:
     """
     read_sql_query wraps pandas.read_sql_query,
     handles the PDB read only connection creation and closing once the query is executed
     """
-    con = get_db_connection(password=password, user=user, host=host, dbname=dbname)
+    con = get_db_connection(password=password, user=user, host=host, port=port, dbname=dbname)
     try:
         return pd.read_sql_query(
             sql=sql,
