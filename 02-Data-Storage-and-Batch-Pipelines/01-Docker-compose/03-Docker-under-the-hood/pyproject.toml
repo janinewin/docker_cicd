@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "03-docker-under-the-hood"
+version = "0.1.0"
+description = ""
+authors = ["Oliver Giles <ogiles@email.com>"]
+readme = "README.md"
+packages = [{include = "pyocker"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.28.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
