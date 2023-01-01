@@ -17,7 +17,9 @@ db.fruits.insertMany([ {name: "apple", origin: "usa", price: 5}, {name: "orange"
 
 4 ❓ Query the documents using the find command
 ```bash
-db.fruits.find().pretty()
+db.fruits.find() #.pretty()
+db.fruits.find({ name: "orange"})
+db.fruits.find({_id: ObjectId("63af03444c0b9ec718b6c79f")})
 ```
 
 5 ❓ Insert another record, but now also containing the color, 💡 this is no problem for Mongodb due to it being **schemaless**
@@ -25,9 +27,9 @@ db.fruits.find().pretty()
 db.fruits.insertOne( { name: "apple", origin: "usa", price: 3, color: "red" } )
 ```
 
-6 ❓ Update the record you just inserted in the previous step ☝️. For example, you can change the price to 4 and the color to green
+6 ❓ Update the record you just inserted in the previous step by increasing its price to 4 ☝️.
 ```bash
-db.fruits.updateOne( { name: "orange", origin: "italy" }, { $set: { price: 4, color: "green" } } )
+db.fruits.updateOne( { name: "apple", origin: "usa" }, { $set: { price: 4 } } )
 ```
 
 7 ❓ Use the `countDocuments` command to count the number of documents in the collection
@@ -35,19 +37,13 @@ db.fruits.updateOne( { name: "orange", origin: "italy" }, { $set: { price: 4, co
 db.fruits.countDocuments()
 ```
 
-8 ❓ Use the `find` command with a query to search for only the fruits that are from the USA
-```bash
-db.fruits.find( { origin: "usa" } ).pretty()
-```
 
-💡 What happens when you try to query a country that does not exist in the db, e.g. `FRA`?
-
-9 ❓ Use the `deleteMany` command to delete all the fruits that are from Italy:
+8 ❓ Use the `deleteMany` command to delete all the fruits that are from Italy:
 ```bash
 db.fruits.deleteMany( { origin: "italy" } )
 ```
 
-10 ❓ Use the `drop` command to drop the entire collection 💥
+9 ❓ Use the `drop` command to drop the entire collection 💥
 ```bash
 db.fruits.drop()
 ```
