@@ -126,6 +126,13 @@ You may have noticed that it works automatically if you open VScode exactly at t
 }
 ```
 
+### Debugging in VS code
+Here are some options, from basic to fancy
+- basic: `breakpoint()`
+- ipython interactive: `import ipdb; ipdb.set_trace()`
+- VS Code debugger (click on line number to add a "red dot"), then "Debug python file"
+- VS Code "Jupyter Run Selection/Line in Interactive Window" --> Open a Notebook-like interactive session!
+
 
 # 4️⃣ Linux
 

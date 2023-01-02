@@ -20,6 +20,7 @@ def get_database() -> MongoClient:
     client = MongoClient(CONNECTION_STRING)
 
     # Create the database (if it does not exist) and return it
+    # 😎 The MongoClient class has a dictionary-like interface for accessing databases
     return client['restaurant']
 
 

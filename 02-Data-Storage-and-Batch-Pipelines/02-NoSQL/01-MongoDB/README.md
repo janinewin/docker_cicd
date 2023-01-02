@@ -150,47 +150,43 @@ For the following questions, use the [documentation of MongoDB](https://www.mong
 <summary markdown='span'>❓ Instructions (expand me)</summary>
 
 ## Setting up the db connection in Python
-We will use the `pymongo` library to interact with the MongoDB database from Python 🐍.  The commands will be very similar, but by including in Python scripts we can structure our code better. There is already an outline of the functions that will need to be written, it is your job to create the logic for these functions 💪. Lets start by setting up the database connection in `app/pymongo_get_database.py`.
+We will use the `pymongo` library to interact with the MongoDB database from Python 🐍.  The commands will be very similar, but by including in Python scripts we can structure our code better. There is already an outline of the functions that will need to be written, it is your job to create the logic for these functions 💪.
 
-❓ The connection string consists of the following format: `mongodb://username:password@localhost:27017/`. Load your username and password from the `.env` file (see `env-template` for the syntax) and use them in the connection string (instead of hardcoding) them. This is used to create a connection to the MongoDB server using the MongoClient object. By loading them from a `.env` file and including that file in `.gitignore`, you are making sure to not store any credentials in `Git` 💀. The function `get_database` allows you to interact with the `restaurant` database, as specified in the return variable of the function.
+❓ Lets start by setting up the database connection in `app/pymongo_get_database.py`. 
+- Try to make `python -m app.pymongo_get_database` should run successfully
 
 <details>
-  <summary markdown='span'>💡 client['restaurant'] ?</summary>
-The MongoClient class has a dictionary-like interface for accessing databases, which allows you to use the square brackets ([]) to access a specific database. In this case, the code is accessing the restaurant database by using client['restaurant']. If the restaurant database does not already exist, PyMongo will create it when it is first accessed.
+  <summary markdown='span'>💡 Hints</summary>
+
+- Load correct username and password from the `.env` file (see `env-template` for the syntax) and use them in the connection string (instead of hardcoding) them. By loading them from a `.env` file and including that file in `.gitignore`, you are making sure to not store any credentials in `Git` 💀. The function `get_database` allows you to interact with the `restaurant` database, as specified in the return variable of the function.
+
+ - client['restaurant'] ? The MongoClient class has a dictionary-like interface for accessing databases, which allows you to use the square brackets ([]) to access a specific database. In this case, the code is accessing the restaurant database by using client['restaurant']. If the restaurant database does not already exist, PyMongo will create it when it is first accessed.
 </details>
 
-🚀 Nice, you have set up the database connection using 🐍 and created a database called `restaurant`! We are now going to ingest documents into this database. Switch to `ingest.py`.
+🚀 Nice, you have set up the database connection using 🐍 and created a database called `restaurant`! We are now going to ingest documents into this database
 
 ## Inserting the documents
-2 ❓ Create a collection named `customers` and insert the following documents 📄 into it from the `ingest_data` function:
-```bash
-{ "name": "John Doe", "age": 35, "gender": "male", "address": "123 Main St" },
-{ "name": "Jane Smith", "age": 28, "gender": "female", "address": "456 Park Ave" },
-{ "name": "Michael Johnson", "age": 41, "gender": "male", "address": "789 Oak St" }
-```
-
-3 ❓ Count the number of documents in the "customers" collection in the `ingest` file. You can also check in mongo express whether the documents have been successfully inserted. What happens when you run the `ingest_data` file multiple times?
+❓ Open `ingest.py` and follow instructions!
+- 🧪 Test it with `python -m app.ingest`
+- What happens when you run the `ingest_data` file multiple times?
+- You can also check in mongo express whether the documents have been successfully inserted. 
 
 ## Reading data
-👉 We are now ready to read the data from the database. Continue working in the `app/query.py` file.  💡 The type hints and docstrings give a good indication pf the values that you are expected to return from the functions. One function has already been filled, ❓ run `poetry run python query.py` to run the full script. 💡 Pymongo returns a cursor when running a MongoDB command, you can extract the values using a function like `list()`.
+We are now ready to read the data from the database using python!
+Good new, `pymongo` query syntax is extremely similar than that of `mongosh`.
 
-<details>
-  <summary markdown='span'>💡 What is a cursor?</summary>
+❓ Work in the `app/query.py` file
+- 🧪 Test it step by step with `python -m app.query` to understand how pymongo works! 
+- 💡 We advise you to set interactive breakpoints in your code or to use interactive session (ie, notebooks) to learn the pymongo syntax step by step!
 
-💡 By default the pymongo functinalities return a `pymongo.cursor.Cursor`, because it allows for the efficient iteration over a large number of results. To see the values that are in the cursor, you can simply use the `list()` function
-</details>
-<br>
-
-5 ❓ Search for customers who are 35 years old or older
-
-6 ❓ Calculate the average age of the customers in the collection
-
-7 ❓ Update all customers with a new field called "membership" that has a value of "gold":
-
-8 ❓ Search for customers and sort the results by their age in descending order:
-
-9 ❓ Delete the customer with the name "Jane Smith"
 
 🏁🚀 Congratulation on finishing these MongoDB exercises!
+
+```bash
+make test
+git add .
+git commit -m "pass 020101"
+git push origin main
+```
 
 </details>
