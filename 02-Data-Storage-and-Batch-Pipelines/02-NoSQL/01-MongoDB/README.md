@@ -42,7 +42,8 @@ We will use 2 different images, one from `Mongo` and one from `Mongo Express`, w
 - `environment`:
   - specify the username and password for the MongoDB root user
   - specify the URL of the MongoDB instance in the following format "mongodb://username:password@localhost:port/"
-
+- `depends_on`:
+  - the express service depends on the mongo service, make that explicit
 ## Get it up and running
 4 ❓ Run
 ```bash
@@ -108,15 +109,15 @@ For the following questions, use the [documentation of MongoDB](https://www.mong
 
 **3 ❓ Insert** the following list of documents into the fruits collection 📄
 ```bash
-[ 
+[
   {name: "apple", origin: "usa", price: 5},
   {name: "orange", origin: "italy", price: 3},
   {name: "orange", origin: "florida", price: 4},
-  {name: "mango", origin: "malaysia", price: 3} 
+  {name: "mango", origin: "malaysia", price: 3}
 ]
 ```
 
-**4 ❓ Find** the all documents from the fruits collection  
+**4 ❓ Find** the all documents from the fruits collection
 - 4.1: Find only the oranges
 - 4.2: Try to do the same from mongo express UI with the Simple, then Advanced interface
 - 4.2: Find only one specific item by its ID
@@ -129,9 +130,9 @@ For the following questions, use the [documentation of MongoDB](https://www.mong
 { name: "apple", origin: "usa", price: 3, color: "red" }
 ```
 
-**6 ❓ Update** the record you just inserted ☝️ by increasing its price to 4 
+**6 ❓ Update** the record you just inserted ☝️ by increasing its price to 4
 
-**7 ❓ Count** the number of *documents* in the collection  
+**7 ❓ Count** the number of *documents* in the collection
 - 💡 What happens when you try to query a country that does not exist in the db, e.g. `FRA`?
 
 **8 ❓ Delete** all the fruits that are from Italy
@@ -152,7 +153,7 @@ For the following questions, use the [documentation of MongoDB](https://www.mong
 ## Setting up the db connection in Python
 We will use the `pymongo` library to interact with the MongoDB database from Python 🐍.  The commands will be very similar, but by including in Python scripts we can structure our code better. There is already an outline of the functions that will need to be written, it is your job to create the logic for these functions 💪.
 
-❓ Lets start by setting up the database connection in `app/pymongo_get_database.py`. 
+❓ Lets start by setting up the database connection in `app/pymongo_get_database.py`.
 - Try to make `python -m app.pymongo_get_database` should run successfully
 
 <details>
@@ -169,14 +170,14 @@ We will use the `pymongo` library to interact with the MongoDB database from Pyt
 ❓ Open `ingest.py` and follow instructions!
 - 🧪 Test it with `python -m app.ingest`
 - What happens when you run the `ingest_data` file multiple times?
-- You can also check in mongo express whether the documents have been successfully inserted. 
+- You can also check in mongo express whether the documents have been successfully inserted.
 
 ## Reading data
 We are now ready to read the data from the database using python!
 Good new, `pymongo` query syntax is extremely similar than that of `mongosh`.
 
 ❓ Work in the `app/query.py` file
-- 🧪 Test it step by step with `python -m app.query` to understand how pymongo works! 
+- 🧪 Test it step by step with `python -m app.query` to understand how pymongo works!
 - 💡 We advise you to set interactive breakpoints in your code or to use interactive session (ie, notebooks) to learn the pymongo syntax step by step!
 
 
