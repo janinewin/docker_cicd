@@ -6,7 +6,7 @@ We will use our beloved Postgres database, and load the [Ikea dataset](https://w
 
 # 0️⃣ Setup
 
-In this exercise, we'll build the functions one by one in `lwdb/db.py` and open them in an IPython notebook `challenge.ipynb` 
+In this exercise, we'll build the functions one by one in `lwdb/db.py` and open them in an IPython notebook `challenge.ipynb`
 
 ❓ First, download the data under `./data/ikea-raw.json`.
 
@@ -36,7 +36,7 @@ In this exercise, we'll build the functions one by one in `lwdb/db.py` and open 
 
 ❓ Let's investigate it in Pandas first by loading json to pandas in your notebook. Look at the columns, do they look like they all have the right type? Cast the 3 numerical columns (`product_price`, `average_rating`, `reviews_count`) with string type to `float` or `"Int64"` using `pandas.to_numeric` and `df[column].astype("Int64")`.
 
-❓ Save this dataframe in two following formats, then compare disk space with `du` linux tool and conclude! 
+❓ Save this dataframe in two following formats, then compare disk space with `du` linux tool and conclude!
 - "data/ikea-cols.parquet" (column major format)
 - "data/ikea-rows.csv" (row major format)
 
@@ -45,7 +45,7 @@ In this exercise, we'll build the functions one by one in `lwdb/db.py` and open 
 
 ❓ **Start the Postgres database** using Docker-Compose after adding your `.env` as per template
 
-❓ **Create the schema** mapping the CSV schema using `./sql/prep_schema.sql` are already given to you. 
+❓ **Create the schema** mapping the CSV schema using `./sql/prep_schema.sql` are already given to you.
 
 You can execute the sql commands from DBEAVER, or from your terminal with
 
@@ -54,14 +54,14 @@ docker exec -it <name of your Postgres container> /bin/bash
 psql -U lewagon -d ikea
 ```
 
-❓ **Load the CSV data** into the Postgres table using our `prep_load.sql` command.  
+❓ **Load the CSV data** into the Postgres table using our `prep_load.sql` command.
 
-In module 01, we were using psql `\copy` utility instead of SQL `COPY` statement because psql didn't have read access priviledge to our linux CM. Why can we use `COPY` here? 
+In module 01, we were using psql `\copy` utility instead of SQL `COPY` statement because psql didn't have read access priviledge to our linux CM. Why can we use `COPY` here?
 
 <details>
   <summary markdown='span'>💡 Hints</summary>
 
-Because we are inside a container this time! 
+Because we are inside a container this time!
 </details>
 
 🧪 `Make test` should pass few more tests
@@ -75,7 +75,7 @@ Let's write a few queries to this medium-sized database to test their speed.
 
 **❓ Select product with SKU "693.885.84"**
 
-**❓ Count the number of products** mentioning the words `chair` and `armrest` in the `raw_product_details` column.   
+**❓ Count the number of products** mentioning the words `chair` and `armrest` in the `raw_product_details` column.
 - Write the query to `sql/search-chair.sql`
 
 Do you think we can do better? Let's try 🐙!
@@ -129,7 +129,7 @@ We'll follow the second method. Add the new `tsvector` column, name it `textsear
   ```sql
   ALTER TABLE <table name>
   ADD COLUMN <new tsvector column name> tsvector
-  GENERATED ALWAYS AS (to_tsvector('english' <text column name>)) STORED;
+  GENERATED ALWAYS AS (to_tsvector('english', <text column name>)) STORED;
   ```
 
   then add the index
@@ -151,11 +151,11 @@ Now rewrite the second query as as `sql/search-chair-indexed.sql`. The [bottom o
   ```sql
   SELECT count(*)
   FROM ikea_products
-  WHERE raw_product_details_text @@ to_tsquery('chair & armrest');
+  WHERE textsearchable_raw_product_details_text @@ to_tsquery('chair & armrest');
   ```
 </details>
 
-Re-run it, is it faster? 
+Re-run it, is it faster?
 
 ## (Optional) Bonus questions
 
