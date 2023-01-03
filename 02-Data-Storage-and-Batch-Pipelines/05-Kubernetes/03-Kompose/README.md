@@ -1,0 +1,79 @@
+# Kompose
+
+There are lots of tools to help speed up our writing of k8s but kompose takes this one step further automatically generating k8s from docker compose files! 🤯
+
+In this challenge we are going to take a style transfer app which applies a chosen style to a given image. Then use kompose to generate our k8s for us from docker-compose. Now we know how to move to GKE for the remaining exercises we are going to stay on minikube for time and money!
+
+
+## 1️⃣ Setup 💻
+
+First try the app with:
+
+```bash
+docker compose up
+```
+
+You can checkout 🕵️‍♂️ the code the images are built from in the `backend` and `frontend` folders.
+
+Then start a new minikube cluster
+
+```bash
+minikube delete
+minikube start
+```
+
+We are ready to go!
+
+## 2️⃣ Kompose 🎼
+
+
+```bash
+kompose convert -f docker-compose.yaml
+```
+
+We get few warnings
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/kompose-first-attempt.png">
+
+The first warning is important as our backend won't have a service created for our backend, a deployment does not necessarily need a service but when our pods want to connect with each other it makes our life much easier. The second warning is about our bind mount here which k8s cannot replicate as an idea.
+
+❓ Try to rectify both of these problems!
+
+You can either fix it by fixing the k8s files yourself (longer) or you can change the docker kompose so that backend has a port and both use a docker-managed volume that kompose can interpret more easily.
+
+<details>
+<summary markdown='span'>💡 Fixed docker-compose</summary>
+
+```
+version: '3'
+
+services:
+  frontend:
+    image: europe-west1-docker.pkg.dev/data-engineering-students/student-images/style-frontend
+    ports:
+      - 8501:8501
+    depends_on:
+      - backend
+    volumes:
+        - style-storage:/storage
+  backend:
+    image: europe-west1-docker.pkg.dev/data-engineering-students/student-images/style-backend
+    volumes:
+      - style-storage:/storage
+    ports:
+      - 8080
+
+volumes:
+  style-storage:
+```
+
+</details>
+
+Once you have fixed the issues apply your files with `kubectl apply -f .`
+
+🤯 If you have written good `docker-compose` files its as easy as just `kompose convert -f docker-compose.yml && kubectl apply -f .` but generally it is recommended to check the translation before applying it to your cluster.
+
+
+❓ Finally access the `frontend` service and verify that it works the same as when we just did `docker-compose up`.
+
+🏁 In the next exercise we are going to see how we can bring both the frontend and backend together in a single pod!
