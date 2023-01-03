@@ -14,7 +14,7 @@ def get_database() -> MongoClient:
     """
     CONNECTION_STRING = None
     # Use your username and password to log in to MongoDB
-    # it should be in the following format: mongodb://username:password@localhost:27017/
+    # it should be in the following format: mongodb://<username>:<password>@<host>:<port>/
     pass  # YOUR CODE HERE
     # Create a connection using MongoClient
     client = MongoClient(CONNECTION_STRING)
