@@ -42,10 +42,10 @@ We also want to mount a directory inside the container that will point to our ap
 1. Create a docker compose service named `webapi` with a [container name](https://docs.docker.com/compose/compose-file/#container_name) `fastapi` building the docker file included in this exercise named `dockerfile-fastapi`
 1. Adjust the [restart policy](https://docs.docker.com/config/containers/start-containers-automatically/) to be `on-failure`
 1. Expose the [port](https://docs.docker.com/compose/compose-file/#ports) 8000 so you can access your container from outside
-1. Create a [volume](https://docs.docker.com/compose/compose-file/#volumes) mounting the directory `./app-no-database` into the container's directory `/server/app`
+1. Create a [volume](https://docs.docker.com/compose/compose-file/#volumes) mounting the directory `./api-no-database` into the container's directory `/app/api`
 1. Override the container's command adding the `--reload` flag to restart the fastapi server on file changes
     ```bash
-    uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
     ```
 1. Build and run the docker compose stack
     ```bash
@@ -111,7 +111,7 @@ We want to achieve two goals here:
 **❓ 3.1) Add a database service**
 
 1. Copy the content of `docker-compose-2.yml` into `docker-compose-3.yml`
-1. We are now using the `app` folder instead of `app-no-database`, change the mounted dir accordingly in the docker compose file
+1. We are now using the `app` folder instead of `api-no-database`, change the mounted dir accordingly in the docker compose file
 1. Create a second service for the relational database, based on the postgreSQL 14.2 image
 1. As described in the [image docs](https://hub.docker.com/_/postgres#:~:text=The%20only%20variable%20required%20is%20POSTGRES_PASSWORD%2C%20the%20rest%20are%20optional.), add the only mandatory env variable for this image: the superuser password
     ```yml
