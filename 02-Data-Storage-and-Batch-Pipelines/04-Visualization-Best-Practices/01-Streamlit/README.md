@@ -5,18 +5,12 @@
 <summary markdown='span'>❓ Instructions (expand me)</summary>
 
 ### 🎯 Goal
-By the end of the setup, you should have a working stack using docker-compose (PostgreSQL, Streamlit) with the Formula 1 database loaded into PostgreSQL after running a SQL script in DBeaver. You will be able to access the Streamlit app at http://localhost:8501.
+By the end of the setup, you should have a working stack using docker-compose (PostgreSQL, Streamlit) with the Formula 1 database loaded into PostgreSQL. You will be able to access the Streamlit app at http://localhost:8501.
 
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/localhost8501.png" alt="drawing" width="600"/>
 
 ### Instructions
-1️⃣ ❓ Run the following command to download a `SQL` file and place it in your `database/init/` subdirectory:
-```bash
-curl --output ./database/init/f1db.sql.gz https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/f1/f1db.sql.gz
-```
-
-2️⃣ ❓ You need to run the contents of this SQL file in DBeaver in order to create the data for today (we will do this in a later step). It is still zipped, unzip it yourself using the `gzip` command from the terminal.
-
+1️⃣ ❓ Copy the f1db.sql file from the previous challenge and copy it inside the `database/init` folder.
 3️⃣ ❓ In the `docker-compose-basic.yml` file - create the database service:
 - based on PostgreSQL 14
 - with a Restart policy: `Always`
@@ -57,9 +51,6 @@ curl --output ./database/init/f1db.sql.gz https://storage.googleapis.com/lewagon
 docker-compose -f docker-compose-basic.yml up
 ```
 ☝️ You should be able to access the Streamlit app at http://localhost:8501.
-
-4️⃣ ❓Run the sql script of `01-Streamlit/database/init/f1db.sql` to load the tables
-into the Postgres database through the DBeaver interface (if this did not happen automatically). Use the values from the `secrets.toml` file to log into DBeaver. Head to http://localhost:8501 👉 to see the dashboard✨
 
 🚀 You are now ready to continue with the UI implementation.
 
@@ -160,7 +151,7 @@ your team consider getting?
 - ❓ What has been the worst racetrack? 👎
 - ❓ Which two teams are your closest competitors? 💥
 
-Use your creativity to come up with additional analysis if you have time. Support your analysis using Streamlit titles and text using Markdown. At the end of the day, we will ask you to present your findings to the group using your Streamlit application 📉. There is no need to create any slides for your presentation. No worries if you do not get to finish all the questions!
+Use your creativity to come up with additional analysis if you have time. Feel free to play with the `CSS` (see `.streamlit/config.toml`) as well to make your app look nicer! Support your analysis using Streamlit titles and text using Markdown. At the end of the day, we will ask you to present your findings to the group using your Streamlit application 📉. There is no need to create any slides for your presentation. No worries if you do not get to finish all the questions!
 
 🚀 Good luck and enjoy!
 

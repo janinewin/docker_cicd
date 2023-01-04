@@ -1,102 +1,37 @@
-# Dashboard
+# Metabase
+To use Metabase, you will need to set it up using docker-compose and connect it to a Postgres database. As a data engineer, it is important for you to be able to set up the environment and connect the database 💪, even if you may not be the one creating the dashboards 📊.
 
+### Instructions
+1️⃣ ❓ Run the following command to download a `SQL` file and place it in your `database/init/` subdirectory:
+```bash
+curl --output ./database/init/f1db.sql.gz https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/f1/f1db.sql.gz
+```
 
-For this exercise we will reuse the stack created on day 4. So far we have:
+2️⃣ ❓ The sql file is still zipped, unzip it yourself using the `gzip` command from the terminal.
 
-- set up a base Docker Compose with Postgres, FastAPI and Adminer. Today we'll load some data into this database.
-- loaded a data schema mapping the [the movies dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset), and
-- added a Jupyter lab environment to interact with the datasets and propose a new normalized SQL schema
-- loaded periodically the latest comments using an Airflow DAG.
+3️⃣ ❓ Create a docker-compose file. One important requirement is that the following volume is used in order to run the `sql` file when starting the postgres container: `./database/init/:/docker-entrypoint-initdb.d/`. For the other stuff there are some good examples to be found on Google 🕵️‍♀️
 
+4️⃣ ❓ Run `docker-compose up`
 
-Today, we'll add a dashboard to visualize what we've done so far! The dashboard will have 2 panels:
+5️⃣ ❓ Log into Metabase
 
-1. Show the 5 movies with the best rating score (we can define a rating score as the rating's median for instance)
-2. Given a movie (add a filter to the panel), show the 10 latest comments
+6️⃣ ❓ Load the postgres database as a source using the environment variables that you included in the docker-compose file.
 
-## End goal
-At the end of this exercise you should be able to:
-- Add metabase in a docker compose stack
-- Back up metabase data using a docker volume
-- Connect a database to metabase and display all the data
-- Create a dashboard with insighful cards
+7️⃣ ❓ Verify that the data has been loaded. It should be under `Browse Data` ➡️ `Postgres`. You should amongst other see the `drivers` table.
 
-## Tasks
+8️⃣ ❓ Have a look at the tables that the `f1db.sql` file created. These tables are included:
+- races
+- circuits
+- constructor_results
+- constructor_standings
+- constructors
+- driver_standings
+- drivers
+- lap_times
+- pit_stops
+- qualifying
+- results
+- seasons
+- status
 
-This exercise will walk you through all the steps to get a dashboard up and running in a docker compose stack
-
-### 1. Setting up Metabase
-
-1. Create a new metabase service, pulling the [metabase image](https://hub.docker.com/r/metabase/metabase/)
-2. Adjust the restart policy to `always`
-3. Let's back up the metabase internal DB based on [H2](https://www.h2database.com/html/main.html): Create a volume mapping the local dir `metabase-data` to the container dir `metabase-data`. This is where the internal DB will be located
-4. Configure the location of Metabase's internal DB by ajusting the env var `MB_DB_FILE` with the current value: `/metabase-data/metabase.db`
-5. Map port `3000` so you can access metabase on [http://localhost:3000](http://localhost:3000)
-6. Add a dependency for this service on the database service - the service spinning up the actual postgres database
-7. Spin up the docker compose stack and wait for all the init to happen `docker-compose up`
-8. Once ready, head to your [http://localhost:3000](http://localhost:3000)
-9. **Add your data later**
-10. Get started with Metabase you should be able to explore the default dataset included with Metabase
-
-### 2. Connecting the postgreSQL database to Metabase
-1. Click on `add your own data`
-2. Fill in all the information regarding your database
-3. Wait until import is done
-4. Exit admin interface
-5. You should see all the tables on the home page
-
-**NB: You can always explore the DB using adminer, the interface is ideal for prototyping SQL queries and understanding the schema**
-
-### 3. Creating the metrics
-
-**❓ #1: Let's show the 5 movies with the best rating score** (we can define a rating score as the rating's median for instance).
-If you prefer you can either use the UI filters or just write a SQL query to get the answers.
-
-**Let's start by computing the average rating for all the movies**
-
-1. Click on New in the top right corner and select `Question`
-2. Pick the database `movies`
-3. Show the table ratings
-4. Now compute the average rating for each movie
-5. Save it then add it to a new dashboard
-6. Save the dashboard
-5. Once done you can explore the data and save the question to be reused later
-
-**Let's compute the median rating**
-
-1. Now create a new question and instead of `database` as starting point, choose a model and select the model just created
-2. Now let's compute the median rating for all the ratings
-    - With SQL
-        ```sql
-        SELECT PERCENTILE_CONT(0.5)
-        WITHIN GROUP (ORDER BY rating) AS median
-        FROM ratings;
-        ```
-    - Without SQL you can explore the list of [available expression in metabase](https://www.metabase.com/docs/latest/users-guide/expressions-list.html#median) and use the UI filters.
-3. Save the question and add it to your dashboard
-
-**Finally let's get the top 5 movies with the best rating score**
-
-1. Start with the `movies_metadata` table
-2. Click on the join icon and join the ratings table on `movie_id`
-3. Now compute the median using a custom expression
-4. Aggregate by movie id
-5. Order by median DESC
-6. Limit to 5 rows
-
-<details>
-<summary markdown='span'>Hint 💡</summary>
-
-You notice that nothing is showing up and that the median rating is `NULL`.
-Can you find out why, and correct the query?
-</details>
-
-<details>
-<summary markdown='span'>Help 🙌</summary>
-Exclude the movies where rating is empty/null.
-</details>
-
-**Add it to your dashboard!**
-
-
-**❓ #2: Given a movie (add a filter to the panel), show the 5 best comments and 5 worsts comments.**
+🚀 In the next challenge you will use these tables to write a Streamlit application, so take some time to discover each table!
