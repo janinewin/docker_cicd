@@ -126,14 +126,6 @@ You may have noticed that it works automatically if you open VScode exactly at t
 }
 ```
 
-### Debugging in VS code
-Here are some options, from basic to fancy
-- basic: `breakpoint()`
-- ipython interactive: `import ipdb; ipdb.set_trace()`
-- VS Code debugger (click on line number to add a "red dot"), then "Debug python file"
-- VS Code "Jupyter Run Selection/Line in Interactive Window" --> Open a Notebook-like interactive session!
-
-
 # 4️⃣ Linux
 
 ## glob patterns
@@ -330,3 +322,41 @@ If still doesn't fix it, it may be an backlog of badly closed port-forwarding th
   # On your local machine (not your VM)
   ssh -L xxx:localhost:xxx <vm_IP_address>
   ```
+
+# 7️⃣ DEBUGGING 🐛
+
+Here are some options, from basic & quick to fancy & heavy:
+
+- basic: `print()` statements
+- interactive CLI: `breakpoint()`
+- interactive CLI with syntax: `import ipdb; ipdb.set_trace()`
+- VS Code debugger: (click on line number to add a "red dot"), then "Debug python file"
+- VS Code "Jupyter Run Selection/Line in Interactive Window" --> Open a Notebook-like interactive session.
+- Standalone jupyter notebook and import your code
+
+## Adding breakpoint inside a running docker container ?
+
+Add `breakpoint()` in your code base. Then:
+
+#### With docker
+
+```bash
+docker run --it <your_image>
+```
+
+#### With docker-compose:
+Add the following to your docker-compose.yml file
+
+```yml
+my_service_name:
+  <...>
+  stdin_open: true # eq. to docker run -i 
+  tty: true        # eq. to docker run -t
+```
+
+then
+
+```bash
+docker-compose up
+docker attach <running_container_id>
+```

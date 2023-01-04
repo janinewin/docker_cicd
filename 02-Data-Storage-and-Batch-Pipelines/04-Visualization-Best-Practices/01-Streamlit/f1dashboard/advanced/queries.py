@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-from advanced.database import F1Database
+from f1dashboard.advanced.database import F1Database
 
 
 class F1Queries:

@@ -9,7 +9,9 @@ ENV PYTHONUNBUFFERED 1
 #Setup workdir
 WORKDIR /app
 
-COPY ./  ./
+COPY ./pyproject.toml  ./pyproject.toml
+COPY ./poetry.lock  ./poetry.lock
+COPY ./f1dashboard  ./f1dashboard
 
 RUN apt-get update \
     && apt-get -y upgrade \

@@ -1,8 +1,9 @@
 [tool.poetry]
-name = "05-Visualization-Best-Practices"
+name = "Visualization"
 version = "0.1.0"
 description = ""
 authors = ["S. Saunier <seb@lewagon.org>"]
+packages = [{include = "f1dashboard"}]
 
 [tool.poetry.dependencies]
 python = ">=3.8.0,<3.9.7 || >3.9.7,<4.0.0"
@@ -10,6 +11,7 @@ streamlit = "1.15.0"
 SQLAlchemy = "^1.4.37"
 psycopg2-binary = "^2.9.3"
 matplotlib = "^3.6.2"
+plotly = "^5.11.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "7.1.2"
@@ -20,6 +22,9 @@ watchdog = "^2.1.8"
 pytest-mock = "^3.7.0"
 Sphinx = "^5.0.1"
 sphinx-rtd-theme = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.19.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -34,3 +39,9 @@ profile = "black"
 line_length = 160
 multi_line_output = 3
 include_trailing_comma = true
+
+[tool.pytest.ini_options]
+markers = ["optional: not required, nor saved in test_output.txt"]
+
+[virtualenvs]
+in-project = true

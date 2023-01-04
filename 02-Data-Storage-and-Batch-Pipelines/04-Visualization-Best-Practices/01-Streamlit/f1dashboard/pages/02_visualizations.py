@@ -1,20 +1,26 @@
+"""
+In data visualizations the following visualizations are shown:
+- A bar chart with the top 5 drivers with the most points
+- A line chart with the points of Lewis Hamilton over the years
+"""
+
 import altair as alt
 import streamlit as st
-from advanced.cache import F1Cache
+from f1dashboard.advanced.state import F1State
+from f1dashboard.advanced.queries import F1Queries
 import pandas as pd
 
 class DataVisualizations:
     def __init__(self) -> None:
-        self.f1_cache = F1Cache()
+        self.f1_state = F1State()
+        self.f1_queries = F1Queries()
 
     def top_drivers(self):
         """Create a bar chart with the top 5 drivers
         """
 
         st.subheader("Top 5 Drivers")
-
-        top_driver_data = self.f1_cache.get_data("top_drivers")
-
+        # Use your package logic to load data, then plot it accordingly.
         pass  # YOUR CODE HERE
 
     def lewis_hamilton_over_the_years(self):
@@ -22,16 +28,10 @@ class DataVisualizations:
         """
         st.subheader("Lewis Hamilton over the years")
 
-        lewis_years = self.f1_cache.get_data("lewis_over_the_years")
-
-        lewis_years['year'] = pd.to_datetime(lewis_years['year'],format='%Y')
-
-        # create a line chart with lewis_years, use the Altair library
+        # Use your package logic to load data, then plot it accordingly.
         pass  # YOUR CODE HERE
 
 
 if __name__ == "__main__":
     st.title("Data visualizations")
-    data_visualizations = DataVisualizations()
-    data_visualizations.top_drivers()
-    data_visualizations.lewis_hamilton_over_the_years()
+    pass  # YOUR CODE HERE

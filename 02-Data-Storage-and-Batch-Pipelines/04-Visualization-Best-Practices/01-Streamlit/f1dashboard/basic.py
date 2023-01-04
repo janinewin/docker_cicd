@@ -8,7 +8,7 @@ from timeit import default_timer as timer
 
 conn_string = URL.create(**st.secrets["postgres"])
 conn = create_engine(conn_string, echo=False)
-tables = [
+TABLES = [
     "races",
     "circuits",
     "constructor_results",
@@ -45,13 +45,13 @@ def create_main_page():
     - A subheader
     - A title in the sidebar
     - A markdown section in the sidebar
+    - A widget in the sidebar to select a table from the `TABLES` list,
+    and then return the selected table (instead of the hard-coded "races" value)
     """
     st.title("Formula 1 Dashboard")
     st.info(
         """
-    Create a subheader, a title in the sidebar and a markdown section in the sidebar.
-    Also create a widget in the sidebar to select a table from the database.
-    Return the selected table (instead of the hard-coded races value"
+    Delete me once completed
     """
     )
     selected_table = "races"
@@ -122,9 +122,8 @@ if __name__ == "__main__":
     st.subheader("Top 5 Drivers")
     top_driver_data = top_drivers()
     st.write(top_driver_data)
-
     st.warning("Use the Altair library to create a bar chart with the top drivers")
-    # create a bar chart with the top drivers, you can use the Altair library
+    # create a bar chart with the top drivers
     pass  # YOUR CODE HERE
 
     st.subheader("Lewis Hamilton over the years")
