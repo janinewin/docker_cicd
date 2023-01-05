@@ -1,6 +1,6 @@
-### Minikube & Kubectl 101
+## Goal 🎯
 
-🎯 In this challenge, we will learn how to deploy our first application with **Kubernetes** and **Minikube** by putting a FastAPI endpoint onto a cluster. 🚀
+In this challenge, we will learn how to deploy our first application with **Kubernetes** and **Minikube** by putting a FastAPI endpoint onto a cluster. 🚀
 
 Minikube allows developers to run Kubernetes **locally** on their machine, as though it was a cluster of nodes.
 It is an excellent tool to **help developers and new Kubernetes users in deploying applications with K8s**.
@@ -16,7 +16,26 @@ To use Minikube, as mentioned in the [documentation](<https://minikube.sigs.k8s.
 
 In our case, we will use Docker to launch Minikube.
 
-## Launching Minikube 🚀
+## 1️⃣ K8s Power User Setup 🎁 
+
+### ZSH autocompletions
+
+Add the two following lines at the end of your `~/.zshrc` file then reopen a new terminal
+
+```bash
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh) 
+[[ $commands[minikube] ]] && source <(minikube completion zsh)
+```
+
+If you type `minikube <TAB>` or `kubectl <TAB>` it should give you a list of commands 
+
+### VScode Extensions
+
+Before you get started there are some key extensions we need for VSCode to make developing k8s a breeze. Make sure you have Kubernetes, Kubernetes templates, and YAML - all highlighted in the image below 👇.
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/extensions.png" width=200>
+
+## 2️⃣Launching Minikube 🚀
 
 To launch Minikube and start a cluster, you'll need to open a terminal and run the following command :
 
@@ -42,32 +61,39 @@ NAME       STATUS   ROLES                  AGE   VERSION
 minikube   Ready    control-plane,master   75s   v1.23.3
 ```
 
-## First step - Sharing your Docker daemon 🐳
+## 3️⃣ Sharing your Docker daemon 🐳
 
 When you work with Minikube, you work within a VM with its own docker daemon.
 
-In order to let our local Docker daemon to communicate with Minikube's Docker daemon, we need to run the following command:
+In order to let our local Docker daemon to communicate with Minikube's Docker daemon, we need to specifies to the Docker client to use the Docker service running inside the Minikube virtual machine.
+
+❓ Run the following command **and follow its instructions**:
 
 ```bash
-eval $(minikube docker-env)
+minikube docker-env
 ```
 
-This command specifies to the Docker client to use the Docker service running inside the Minikube virtual machine.
-Now any ‘docker’ command you run in this current terminal will run against the Docker inside Minikube cluster.
+Now any `docker` command you run in this current terminal will run against the Docker inside Minikube cluster. Check it out with `docker ps`, you should see a dozen of `k8s_...` containers names running! (careful, your VS code docker-extension is not connected to this new context 😢)
 
 
-❓ Now ‘build’ against the docker inside Minikube, which is instantly accessible to Kubernetes cluster.
+❓ Now `build` the Dockerfile against the docker inside Minikube, which is instantly accessible to Kubernetes cluster.
 
 ```bash
 docker build -t app .
 ```
 
-*Alternatively, there is one other effective way to push your local Docker image directly to Minikube, which could save time from building the images in Minikube again: `minikube image load <image_name>`*
+💡 *Alternatively, there is one other effective way to push your local Docker image directly to Minikube, which could save time from building the images in Minikube again: `minikube image load <image_name>`*
 
-## Our first K8s service 🗄️
+## 4️⃣ Our first K8s Service 🗄️
 
-Let's create our first service on Kubernetes.
-A service is an **abstraction** that defines a set of **Pods** running in your cluster, and a **policy** by which to reach them. Sometimes this pattern is called a [**micro-service**](https://en.wikipedia.org/wiki/Microservices).
+
+Let's create our first service on Kubernetes. A service is
+- an **abstraction** that defines a set of **Pods** running in your cluster
+- and a **policy** by which to reach them. 
+
+Sometimes this pattern is called a [**micro-service**](https://en.wikipedia.org/wiki/Microservices).
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/load-balancer.png" width=600>
 
 When created, the Service is assigned a unique IP address.
 This address is tied to the lifespan of the Service, and will not change while the Service is alive.
@@ -90,8 +116,9 @@ spec:
   type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: 8000
+      name: service-port
+      targetPort: 8000 # MUST be the port exposed by FastAPI "CMD" in DockerFile
+      port: 5000 # Choose what you want here
   selector:
     app: fastapi
 
@@ -101,12 +128,14 @@ In the first part, we specify that the configuration file is for a Service that 
 
 A selector usually determines the set of Pods targeted by a Service.
 In the spec, we specify that it is a **LoadBalancer service**.
-This specification creates a new Service object named "fastapi-service", which targets TCP port 8000 on any Pod with the `fastapi` label.
 
-We then expose it on an abstracted Service port 8080.
+This specification creates a new Service object named "fastapi-service"
 
-`targetPort`: is the port the container accepts traffic on.
-`port`: is the abstracted Service port, which can be any port other pods use to access the Service.
+- `targetPort` 8000: The port of the pods (where the fastAPI is running). 
+- 
+- `port` 5000: The exposed port external users use to access the Service
+
+
 
 Let's create our service 👇
 
@@ -122,15 +151,17 @@ Let's inspect our new service
 kubectl get service fastapi-service
 ```
 
-You should see something like this
+You should see something like this (let's not care too much about IP for now)
 
 ```text
 NAME            TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-fastapi-service   LoadBalancer   10.96.231.152   <pending>     8000:30604/TCP   24s
+fastapi-service   LoadBalancer   10.96.231.152   <pending>     5000:30604/TCP   24s
 ```
 
 
-## Our first K8s Deployment 🛰
+## 5️⃣ Add the Deployment 🛰
+
+<img src="https://miro.medium.com/max/720/1*iTAVk3glVD95hb-X3HiCKg.webp" width=500>
 
 Within Kubernetes, a container runs in a pod, which can be represented as **one instance of a running service**.
 
@@ -178,7 +209,7 @@ spec:
         image: app:latest
         imagePullPolicy: Never
         ports:
-        - containerPort: 8000
+        - containerPort: 8000 # Same as service target port
 ```
 
 In the first part of the configuration, we specify that the configuration we are applying is for a Deployment resource that we call `fastapi-deployment`.
@@ -187,7 +218,7 @@ In the spec, we specify the number of replicas, here 4.
 It means that we will always have 4 pods running our application.
 This pods will each run a container app that we have build previously and renamed `fastapi-container` here.
 
-We then specify the port exposed in the container, here 8000.
+We then specify the port exposed in the container, here 8000 (as per Service's target port).
 
 By Default, a Deployment will always try to pull the image from a remote registry. If you want to use a local image to build a container in the pods, you need to specify the `imagePullPolicy` to `Never`.
 
@@ -216,19 +247,19 @@ fastapi-deployment-746c85b46f-h5vls   1/1     Running   0          26s
 fastapi-deployment-746c85b46f-rgm82   1/1     Running   0          26s
 ```
 
-## Forwarding our service 🔗
+## 6️⃣ Forwarding our service 🔗
 
-If you want to see the app running we need to forward to port from the cluster to our VM!
+To see the app running we need one last thing: to forward to port from the cluster to our VM!
 
 ```bash
-kubectl port-forward service/fastapi-service 9000:8080
+kubectl port-forward service/fastapi-service 9000:5000
 ```
 
 This command will forward the service port we defined in the `service.yaml` to 9000 on the localhost of your VM.
 
-❓ Then forward the port 9000 again to your host machine and you should be able to see your running service!
+Then forward the port 9000 again to your host machine (MacBook, Windows...) and you should be able to see your running service!
 
-## Using Minikube dashboard 🖼️
+## 7️⃣ Using Minikube dashboard 🖼️
 
 Minikube has an excellent UI interface to manage and visualize your clusters!
 You can use it to :
@@ -244,9 +275,9 @@ To launch the Minikube dashboard, let's open a new terminal and run:
 minikube dashboard
 ```
 
-Then follow the address it gives and open it in your local browser!
+Then follow the address it gives and open it in your local browser! (with ssh-port-forwarding from your VM..)
 
-## Stopping Minikube 🛑
+## 8️⃣ Stopping Minikube 🛑
 
 To delete your local cluster 👇
 
@@ -261,6 +292,12 @@ To stop Minikube 👇
 minikube stop
 ```
 
-### Well done! 🙌
+## 🏁 Well done! 🙌
 
-You've just experienced the basic building blocks of a k8s deployment - pods, nodes, containers and clusters. For a further summary of these, check out [this article 📚](https://medium.com/google-cloud/kubernetes-101-pods-nodes-containers-and-clusters-c1509e409e16).
+```bash
+make test
+git add --all
+ggpush
+```
+
+👉 Take 5 min to read [this amazing summary article 📚](https://medium.com/google-cloud/kubernetes-101-pods-nodes-containers-and-clusters-c1509e409e16).

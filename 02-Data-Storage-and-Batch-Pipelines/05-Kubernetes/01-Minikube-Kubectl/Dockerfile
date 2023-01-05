@@ -9,19 +9,17 @@ ENV PYTHONUNBUFFERED 1
 #Setup workdir
 WORKDIR /app
 
-COPY ./ ./
+COPY api api
+COPY pyproject.toml poetry.lock ./
 
-RUN apt-get update \
-    && apt-get -y upgrade \
-    && pip install --no-cache-dir poetry \
-    && poetry install --only main \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN pip3 install --upgrade --no-cache-dir pip \
+    && pip3 install poetry \
+    && poetry install --only main
 
 EXPOSE 8000
 
 ENTRYPOINT [ "poetry", "run" ]
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 #size: 143MB
