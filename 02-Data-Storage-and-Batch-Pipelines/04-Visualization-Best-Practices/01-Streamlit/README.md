@@ -170,3 +170,8 @@ your team consider getting?
 🚀 Good luck and enjoy!
 
 </details>
+
+---
+
+### ⚙️ Bonus engineering challenge (no solutions given)
+💡 Using Airflow to handle some data transformations might be a good idea. You could set up the dag to run on a schedule, like every 5 minutes, so that new data gets queried from the database as soon as it's available. Then, instead of the Streamlit app hitting the database for data, it can just read from the location where the Airflow results are stored. This can save time and make things run more smoothly, especially if you're constantly needing new data.
