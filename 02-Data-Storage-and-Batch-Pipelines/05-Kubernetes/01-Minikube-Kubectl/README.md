@@ -16,7 +16,13 @@ To use Minikube, as mentioned in the [documentation](<https://minikube.sigs.k8s.
 
 In our case, we will use Docker to launch Minikube.
 
-## 1️⃣ K8s Power User Setup 🎁 
+
+# 0️⃣ First, some theory
+
+📚 Take 5 min to read [this amazing summary article 📚](https://medium.com/google-cloud/kubernetes-101-pods-nodes-containers-and-clusters-c1509e409e16) that complement this morning's lecture.
+
+
+# 1️⃣ K8s Power User Setup 🎁 
 
 ### ZSH autocompletions
 
@@ -35,7 +41,7 @@ Before you get started there are some key extensions we need for VSCode to make 
 
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/extensions.png" width=200>
 
-## 2️⃣Launching Minikube 🚀
+# 2️⃣Launching Minikube 🚀
 
 To launch Minikube and start a cluster, you'll need to open a terminal and run the following command :
 
@@ -61,7 +67,7 @@ NAME       STATUS   ROLES                  AGE   VERSION
 minikube   Ready    control-plane,master   75s   v1.23.3
 ```
 
-## 3️⃣ Sharing your Docker daemon 🐳
+# 3️⃣ Sharing your Docker daemon 🐳
 
 When you work with Minikube, you work within a VM with its own docker daemon.
 
@@ -84,8 +90,7 @@ docker build -t app .
 
 💡 *Alternatively, there is one other effective way to push your local Docker image directly to Minikube, which could save time from building the images in Minikube again: `minikube image load <image_name>`*
 
-## 4️⃣ Our first K8s Service 🗄️
-
+# 4️⃣ Our first K8s Service 🗄️
 
 Let's create our first service on Kubernetes. A service is
 - an **abstraction** that defines a set of **Pods** running in your cluster
@@ -159,7 +164,7 @@ fastapi-service   LoadBalancer   10.96.231.152   <pending>     5000:30604/TCP   
 ```
 
 
-## 5️⃣ Add the Deployment 🛰
+# 5️⃣ Add the Deployment 🛰
 
 <img src="https://miro.medium.com/max/720/1*iTAVk3glVD95hb-X3HiCKg.webp" width=500>
 
@@ -247,7 +252,7 @@ fastapi-deployment-746c85b46f-h5vls   1/1     Running   0          26s
 fastapi-deployment-746c85b46f-rgm82   1/1     Running   0          26s
 ```
 
-## 6️⃣ Forwarding our service 🔗
+# 6️⃣ Forwarding our service 🔗
 
 To see the app running we need one last thing: to forward to port from the cluster to our VM!
 
@@ -259,7 +264,7 @@ This command will forward the service port we defined in the `service.yaml` to 9
 
 Then forward the port 9000 again to your host machine (MacBook, Windows...) and you should be able to see your running service!
 
-## 7️⃣ Using Minikube dashboard 🖼️
+# 7️⃣ Using Minikube dashboard 🖼️
 
 Minikube has an excellent UI interface to manage and visualize your clusters!
 You can use it to :
@@ -277,7 +282,7 @@ minikube dashboard
 
 Then follow the address it gives and open it in your local browser! (with ssh-port-forwarding from your VM..)
 
-## 8️⃣ Stopping Minikube 🛑
+# 8️⃣ Stopping Minikube 🛑
 
 To delete your local cluster 👇
 
@@ -292,12 +297,10 @@ To stop Minikube 👇
 minikube stop
 ```
 
-## 🏁 Well done! 🙌
+# 🏁 Well done! 🙌
 
 ```bash
 make test
 git add --all
 ggpush
 ```
-
-👉 Take 5 min to read [this amazing summary article 📚](https://medium.com/google-cloud/kubernetes-101-pods-nodes-containers-and-clusters-c1509e409e16).

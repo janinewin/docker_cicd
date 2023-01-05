@@ -1,17 +1,52 @@
-🎯 The goal of this exercise is to put the Streamlit F1 dashboard in production on Kubernetes (k8s), deployed on Google Kubernetes Engine (GKE). Through this we will see a number of important concepts in k8s such as secrets, volumes, communication between services, and scaling! Let's do it! 🏎️
+🎯 The goal of this exercise is to put the Streamlit F1 dashboard in production on Kubernetes (k8s), deployed on Google Kubernetes Engine (GKE). 
 
-## 1️⃣ Setup 🛠️
+# 0️⃣ Context
 
 <details>
-<summary markdown='span'>Expand for steps</summary>
+  <summary markdown='span'> Open me! </summary>
 
-### 1.1) Extensions
+This time, we'll have to deal with 2 separate containers:
+- streamlit (to build from our local Dockerfile)
+- postgres (to build form official dockerhub image)
 
-Before you get started there are some key extensions we need for VSCode to make developing k8s a breeze. Make sure you have Kubernetes, Kubernetes templates, and YAML - all highlighted in the image below 👇.
+Compared with 1 `docker-compose.yml`, K8s will requires us to explode configuration into many configurations files! 
 
-<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/extensions.png" width=700>
+- 4 for Streamlit
+  - service
+  - deployment  
+  - secret
+  
+- 6 for Postgres
+  - service
+  - deployment (statefulset)
+  - secrets
+  - volumes
+  - volumes claims
 
-### 1.2) Clean Minikube cluster
+- Plus 5 that we'll give you for Google Cloud deployments purposes
+  - Streamlit deployment cloud
+  - Postgres deployment cloud
+  - volumes cloud
+  - volumes cloud claim
+
+🔍 Through this we will see a number of important concepts in k8s such as 
+- secrets
+- volumes
+- communication between services
+- scaling 
+
+
+Let's do it! 🏎️
+
+</details>
+
+
+# 1️⃣ Setup 🛠️
+
+<details>
+  <summary markdown='span'> Open me! </summary>
+
+## 1.2) Clean Minikube cluster
 
 We also want to start from a clean Minikube cluster, so if you did not delete yours at the end of the previous exercise, run this 👇
 
@@ -40,12 +75,12 @@ kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   2m12s
 
 </details>
 
-## 2️⃣ Postgres 🗄️
+# 2️⃣ Postgres 🗄️
 
 <details>
-<summary markdown='span'>Expand for steps</summary>
+  <summary markdown='span'> Open me! </summary>
 
-### 2.1) Service
+## 2.1) Service
 
 The first step for our Postgres is to define the service.
 
@@ -86,13 +121,13 @@ spec:
 
 </details>
 
-### 2.2) Volumes
+## 2.2) Volumes
 
 Next for our Postgres we will need a volume to keep our Postgres data in the same way we needed one for docker-compose.
 
 There are two parts to volumes on Postgres - **volumes**, and **volume claims**. Volumes are the creation of the space on the cluster. Our pod then needs to access that volume and so the volume claim describes how the pod will be accessing the volume (i.e. how much space can the pod use of the total volume).
 
-❓ Create a new file for the volume `postgres-pv.yaml`.
+❓ **Create a new file for the volume `postgres-pv.yaml`.**
 
 Generally most users won't be making volumes, only claims, but you can still start with a k8s template by typing `Persistent Volume` in the yaml file you just created. Then, add the code below and try to hover over the keys and understand them! 🔍
 
@@ -113,7 +148,7 @@ spec:
 
 Next - the part more commonly done by developers, which is making the claim.
 
-❓ So now make the file `postgres-pvc.yaml` and use the template `k8sPersistentVolumeClaim`.
+❓ **So now make the file `postgres-pvc.yaml` and use the template `k8sPersistentVolumeClaim`.**
 
 You can delete the `storageClassName` key and update the metadata so that the name matches `postgres-volume-claim` and the app label is `postgres`.
 
@@ -139,7 +174,7 @@ spec:
 
 We now have a volume for our Postgres to store its data! 🙌
 
-### 2.3) Secrets
+## 2.3) Secrets
 
 We need secrets to store environment variables such as the Postgres user and password of your local Postgres services.
 
@@ -160,9 +195,19 @@ printf password | base64
 
 Now we have our secrets and are ready to create our Postgres pod! 🚀
 
-### 2.4) `StatefulSet`
+## 2.4) `StatefulSet` (~ Deployments for pods with volumes)
 
-Finally we need to define a `StatefulSet`, which our service will use to run a pod with the Postgres container included!
+We want to deploy our postgres pods which are associated with volumes.
+We need to define a `StatefulSet`, which our service will use to run a pod with the Postgres container included!
+We shouldn't use a `Deployment` (as with FastAPI), as these might get out of sync with the volumes according to [Kubernetes' Statefulset](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) docs:
+
+> StatefulSet is the workload API object used to manage stateful applications.  
+> Manages the deployment and scaling of a set of Pods, and provides guarantees about the ordering and uniqueness of these Pods.  
+> Like a Deployment, a StatefulSet manages Pods that are based on an identical container spec. *Unlike a Deployment, a StatefulSet maintains a sticky identity for each of their Pods*. These pods are created from the same spec, but are not interchangeable: each has a persistent identifier that it maintains across any rescheduling.  
+> If you want to use storage volumes to provide persistence for your workload, you can use a StatefulSet as part of the solution. Although individual Pods in a StatefulSet are susceptible to failure, the persistent Pod identifiers make it easier to match existing volumes to the new Pods that replace any that have failed.
+
+
+
 
 ❓ Create another file called `postgres-statefulset.yaml`. Populate it with the code below 👇 (there is a template for this as well, called `k8sStatefulSet`, for when you write your own).
 
@@ -173,19 +218,16 @@ metadata:
   name: postgres-statefulset
   labels:
     app: postgres
-    role: service
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: postgres
-      role: service
-  serviceName: postgres-service
+  serviceName: postgres
   template:
     metadata:
       labels:
         app: postgres
-        role: service
     spec:
       containers:
         - name: postgres
@@ -250,9 +292,10 @@ volumes:
     claimName: postgres-volume-claim
 ```
 
-The `volumes` section brings our claim into this yaml with the name `postgres-mount`. Then inside our container definition we use `volumeMounts` to describe where the volume should be mounted inside the container!
+The `volumes` section brings our claim into this yaml with the name `postgres-mount`.  
+Then inside our container definition we use `volumeMounts` to describe where the volume should be mounted inside the container!
 
-### 2.5) Connecting it all together 🧰
+## 2.5) Connecting it all together 🧰
 
 Now we have all our files lets apply them to our cluster! 👇
 
@@ -263,25 +306,21 @@ kubectl apply -f .
 Then lets check if our pod is running with 👇
 
 ```bash
-kubectl get po
+kubectl get pods
 ```
 
 Once it's running, lets connect! (similar to docker exec) 👇
 
 ```bash
+kubectl exec -it <pod_name> -- <your_command>
 kubectl exec -it postgres-statefulset-0 -- psql --user=<your user>
 ```
 
 ❓ We are in now lets create a new db for our F1 data!
 
-<details>
-<summary markdown='span'>💡 If you forgot how to create a SQL DB</summary>
-
 ```bash
 CREATE DATABASE f1;
 ```
-
-</details>
 
 Now lets get our F1 data in there! First lets redownload the data and get the `.sql` file.
 
@@ -301,21 +340,29 @@ Finally we can use `exec` to execute the SQL script and load our new database!
 kubectl exec postgres-statefulset-0 -- psql -f f1db.sql --user=<your user> <your database>
 ```
 
-Then you can connect again and checkout the tables. Now we are ready to plug in Streamlit! 🧑‍🎨
+Now we are ready to plug in Streamlit! 🧑‍🎨
 
 </details>
 
-## 3️⃣ Streamlit 🖼️
+# 3️⃣ Streamlit 🖼️
 
 <details>
-<summary markdown='span'>Expand for steps</summary>
+  <summary markdown='span'> Open me! </summary>
 
-### 3.1) Service
+## 3.1) Service
 
-❓ Now create a `streamlit-service.yaml` and populate it with a `LoadBalancer` service, with name `streamlit-service` and selector `app: streamlit`.
+❓ Now try create your own `streamlit-service.yaml` and populate it with a `LoadBalancer` service, with name `streamlit-service` and selector `app: streamlit`. What port should you it target ? 
 
 <details>
-<summary markdown='span'>💡 Completed service</summary>
+  <summary markdown='span'>💡 Hints on ports</summary>
+
+Look at the hint provided by the person who wrote the streamlit Dockerfile!
+[EXPOSE](https://docs.docker.com/engine/reference/builder/#expose:~:text=It%20functions%20as%20a%20type%20of%20documentation%20between%20the%20person%20who%20builds%20the%20image%20and%20the%20person%20who%20runs%20the%20container%2C%20about%20which%20ports%20are%20intended%20to%20be%20published) doesn't actually do anything, but simply inform the person who runs the container, about which ports are intended to be published. In this case, it's the default streamlit port.
+</details>
+
+
+<details>
+<summary markdown='span'>🎁 Completed service if you want to check</summary>
 
 ```yaml
 apiVersion: v1
@@ -337,16 +384,21 @@ spec:
 </details>
 
 
-### 3.2) Secrets
+## 3.2) Secrets
 
 For our secrets in the original app we used a `secrets.toml` file. In k8s we can actually mount an entire secrets file as a value in the YAML file!
 
-❓ Create a new file `streamlit-secret.yaml`. Here for the data the keys should be the name of the files in your `.streamlit` (for example, `secrets.toml`) and the values should be the results of `base64 <file>`!
+❓ Create a new file `streamlit-secret.yaml`. Here the keys should be the name of the files in your `.streamlit` you used yesterday and the values should be the results of `base64 <file>`!
+```yaml
+data:
+  secrets.toml: <result of base64 secrets.toml>
+  config.toml: <result of base64 config.toml>
+```
 
 When you update the `secrets.toml` file, the host will be the `name` of the postgres service this is how services inside k8s can speak to each other with ease (don't forget to update the other params as well).
 
 <details>
-<summary markdown='span'>💡 Example completed file</summary>
+<summary markdown='span'>🎁 Example completed file</summary>
 
 ```yaml
 apiVersion: v1
@@ -363,20 +415,12 @@ data:
 
 Now we are ready to put it into the container!
 
-### 3.3) Deployment
+## 3.3) Deployment
 
-❓ Finally create a new `streamlit-deployment.yaml` and build the Dockerfile inside minikube. Then populate the file with the code below 👇:
+❓ First, build the streamlit Dockerfile **inside minikube** (🚨 not in your VM docker deamon)
+You should see it with docker ps along with a dozen other k8s containers...
 
-<details>
-<summary markdown='span'>💡 Reminder of how to build inside minikube</summary>
-
-```bash
-eval $(minikube docker-env)
-docker build -t app .
-```
-
-</details>
-
+❓ Then, let's create a new `streamlit-deployment.yaml`
 
 ```yaml
 apiVersion: apps/v1
@@ -387,7 +431,7 @@ metadata:
   name: streamlit-deployment
 
 spec:
-  replicas: 4
+  replicas: 4 # Let's have 4 pods to handle more incoming traffic!
   selector:
     matchLabels:
       app: streamlit
@@ -396,18 +440,21 @@ spec:
     metadata:
       labels:
         app: streamlit
+    
     spec:
       containers:
       - name: streamlit-container
-        image: app:latest
+        image: # Add your streamlit image name:tag
         imagePullPolicy: Never
         volumeMounts:
-          - mountPath: "/app/.streamlit"
+          - mountPath: # Add the absolute path in your container in which to add secrets
             name: streamlit-secrets
             readOnly: true
         ports:
         - containerPort: 8501
-        args: ["streamlit", "run", "f1dashboard/advanced.py"]
+        args: # Add the ["command", "you", "want", "to", "run"] to start the advanced.py dashboard   
+      
+      # 👇 We add the secrets into the container by treating them as a volume
       volumes:
         - name: streamlit-secrets
           secret:
@@ -415,41 +462,33 @@ spec:
       restartPolicy: Always
 ```
 
-Here you can see how we have added the secrets into the container by treating them as a volume:
+❓ `montPath` : You can see how we have added the secrets into the container by treating them as a volume. Try to mount them where they belong
 
-```yaml
-volumes:
-  - name: streamlit-secrets
-    secret:
-      secretName: streamlit-secrets
-```
+❓ `args` command in k8s is what's *added* to the Dockerfile ENTRYPOINT. (❗the equivalent in compose would be `command`. But k8s `command` overrides the entrypoint 🤯)
 
-Then mounting it into `/app/.streamlit` where they belong!
+## 3.4) Putting it all together 🎀
 
-Something else to note that can be pretty confusing with k8s vs `docker-compose` is the `args` argument is added to the entrypoint (the equivalent in compose is `command`), since `command` in k8s overrides the entrypoint ❗
-
-### 3.4) Putting it all together 🎀
-
-❓ Now that we have everything ready to go with the Streamlit, apply the config files and access the service!
+❓ Now that we have everything ready to go with the Streamlit, apply all your config files and access the service on chrome!
 
 <details>
-<summary markdown='span'>💡 If you've forgotten how to access the service!</summary>
+<summary markdown='span'> 🎁 If you've forgotten how to access the service!</summary>
 
 ```bash
-kubectl port-forward services/streamlit 8501:8501
+kubectl port-forward services/<service_name> <VM_localhost_port>:<k8s_service_port>
 ```
 
 </details>
 
+🍾 It your app working-well ? Sit back, relax, and try to play a bit with Kubernetes's VScode extension and minikube dashboard to see your logs, etc...before we try to make it work on GKE 🌶️
 
 </details>
 
-## 4️⃣ GKE
+# 4️⃣ Google Kubernetes Engine 🌎
 
 <details>
-<summary markdown='span'>Expand for steps</summary>
+  <summary markdown='span'> Open me! </summary>
 
-### 4.1 Creating the cluster
+## 4.1 Creating the cluster
 
 First we want to create a new k8s cluster on gcloud use the command below 👇
 
@@ -464,16 +503,18 @@ gcloud container clusters create "streamlit-f1" \
 
 This will take a while 😅 so we can continue and edit some of our files while it provisions!
 
-### 4.2 Postgres
+## 4.2 Postgres
 
-We need to change our volume file for the cloud so go to `postgres-pv.yaml` and replace it with the code below 👇
+We need to change our volume config file from local [`PersistentVolume`](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) to [`StorageClass`](https://kubernetes.io/docs/concepts/storage/storage-classes/) for the cloud.
+
+❓ **Replace your `postgres-pv.yaml` with the code below 👇**
 
 ```yaml
 kind: StorageClass
-apiVersion: storage.k8s.io/v1
+apiVersion: storage.k8s.io/v1 # K8s standard
 metadata:
   name: postgres-volume
-provisioner: kubernetes.io/gce-pd
+provisioner: kubernetes.io/gce-pd # Google Specific
 parameters:
   type: pd-standard
   replication-type: regional-pd
@@ -485,90 +526,27 @@ allowedTopologies:
           - europe-west1-c
 ```
 
-This is one of the biggest areas of change moving to the cloud try and understand it through the keys then read the explanation
+🤯 This is one of the biggest areas of change when moving to the cloud.  
+- We are now describing the type of storage we want to take, based on a standardized API called "storage.k8s.io/v1"
+- GCP is going to be reading our API call to provide the storage as we want it to be
 
-<details>
-<summary markdown='span'>🧑‍🏫 Explanation</summary>
+🔍 Read the doc for [`StorageClass`](https://kubernetes.io/docs/concepts/storage/storage-classes/), it's well explained!
 
-Here we are describing the type of storage we want to take. Who is providing the storage in this case gcp. Then which regions we are okay with disk being provisioned on.
+❓ **Then, just update your volume claim in a new `postgres-pvc.yaml`** by upgrading from 2 to `200G` to meet minimum Google requirement**
 
-</details>
-
-Then we need to change our claim in `postgres-pvc.yaml` 👇
-
-```yaml
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: postgres-volume-claim
-spec:
-  storageClassName: postgres-volume
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 200G
+❓ **Finally, create a new `postgres-statefulset-cloud.yaml`** by simply adding an extra `PGDATA` envrioment variable to the postrgres `container`
+```yml
+- name: PGDATA
+  value: /var/lib/postgresql/data/pgdata
 ```
+GKE does not like us to directly put data into the root of the mount!
 
-Here basically nothing has changed except we asked for `200G` of storage as this is the minimum google will dynamically provision!
 
-Finally we need to change the code in the `postgres-statefulset.yaml` 👇
+## 4.3 Streamlit
 
-```yaml
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: postgres-statefulset
-  labels:
-    app: postgres
-    role: service
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: postgres
-      role: service
-  serviceName: postgres
-  template:
-    metadata:
-      labels:
-        app: postgres
-        role: service
-    spec:
-      containers:
-        - name: postgres
-          image: postgres:11.4
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  key: POSTGRES_USER
-                  name: postgres-secrets
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: POSTGRES_PASSWORD
-                  name: postgres-secrets
-            - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
-          ports:
-            - containerPort: 5432
-              name: access
-              protocol: TCP
-          volumeMounts:
-            - name: postgres-mount
-              mountPath: /var/lib/postgresql/data
-      volumes:
-        - name: postgres-mount
-          persistentVolumeClaim:
-            claimName: postgres-volume-claim
-```
+For streamlit, we can no longer use our local image. We need to build and push the container to an online registry, but to save time you can use ours.
 
-Here our main change is how we are adding an extra `PGDATA` envrioment variable. GKE does not like us to directly put data into the root of the mount!
-
-### 4.3 Streamlit
-
-❓ For streamlit we can no longer use our local image, you would now build and push the container but to save time you can use ours replace these keys in `streamlit-deployment.yaml`.
+❓ Simply replace these keys in your `streamlit-deployment.yaml`.
 
 ```yaml
 image: europe-west1-docker.pkg.dev/data-engineering-students/student-images/streamlit-f1:0.1
@@ -578,15 +556,21 @@ imagePullPolicy: "IfNotPresent"
 Hopefully our cluster is done provisioning now!
 
 
-### 4.4 Putting it all together
+## 4.4 Putting it all together 🦋
 
-Lets make kubectl interact with our new cluster:
+❓ Lets make your local `kubectl` CLT target your GCP new cluster (`minikube` was automatically kubectl target to minikube under the hood):
 
 ```bash
 gcloud container clusters get-credentials streamlit-f1 --region europe-west1
+# Then check that your kubectl context has indeed changed
+kubectl config current-context
 ```
 
-Then apply all of our config files!
+❓ Let's now apply all our config files at once by:
+
+```bash
+kubectl apply -f .
+```
 
 If everything go correctly you should see the pods running with:
 
@@ -594,19 +578,20 @@ If everything go correctly you should see the pods running with:
 kubectl get po
 ```
 
-❓ Follow the steps we used earlier to put the f1 database in this new cluster.
+🍾 You can also see them in VScode extensions, and in [GCP console](https://console.cloud.google.com/kubernetes/workload_/gcloud/europe-west1/streamlit-f1). 
 
-You should be able to access your streamlit through the internet normally!
+❓ Try to find your public internet https address of your app running on GCP! You should also be able to find it with
 
 ```bash
-kubectl get svc
+kubectl get services
 ```
 
-Then from your streamlit service go to the `external ip` + `:8501` on your browser!
+❓ It's just missing the f1db: Follow the steps we used earlier to put the f1 database in this new cluster.
 
-🚀 In production 🚀
 
-### 4.5 Simulating disaster
+🚀 We're in production 🚀
+
+## 4.5 Simulating disaster 🔫
 
 Keep your app open. Then lets find out where the database is currently running!
 
@@ -623,21 +608,19 @@ kubectl cordon NODE
 Will prevent anymore pods being provisioned on this node. Then delete the pod!
 
 ```bash
-kubectl delete postgres-statefulset-0
+kubectl delete pod postgres-statefulset-0
 ```
 
 Then checkout your app it should fail to connect to the database temporarily but keep refreshing and checking `kubectl get pods -l app=postgres -o wide`.
 
-It will reprovision itself on the other node everything intact. For a complete failure like this it is incredibly impressive how fast k8s can fix everything (usually it can be seamless as most crashes you can see coming with load increasing)!
+It will reprovision itself *on the other node* everything intact. For a complete failure like this it is incredibly impressive how fast k8s can fix everything (usually it can be seamless as most crashes you can see coming with load increasing)!
 
-Lets cleanup so we don't spend too much:
+## 🏁 Lets cleanup so we don't spend too much:
 
 ```bash
 kubectl delete -f . \
 && gcloud container clusters delete streamlit-f1 --region=europe-west1
 ```
 
-
-🏁
 
 </details>
