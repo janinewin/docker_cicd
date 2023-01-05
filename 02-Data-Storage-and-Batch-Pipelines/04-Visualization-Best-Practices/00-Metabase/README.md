@@ -9,7 +9,7 @@ curl --output ./database/init/f1db.sql.gz https://storage.googleapis.com/lewagon
 
 2️⃣ ❓ The sql file is still zipped, unzip it yourself using the `gzip` command from the terminal.
 
-3️⃣ ❓ Create a docker-compose file. One important requirement is that the following volume is used in order to run the `sql` file when starting the postgres container: `./database/init/:/docker-entrypoint-initdb.d/`. For the other stuff there are some good examples to be found on Google 🕵️‍♀️
+3️⃣ 😁 The docker-compose.yml file has been created for you!
 
 4️⃣ ❓ Run `docker-compose up`
 

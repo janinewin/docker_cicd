@@ -63,9 +63,7 @@ In the `f1dashboard` folder there is a file called `basic.py`. It is already par
 - 💡 At the moment the `create_main_page()` function returns `races` as a string value. This value is used as input by the `load_data()` function to load the data. However, `races` is not the only table in the database. All table names are stored a list called `tables` (see the top of the `basic.py` file). Your job is to create a **[Streamlit selectbox widget](https://docs.streamlit.io/library/api-reference/widgets/st.selectbox)** that uses this list as its input, and allows the user to select one of the tables. Return the selected table from the `create_main_function`.
 
 ❓ Fill `summary_statistics` to explore the data and do some summary statistics on the data using the `describe()` method.
-
 ❓ Fill `top_drivers` that returns and shows the number of points for the 5 best-performing drivers in descending order using the `drivers` and `driver_standings` tables.
-
 ❓ Create a bar chart with these top_drivers under `if __name__ == '__main__':` using the plotting library of your choice (see [streamlit charts docs](https://docs.streamlit.io/library/api-reference/charts)):
 - streamlit basic bar charts (`st.bar_chart`) - uses altair under the hood
 - altair interactive (`st.altair_chart`)
@@ -111,35 +109,35 @@ We have a basic Streamlit app now, which we have coded in a single python file. 
 
 ## `advanced.py`
 
-- ❓ Copy and paste the contents of `docker-compose-basic.yml` to `docker-compose-advanced.yml`, but change the Streamlit file that you run from `"f1dashboard/basic.py"` to `"f1dashboard/advanced.py"`.
+❓ Copy and paste the contents of `docker-compose-basic.yml` to `docker-compose-advanced.yml`, but change the Streamlit file that you run from `"f1dashboard/basic.py"` to `"f1dashboard/advanced.py"`.
 
-- ❓ Run `docker-compose -f docker-compose-advanced.yml up`
+❓ Run `docker-compose -f docker-compose-advanced.yml up`
 
-- ❓ Understand your landing page logic.
+❓ Understand your landing page logic.
 
 We'll help you convert your basic application into a [multi-page app](https://blog.streamlit.io/introducing-multipage-apps/): In the `pages` folder there are two files. Each of these files create a separate page in the Streamlit app, which is visible in the sidebar. However, they can share the same `st.session_state` dictionary!
 
 ## `pages/01_descriptives.py`
 
-- ❓ First, understand `__main__`, then `__init__` logic. You'll see that we've coded the app in OOP paradigm which implements *separation of concerns*
+❓ First, understand `__main__`, then `__init__` logic. You'll see that we've coded the app in OOP paradigm which implements *separation of concerns*
   - `database.py` - For initializing the database connection
   - `state.py` - Contains the session_state logic
   - `constants.py` - Contains the table names of the database
 
-- ❓ Then, implement `select_table()`
+❓ Then, implement `select_table()`
 
-- ❓ Then, implement `summary_statistics()`
+❓ Then, implement `summary_statistics()`
 
-- ❓ Convince yourself that we are indeed caching every raw tables we load to never load it twice
+❓ Convince yourself that we are indeed caching every raw tables we load to never load it twice
 
 
 ## `pages/02_visualizations.py`
 
-- ❓ Try to move your two previous visualizations (`top_drivers` and `lewis_hamilton_over_the_years`) into this page, re-using the OOP approach as much as possible: *Separation of concerns* means that the only new real logic in "Visualization" class should be some *graph logic* such as `st.chart(...)`.
+❓ Try to move your two previous visualizations (`top_drivers` and `lewis_hamilton_over_the_years`) into this page, re-using the OOP approach as much as possible: *Separation of concerns* means that the only new real logic in "Visualization" class should be some *graph logic* such as `st.chart(...)`.
 
-- ❓ Convince yourself that we are indeed saving to state every transformed dataframe we compute to never do it twice!
+❓ Convince yourself that we are indeed saving to state every transformed dataframe we compute to never do it twice!
 
-- ❓ Then, create a 3rd new visualization of your choice following the OOP pattern.
+❓ Then, create a 3rd new visualization of your choice following the OOP pattern.
 
 
 </details>
@@ -153,9 +151,9 @@ We'll help you convert your basic application into a [multi-page app](https://bl
 
 Now that the engineering structure is in place, it is time to explore the data further 📊. Pick a Formula 1 team of your choice, different from that of your buddy of the day. Your job will be to
 
-- ❓ Give a **presentation** to your buddy at 5pm about how well you think your team will perform in 2019 based on data from previous years 📈.
+❓ Give a **presentation** to your buddy at 5pm about how well you think your team will perform in 2019 based on data from previous years 📈.
 
-- ❓ Your buddy is interested in learning about the *technical details* of your Streamlit application. Therefore, you should **create an extra page in your Streamlit app where you explain how you ensure that your web app stays fast**, even if the amount of data increases.
+❓ Your buddy is interested in learning about the *technical details* of your Streamlit application. Therefore, you should **create an extra page in your Streamlit app where you explain how you ensure that your web app stays fast**, even if the amount of data increases.
 
 Some analytical questions that you could answer in your presentation include:
 

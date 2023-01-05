@@ -6,9 +6,9 @@ Here are the scenarios:
 
 1. A company has a large dataset of customer information, including names, addresses, and purchase histories. They need to be able to quickly retrieve individual customer records and perform analysis on the data to gain insights into spending trends.
 
-Recommended database: OLAP
+Recommended database: OLAP + OLTP
 
-Explanation: An OLAP database is designed for fast querying and analysis of large datasets, making it well-suited for this scenario.
+Explanation: An OLAP database is designed for fast querying and analysis of large datasets, making it well-suited for this scenario. OLTP databases are more suitable for retrieving individual records. You could also use an OLAP database and partition on a customer ID in order to be able to quickly retrieve individual records.
 
 ---
 
