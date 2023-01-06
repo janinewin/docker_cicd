@@ -11,6 +11,7 @@ psycopg2-binary = "^2.9.3"
 lewagonde = { path = "../../../common/lewagonde/", develop = true }
 google-api-python-client = "^2.52.0"
 dbt-bigquery = "^1.1.0"
+pyarrow = "^8.0.0"
 
 
 [tool.poetry.dev-dependencies]

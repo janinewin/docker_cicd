@@ -42,7 +42,7 @@ There are 4 steps in this setup
     - _Which database would you like to use? Enter a number:_ Enter : `1` (for `bigquery`)
     - _Desired authentication method option (enter a number):_ Enter: `2` (for `service_account`)
     - _keyfile (/path/to/bigquery/keyfile.json):_ : Enter the absolute path of where you stored your BigQuery service account key (that you created during the Data Engineering setup, [here](https://github.com/lewagon/data-engineering-setup/blob/main/macOS.md)), including the file name and its extension. Meaning it should look something like this :  `/home/username/code/.gcp_keys/le-wagon-de-bootcamp.json` (If you spell it wrong, you'll be able to modify it later).
-    - _project (GCP project id)_ : Self explanatory : Enter your company's GCP project ID
+    - _project (GCP project id)_ : Self explanatory : Enter your Google Cloud project ID (that you created during the Data Engineering setup, [here](https://github.com/lewagon/data-engineering-setup/blob/main/macOS.md))
     - _dataset (the name of your dbt dataset)_ : Please be cautious here. Call it `dbt_{firstletteroffirstname}{last_name}_day1` hence if your name is Barack Obama, your dataset should be `dbt_bobama_day1`.
     - _threads (1 or more)_ : Enter `1`
     - _job_execution_timeout_seconds [300]_ : Enter `300`
@@ -67,11 +67,11 @@ Let's check that the `profiles.yml` file is configured correctly :
 
 ## Verify the structure of the DBT project and enhance it
 
-### `project.yml` file
+### `dbt_project.yml` file
 
 _No action item in this section - we're just providing context. There's an action item if your setup does not match what's mentionned below_
 
-- Open the `dbt_lewagon` folder, and open the `project.yml` file in this folder:
+- Open the `dbt_lewagon` folder, and open the `dbt_project.yml` file in this folder:
   - Verify that the project name is correct : `name: 'dbt_lewagon'`
   - Verify that the profile name is correct : `profile: 'dbt_lewagon'`
   - At the bottom of the file, change, make sure the `models` parameter refers to your project name:

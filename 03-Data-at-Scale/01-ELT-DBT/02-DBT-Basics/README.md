@@ -38,14 +38,15 @@ _First : copy `dbt_lewagon` from the previous challenge section into this one_
     - get rid of the records that are "dead"
     - only keep the data that was `created_at_local` in the last 20 days of data
 
-      <details>
-        <summary markdown='span'>💡 Hint</summary>
-        You can you can use the `DATE_SUB` SQL function
-      </details>
+  <details>
+    <summary markdown='span'>💡 Hint</summary>
+    You can you can use the `DATE_SUB` SQL function
+  </details>
 
 - Run this model by executing the following command in your terminal : `dbt run -m stg_hackernews_full` and check that it's been created in BigQuery : `dbt run -m stg_hackernews_full`
-- Run `make test` : 2 tests should have passed : `test_hackernews_full_structure`, and `test_hackernews_full_content`. It's normal that the others are failing.
-- Push to git.
+- Run `make test test_hackernews_full` : 2 tests should have passed :
+  - `test_hackernews_full_structure`, and
+  - `test_hackernews_full_content`
 
 ### Configure new staging models
 
@@ -72,7 +73,6 @@ Configure `stg_hackernews_comment.sql` :
   , row_created_at_local
   ```
 - Run this model : `dbt run -m stg_hackernews_comment`
-- Run `make test` and push to git
 
 Configure `stg_hackernews_story.sql` :
 - Under the `models/staging/` folder, create a file called `stg_hackernews_story.sql`.
@@ -99,8 +99,11 @@ Configure `stg_hackernews_story.sql` :
   , row_created_at_local
   ```
 - Run this model : `dbt run -m stg_hackernews_story`
-- Run `make test` - all tests should now pass.
-- Push to git.
+- Run `make test test_hackernews_story_comment` : 2 tests should have passed :
+  - `test_hackernews_story_structure`, and
+  - `test_hackernews_comment_structure`
+- You can now run all tests and generate the test outputs : run `make test`
+- Push to git
 
 ## Recap
 
