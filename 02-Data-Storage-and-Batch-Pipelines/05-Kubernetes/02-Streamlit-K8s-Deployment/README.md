@@ -86,18 +86,22 @@ The first step for our Postgres is to define the service.
 
 ❓ Create a `postgres-service.yaml`. Then populate it with the template using `k8sService` like in the image below.
 
-<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/service-autocomplete.png" width=700>
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/service-autocomplete.png" width=400>
 
 You should get this template:
 
-<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/service-template.png" width=700>
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/service-template.png" width=400>
 
-❓ Now populate the template. You can hover over all of the keys and you will get an explanation of what they do! 💡
+❓ **Now populate the template to create a clusterIP**. You can hover over all of the keys and you will get an explanation of what they do! 💡
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/cluster-ip.png" height=400 width=400>
 
 - For now you can replace `MYAPP` with `postgres`.
 - The type is already `ClusterIP` which is ideal for us, as we don't need to expose Postgres outside of k8s, just to our Streamlit app.
 - Then delete the keys mentioning `sessionAffinity` and `nodePort`.
 - Finally set the `port` and `targetPort`. Port can be what you like, but `targetPort` needs to be `5432` to target the port Postgres runs on.
+
+
 
 <details>
 <summary markdown='span'>💡 Completed Postgres service yaml</summary>
@@ -352,6 +356,8 @@ Now we are ready to plug in Streamlit! 🧑‍🎨
 ## 3.1) Service
 
 ❓ Now try create your own `streamlit-service.yaml` and populate it with a `LoadBalancer` service, with name `streamlit-service` and selector `app: streamlit`. What port should you it target ? 
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/load-balancer.png" width=400>
 
 <details>
   <summary markdown='span'>💡 Hints on ports</summary>
