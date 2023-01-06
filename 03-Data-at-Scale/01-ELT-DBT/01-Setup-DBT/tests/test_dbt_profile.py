@@ -31,7 +31,9 @@ def test_dbt_profile_other_keys():
      assert dev['location'] == 'US', "Location is wrong"
      assert dev['method'] == 'service-account', "Method is wrong"
      assert dev["priority"] == "interactive", "Priority is wrong"
-     assert dev["project"] == 'ingka-data-engineering-dev', "Project is wrong"
+     # TODO: parse the service account GCP file, to extract their own project ID
+     # (while for IKEA, it was a shared one, so it could be hardcoded)
+     # assert dev["project"] == 'ingka-data-engineering-dev', "Project is wrong"
      assert dev["threads"] == 1, "Threads is wrong"
      assert dev["type"] == "bigquery", "Type is wrong"
      assert '/.gcp_keys' in dev['keyfile'] and '.json' in dev['keyfile'], "Path for keyfile is incorrect"

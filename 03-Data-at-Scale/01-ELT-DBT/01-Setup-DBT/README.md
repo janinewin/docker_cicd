@@ -39,9 +39,9 @@ There are 4 steps in this setup
 - Once there, you need to init (create the folder structure) of the DBT project - we'll call it `dbt_lewagon`.
   - In command lines, run `dbt init`. When prompted:
     - _Enter a name for your project (letters, digits, underscore)_ Enter: `dbt_lewagon`. If prompted : _The profile dbt_lewagon already exists in ~/.dbt/profiles.yml. Continue and overwrite it?_ Hit `N`.
-    - _Which database would you like to use? Enter : 1 for <bigQuery>._ Enter: `1`
-    - _Desired authentication method option (enter a number):_ Enter: `2`
-    - _keyfile (/path/to/bigquery/keyfile.json):_ : Enter the absolute path of where you stored your BigQuery service account key, including the file name and its extension. Meaning it should look something like this :  `/Users/nicolasbancel/.gcp_keys/lewagon-nicolas-key.json` (If you spell it wrong, you'll be able to modify it later)
+    - _Which database would you like to use? Enter a number:_ Enter : `1` (for `bigquery`)
+    - _Desired authentication method option (enter a number):_ Enter: `2` (for `service_account`)
+    - _keyfile (/path/to/bigquery/keyfile.json):_ : Enter the absolute path of where you stored your BigQuery service account key (that you created during the Data Engineering setup, [here](https://github.com/lewagon/data-engineering-setup/blob/main/macOS.md)), including the file name and its extension. Meaning it should look something like this :  `/home/username/code/.gcp_keys/le-wagon-de-bootcamp.json` (If you spell it wrong, you'll be able to modify it later).
     - _project (GCP project id)_ : Self explanatory : Enter your company's GCP project ID
     - _dataset (the name of your dbt dataset)_ : Please be cautious here. Call it `dbt_{firstletteroffirstname}{last_name}_day1` hence if your name is Barack Obama, your dataset should be `dbt_bobama_day1`.
     - _threads (1 or more)_ : Enter `1`
