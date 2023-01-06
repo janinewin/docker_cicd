@@ -15,7 +15,7 @@ _First : copy `dbt_lewagon` from the previous challenge section into this one_
 - Configure the model this way :
   - It should be a `view` materialization
   - It should be based on the `stg_hackernews_full` model
-  - It should be composed of this list of fields:
+  - It should be composed of this list of fields (**Suggested approach : do not try to write SQL for all the fields at once. Start with one very simple config, outputting 1 or 2 fields. Then run your model. And make sure it's created in BigQuery. Work very iteratively**)
     - `user_id`
     - `num_comments` : the total number of comments made by the author
     - `first_comment_at` : when the user made his first comment on HackerNews
@@ -23,19 +23,20 @@ _First : copy `dbt_lewagon` from the previous challenge section into this one_
     - `num_stories` :  the total number of stories made by the author
     - `first_story_at` :  when the user made his first story on HackerNews
     - `last_story_at` : when the user made his last story on HackerNews
-- Run this model.
-- **Suggested approach : do not try to write SQL for all the fields at once. Start with one very simple config, outputting 1 or 2 fields. Then run your model. And make sure it's created in BigQuery. Work very iteratively**
+- Run your model.
 
-Now we want to be able to make sure that our way of calculating the `num_stories`, `num_comments` made by a user in the last 20 days is correct. This is called **QA**. To do that, you need, for a given `user_id`, to go check on the HackerNews' website if the volume of activites observed there matched the values in your `mart_user` model.
+Now we want to be able to make sure that our way of calculating the `num_stories`, `num_comments` made by a user is correct. This is called **QA**. To do that, you will need, for a given `user_id`, to go check on the HackerNews' website if the volume of activites observed there matches the values in your `mart_user` model.
+
 - To facilitate this, let's add a new field to the `mart_user` model : `user_url` which brings you to the welcome page of the user, where you can see the history of stories or comments they posted.
 
-  <details>
-  <summary markdown='span'>💡 Hint</summary>
-    This URL looks something like this : `https://news.ycombinator.com/user?id=`
-  </details>
+<details>
+<summary markdown='span'>💡 Hint</summary>
+  This URL looks something like this : `https://news.ycombinator.com/user?id=`
+</details>
 
-- Run the model again.
-- Now that you have this field handy, it should facilitate your QA : pick a few `user_id` in your BigQuery model, and verify that the `num_comments` or `num_stories` you calculated for this user matches the `num_comments` and `num_stories` you observe on the HackerNews website, for this user URL.
+- Surface this new field in BigQuery by running the model again.
+- Run `make test_mart_user` to make sure the structure of your model is correct.
+- **No code is needed in this section** - Now that you have this field handy, it should facilitate your QA : pick a few `user_id` in your BigQuery model, and verify that the `num_comments` or `num_stories` you calculated for this user matches the `num_comments` and `num_stories` you can count on the HackerNews website, for this user URL.
 
 ### Document your models and add some tests
 
@@ -45,15 +46,17 @@ You've built a few models already - some folks in your company may need to use y
 - Following the instructions on how to properly document a model : [Documentation](https://docs.getdbt.com/docs/building-a-dbt-project/documentation), document the `mart_user` model.
   - Provide a high level `description` of the model itself
   - Provide a high level `description` of all the columns
-- Implement 3 tests
+- Implement 3 tests : you should not write custom tests (meaning there shouldn't be any piece of SQL code written for those tests, and they should be implemented in the `models.yml` file directly)
   - 1 that checks that `user_id` is unique and always populated
   - 1 that checks that `num_comments` is always greater or equal to 0
   - 1 that checks that `num_stories` is always greater or equal to 0
 
  <details>
   <summary markdown='span'>💡 Hint</summary>
-    For the "always greater or equal to 0", check on the internet : you will need to install a DBT package that enables you to very simply configure this type of test : [dbt_utils](https://hub.getdbt.com/dbt-labs/dbt_utils/0.1.7/). Install the 0.8.6 version. You'll need to create a `packages.yml` file at the same level as the `dbt_project.yml` file.
+    For the "always greater or equal to 0", check on the internet : you will need to install a DBT package that enables you to very simply configure this type of test : [dbt_utils](https://hub.getdbt.com/dbt-labs/dbt_utils/0.8.6/). Install the 0.8.6 version. You'll need to create a `packages.yml` file at the same level as the `dbt_project.yml` file.
   </details>
+
+- Run `make test` and push your code to git.
 
 
 ## Run the tests

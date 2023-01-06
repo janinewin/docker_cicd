@@ -7,6 +7,7 @@ authors = ["Your Name <you@example.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 pandas = "^1.4.2"
+pyarrow = "^8.0.0"
 psycopg2-binary = "^2.9.3"
 lewagonde = { path = "../../../common/lewagonde/", develop = true }
 google-api-python-client = "^2.52.0"
@@ -32,6 +33,9 @@ profile = "black"
 line_length = 160
 multi_line_output = 3
 include_trailing_comma = true
+
+[tool.pytest.ini_options]
+markers = ["optional: not required, nor saved in test_output.txt"]
 
 [virtualenvs]
 in-project = true
