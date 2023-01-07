@@ -1,10 +1,10 @@
 # 🎯 Goals
 
-In this challenge is an ETL relatively similar to 020303-Local-ETL, but with more advanced Airflow concepts. 
+In this challenge you will build an ETL relatively similar to 020303-Local-ETL, but with more advanced Airflow concepts.
 
 a) Instead of having 3 tasks (E,T,L) in one dag, we'll have 3 DAGs (E,T,L) depending on each other
 
-b) Each tasks will be more complex, making use of 
+b) Each tasks will be more complex, making use of
 - `Sensor`
 - `BranchOperator`
 - `Templating`
@@ -12,7 +12,7 @@ b) Each tasks will be more complex, making use of
 - `idempotency`
 
 c) Data flow between clouds:
-- `Google Cloud Storage` (your Lake silver layer)
+- `Google Cloud Storage` (your Lake - silver layer)
 - `BigQuery` (your Warehouse - gold layer)
 
 🎯 The goal is to have three DAGs running every month that will:
@@ -50,7 +50,7 @@ make test_extract_dag
 
 You will see that the tests fake running your DAG on two dates `2021-06-01` and `2021-07-01` to make sure that you correctly use Airflow's variables.
 
-# 2️⃣ "Transform" DAG 
+# 2️⃣ "Transform" DAG
 Let's build a conditional DAG:
 
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/airflow_advanced_transform_dag.png" width=500>
@@ -66,7 +66,7 @@ You need five tasks:
 4. `filter_expensive_trips` that should trigger the `filter_expensive_trips` function with the proper arguments (set the `amount` argument to `500`)
 5. a `EmptyOperator` with a `task_id` named `end`. As the fifth task should be triggered as soon as one of the third/fourth task is successful (only one of both will run), let's set its trigger_rule to [`one_success`](https://airflow.apache.org/docs/apache-airflow/1.10.5/concepts.html?highlight=trigger+rule#trigger-rules). If you wonder why we added an EmptyOperator at the end, this is just to have a single task closing your DAG and not two distinct branches which is more visual.
 
-Ordering: 
+Ordering:
 - The second task should be triggered only once the first one succeeds.
 - The third or the fourth task should be triggered based on the return of the second one.
 - The fifth task should be triggered only once the third/fourth one succeeds.
@@ -102,7 +102,7 @@ You can do it directly from the Airflow UI: hover the `Admin` tab and select `Co
 - set the `Connection Type` to `Google Cloud`
 - copy paste the whole content of your `service-account.json` to the `Keyfile JSON`
 
-Or you can try the CLI by running 
+Or you can try the CLI by running
 
 ```bash
 docker-compose exec webserver poetry run airflow connections add "google_cloud_connection" \
@@ -129,18 +129,13 @@ from airflow.providers.google.cloud.transfers.gcs_to_bigquery import (
 
 This branch needs 6 tasks:
 - `transform_sensor` that should wait for the DAG `transform` to be in the `success` state, and check its state every 10 seconds for a maximum of 10 minutes (after that it should timeout)
-
-- `upload_local_file_to_gcs` that should load your local silver file to the Google Cloud Storage silver bucket with the same file's name. ❗️ You'll need to create a bucket on GCS first, hopefully that's a one liner: 
+- `upload_local_file_to_gcs` that should load your local silver file to the Google Cloud Storage silver bucket with the same file's name. ❗️ You'll need to create a bucket on GCS first, hopefully that's a one liner:
   ```
   gsutil mb -l EU gs://de_airflow_taxi_silver
   ```
-
 - `create_dataset` that should create the `de_airflow_taxi_gold` dataset on BigQuery
-
 - `create_table` that should create a big-query table named `trips` in the dataset `de_airflow_taxi_gold` with the proper schema (`month` as a string and `trip_distance` & `total_amount` as floats)
-
 - `remove_existing_data` that should run a query to remove data at the current date (in order to be idempotent)
-
 - `load_to_bigquery` that should append the content of the `silver` file to the `gold` table
 
 All tasks should be triggered in that order as soon as the previous one succeeded.
@@ -159,20 +154,20 @@ WARNING: No to help you too much, we decided not to test everything in your task
   You may need to set `skip_leading_rows` & `write_disposition` for the task_id `load_to_bigquery`
 </details>
 
-# 🏁 Conclusion 
+# 🏁 Conclusion
 
 This ETL may be "stupid" in real life, but you are now equipped to use it for any real cases.
 
 For instance, and related to this dataset, you could build the following graph:
 (assume you already have a Machine-Learning model in production to predict taxi fares based on distances)
 
-- Dag 1: 
+- Dag 1:
   - download new data every month on GCS
   - process new data into ML features and store on Big Query
 - Dag 2:
   - wait for Dag 1
   - branch 1: evaluate ML model performance on new month's data
-  - branch 2: 
+  - branch 2:
     - retrain ML model
     - then evaluate performance on new month's data
   - Compare the two models

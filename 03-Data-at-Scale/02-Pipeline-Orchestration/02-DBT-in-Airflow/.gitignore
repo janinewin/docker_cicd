@@ -7,3 +7,4 @@ database/
 *.json
 !**/.gitkeep
 .user.yml
+!manifest.json

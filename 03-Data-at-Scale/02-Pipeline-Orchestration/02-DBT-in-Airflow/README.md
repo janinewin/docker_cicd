@@ -48,7 +48,7 @@ Before moving to the next part, create and fill your `.env` file as usual.
 
 In order to run dbt with its own configuration, Airflow needs a `profiles.yml` in the `dbt_lewagon` folder:
 - it should contain a `dbt_lewagon` profile
-- with a `dev` output that:
+- with a `dev` output like that:
     ```yml
     dataset: dbt_write_your_name_here_day2
     job_execution_timeout_seconds: 300
@@ -109,6 +109,8 @@ make test_dag_and_task_basic
 >💡 If you want to make sure that this setup would scale with other dbt_projects, just replace the `dbt_lewagon` folder with the project that you've done in the previous day, make sure that it runs properly and go to BigQuery to check that your models have been created.
 
 # 3️⃣ Advanced DAG: one task per DBT model
+
+Let's start this advanced part only if you were really quick so far, otherwise, we recommend you to move to the next exercise first and consider this part as optional.
 
 ## Setup
 
