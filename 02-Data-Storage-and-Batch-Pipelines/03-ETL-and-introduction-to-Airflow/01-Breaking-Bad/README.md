@@ -96,6 +96,7 @@ docker-compose up
 ```
 
 If this doesn't work:
+- Make sure your images are up to date (you should `docker-compose build` every time you update your dockerfile)
 - Try to understand your error message first
 - If it's about ports being already in used, check this [stackoverflow](https://stackoverflow.com/questions/38249434/docker-postgres-failed-to-bind-tcp-0-0-0-05432-address-already-in-use)
 - Run these optional tests which check your Dockerfile & compose syntax, they may give you some hints
@@ -145,7 +146,6 @@ You need to create a DAG with the following requirements:
 - it should have a description saying `A simple DAG to store breaking bad quotes`
 - it should not catchup the missing runs
 - it should be scheduled to run every 5 minutes
-- it should run no matter if the previous runs failed
 - it should not depend on previous runs (`default_args={"depends_on_past": False}`)
 
 Once, you are confident with your code run:

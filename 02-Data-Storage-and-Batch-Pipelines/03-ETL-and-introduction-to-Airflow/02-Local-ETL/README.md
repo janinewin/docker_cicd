@@ -33,7 +33,7 @@ airflow connections add 'postgres_connection' \
                     --conn-port "5432"
 ```
 
-👉 Adding such connections is required to interact the warehouse explicitely in our **load**  stage:
+👉 Adding such connections is required to interact the warehouse explicitly in our **load**  stage:
 
 ```python
 PostgresOperator(
