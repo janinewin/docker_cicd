@@ -21,4 +21,4 @@ def test_vars_created():
 
 def test_vars_correct_setup():
     assert dbt_project_yml.get("vars").get("last_x_days_history") is not None, "Variable name is incorrect"
-    assert dbt_project_yml.get("vars").get("last_x_days_history") == 20, "Variable value is incorrect"
+    assert dbt_project_yml.get("vars").get("last_x_days_history") == 90, "Variable value is incorrect"

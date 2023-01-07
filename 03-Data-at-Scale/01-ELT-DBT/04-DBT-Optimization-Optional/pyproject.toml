@@ -7,6 +7,7 @@ authors = ["Your Name <you@example.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 pandas = "^1.4.2"
+pyarrow = "^8.0.0"
 psycopg2-binary = "^2.9.3"
 lewagonde = { path = "../../../common/lewagonde/", develop = true }
 google-api-python-client = "^2.52.0"

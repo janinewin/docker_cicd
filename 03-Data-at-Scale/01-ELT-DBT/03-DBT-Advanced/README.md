@@ -28,7 +28,6 @@ _First : copy `dbt_lewagon` from the previous challenge section into this one_
 Now we want to be able to make sure that our way of calculating the `num_stories`, `num_comments` made by a user is correct. This is called **QA**. To do that, you will need, for a given `user_id`, to go check on the HackerNews' website if the volume of activites observed there matches the values in your `mart_user` model.
 
 - To facilitate this, let's add a new field to the `mart_user` model : `user_url` which brings you to the welcome page of the user, where you can see the history of stories or comments they posted.
-
 <details>
 <summary markdown='span'>💡 Hint</summary>
   This URL looks something like this : `https://news.ycombinator.com/user?id=`
@@ -36,7 +35,7 @@ Now we want to be able to make sure that our way of calculating the `num_stories
 
 - Surface this new field in BigQuery by running the model again.
 - Run `make test_mart_user` to make sure the structure of your model is correct.
-- **No code is needed in this section** - Now that you have this field handy, it should facilitate your QA : pick a few `user_id` in your BigQuery model, and verify that the `num_comments` or `num_stories` you calculated for this user matches the `num_comments` and `num_stories` you can count on the HackerNews website, for this user URL.
+- **No code is needed in this section** - Now that you have this field handy, it should facilitate your QA : pick a few `user_id` in your BigQuery model, and verify that the `num_comments` or `num_stories` you calculated for this user matches the `num_comments` and `num_stories` you can count on the HackerNews website, that they wrote in the past 90 days.
 
 ### Document your models and add some tests
 
@@ -50,7 +49,6 @@ You've built a few models already - some folks in your company may need to use y
   - 1 that checks that `user_id` is unique and always populated
   - 1 that checks that `num_comments` is always greater or equal to 0
   - 1 that checks that `num_stories` is always greater or equal to 0
-
  <details>
   <summary markdown='span'>💡 Hint</summary>
     For the "always greater or equal to 0", check on the internet : you will need to install a DBT package that enables you to very simply configure this type of test : [dbt_utils](https://hub.getdbt.com/dbt-labs/dbt_utils/0.8.6/). Install the 0.8.6 version. You'll need to create a `packages.yml` file at the same level as the `dbt_project.yml` file.
