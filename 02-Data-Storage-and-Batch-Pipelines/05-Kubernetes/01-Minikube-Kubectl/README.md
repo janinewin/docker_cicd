@@ -302,5 +302,6 @@ minikube stop
 ```bash
 make test
 git add --all
+git commit -m "020501 done"
 ggpush
 ```

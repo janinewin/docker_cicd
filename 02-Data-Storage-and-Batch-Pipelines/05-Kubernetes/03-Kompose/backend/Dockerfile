@@ -1,4 +1,4 @@
-# backend/Dockerfile
+# backend/Dockerfile image available at `image: europe-west1-docker.pkg.dev/data-engineering-students/student-images/style-backend`
 
 FROM python:3.10.1-slim
 
