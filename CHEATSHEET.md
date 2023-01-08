@@ -301,7 +301,7 @@ sudo kill 790
 ```
 
 ### Blank page on localhost:xxxx without error messages
-First check if port-forwarding is well activated in VScode "port" tab on your VM.  
+First check if port-forwarding is well activated in VScode "port" tab on your VM.
 If still doesn't fix it, it may be an backlog of badly closed port-forwarding that you need to kill manually:
 - check on your local machine what's running on this specific xxxx port you try to get
   ```bash

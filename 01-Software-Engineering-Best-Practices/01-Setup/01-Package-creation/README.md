@@ -239,6 +239,6 @@ pip install <user.github_nickname>-de-toolkit --index-url https://<your-token>@r
 pipx install <user.github_nickname>-de-toolkit --pip-args='--extra-index-url https://<YOUR_GEMFURY_TOKEN_HERE>@repo.fury.io/<user.github_nickname>/'
 ```
 
-👉 Try to `deng connect` !  
-👉 `deng stop` every evening  
-👉 `deng start` every morning  
+👉 Try to `deng connect` !
+👉 `deng stop` every evening
+👉 `deng start` every morning

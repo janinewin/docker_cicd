@@ -7,7 +7,7 @@ In this assignment, you will be presented with 8️⃣ different **scenarios** �
 - Graph databases
 - Columnar databases
 
-Multiple answers could be correct, a combination of answers is also possible!  
+Multiple answers could be correct, a combination of answers is also possible!
 
 ### 🎬 The scenarios:
 

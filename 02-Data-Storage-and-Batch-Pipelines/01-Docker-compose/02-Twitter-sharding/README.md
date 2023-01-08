@@ -16,10 +16,10 @@ This is the architecture we are aiming for:
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D1/sharded-db.png" width=300>
 
 
-**Sharding you said ??**  
-- When we split a table into several *subsets* that are still part of the same *database*, they are called **partitions**. Partitions are often done by splitting over a particular index (eg. in our case, the user-location column). 
-- When we distribute each partitions table into different databases, each partition is a standalone database called a **shard**. 
-- When *sharding* or *partitionning*, there is no physical database centralizing all data somewhere anymore! However, we'll still be able to virtually recreate a "full database" in the same way views are just immaterial tables that are created dynamically as you query them. 
+**Sharding you said ??**
+- When we split a table into several *subsets* that are still part of the same *database*, they are called **partitions**. Partitions are often done by splitting over a particular index (eg. in our case, the user-location column).
+- When we distribute each partitions table into different databases, each partition is a standalone database called a **shard**.
+- When *sharding* or *partitionning*, there is no physical database centralizing all data somewhere anymore! However, we'll still be able to virtually recreate a "full database" in the same way views are just immaterial tables that are created dynamically as you query them.
 
 **Why sharding?**
 - ↔️ Sharding helps us reduce the size of the tables making queries quicker, but can also help us place those tables where they will be accessed (lower latency for users in both regions).
@@ -145,7 +145,7 @@ eu_webapi:
 ❓ `docker-compose up` and check 🔍:
 
 - `docker ps` should show all 4 containers are up and healthy
-- You can connect to the two apis on your local machine 
+- You can connect to the two apis on your local machine
 - You can connect to the 3 DB in Dbeaver
 
 Then we are ready to create our `tweets` main tables and shard it across our other two databases!
@@ -174,7 +174,8 @@ CREATE USER MAPPING FOR "oliver.giles" SERVER usa
     OPTIONS (user 'usa', password 'uspassword');
 ```
 
-You should see it on DBEAVER (refresh if needed)!  
+You should see it on DBEAVER (refresh if needed)!
+
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D1/foreign_data_wrapper.png" height=300>
 
 
@@ -189,7 +190,7 @@ CREATE TABLE tweets (
 	"text" varchar NOT NULL,
 	owner_id int4 NOT NULL,
 	like_count int4 NOT NULL
-) 
+)
 partition by list ("location");
 ```
 
@@ -247,11 +248,11 @@ SELECT * FROM eu_tweets
 
 
 
-## Advanced FDW concepts...just scratching the surface! 🤯 
+## Advanced FDW concepts...just scratching the surface! 🤯
 
 **default location**
 
-What if you posted something where location is set to "asia"? 
+What if you posted something where location is set to "asia"?
 Currently, the sharding will break. If data doesn't fit in either partition, we need some default partition for the overflow to go.
 
 ```sql
@@ -261,7 +262,7 @@ CREATE TABLE default_tweets
     DEFAULT;
 ```
 
-**Materialized import of foreign data** 
+**Materialized import of foreign data**
 
 Instead of simply allowing you to view the data, you can also use the foreign data wrapper to physically import (as opposed to simply connecting a 'view' over the network) other databases once you create the server object...
 
@@ -271,7 +272,7 @@ IMPORT FOREIGN SCHEMA public
 ```
 
 
-**FDW to anything!**  
+**FDW to anything!**
 
 Thanks to the numerous [open-source FDWs](https://wiki.postgresql.org/wiki/Foreign_data_wrappers), you can create FDW to many other databases than postgres.
 - Other SQL (MySQL, Oracle ...)
