@@ -1,52 +1,51 @@
-# Introduction
+# 🎯 Goals
 
-There are 4 steps in this setup
+There are 5 steps in this setup
+1. Setup Big Query
 1. Install DBT
-2. Build a DBT project, which means
-  2.1 Create the folder structure of your DBT project
-  2.2 Fill the properties / information about this project in a config file called `dbt_project.yml`
-3. Setup the connection configuration in order for DBT to be able to interact with BigQuery (write and read). This is done by creating a profile, filling a file called `profiles.yml`
-4. Run your first DBT models (which will generate tables and views in BigQuery)
+2. Build a DBT project (folder structure + config file)
+3. Setup the connection configuration with BigQuery (profile file)
+4. Run your first DBT models, which will generate *tables* and *views* in BigQuery
 
-# Important notes about the DBT challenges
+# 1️⃣ Setup Big Query
 
-:rotating_light: _Please read this carefully : it gives you information about how you'll do your challenges today_ :rotating_light:
+BigQuery enables you to query data stored in different locations / projects. In this challenge, we'll be interacting with 2 projects :
+- The project where the source data is stored. It's a project made public by Google to enable Data Scientists to play around with data. The project is called `bigquery-public-data`, and the name of the dataset is `hacker_news`
+- Your own project, that you created during the Data Engineering Setup.
 
-- A DBT project is a set of files, organized in a tree structure. We did not create this structure for you - you'll have to build it yourself.
-- In each new challenge section, you're building up on top of the DBT project you've worked on in the previous challenge. So :
-  - In `01-Setup-DBT`: you'll build the initial structure, add files to it
-  - When starting `02-DBT-Basics`, the first thing you'll do is to copy the whole `dbt_lewagon` directory from `01-Setup-DBT` into `02-DBT-Basics` (running a command like `cp -r ../01-Setup-DBT/dbt_lewagon .`, from `02-DBT-Basics`)
-   - When starting `03-DBT-Advanced`, the first thing you'll do is to copy the whole `dbt_lewagon` directory from `02-DBT-Basics` into `03-DBT-Advanced` (running a command like `cp -r ../02-DBT-Basics/dbt_lewagon .`, from `03-DBT-Advanced`) (same as above)
-   - And so on.
-    There's a continuity in the exercises, where little by little, you're building a robust DBT project.
-- Tests : you run tests in the challenge you're in. They'll be testing exactly the files / models that you're supposed to build in the section. Meaning : the tests of `02-DBT-Basics` are testing against the BigQuery models you're supposed to create in this section, or checking the file structure of `02-DBT-Basics/dbt_lewagon`
-- Where do you store your answers / create your files ? Always in the DBT project of your current section. Do not touch the empty files you see in the folder. Example : In `02-DBT-Basics` : there are 4 "DBT" files
-  - `src_hackernews.yml`
-  - `stg_hackernews_comment.yml`
-  - `stg_hackernews_full.yml`
-  - `stg_hackernews_story.yml`. They're simply here to enable you to download the solution for those specific files, and see what the code should look like. But they need to appear, populated, in the `dbt_lewagon` folder.
+Let's pin those 2 in the BigQuery interface.
 
-# Setup the environment
+1. Go to the BigQuery interface [here](https://console.cloud.google.com/bigquery)
+   
+2. Star the `bigquery-public-data` project so you can more easily interact with it : Click on **ADD DATA > Star a project by name**, type : `bigquery-public-data`. Hit **STAR**
+   
+3. Do the same thing with your own project : in the example / screenshot below, the "personal" project is called `ingka-data-engineering-dev`
+   
+4. Your BigQuery interface should now look like this (except that instead of `ingka-data-engineering-dev`, it will be your project name):
 
-## Install DBT
+<img src='https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W2D1/bigquery_interface_final.png' size=200>
+
+# 2️⃣ Install DBT
 
 - There are multiple versions of DBT, which vary depending on the database system you're interacting with. In our case, we're using BigQuery. You'll thus be installing `dbt-bigquery`. Make sure it's part of the packages included in `pyproject.toml`, and run `poetry install` in the `01-Setup-DBT` folder to install it.
 - Make sure DBT is indeed installed by executing `dbt --version` in your terminal.
 
-## Build the DBT project
+# 3️⃣ Initialize the DBT project
+
+## Initialize `dbt_lewagon` folder
 
 - In your terminal, go at current-challenge root. This is where we'll create the DBT project.
 - Once there, you need to init (create the folder structure) of the DBT project - we'll call it `dbt_lewagon`.
-  - In command lines, run `dbt init`. When prompted:
-    - _Enter a name for your project (letters, digits, underscore)_ Enter: `dbt_lewagon`. If prompted : _The profile dbt_lewagon already exists in ~/.dbt/profiles.yml. Continue and overwrite it?_ Hit `N`.
-    - _Which database would you like to use? Enter a number:_ Enter : `1` (for `bigquery`)
-    - _Desired authentication method option (enter a number):_ Enter: `2` (for `service_account`)
-    - _keyfile (/path/to/bigquery/keyfile.json):_ : Enter the absolute path of where you stored your BigQuery service account key (that you created during the Data Engineering setup, [here](https://github.com/lewagon/data-engineering-setup/blob/main/macOS.md)), including the file name and its extension. Meaning it should look something like this :  `/home/username/code/.gcp_keys/le-wagon-de-bootcamp.json` (If you spell it wrong, you'll be able to modify it later).
-    - _project (GCP project id)_ : Self explanatory : Enter your Google Cloud project ID (that you created during the Data Engineering setup, [here](https://github.com/lewagon/data-engineering-setup/blob/main/macOS.md))
-    - _dataset (the name of your dbt dataset)_ : Please be cautious here. Call it `dbt_{firstletteroffirstname}{last_name}_day1` hence if your name is Barack Obama, your dataset should be `dbt_bobama_day1`.
-    - _threads (1 or more)_ : Enter `1`
-    - _job_execution_timeout_seconds [300]_ : Enter `300`
-    - _Desired location option (enter a number):_ : Enter `1` for `US`. This is important : the dataset we'll be exploring is located in the US - it facilitates things if you set up a "receiving" dataset that's also in the US.
+- In command lines, run `dbt init`. When prompted:
+  - _Enter a name for your project (letters, digits, underscore)_ Enter: `dbt_lewagon`. If prompted : _The profile dbt_lewagon already exists in ~/.dbt/profiles.yml. Continue and overwrite it?_ Hit `N`.
+  - _Which database would you like to use? Enter a number:_ Enter : `1` (for `bigquery`)
+  - _Desired authentication method option (enter a number):_ Enter: `2` (for `service_account`)
+  - _keyfile (/path/to/bigquery/keyfile.json):_ : Enter the absolute path of where you stored your BigQuery service account key (that you created during the Data Engineering setup, [here](https://github.com/lewagon/data-engineering-setup/blob/main/macOS.md)), including the file name and its extension. Meaning it should look something like this :  `/home/username/code/.gcp_keys/le-wagon-de-bootcamp.json` (If you spell it wrong, you'll be able to modify it later).
+  - _project (GCP project id)_ : Self explanatory : Enter your Google Cloud project ID (that you created during the Data Engineering setup, [here](https://github.com/lewagon/data-engineering-setup/blob/main/macOS.md))
+  - _dataset (the name of your dbt dataset)_ : Please be cautious here. Call it `dbt_{firstletteroffirstname}{last_name}_day1` hence if your name is Barack Obama, your dataset should be `dbt_bobama_day1`.
+  - _threads (1 or more)_ : Enter `1`
+  - _job_execution_timeout_seconds [300]_ : Enter `300`
+  - _Desired location option (enter a number):_ : Enter `1` for `US`. This is important : the dataset we'll be exploring is located in the US - it facilitates things if you set up a "receiving" dataset that's also in the US.
 
 This should have done 2 things
 - It generated all the tree structure needed for the DBT project under the `dbt_lewagon` folder
@@ -65,11 +64,9 @@ Let's check that the `profiles.yml` file is configured correctly :
 - Run `make test` to make sure the setup of your profile is correct. (The `test_dbt_profile` tests should all be green). Watch out with the levels of indendation in your `profiles.yml` file
 - Push to git.
 
-## Verify the structure of the DBT project and enhance it
+### Verify `dbt_project.yml` file
 
-### `dbt_project.yml` file
-
-_No action item in this section - we're just providing context. There's an action item if your setup does not match what's mentionned below_
+_No action item in this section - we're just providing context._
 
 - Open the `dbt_lewagon` folder, and open the `dbt_project.yml` file in this folder:
   - Verify that the project name is correct : `name: 'dbt_lewagon'`
@@ -84,9 +81,9 @@ _No action item in this section - we're just providing context. There's an actio
   ```
     What is this ? You're basically saying that by default, your models DBT created in BigQuery should be `views`. Unless you specifically specify something else when configuring a model (making it a `table`, or an `incremental` model for example).
 
-### Initial tree structure of the DBT project
+### Verify initial tree structure of the DBT project
 
-_No action item in this section - we're just providing context. There's an action item if your setup does not match what's mentionned below_
+_No action item in this section - we're just providing context._
 
 - First, make sure that in the `models` folder, you can find 2 files :
   - `/example/my_first_dbt_model.sql`
@@ -101,7 +98,7 @@ _No action item in this section - we're just providing context. There's an actio
     - its description
     - its constraints (unicity, the field not being null etc).
 
-### Enhance DBT project tree
+# 3️⃣ Enhance DBT project tree
 
 **From now on, all command lines assume you're executing them from your `dbt_lewagon` directory**
 
@@ -157,7 +154,7 @@ Your DBT project structure should now look like this (`target` may or may not ha
 └── tests
 ```
 
-## Run your first models and tests
+# 4️⃣ Run your first models and tests 🧪
 
 Your setup is now ready to run your first models.
 - Execute the following command to generate your models :

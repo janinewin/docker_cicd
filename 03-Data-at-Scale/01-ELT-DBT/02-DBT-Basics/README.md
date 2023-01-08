@@ -2,11 +2,23 @@
 
 You'll create your first models in staging, which are refined versions of the `source` data inherited from the BigQuery dataset
 
-## Instructions
+## 1️⃣ Instructions
 
-_First : copy `dbt_lewagon` from the previous challenge section into this one_
+:rotating_light: _Please read this carefully : it gives you information about how you'll do your challenges today_ :rotating_light:
 
-### Configuring your sources
+- There's a continuity in today's challenges, where little by little, you're building a robust DBT project:
+  - In `01-Setup-DBT`: you've built the initial structure, added files to it
+  - In `02-DBT-Basics`, you'll do copy the whole `dbt_lewagon` directory from `01-Setup-DBT` into `02-DBT-Basics`
+  - In `03-DBT-Advanced`, copy  `02-DBT-Basics` into `03-DBT-Advanced`
+  - etc...
+
+- Our tests are testing against the real BigQuery models you're supposed to create in each challenge, or checking the file structure of `0x-xxx/dbt_lewagon` folder
+
+- Store your answers always in the `dbt_lewagon` project of your current challenge.
+
+❓ So, **first copy `dbt_lewagon` from the previous challenge section into this one_**
+
+## 2️⃣ Configuring your sources
 
 - Under the `models/source` folder, create a file named `src_hackernews.yml`. This is where you'll configure the reference to the BigQuery public dataset : HackerNews.
 - Populate this file so that it understands :
@@ -21,7 +33,7 @@ _First : copy `dbt_lewagon` from the previous challenge section into this one_
   - the `comments` table
   - the `stories` table
 
-### Configuring your first staging model
+## 3️⃣ Configuring your first staging model
 
 - Under the `models/staging/` folder, create a file called `stg_hackernews_full.sql`.
 - Configure this model this way :
@@ -44,13 +56,12 @@ _First : copy `dbt_lewagon` from the previous challenge section into this one_
   </details>
 
 - Run this model by executing the following command in your terminal : `dbt run -m stg_hackernews_full` and check that it's been created in BigQuery : `dbt run -m stg_hackernews_full`
-- Run `make test test_hackernews_full` : 2 tests should have passed :
+- 🧪 Run `make test test_hackernews_full` : 2 tests should have passed :
   - `test_hackernews_full_structure`, and
   - `test_hackernews_full_content`
 
-### Configure new staging models
+## 4️⃣ Configure `stg_hackernews_comment.sql` 
 
-Configure `stg_hackernews_comment.sql` :
 - Under the `models/staging/` folder, create a file called `stg_hackernews_comment.sql`.
 - Make this model
   - a `table`
@@ -74,7 +85,7 @@ Configure `stg_hackernews_comment.sql` :
   ```
 - Run this model : `dbt run -m stg_hackernews_comment`
 
-Configure `stg_hackernews_story.sql` :
+## 5️⃣ Configure `stg_hackernews_story.sql`
 - Under the `models/staging/` folder, create a file called `stg_hackernews_story.sql`.
 - Make this model
   - a `table`
@@ -99,13 +110,13 @@ Configure `stg_hackernews_story.sql` :
   , row_created_at_local
   ```
 - Run this model : `dbt run -m stg_hackernews_story`
-- Run `make test test_hackernews_story_comment` : 2 tests should have passed :
+- 🧪 Run `make test test_hackernews_story_comment` : 2 tests should have passed :
   - `test_hackernews_story_structure`, and
   - `test_hackernews_comment_structure`
 - You can now run all tests and generate the test outputs : run `make test`
 - Push to git
 
-## Recap
+## Summary
 
 - DBT is now able to identify the source data (the Hackernews public dataset), and pull from it
 - You've created 3 models

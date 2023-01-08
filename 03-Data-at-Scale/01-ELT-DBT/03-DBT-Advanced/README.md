@@ -5,11 +5,10 @@ You've created your first staging models, which are refined versions of the `sou
 - Making your pipeline healthier, by implementing some tests.
 - Making the data you're surfacing to business stakeholders more readable, by documenting the meaning of your models.
 
-## Instructions
 
-_First : copy `dbt_lewagon` from the previous challenge section into this one_
+**_First : copy `dbt_lewagon` from the previous challenge section into this one_**
 
-### Enrich the mart layer
+## 1️⃣ Enrich the mart layer
 
 - Under the `models/mart/` folder, create a file called `mart_user.sql`. It will log key information about the Hackernews users.
 - Configure the model this way :
@@ -37,7 +36,7 @@ Now we want to be able to make sure that our way of calculating the `num_stories
 - Run `make test_mart_user` to make sure the structure of your model is correct.
 - **No code is needed in this section** - Now that you have this field handy, it should facilitate your QA : pick a few `user_id` in your BigQuery model, and verify that the `num_comments` or `num_stories` you calculated for this user matches the `num_comments` and `num_stories` you can count on the HackerNews website, that they wrote in the past 90 days.
 
-### Document your models and add some tests
+## 2️⃣ Document your models and add some tests
 
 You've built a few models already - some folks in your company may need to use your models, to get some insights about the data. Thus, you should document what each field means. DBT has a standard way of documenting models - and this documentation can then be parsed and surfaced on a web page, accessible by everyone in the company.
 
@@ -57,13 +56,13 @@ You've built a few models already - some folks in your company may need to use y
 - Run `make test` and push your code to git.
 
 
-## Run the tests
+## 3️⃣ Run the tests
 
 - Let's make sure all the tests you've written are green. Run `dbt test`
 - If tests are failing, go check the compiled SQL file referenced in the error message - you can copy paste the SQL code and execute it in BigQuery to better understand what the failing records are, and why the test is failing.
 
 
-## Surface the documentation
+## 4️⃣ Surface the documentation
 
 You now have a robust DBT project : models that are dependent on each other. Documentation on the meaning of each field. Listing some tests etc. Let's surface all this documentation somewhere.
 
@@ -74,12 +73,12 @@ Run the following command :
 - `dbt docs generate`
 - Then `dbt docs serve`
 
-### Fields documentation
+## 5️⃣ Fields documentation
 
 This will open a page in your browser. Navigate through the documentation. Check the "Database" section, to find the structure of your BigQuery projects, the datasets below them, the tables / views they're made of, as well as the documentation of each field. Especially, go to
 - Database > your project name > your dataset name > `mart_user` : you should be able to see the documentation you've written about the fields + the tests you put in place
 
 
-### Lineage graph
+## 6️⃣ Lineage graph
 
 Click on `stg_hackernews_full` (which you have not documented). At the bottom right of the screen click on the little blue logo, called `View Lineage Graph`. You can now see how your model is related to other models.

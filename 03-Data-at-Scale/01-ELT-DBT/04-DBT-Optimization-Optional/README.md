@@ -1,17 +1,13 @@
 ## High level goal
 
-_Note : there's no action item in this section_
-
 There are 3 main issues in the previous setups we've done, that are not optimal
 1. When picking data from the last 90 days of the Hackernews dataset, we've harcoded in the code the value `90` : this should never be the case. This variable should be centralized somewhere
 2. When we were counting the `num_comments`, `num_stories`, the first and the last time those comments or stories were written : we were writing a lot of duplicated code.
 3. If we were to document the project more, we would be defining the same fields multiple times, in different places. We should centralize this documentation.
 
-## Instructions
+❓ **_First : copy `dbt_lewagon` from the previous challenge section into this one_**
 
-_First : copy `dbt_lewagon` from the previous challenge section into this one_
-
-### Create variables
+## 1️⃣ Create variables
 
 - In the `dbt_project.yml`, introduce a variable called `last_x_days_history`, that you'll set to `90`. And use that variable when building the `stg_hackernews_full.sql` model. Search the DBT documentation yourself to understand how things should be setup. Correction is in the `stg_hackernews_full.sql` and `dbt_project.yml` files
 - Make sure 2 of the tests are green by runnin :
@@ -19,7 +15,7 @@ _First : copy `dbt_lewagon` from the previous challenge section into this one_
   - `make test_dbt_variable_created`
 
 
-### Don't Repeat Yourself - Macros
+## 2️⃣ Don't Repeat Yourself - Macros
 
 - In the `mart_user` model, we were reusing some code a lot. In order to avoid that, write 3 macros (those macros should be written in a file you would create here : `dbt_lewagon/macros/models/mart_user.sql`) :
   - 1 called `num_types` : which takes a given type as an argument. Counts the distinct number of occurences of that type in the aggregation. And also returns the name of the column associated to this calculation.
@@ -48,7 +44,7 @@ Your previous `mart_user` model should be calling macros 6 times total (3 macros
 - Push to git.
 - As a next step, you could make the code even more succinct by writing a FOR loop that iterates over a list that gathers the different types - but there's very little value in this : for the sake of optimization, we would be sacrificing the readibility of the query.
 
-### Scaling your documentation and testing
+## 3️⃣ Scaling your documentation and testing
 
 - In the previous section, you're calling your macros with inputs that are hardcoded : type is `'comment'`, or `'story'`. This no longer works if the original type is changed by the HackerNews software engineers. Let's say they rename `'story'` and now call them `'post'`. `num_story` would be 0 for all new "posts" being written by the authors. Write a test which controls the distinct list of values for the `type` field.
   - In which `yml` file should you write this test ?
