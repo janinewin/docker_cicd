@@ -4,7 +4,6 @@ import grpc
 
 import generated_proto.api_pb2 as api__pb2
 
-
 class TimeServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 

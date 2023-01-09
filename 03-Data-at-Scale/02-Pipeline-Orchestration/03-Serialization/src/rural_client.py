@@ -1,16 +1,15 @@
 import grpc
-import generated_proto.api_pb2 as api_pb2
-import generated_proto.api_pb2_grpc as api_pb2_grpc
+from src.generated_proto import api_pb2
+from src.generated_proto import api_pb2_grpc
 
 
 def run_client():
 
     # Create a gRPC channel
-    channel = grpc.insecure_channel('localhost:50051')
+    channel = grpc.insecure_channel('localhost:50053')
 
     # Create a stub for the CountryYearService
     stub = api_pb2_grpc.CountryYearServiceStub(channel)
-
 
     pass  # YOUR CODE HERE
 
