@@ -12,9 +12,9 @@ def test_http_time_format():
 
 
 def test_grpc_time_format():
-    from src import proto_rpc
-    api = proto_rpc.Api()
-    response = api.get_time(proto_rpc.api_pb2.TimeRequest(), None)
+    from src import proto_rpc_server
+    api = proto_rpc_server.Api()
+    response = api.get_time(proto_rpc_server.api_pb2.TimeRequest(), None)
     assert isinstance(response.h, int)
     assert isinstance(response.m, int)
     assert isinstance(response.s, int)
@@ -31,7 +31,7 @@ def test_rural_population_percentage_http():
 
 
 def test_rural_population_percentage_grpc():
-    from src import proto_rpc
-    api = proto_rpc.Api()
-    response = api.get_rural_population_percentage(proto_rpc.api_pb2.RuralRequest(year=1964, country="France"), None)
+    from src import proto_rpc_server
+    api = proto_rpc_server.Api()
+    response = api.get_rural_population_percentage(proto_rpc_server.api_pb2.RuralRequest(year=1964, country="France"), None)
     assert response.value == approx(34.102)

@@ -1,32 +1,27 @@
 syntax = "proto3";
 
-// The Api service definition.
-service Api {
-  // Get time
-  // rpc ...
-  // YOUR CODE HERE
-
-  // Get rural population percentage
-  // rpc ...
-  // YOUR CODE HERE
+service TimeService {
+  rpc GetTime (TimeRequest) returns (TimeResponse) {}
 }
 
-// We use an empty `TimeRequest`, so if your API evolves later we can add to it
 message TimeRequest {
 }
 
-// The request message containing the user's name.
 message TimeResponse {
-  // YOUR CODE HERE
+  int32 h = 1;
+  int32 m = 2;
+  int32 s = 3;
 }
 
-
-// RuralRequest is the query for the rural app
-message RuralRequest {
-  // YOUR CODE HERE
+service CountryYearService {
+  rpc GetCountryYear (CountryYearRequest) returns (CountryYearResponse) {}
 }
 
-// RuralQuery is the response for the rural app
-message RuralResponse {
-  // YOUR CODE HERE
+message CountryYearRequest {
+  int64 year = 1;
+  string country = 2;
+}
+
+message CountryYearResponse {
+  double value = 1;
 }

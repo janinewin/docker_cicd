@@ -9,7 +9,7 @@ def get_rural_csv_fp():
     This function returns the path to the API-rural.CSV filepath. Feel free to use it to load the CSV file.
     """
     parent_dir = pathlib.Path(os.path.realpath(__file__)).parent.parent
-    csv_fp = os.path.join(parent_dir, "data", "API-rural.csv")
+    csv_fp = os.path.join("data", "API-rural.csv")
     return csv_fp
 
 
