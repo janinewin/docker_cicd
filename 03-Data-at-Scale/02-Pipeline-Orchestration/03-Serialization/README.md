@@ -229,28 +229,10 @@ channel.close()
 ❓ Now it's your job to create the **client-side** code for your application!
 
 ## Pimp your APIs! 🍕
-We need to get a csv file from the worldbank API for the next challenge.
-
-```bash
-wget -O worldbank-rural.zip 'https://api.worldbank.org/v2/en/indicator/SP.RUR.TOTL.ZS?downloadformat=csv'
-```
-Once the zip downloaded, move it to a data directory and unzip it.
-
-```
-mkdir -p src/data/
-mv ./worldbank-rural.zip ./src/data/
-unzip ./src/data/*.zip -d ./src/data
-```
-
-To keep you going in this `APIs` exercise, the code you need to play with the rural CSV data is in the file `src/rural.py`.
-
-Let's start by creating a `data` directory here, and copying the `API-rural.csv` file from the `Serialization` exercise under this `./data/` directory.
-
-You may need to clean the data a bit as well!
 
 ### One more endpoint in FastAPI
 
-In your FastAPI app, add a `GET` endpoint `GET /country/:country/year/:year` that returns the `Rural population (% of total population)` for a given country and year.
+In your FastAPI app, add a `GET` endpoint `GET /country/:country/year/:year` that returns the `Rural population (% of total population)` for a given country and year. The data that is used is loaded from a `S3` bucket in `rural.py`. You need to use pandas to retrieve the value from the `Value` column given the year and country that is used as input variables for the API.
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
