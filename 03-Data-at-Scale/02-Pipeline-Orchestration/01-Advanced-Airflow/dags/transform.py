@@ -10,17 +10,17 @@ AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
 
 def is_month_odd(date: str) -> str:
     """
+    date: formatted as YYYY-MM.
     Returns "filter_expensive_trips" if the month date is even, "filter_long_trips" otherwise.
-    Date should be formatted as YYYY-MM.
     """
-    pass  # YOUR CODE HERE
+    return "filter_expensive_trips" if int(date[-2:]) % 2 == 0 else "filter_long_trips"
 
 
 def prepare_data(bronze_file: str, date: str):
     """
     - Converts data from `bronze_file` to DataFrame  using pandas
     - Adds a new column named 'date' that stores the current month (should be formatted as YYYY-MM)
-    - Keeps only the date, trip_distance and total_amount columns (in that order)
+    - Keeps only the ["date", "trip_distance" and "total_amount"] columns, in that order
     - Returns the DataFrame
     """
     pass  # YOUR CODE HERE
