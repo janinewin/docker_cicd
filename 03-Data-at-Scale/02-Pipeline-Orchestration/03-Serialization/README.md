@@ -190,18 +190,11 @@ server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
 streaming_pb2_grpc.add_NumberStreamServiceServicer_to_server(NumberStreamService(), server)
 server.add_insecure_port('[::]:50051')
 server.start()
+print("start server")
+server.wait_for_termination()
 ```
 
-See how we are adding our service as the input to the `add_NumberStreamServiceServicer_to_server` method?
-
-Finally, you will need to **start the server** and keep it running until you are ready to shut it down. You can do this using a while loop and the sleep function from the `time` module:
-```python
-try:
-    while True:
-        time.sleep(86400)
-except KeyboardInterrupt:
-    server.stop(0)
-```
+☝️ See how we are adding our service as the input to the `add_NumberStreamServiceServicer_to_server` method?
 
 ❓ It is your turn now to create the server side of your API for the `time` method that you created in the FastAPI.
 
