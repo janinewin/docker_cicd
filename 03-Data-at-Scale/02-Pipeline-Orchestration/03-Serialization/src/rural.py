@@ -1,17 +1,5 @@
-import os
-import pathlib
-
-import pandas
-
-
-def get_rural_csv_fp():
-    """
-    This function returns the path to the API-rural.CSV filepath. Feel free to use it to load the CSV file.
-    """
-    parent_dir = pathlib.Path(os.path.realpath(__file__)).parent.parent
-    csv_fp = os.path.join("data", "API-rural.csv")
-    return csv_fp
-
+import pandas as pd
 
 def load_rural_csv():
-    return pandas.read_csv(get_rural_csv_fp())
+    data = pd.read_csv("https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W3D2-advanced-pipelines/API-rural.csv")
+    return data
