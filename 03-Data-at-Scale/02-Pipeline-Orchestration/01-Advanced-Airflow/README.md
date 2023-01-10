@@ -55,7 +55,7 @@ Let's build a conditional DAG:
 
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/airflow_advanced_transform_dag.png" width=500>
 
-The main goal of this DAG is to read the parquet file you saved in `bronze`, to apply a specific operation based on the month of the data, then save the transformed data into `silver`. 
+The main goal of this DAG is to read the parquet file you saved in `bronze`, to apply a specific operation based on the month of the data, then save the transformed data into `silver`.
 
 > _If the month is odd, you will only keep the long trips, otherwise you will keep the expensive ones_
 
@@ -65,13 +65,13 @@ The main goal of this DAG is to read the parquet file you saved in `bronze`, to 
 **❓You need to code five tasks (code the DAG first, and only then python-functions)**
 
 1. [`extract_sensor`](https://airflow.apache.org/docs/apache-airflow/stable/concepts/sensors.html) that should wait for the DAG `extract` to be in the `success` state, and check its state every 10 seconds for a maximum of 10 minutes (after that, it should timeout). No need to specify an external `task_id`, such that it will wait for the DAG itself to succeed
-   
+
 2. `is_month_odd` a [BranchPythonOperator](https://airflow.apache.org/docs/apache-airflow/1.10.6/concepts.html?highlight=branch+operator#branching) that should trigger the `is_month_odd` function with the proper arguments
-   
+
 3. `filter_long_trips` that should trigger the `filter_long_trips` function with the proper arguments (set the `distance` argument to `150`)
-   
+
 4. `filter_expensive_trips` that should trigger the `filter_expensive_trips` function with the proper arguments (set the `amount` argument to `500`)
-   
+
 5. a `EmptyOperator` with a `task_id` named `end`. As the fifth task should be triggered as soon as one of the third/fourth task is successful (only one of both will run), let's set its trigger_rule to [`one_success`](https://airflow.apache.org/docs/apache-airflow/1.10.5/concepts.html?highlight=trigger+rule#trigger-rules). If you wonder why we added an EmptyOperator at the end, this is just to have a single task closing your DAG and not two distinct branches which is more visual.
 
 Ordering:
@@ -159,7 +159,7 @@ WARNING: No to help you too much, we decided not to test everything in your task
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
-  You may need to set `useLegacySql` for the task_id `remove_existing_data`
+  You may need to set `useLegacySql` to False for the task_id `remove_existing_data`
   You may need to set `skip_leading_rows` & `write_disposition` for the task_id `load_to_bigquery`
 </details>
 
