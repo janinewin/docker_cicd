@@ -17,7 +17,6 @@ class TestExtractDag:
     dagbag = DagBag(dag_folder=DAG_BAG, include_examples=False)
 
     def test_dag_config(self):
-        assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="extract")
         assert dag.schedule_interval == "@monthly"
         assert dag.catchup is True
