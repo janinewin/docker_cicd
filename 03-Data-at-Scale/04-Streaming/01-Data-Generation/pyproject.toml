@@ -1,15 +1,17 @@
 [tool.poetry]
-name = "lwmr"
+name = "pandas-stream"
 version = "0.1.0"
 description = ""
-authors = ["S. Saunier <seb@lewagon.org>"]
+authors = []
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.8,<3.9"
 lewagonde = { path = "../../../common/lewagonde/", develop = true }
-nltk = "^3.7"
-pyspark = "^3.3.0"
-apache-beam = {extras = ["gcp"], version = "^2.40.0"}
+pandas = "^1.5.2"
+jupyter = "^1.0.0"
+scipy = "^1.10.0"
+matplotlib = "^3.6.2"
+ipywidgets = "^8.0.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "7.1.2"
@@ -30,3 +32,6 @@ profile = "black"
 line_length = 160
 multi_line_output = 3
 include_trailing_comma = true
+
+[virtualenvs]
+in-project = true

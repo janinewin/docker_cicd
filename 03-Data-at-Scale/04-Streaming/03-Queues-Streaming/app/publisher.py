@@ -2,7 +2,7 @@ import argparse
 import os
 import sys
 import random
-from scipy import stats
+import numpy as np
 import datetime
 import time
 from google.cloud import pubsub_v1
@@ -10,21 +10,21 @@ import pandas as pd
 import time
 
 
-def publish_data(publisher,topic_path,sensor_name,sensor_center_lines,sensor_standard_deviation):
+def get_message_data(sensor_name,sensor_center_lines,sensor_standard_deviation):
 
-    reading = stats.truncnorm.rvs(-1,1,loc = sensor_center_lines, scale = sensor_standard_deviation)
-    latency = abs(random.gauss(0,0.1))
+    reading = np.random.normal(loc=sensor_center_lines, scale = sensor_standard_deviation)
+    latency = abs(random.gauss(0,0.2))
     time.sleep(latency)
     timeStamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
 
     message = sensor_name+','+str(reading)+ ',' + timeStamp
 
-    publisher.publish(topic_path, data=message.encode('utf-8'))
+    return message
 
 
 
 
-def run(TOPIC_NAME, PROJECT_ID, INTERVAL = 200):
+def run(TOPIC_NAME, PROJECT_ID):
 
 
 
@@ -32,16 +32,36 @@ def run(TOPIC_NAME, PROJECT_ID, INTERVAL = 200):
     sensor_center_lines = [989.21,9.45,1216.02,9.64]
     standard_deviation = [8.35,8.42,39.98,4.23]
 
+    #Instanciate a PublisherClient Class from pubsub_v1
+    publisher = None
+    #$CHALLENGIFY_BEGIN
     publisher = pubsub_v1.PublisherClient()
-    topic_path = publisher.topic_path(PROJECT_ID,TOPIC_NAME)
+    #$CHALLENGIFY_END
 
+    #Construct the subscription path using the method `topic_path` of publisher
+    topic_path = None
+    #$CHALLENGIFY_BEGIN
+    topic_path = publisher.topic_path(PROJECT_ID,TOPIC_NAME)
+    #$CHALLENGIFY_END
+    print(f"Publishing messages in {topic_path}..\n")
 
 
     c=0
     while True:
 
         for i in range(len(sensor_names)):
-            publish_data(publisher,topic_path,sensor_names[i],sensor_center_lines[i],standard_deviation[i])
+
+
+            message = get_message_data(sensor_names[i],sensor_center_lines[i],standard_deviation[i])
+
+            #Publish message in topic using `publish` method
+            #Carefull messages must be sent as a bytestring (encoded in 'utf-8')
+            #$CHALLENGIFY_BEGIN
+            publisher.publish(topic_path, data=message.encode('utf-8'))
+            #$CHALLENGIFY_END
+
+
+
             c+=1
 
         if c == 100:
@@ -53,12 +73,11 @@ if __name__ == "__main__":
 
     project_id=os.environ["PROJECT_ID"]
     topic_name = os.environ["TOPIC_NAME"]
-    interval = 200
+
     try:
         run(
         topic_name,
-        project_id,
-        interval
+        project_id
     	)
     except KeyboardInterrupt:
         print('Interrupted : Stopped Publishing messages')

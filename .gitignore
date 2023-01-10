@@ -26,9 +26,3 @@ __pycache__/
 *.log
 
 **/data/db/*
-
-# DBT un necessary files
-dbt_*/target/
-dbt_*/dbt_modules/
-dbt_*/dbt_packages/
-dbt_*/logs/

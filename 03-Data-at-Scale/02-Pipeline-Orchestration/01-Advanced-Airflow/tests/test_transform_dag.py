@@ -27,6 +27,7 @@ class TestTransformDag:
     dagbag = DagBag(dag_folder=DAG_BAG, include_examples=False)
 
     def test_dag_config(self):
+        assert self.dagbag.import_errors == {}
         dag = self.dagbag.get_dag(dag_id="transform")
         assert dag.schedule_interval == "@monthly"
 

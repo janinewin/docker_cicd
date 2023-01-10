@@ -2,16 +2,13 @@
 <br>
 
 🎯 The goal is to:
-* group data coming from different IoT within a fix interval of time
-* load the transformed data in BigQuery
+* Group data coming from different IoT sources within a fixed interval of time
+* Load the transformed data into **BigQuery**
 
 ✅ Before Thinking about streaming the data, we have provided you an old log file which contains values from different sensors with the timestamp. `Streaming` will be covered in next challenge 🙌
 
-<br>
-<br>
 
 # 1️⃣ Download the data
-<br>
 
 Let's first download the data that we are going to work with during this challenge.
 To do so, let's execute this command:
@@ -19,20 +16,17 @@ To do so, let's execute this command:
 mkdir -p data
 curl https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W3D4/sensors_latency.csv > data/sensors_latency.csv
 ```
-👉 Let's have a quick look to data in the terminal
+👉 Let's have a quick look at the data in the terminal
 ```bash
 head data/sensors_latency.csv
 ```
-☝️ The data contains 3 informations:
+☝️ The data contains 3 pieces of information:
 - The `sensor` name
 - The `value` recorded
 - The `timeStamp` corresponding to the time of the record
 <p>💪 Let's build our ETL pipeline with Apache Beam to transform and load this data in BigQuery</p>
-<br>
-<br>
 
 # 2️⃣ Overview of the Pipeline
-<br>
 
 During this challenge, We are going to use the paradigm of Map/Reduce with Apache Beam and build step-by-step our pipeline<br>
 👇 Here is an overview of this pipeline
@@ -48,37 +42,31 @@ During this challenge, We are going to use the paradigm of Map/Reduce with Apach
 - `grouping`: take as input `windowing` then will group and transform the data by key
 - `out`: write the output of the pipeline
 
+# 3️⃣ Read the data with Beam 🔦
 
-<br>
-<br>
-
-# 3️⃣ Read the data with Beam
-<br>
-
-👉 Let's Code the first part of the pipeline in `data` :
+❓ Let's Code the first part of the pipeline `data` in `app/beam_sample.py`:
 - `ReadData` method that will read a text file with the `file_path`variable
 - `Convert to list` method that will convert each element into a list
 
+<br>
 
 💡 To Debug your code you can map a function to print each element of a PCollection :
 ```python
 data | 'Print in Terminal' >> beam.Map(lambda x: print(x))
 ```
-☝️ Notice the syntax of Beam to Apply a method with the pipe (|) and name it with >>
-<br>
-<br>
+☝️ Notice the syntax of Beam to Apply a method with the pipe ( **|** ) and name it with ( **>>** ).
+
 Now you can execute your code with this command:
 ```bash
 python app/beam_sample.py --input data/sensors_latency.csv
 ```
-<br>
-<br>
 
-# 4️⃣ Save Data to an outputFile
-<br>
+You should be able to see your data being printed!
+
+# 4️⃣ Save Data to an outputFile 💾
 
 Next step is to save the transformed data in an output File.<br>
-👉Head to `out` pipeline and save the data using `output_fps_prefix` variable
+👉Head to the `out` pipeline section and save the data using `output_fps_prefix` variable
 <br>
 
 💡 You can apply the method to `grouping` PCollection (For the moment `windowing` and `grouping` are equal to `data` PCollection and they will be implement in the next steps)
@@ -94,26 +82,27 @@ python app/beam_sample.py \
 ```bash
 make test_first_read
 ```
-<br>
-<br>
 
 # 5️⃣ Let's Create a key for each element
 <br>
 
-Inside `windowing` transformation, Let's create a (key,value) Tuple so it will be possible to group the elements by keys later. <br>
-❓In your opinion, what could be a good way to group the data
+Inside `windowing` transformation, Let's create a (key,value) Tuple so it will be possible to group the elements by keys later.
+
+❓ What could be a good way to group the data for this type of data?
 <details>
     <summary markdown='span'>💡 Hints</summary>
 
-for a TimeStamped data, a good strategy of grouping is to create intervals to gather data from the same time window
+for a TimeStamped data, a good strategy of grouping is to create intervals to gather data from the same time window!
+
 </details>
 <br>
 
 👉 Let's code the process by applying a Map method that we name `Map Time Rounded Key per Element`to create a Tuple elements with :
-* key: rounded value of the timestamp (You can use `strtime_window_rounded` function)
+* key: rounded value of the timestamp (You can use `strtime_window_rounded` function provided for you)
 * value: sensor name and sensor value
 
-❗️We have manually created the time intervals by rounding the timestamp. Actually Beam is able to created time windows with TimeStamped elements -> Let's leave that for the BONUS part.
+
+❗️ We have manually created the time intervals by rounding the timestamp. Actually Beam is able to create time windows with TimeStamped elements -> Let's leave the next exercise.
 
 
 You can execute your code with this command:
@@ -123,22 +112,22 @@ python app/beam_sample.py \
     --output data/output_intermediate_windowing.txt
 ```
 
-👉 Let's Head to data/output_intermediate_windowing.txt and have a look at the intermediary output generated by implement windowing transformations.<p>
-💡All the first line have the same key with the rounded time, the data is now ready to be grouped into different intervals
+👉 Let's Head to data/output_intermediate_windowing.txt and have a look at the intermediary output generated by implement windowing transformations.
+
+💡 Each line is tuple the first element being `timestamps` in 15 second intervals. the second element is a list containing the sensor name and value!
 
 
 🧪 **Test your code**
 ```bash
 make test_windowing
 ```
-<br>
-<br>
+With this tuple we are now ready to group!
 
 # 6️⃣ Let's Group/Combine the data
 <br>
 
-First we need to group the data. In The previous step, we have already created a key for each element.
-So now, we just need to group these elements toghether. Let's call this transformation `Group By Key`
+❓ In The previous step, we already created a key for each element.
+So now, we just need to group these elements together. Let's call this transformation `Group By Key` and implement it as the first transformation in the `windowing` section!
 
 <details>
     <summary markdown='span'>💡 Hints</summary>
@@ -160,13 +149,13 @@ make test_grouping_by_key
 <br>
 
 👉 Let's Head to data/output_intermediate_grouping.txt and have a look at the intermediary output generated <p>
-💡Now there is only on line per key/interval. An element of the current state PCollection is a tuple
-* timestamp of the interval
-* List of records from all sensors
+💡Now there is only one element per 15 second interval. Currently the tuple contains:
+* a timestamp of the interval
+* a list of records from all sensors during that window
 
-The Next step now is to reduce each element into one single value containing all the infos within a Dictionary
+The next step now is to reduce that long list into one single value containing all the info within a Dictionary:
 
-'''python
+```python
 {
   'Timestamp': '2022-11-25 09:00:15',
   'Airtight': 1216.66,
@@ -174,18 +163,16 @@ The Next step now is to reduce each element into one single value containing all
   'H2OC': 9.77,
   'Temp': 8.85
 }
-'''
+```
 
-👉Let's map a function that is going to output a dictionary containing the below schema. Let's call this transformation `Average within interval` and implement the function `aggregate_sensors`
+❓ Let's map a function `aggregate_sensors` that is going to output a dictionary containing the below schema from that list. Then apply it is within the `windowing` section as the transformation `Average Over Time`.
 
 
 <details>
     <summary markdown='span'>💡 Hints</summary>
 
-You can use pandas as seen in the first challenge with `pandas.pivot_table`
+You can use pandas as seen in the first challenge with `pandas.pivot_table`.
 </details>
-<br>
-
 
 You can execute your code with this command:
 ```bash
@@ -204,7 +191,7 @@ make test_beam_final
 # 6️⃣ Let's Load the data into BigQuery
 
 
-**💻  Create a dataset in BigQuery and add 1 new _tables_, `stream_test`, to the dataset.
+❓ 💻  Create a dataset in BigQuery and add 1 new _tables_, `stream-test`, to the dataset.
 Under schema click on Edit as text and paste the following schema :
 
 ```python
@@ -212,20 +199,30 @@ Timestamp:TIMESTAMP, Airtight:FLOAT, AtmP:FLOAT, H2OC:FLOAT, Temp:FLOAT
 ```
 
 **📝 Fill in the `BQ_TABLE` variable in the `.env` project configuration**
-! don't forget to put your project id 
+with the right format:
+```bash
+BQ_TABLE=<your-project-id>:<your-bq-dataset-name>.<your-table-name>
+```
 
-
-# 🏁Conclusion
-Congratulation🎉 Tou have build a complete pipeline to transform and load your data <br>
-Here is an overview of what you have build during this challenge
-<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W3D4/0304-02-graphviz-pipeline.svg" height=500>
-
-
-
-# (Bonus) Time Window Session
+👉 Let's head to `out_bq` part of the pipeline and add `Write to Big Query` transformation using
+[beam.io.gcp.WriteToBigQuery](https://beam.apache.org/releases/pydoc/2.8.0/apache_beam.io.gcp.bigquery.html)
 <br>
 
-modify pipeline windowing
-create beam.window.TimestampedValue
-apply beam.WindowInto
-apply a MapSessionWindow by getting the window end time within the function process of the class
+❗ A temp location folder in google cloud storage is mandatory to load data into **BigQuery** when writing all of the data at once we won't need one for streaming. You can create a folder in your bucket and store the path in `GCS_TEMP`in your `.env`
+
+You can execute your code with this command by enabling the last part of the pipeline:
+```bash
+python app/beam_sample.py \
+    --input data/sensors_latency.csv \
+    --output data/output.txt \
+    --out-bq True
+```
+
+👉 Let's head to your gcp console into **BigQuery** and check that the data has loaded in the format you expect!
+
+
+# 🏁 Conclusion
+
+Congratulations 🎉 Tou have built a complete pipeline to transform and load your data. Here is an overview of what you have built during this challenge:
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W3D4/0304-02-graphviz-pipeline.svg" height=500>

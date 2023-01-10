@@ -54,6 +54,7 @@ def aggregate_sensors(timestamp,sensor_values):
     #$CHALLENGIFY_END
 
 #$DELETE_BEGIN
+#DoFn implementation of aggregate_sensors
 class AggregateSensors(beam.DoFn):
     def process(self,sensorValues):
 
@@ -79,7 +80,7 @@ def run(file_path,output_fps_prefix,interval=15,bool_output_bq=False, pipeline_a
     schema = 'Timestamp:TIMESTAMP, AtmP:FLOAT, Temp:FLOAT, Airtight:FLOAT, H2OC:FLOAT'
     with beam.Pipeline(options=PipelineOptions(pipeline_args)) as pipeline:
 
-
+        # data section
         data = (
             pipeline
             #$CHALLENGIFY_BEGIN
@@ -136,17 +137,22 @@ def run(file_path,output_fps_prefix,interval=15,bool_output_bq=False, pipeline_a
             #$CHALLENGIFY_END
         )
 
-        #$DELETE_BEGIN
+
         if bool_output_bq :
+
             output_bq_table = os.environ.get("BQ_TABLE","")
             output_gcs_temp = os.environ.get("GCS_TEMP","")
+
             out_bq = (
                  grouping
-                 | "Write to Big Query" >> beam.io.WriteToBigQuery(output_bq_table,schema=schema,
-                                                                   write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE,
-                                                                   custom_gcs_temp_location=output_gcs_temp)
+                 #$CHALLENGIFY_BEGIN
+                 | "Write to Big Query" >> beam.io.gcp.bigquery.WriteToBigQuery(output_bq_table,
+                                                                                schema=schema,
+                                                                                write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE,
+                                                                                custom_gcs_temp_location=output_gcs_temp)
+                #$CHALLENGIFY_END
              )
-        #$DELETE_END
+
 
 
 if __name__ == "__main__":

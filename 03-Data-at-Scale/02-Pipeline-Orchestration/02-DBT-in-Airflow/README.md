@@ -1,8 +1,6 @@
 # 🎯 Introduction
 
-This is a short tutorial to let you use Airflow to orchestrate your dbt jobs.
-
-For that purpose, we will *mount* a live copy of our DBT models *inside* the airflow instances.
+Let's use Airflow to orchestrate our dbt jobs! For that purpose, we will mount a live copy of our DBT models inside the airflow instances.
 
 More precisely, we will have 3 containers running:
 - a postgres db storing airflow metadata
@@ -15,9 +13,7 @@ The *actual datasets and models* will then be saved in Big Query.
 We already created a dbt project (`dbt_lewagon`) for you that contains the basic models coming from `dbt init`, which will be enough to test your setup.
 
 ## Dockerfile
-First, let's note that we already added `dbt-core` and `dbt-bigquery` to your `pyproject.toml` (that Airflow will use). 
-
-Then, there are several environment variables for Airflow to know in which folders to look up when running `dbt` commands. Open your `Dockerfile` and add the following lines after `ENV AIRFLOW_HOME=/app/airflow`:
+First, let's note that we already added `dbt-core` and `dbt-bigquery` to your `pyproject.toml` (that Airflow will use). Then, there are several environment variables for Airflow to know in which folders to look up when running `dbt` commands. Open your `Dockerfile` and add the following lines after `ENV AIRFLOW_HOME=/app/airflow`:
 
 ```
 ENV DBT_DIR=$AIRFLOW_HOME/dbt_lewagon
@@ -36,7 +32,7 @@ make test_dockerfile
 
 ## docker-compose.yml
 
-You should just have to mount two volumes in your `airflow scheduler` to sync:
+There are not that many things to do in that part. You should just have to add two volumes in your `airflow scheduler` to sync:
 - your local `dbt_lewagon` folder to your docker container
 - your local `.gcp_keys` folder to your docker container (you will probably have to set the entire path to your `.gcp_keys`, like `/Users/username/.gcp_keys:/app/airflow/.gcp_keys`)
 
@@ -46,7 +42,7 @@ Once you are confident with what you've done, run the tests:
 make test_docker_compose
 ```
 
-Before moving to the next part, create and fill your `.env` file as usual with what's needed.
+Before moving to the next part, create and fill your `.env` file as usual.
 
 ## Setup files
 
@@ -80,9 +76,13 @@ The goal of this exercise is to have dbt installed on Airflow and to have a DAG 
 
 
 ## `dags/basic/dbt_basic.py`
+Open the `dbt_basics.py` file and add your DAG inside. It should:
+- be named `dbt_basics`
+- depend on past
+- not catchup
+- start from yesterday and run daily
 
-❓ Open the `dbt_basics.py` file and add 2 tasks inside the DAG:
-
+Then you should have **two tasks that run one after the other**:
 1. `dbt_run` BashOperator that runs dbt models, be careful, [you will have to specify the dbt_dir folder](https://docs.getdbt.com/dbt-cli/configure-your-profile#advanced-customizing-a-profile-directory)
 2. `dbt_test` BashOperator that run dbt tests, be careful, [you will have to specify the dbt_dir folder](https://docs.getdbt.com/dbt-cli/configure-your-profile#advanced-customizing-a-profile-directory)
 
@@ -104,17 +104,13 @@ Once you are confident with what you've done, run the tests:
 make test_dag_and_task_basic
 ```
 
->💡 This setup would scale with any other dbt_projects: Just replace the `dbt_lewagon` folder with the project that you've done in the previous day, make sure that it runs properly and go to BigQuery to check that your models have been created :) 
+### optional - test it with any other dbt project!
 
-🧪 Run all tests at once and git add, commit and your `test_output.txt`!
+>💡 If you want to make sure that this setup would scale with other dbt_projects, just replace the `dbt_lewagon` folder with the project that you've done in the previous day, make sure that it runs properly and go to BigQuery to check that your models have been created.
 
-```
-make test
-```
+# 3️⃣ Advanced DAG: one task per DBT model
 
-# 3️⃣ Advanced DAG: one task per DBT model (Optional - keep for later)
-
-**🎯 Keep this challenge only for after you're done with the third challenge of the day about Protocol Buffer**
+Let's start this advanced part only if you were really quick so far, otherwise, we recommend you to move to the next exercise first and consider this part as optional.
 
 ## Setup
 

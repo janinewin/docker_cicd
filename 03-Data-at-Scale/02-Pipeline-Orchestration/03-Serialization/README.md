@@ -1,4 +1,6 @@
-# 0️⃣ Introduction
+# APIs, JSON + HTTP versus Protobuf + gRPC
+
+## Introduction
 
 First of all, let's remember what an API is.
 
@@ -9,7 +11,7 @@ Here's a scenario
 - I'd like to make this code available and useful for other people than me.
 - Even people who don't know Python.
 
-**🤔 ⁉️ How do I do that?**
+**⁉️ How do I do that?**
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
@@ -24,38 +26,34 @@ An API is here to delimit the bits of your code that you'd like to expose to the
 And ideally, it's language-agnostic, meaning it's accessible from Python, Go, Rust, C++, Java, Javascript, etc. And even web browsers, apps like Postman (but that's because they use one of the programming languages mentioned earlier 👈  of course).
 
 We'll build simple APIs, then more complex ones, for both formats that we discussed in the lecture:
-  - For JSON, it will be a HTTP API using the [popular and modern FastAPI library](https://fastapi.tiangolo.com/).
-  - For protobuf, it will be a [gRPC](https://grpc.io/) API.
+  - For JSON, it will be a HTTP API using the [popular and modern FastAPI library](https://fastapi.tiangolo.com/). You may have heard of [Flask](https://flask.palletsprojects.com/en/2.1.x/), it's similar but for modern, typed, asynchronous Python 3.x.
+  - For Protobuf, it will be a [gRPC](https://grpc.io/) API. Note we'll use Protobuf version 3 for the record.
 
 ### Before we start, let's discover the Python packages we'll use
 
-Open the `pyproject.toml` file. We use Poetry for Python packages management. In this exercise, we care mostly about these lines:
+Open the `pyproject.toml` file. We use Poetry for Python packages management. If you haven't already, [read up about the pyproject.toml file](https://python-poetry.org/docs/pyproject/).
 
-```toml
-# to load CSVs
-pandas = "^1.4.2" 
+In this exercise, we care mostly about these lines:
 
-# for the JSON HTTP API
+```
+pandas = "^1.4.2"
+```
+to load CSVs (cf. `Serialization` exercise).
+
+```
 fastapi = "^0.78.0"
 uvicorn = {extras = ["standard"], version = "^0.17.6"}
-
-# for the Protobuf + gRPC part.
-grpcio-tools = "1.47.0"
 ```
-❓ **Run poetry install** to make sure you have installed latest version in your challenge virtualenv. (we'll not use docker for this challenge). 
+for the JSON HTTP API.
 
-This challenge will make heavy use of your IDE's capability (otherwise you may get lost)!
-- Make sure VScode is using the correct `.venv` as Python Interpreter.
-- Use "Option-Click" on your code to navigate through imports rapidly!
-- Use "Command-P" to navigate through files by name
-- Use "Command-Shift-R" to search for symbol globally!
-- Use "View Split Editor" to view several files at once!
+```
+grpcio-tools = "^1.46.3"
+```
+for the Protobuf + gRPC part.
 
-# 1️⃣ Warming up: A simple JSON HTTP API ⛏️
+## First off, let's write our JSON HTTP API ⛏️
 
-> We'll edit the file `api/rest_api.py`.
-
-### ❓ GET /time
+> We'll edit the file `src/json_rest.py`.
 
 Let's start simple, we want to return the current hour `h`, minute `m`, second `s`, broken down in a JSON that looks something like this.
 
@@ -67,183 +65,151 @@ Let's start simple, we want to return the current hour `h`, minute `m`, second `
 }
 ```
 
-Then Run the API locally, then run `curl http://localhost:8000/time` in your terminal. You should see `{"h":22,"m":23,"s":40}` with your current hour, minute, second.
-
-# 2️⃣ Now Protobuf + gRPC 🔧
-We are now going to recreate this API using protobuf + gRPC 💪. There are 4 steps that are necessary for this:
-  1. Create a `.proto` file where we define the service (function) and input/output variables (messages) to use
-  2. Compile the `.proto` file into Python code that amongst others takes care of the serialization/deserialization
-  3. Create the server code
-  4. Create the client-side code
-
-## 2.1) Define our `api/api.proto`
-
-❓**Task: Create the messages and services for the `time` function that you created for the FastAPI, similarly as the example below. Do this in `api/protos/api.proto`.**
-
-🤔 Context please? We start by defining the API that we want to create by creating a **service** in a `.proto` file. A service definition includes a **name** and a **list of methods** that the service supports. Each method has a name, a list of input parameters, and a list of output parameters. 
-
-For example, here's a `.proto` file with a service called `NumberStreamService` that has a single method called `GetNumbers`, which takes no input and returns a stream of int32 values (notice the `stream` keyword in front of `GetNumbersResponse`):
-
-```javascript
-syntax = "proto3";
-
-// define your service
-service NumberStreamService {
-  rpc GetNumbers (GetNumbersRequest) returns (stream GetNumbersResponse) {}
-}
-
-// define service inputs parameters
-message GetNumbersRequest {
-}
-
-// define service output parameters
-message GetNumbersResponse {
-  int32 value = 1;
-}
-```
-
-👉 Your service should be called `TimeService` and is not a streaming one!
+**How do we get the current time in Python?**
 
 <details>
-  <summary markdown='span'>🎁 Solution (to make sure you start correctly)</summary>
+  <summary markdown='span'>💡 Hint</summary>
 
-```javascript
-syntax = "proto3";
+  Check out the [datetime](https://docs.python.org/3/library/datetime.html) package of the standard library. Return the hour, minute and second using this package.
+</details>
 
-// My first endpoint to get current time 
-service TimeService {
-  rpc GetTime (TimeRequest) returns (TimeResponse) {}
-}
+Then, hook this function to an endpoint.
 
-message TimeRequest {
-}
+**Follow the [example app](https://fastapi.tiangolo.com/#example) to create the endpoint `/time`**
 
-message TimeResponse {
-  int64 h = 1;
-  int64 m = 2;
-  int64 s = 3;
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  Check out the `def read_root():` bit, but change the path in `@app.get("/")` to be `@app.get("/time")`.
+</details>
+
+**Run the API**
+
+The answer to run the app [lies here](https://fastapi.tiangolo.com/#run-it), but you need to adapt the code to your path.
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  The tutorial suggests `uvicorn main:app --reload`, because it's
+  - a variable `app`, like us
+  - in a file `main.py`, ❗ we don't have this file, we have a file `json_rest.py` in a directory `src`. A little bit of help here: `uvicorn` reads that as `src.json_rest`
+  - `--reload` simply says it'll reload the app whenever there is a code change, which is handy in development mode.
+</details>
+
+Once this is running, run `curl http://localhost:8000/time` in your terminal, what do you see?
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  This should be `{"h":22,"m":23,"s":40}` with your current hour, minute, second.
+</details>
+
+## Now Protobuf + gRPC 🔧
+
+For the record, we're following our own simpler version of the [gRPC Python tutorial](https://grpc.io/docs/languages/python/basics/). You might want to take a look anyways, as that is the official reference.
+
+### 1. Start writing your `.proto` file
+
+All the messages exchanged within our gRPC service are Protobuf messages. And these messages are defined in the `protos/api.proto` file (partly pre-filled for you), in the `message <> {...}` blocks.
+
+An example from the official doc
+```proto
+// Points are represented as latitude-longitude pairs in the E7 representation
+// (degrees multiplied by 10**7 and rounded to the nearest integer).
+// Latitudes should be in the range +/- 90 degrees and longitude should be in
+// the range +/- 180 degrees (inclusive).
+message Point {
+  int32 latitude = 1;
+  int32 longitude = 2;
 }
 ```
+
+These protobuf messages define what are the inputs and outputs of any API that uses them. It is your task to replicate the functionalities from the REST API using GRPC and protobuf.
+
+Now, we also define the API endpoints in the protobuf message, by defining a `service` block, with `rpc` lines. Each `rpc` line is like a new function that can be called on the API. Here is an example from [the official tutorial](https://github.com/grpc/grpc/blob/v1.46.3/examples/protos/helloworld.proto).
+
+```proto
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+```
+
+### 1. Compile your `.proto` file
+Once the protobuf file is well defined, we need to compile it into actual "semi-finished" code. We've written this for you, run `make compile-proto`.
+
+This compilation step
+1. writes the message definitions to be used by Python
+2. writes the API glue code
+
+You can see that two new files were created in the `src` subdirectory.
+
+**There is one last step, fill in the logic!**
+
+<details>
+  <summary markdown='span'>💡 Hint</summary>
+
+  If you need extra explanations, take the time to read the [official "Introduction to gRPC"](https://grpc.io/docs/what-is-grpc/introduction/).
+  Even after finishing this exercise, it's worth a second read.
 </details>
 
 
----
-## 2.2) Compile the `.proto` file
-Use the **protoc** compiler. The protoc compiler reads the `.proto` file and generates code in the target language (in this case, Python) that provides the necessary classes and methods for interacting with the gRPC service defined in the `.proto` file.
+### Data flow - how it works
 
-❓ **Compile the `.proto` file with the following command** (use --help if you want to understand):
+<img src="https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/movies/w1d3/exercises/day-3-protobuf-grpc-parts.png" />
 
-```bash
-python -m grpc_tools.protoc \
---proto_path=api/protos \
---python_out=api/generated_proto \
---grpc_python_out=api/generated_proto \
-api/protos/api.proto
-```
+### Back to the code
 
-Two files are created as a result.
-- `api_pb2.py` containing classes for each custom **message** defined in the `.proto` file.
-- `api_pb2_grpc.py` containing interfaces and classes for each **service** defined in the `.proto` file, including:
-  - An **interface** for each service, with methods for each service method.
-  - A **stub** class for each service that sends requests to the server and receives responses.
-  - A **server** class for each service that receives requests from the client and sends responses.
+Then, like we defined an API service signature for the FastAPI app, we define
 
-It will become clearer later as you'll have to use them!
+- the endpoint: `/time` for the the HTTP API, here this is the `rpc` service name
+- the input type: here this is an empty message `TimeRequest` already filled out
+- the response type: a JSON dictionary for the HTTP API, here the `TimeResponse` message you have to fill out.
 
-The generated code can indeed be imported into your Python code in the next step and be used to implement the server and client for your gRPC service.
+**Task: fill out the `TimeResponse` message**
 
-<img src="https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/movies/w1d3/exercises/day-3-protobuf-grpc-parts.png" width=800 />
+<details>
+  <summary markdown='span'>💡 Hint</summary>
 
+  - It needs to map what you've done in the return of `def time():`.
+  - Except that you need to give a type `int64` to each of the fields.
+  - Tip: each field needs to have a unique number, which increments every time. Check the `message Point` above, note the `=1`, then `=2`, then `=3`.
+</details>
 
-❓ **Fix imports** : grpc is not 100% perfect. If you look at `pb2_grpc.py` line 5 you'll see a relative import `import api_pb2 as api__pb2` that is not best practice, because it will only work if you execute the file from the same "generated_proto" folder. 
+**Task: fill out the `get_time` service endpoint**
 
-Fix this by importing `api__pb2` from the `api` package instead! You can check that `api` has been "pip installed" in your virtualenv by running that `pip install | grep api` returns your package path!
+<details>
+  <summary markdown='span'>💡 Hint</summary>
 
-👉 Let's move on to the `client` and `server` code now. We give you 2 options 
-- ❓**Guided-option (if you need some help)**: Follow steps 2.3) and 2.4) below
-- ❓**Not guided (better learning experience)**: Try to complete the two following files and run them:
-```bash
-python api/proto_rpc_client.py  # Should say "Api client received: h:10 m:35 s:56"
-python api/proto_rpc_server.py  # Should say "server started running"
-```
+  - Look at how this is done in the [official tutorial](https://github.com/grpc/grpc/blob/v1.46.3/examples/protos/route_guide.proto#L25)
+  - Something like `rpc get_time(...) returns (...) {}`
+</details>
 
----
+**Task: recompile the protos**
 
-## 2.3) Create the server code `api/proto_rpc_server.py`
-To implement the **server** for this service, you will need to define a method that takes a **request** object and and **yields** the desired response objects one at a time. Here's an example of how you might implement the GetNumbers method for the NumberStreamService:
+We've already added the command for that in the `Makefile`: `make compile-proto`.
 
-```python
-import streaming_pb2
-import streaming_pb2_grpc
-import grpc
-from concurrent import futures
-import time
+**Task: fill out the service code!**
 
-class NumberStreamService(number_stream_pb2_grpc.NumberStreamServiceServicer):
-    def GetNumbers(self, request, context):
-        for i in range(1, 6):
-            yield number_stream_pb2.GetNumbersResponse(value=i)
-```
+In `src/protorcp.py`, you'll need to fill out the `get_time(...)` method of the `Api` class. Again, this mimics what we've done earlier in the HTTP API ; just this time it's a `TimeResponse` instance that is returned.
 
-💡 Here we `yield` a return as we want to return a **stream of messages**. If you are not returning a stream, then just use the `return` keyword.
+**Task: test it!**
 
-Once you have implemented the **service** class, you can create a **gRPC** server and add the service to it. With the FastAPI we were using `Uvicorn` for this. Using gRPC we can utilize the classes that were created when we compiled the `.proto` file.
+To put this all together, we've created the server and client code for you to test.
 
-```python
-# Create a gRPC server
-server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-streaming_pb2_grpc.add_NumberStreamServiceServicer_to_server(NumberStreamService(), server)
-server.add_insecure_port('[::]:50051')
-server.start()
-print("start server")
-server.wait_for_termination()
-```
+- In one terminal, run `python proto_rpc_server.py`, this runs a server on a default port 50051.
+- In a second terminal, run `python proto_rpc_client.py`, this tests a client against this server ✌️.
 
-☝️ See how we are adding our service as the input to the `add_NumberStreamServiceServicer_to_server` method? Well, you should have access to the equivalent `add_TimeServiceServicer_to_server` already available to your on `api_pb2_gprc.py` 🙂
+## Pimp your APIs! 🍕
 
-❓ **It is your turn now to create the server side of your API for the `time` method in `api/proto_rpc_server.py`**
+This part is a bonus if you feel like a Proto-boss 🤦. Are you up for the challenge? It uses your work from the `Serialization` exercise, so you'll need that completed first. At the very least, do the first part of that exercise, until the CSV data is downloaded and in the `./data` directory. To keep you going in this `APIs` exercise, the code you need to play with the rural CSV data is in the file `src/rural.py`.
 
-❓ **Try to run the server by running the python file**. 
+Let's start by creating a `data` directory here, and copying the `API-rural.csv` file from the `Serialization` exercise under this `./data/` directory.
 
-```bash
-python api/proto_rpc_server.py # Should say "server started running"
-```
+### One more endpoint in FastAPI
 
----
-
-## 2.4) Create the client code in `api/proto_rpc_client.py`
-
-👇 Here's an example of how you might create a channel and a **stub** for the `NumberStreamService` and print the numbers received from the `GetNumbers` method:
-
-```python
-import grpc
-import streaming_pb2
-import streaming_pb2_grpc
-
-channel = grpc.insecure_channel('localhost:50051')
-stub = streaming_pb2_grpc.NumberStreamServiceStub(channel)
-
-response_iterator = stub.GetNumbers(streaming_pb2.GetNumbersRequest())
-
-for response in response_iterator:
-    print(response.value)
-
-channel.close()
-```
-
-❓ **Now it's your job to create the client-side code for your application!**
-
-❓ **Try to run the server by running the python file**. 
-
-```bash
-python api/proto_rpc_client.py # Should return "Api client received: h:10 m:35 s:56"
-```
-
-# 3️⃣ Add a new "Rural" end-point 🏋️‍♀️
-
-## 3.1) Add endpoint in FastAPI
-
-In your FastAPI app, add a `GET` endpoint `GET /country/:country/year/:year` that returns the `Rural population (% of total population)` for a given country and year. The data that is used is loaded from a `S3` bucket in `rural.py`. You need to use pandas to retrieve the value from the `Value` column given the year and country that is used as input variables for the API.
+In your FastAPI app, add a `GET` endpoint `GET /country/:country/year/:year` that returns the `Rural population (% of total population)` for a given country and year.
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
@@ -251,46 +217,20 @@ In your FastAPI app, add a `GET` endpoint `GET /country/:country/year/:year` tha
   Check out the documentation about [path parameters in FastAPI](https://fastapi.tiangolo.com/tutorial/path-params/) and how to get them.
 </details>
 
-## 3.2) And now in gRPC
+### And now in gRPC
 
-If you've reached this part, congratulations. You should have all the ingredients to make your gRPC API fancier. 
+If you've reached this part, congratulations. You should have all the ingredients to make your gRPC API fancier. A few steps to follow, as a guide:
 
-**❓ Try to code your RPC so as to achieve this (from the point of view of a client)**
+1. **Task 1**. Add 2 Protobuf messages
+  - A query `RuralRequest` that has a `country` and a `year` field.
+  - And a response `RuralResponse` that has one field `value`.
 
-```bash
-python api/rural_client.py --country="Germany" --year="2017" # The share of rural population in Germany in year 2017 is 22.74%
-```
+2. **Task 2**. Still in the `protos/api.proto` file. Add an `rpc` endpoint in the `service Api` that takes the `RuralRequest` as input and returns a `RuralResponse`.
 
-Try to do everything on your own! Just know that you can add more messages to a proto file
-```javascript
-// My first endpoint to get current time 
-service TimeService{
-  ...
-  }
+3. **Task 3**. Recompile the Protobuf code with `make compile-proto` to generate the latest stubs (the 2 `src/api_pb2*.py` files)
 
-// My second endpoint to get share of rural population per country
-service ...
-```
+4. **Task 4**. Now implement the request in Python in `src/proto_rpc.py`.
 
-<details>
-  <summary markdown='span'>💡 Hints 1 (if you need guided steps) </summary>
+5. **Task 5**. Run the new server.
 
-1. **Task 1**. Start by the Protobuf messages
-   - With a `CountryYearRequest` that has a `country` and a `year` field.
-   - And a `CountryYearResponse` that has one field `value`.
-   - And a `CountryYearService`  that takes the `CountryYearRequest` and returns th `CountryYearResponse`
-
-2. **Task 2**. Recompile the Protobuf code
-
-3. **Task 4**. Now implement the request in Python in `api/rural_server.py`.
-
-4. **Task 5**. Run the new server.
-
-5. **Task 6**. Adapt the `rural_client.py` file to test the request. 👏
-</details>
-
-<details>
-  <summary markdown='span'>💡 Hints 2 (if stuck with python CLI options "--country=...")</summary>
-
-Checkout python argparse https://docs.python.org/3/library/argparse.html
-</details>
+6. **Task 6**. Adapt the `proto_rpc_client.py` file to test the request. 👏
