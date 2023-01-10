@@ -55,15 +55,23 @@ Let's build a conditional DAG:
 
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/airflow_advanced_transform_dag.png" width=500>
 
-The main goal of this DAG is to read the parquet file you saved in `bronze`, to apply a specific operation based on the month of the data and to save the transformed data into `silver`. If the month is odd, you will only keep the long trips, otherwise you will keep the expensive ones (while using BranchOperator). But before implementing the functions, let's focus on the tasks.
+The main goal of this DAG is to read the parquet file you saved in `bronze`, to apply a specific operation based on the month of the data, then save the transformed data into `silver`.
 
-As we want your `transform` DAG to run only once the `extract` one is done, you will have to use a [sensor](https://airflow.apache.org/docs/apache-airflow/stable/concepts/sensors.html).
+> _If the month is odd, you will only keep the long trips, otherwise you will keep the expensive ones_
 
-You need five tasks:
-1. `extract_sensor` that should wait for the DAG `extract` to be in the `success` state, and check its state every 10 seconds for a maximum of 10 minutes (after that, it should timeout). No need to specify an external `task_id`, such that it will wait for the DAG itself to succeed
+🧐 Granted, this condition makes no real business sense, but it's an easy one, and we've given you the python logic in  `is_month_odd` already - let's move on and focus on Airflow logic!
+
+
+**❓You need to code five tasks (code the DAG first, and only then python-functions)**
+
+1. [`extract_sensor`](https://airflow.apache.org/docs/apache-airflow/stable/concepts/sensors.html) that should wait for the DAG `extract` to be in the `success` state, and check its state every 10 seconds for a maximum of 10 minutes (after that, it should timeout). No need to specify an external `task_id`, such that it will wait for the DAG itself to succeed
+
 2. `is_month_odd` a [BranchPythonOperator](https://airflow.apache.org/docs/apache-airflow/1.10.6/concepts.html?highlight=branch+operator#branching) that should trigger the `is_month_odd` function with the proper arguments
+
 3. `filter_long_trips` that should trigger the `filter_long_trips` function with the proper arguments (set the `distance` argument to `150`)
+
 4. `filter_expensive_trips` that should trigger the `filter_expensive_trips` function with the proper arguments (set the `amount` argument to `500`)
+
 5. a `EmptyOperator` with a `task_id` named `end`. As the fifth task should be triggered as soon as one of the third/fourth task is successful (only one of both will run), let's set its trigger_rule to [`one_success`](https://airflow.apache.org/docs/apache-airflow/1.10.5/concepts.html?highlight=trigger+rule#trigger-rules). If you wonder why we added an EmptyOperator at the end, this is just to have a single task closing your DAG and not two distinct branches which is more visual.
 
 Ordering:
@@ -72,12 +80,13 @@ Ordering:
 - The fifth task should be triggered only once the third/fourth one succeeds.
 
 
-Try-out your DAG and then run
+❓ **Try to run your DAG with python functions!**
+
+🧪 Then test yourself
 ```bash
 make test_transform_dag
 ```
 
-Again, run the DAG on your Airflow UI to check that everything is running well and then save your work in progress on GitHub.
 
 # 3️⃣ "Load" DAG
 
@@ -134,7 +143,7 @@ This branch needs 6 tasks:
   gsutil mb -l EU gs://de_airflow_taxi_silver
   ```
 - `create_dataset` that should create the `de_airflow_taxi_gold` dataset on BigQuery
-- `create_table` that should create a big-query table named `trips` in the dataset `de_airflow_taxi_gold` with the proper schema (`month` as a string and `trip_distance` & `total_amount` as floats)
+- `create_table` that should create a big-query table named `trips` in the dataset `de_airflow_taxi_gold` with the proper schema (`date` as a string and `trip_distance` & `total_amount` as floats)
 - `remove_existing_data` that should run a query to remove data at the current date (in order to be idempotent)
 - `load_to_bigquery` that should append the content of the `silver` file to the `gold` table
 
@@ -150,13 +159,13 @@ WARNING: No to help you too much, we decided not to test everything in your task
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
-  You may need to set `useLegacySql` for the task_id `remove_existing_data`
+  You may need to set `useLegacySql` to False for the task_id `remove_existing_data`
   You may need to set `skip_leading_rows` & `write_disposition` for the task_id `load_to_bigquery`
 </details>
 
 # 🏁 Conclusion
 
-This ETL may be "stupid" in real life, but you are now equipped to use it for any real cases.
+This dummy ETL makes little business sense, but you are now equipped to use it for any real cases.
 
 For instance, and related to this dataset, you could build the following graph:
 (assume you already have a Machine-Learning model in production to predict taxi fares based on distances)

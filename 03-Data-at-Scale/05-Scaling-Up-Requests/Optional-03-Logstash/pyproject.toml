@@ -1,31 +1,25 @@
 [tool.poetry]
-name = "api"
+name = "optional-03-logstash"
 version = "0.1.0"
-description = ""
+description = "Module 3 Unit 5 - Logstash in Docker Compose"
 authors = ["S. Saunier <seb@lewagon.org>"]
-packages = [{include = "api"}]
 
 [tool.poetry.dependencies]
-python = "3.8.14"
-pandas = "^1.4.2"
-pyarrow = "^8.0.0"
-openpyxl = "^3.0.10"
-jupyterlab = "^3.4.2"
+python = "^3.8"
 fastapi = "^0.78.0"
-grpcio-tools = "1.47.0"
-lewagonde = { path = "../../../common/lewagonde/", develop = true }
-uvicorn = {extras = ["standard"], version = "^0.17.6"}
-requests = "^2.28.1"
+SQLAlchemy = "^1.4.36"
+python-dotenv = "^0.20.0"
+psycopg2-binary = "^2.9.3"
+alembic = "^1.8.1"
+uvicorn = "^0.19.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "7.1.2"
 ipython = "^8.4.0"
 black = "^22.3.0"
 isort = "^5.10.1"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+PyYAML = "^6.0"
+dockerfile = "^3.2.0"
 
 [tool.black]
 line-length = 160
@@ -39,3 +33,7 @@ include_trailing_comma = true
 
 [virtualenvs]
 in-project = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
