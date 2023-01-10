@@ -143,7 +143,7 @@ This branch needs 6 tasks:
   gsutil mb -l EU gs://de_airflow_taxi_silver
   ```
 - `create_dataset` that should create the `de_airflow_taxi_gold` dataset on BigQuery
-- `create_table` that should create a big-query table named `trips` in the dataset `de_airflow_taxi_gold` with the proper schema (`month` as a string and `trip_distance` & `total_amount` as floats)
+- `create_table` that should create a big-query table named `trips` in the dataset `de_airflow_taxi_gold` with the proper schema (`date` as a string and `trip_distance` & `total_amount` as floats)
 - `remove_existing_data` that should run a query to remove data at the current date (in order to be idempotent)
 - `load_to_bigquery` that should append the content of the `silver` file to the `gold` table
 
