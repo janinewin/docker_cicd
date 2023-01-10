@@ -1,11 +1,12 @@
-data/
+data/**/*.parquet
+data/**/*.csv
 database/
 logs/**
-!**/.gitkeep
 airflow.cfg
 airflow.db
 webserver_config.py
 tests/temp/*
 !tests/temp/.gitkeep
 !**/.gitkeep
-!**/tests/data/*
+!**/tests/data/bronze/*
+!**/tests/data/silver/*

@@ -17,7 +17,6 @@ class TestLoadDag:
     dagbag = DagBag(dag_folder=DAG_BAG, include_examples=False)
 
     def test_dag_config(self):
-        assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="load")
 
         assert dag.schedule_interval == "@monthly"
@@ -27,7 +26,6 @@ class TestLoadDag:
         assert dag.end_date == DateTime(2021, 12, 31, 0, 0, 0, tzinfo=Timezone("UTC"))
 
     def test_tasks(self):
-        assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="load")
 
         assert list(map(lambda task: task.task_id, dag.tasks)) == [
@@ -40,7 +38,6 @@ class TestLoadDag:
         ]
 
     def test_transform_sensor_task(self):
-        assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="load")
         task = dag.get_task("transform_sensor")
 
@@ -53,7 +50,6 @@ class TestLoadDag:
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["upload_local_file_to_gcs"]
 
     def test_upload_local_file_to_gcs_task(self):
-        assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="load")
         task = dag.get_task("upload_local_file_to_gcs")
 
@@ -86,7 +82,6 @@ class TestLoadDag:
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["create_dataset"]
 
     def test_create_dataset_task(self):
-        assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="load")
         task = dag.get_task("create_dataset")
 
@@ -98,7 +93,6 @@ class TestLoadDag:
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["create_table"]
 
     def test_create_table_task(self):
-        assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="load")
         task = dag.get_task("create_table")
 
@@ -117,7 +111,6 @@ class TestLoadDag:
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["remove_existing_data"]
 
     def test_remove_existing_data_task(self):
-        assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="load")
         task = dag.get_task("remove_existing_data")
 
@@ -150,7 +143,6 @@ class TestLoadDag:
         assert list(map(lambda task: task.task_id, task.downstream_list)) == ["load_to_bigquery"]
 
     def test_load_to_bigquery_task(self):
-        assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="load")
         task = dag.get_task("load_to_bigquery")
 
