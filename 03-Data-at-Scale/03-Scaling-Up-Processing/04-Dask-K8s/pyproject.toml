@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "dask-k8s"
+version = "0.1.0"
+description = ""
+authors = ["Oliver Giles <ogiles@email.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+dask-kubernetes = "2022.12.0"
+pandas = "1.3.0"
+numpy = "1.24.1"
+pyarrow = "10.0.1"
+jupyter = "^1.0.0"
+polars = "^0.15.14"
+cloudpickle = "2.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
