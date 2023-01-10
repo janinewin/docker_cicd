@@ -2,10 +2,12 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import generated_proto.api_pb2 as api__pb2
+import api.generated_proto.api_pb2 as api__pb2
+
 
 class TimeServiceStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """My first endpoint to get current time 
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -21,7 +23,8 @@ class TimeServiceStub(object):
 
 
 class TimeServiceServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """My first endpoint to get current time 
+    """
 
     def GetTime(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -45,7 +48,8 @@ def add_TimeServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class TimeService(object):
-    """Missing associated documentation comment in .proto file."""
+    """My first endpoint to get current time 
+    """
 
     @staticmethod
     def GetTime(request,
@@ -66,7 +70,8 @@ class TimeService(object):
 
 
 class CountryYearServiceStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """Second endpoint
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -82,7 +87,8 @@ class CountryYearServiceStub(object):
 
 
 class CountryYearServiceServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """Second endpoint
+    """
 
     def GetCountryYear(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -106,7 +112,8 @@ def add_CountryYearServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class CountryYearService(object):
-    """Missing associated documentation comment in .proto file."""
+    """Second endpoint
+    """
 
     @staticmethod
     def GetCountryYear(request,

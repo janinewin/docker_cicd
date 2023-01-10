@@ -1,18 +1,18 @@
 [tool.poetry]
-name = "d3-setup"
+name = "api"
 version = "0.1.0"
 description = ""
 authors = ["S. Saunier <seb@lewagon.org>"]
-packages = [{include = "src"}]
+packages = [{include = "api"}]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "3.8.14"
 pandas = "^1.4.2"
 pyarrow = "^8.0.0"
 openpyxl = "^3.0.10"
 jupyterlab = "^3.4.2"
 fastapi = "^0.78.0"
-grpcio-tools = "^1.46.3"
+grpcio-tools = "1.47.0"
 lewagonde = { path = "../../../common/lewagonde/", develop = true }
 uvicorn = {extras = ["standard"], version = "^0.17.6"}
 requests = "^2.28.1"

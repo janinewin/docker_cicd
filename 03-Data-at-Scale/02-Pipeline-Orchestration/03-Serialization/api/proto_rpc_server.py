@@ -1,5 +1,5 @@
-from src.generated_proto import api_pb2
-from src.generated_proto import api_pb2_grpc
+from api.generated_proto import api_pb2
+from api.generated_proto import api_pb2_grpc
 
 import grpc
 from concurrent import futures

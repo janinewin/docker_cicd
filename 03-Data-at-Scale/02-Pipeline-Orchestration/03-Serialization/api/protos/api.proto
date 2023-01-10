@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+// My first endpoint to get current time 
 service TimeService {
   rpc GetTime (TimeRequest) returns (TimeResponse) {}
 }
@@ -8,11 +9,12 @@ message TimeRequest {
 }
 
 message TimeResponse {
-  int32 h = 1;
-  int32 m = 2;
-  int32 s = 3;
+  int64 h = 1;
+  int64 m = 2;
+  int64 s = 3;
 }
 
+// Second endpoint
 service CountryYearService {
   rpc GetCountryYear (CountryYearRequest) returns (CountryYearResponse) {}
 }

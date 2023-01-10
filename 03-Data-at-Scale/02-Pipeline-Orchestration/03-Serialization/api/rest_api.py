@@ -1,10 +1,6 @@
-# Import FastAPI
 # IMPORT YOUR PACKAGES HERE
 
-# Import datetime
-# IMPORT YOUR PACKAGES HERE
-
-from src import rural
+from api import rural
 
 # Create an `app` variable with a FastAPI API
 # YOUR CODE HERE

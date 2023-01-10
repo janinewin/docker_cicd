@@ -26,20 +26,20 @@ class NumberStreamServiceServicer(object):
 
     def GetNumbers(self, request, context):
         """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_code(api.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
 def add_NumberStreamServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetNumbers': grpc.unary_stream_rpc_method_handler(
+            'GetNumbers': api.unary_stream_rpc_method_handler(
                     servicer.GetNumbers,
                     request_deserializer=streaming__pb2.GetNumbersRequest.FromString,
                     response_serializer=streaming__pb2.GetNumbersResponse.SerializeToString,
             ),
     }
-    generic_handler = grpc.method_handlers_generic_handler(
+    generic_handler = api.method_handlers_generic_handler(
             'NumberStreamService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
@@ -59,7 +59,7 @@ class NumberStreamService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/NumberStreamService/GetNumbers',
+        return api.experimental.unary_stream(request, target, '/NumberStreamService/GetNumbers',
             streaming__pb2.GetNumbersRequest.SerializeToString,
             streaming__pb2.GetNumbersResponse.FromString,
             options, channel_credentials,
