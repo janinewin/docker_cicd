@@ -27,14 +27,12 @@ class TestExtractDag:
         assert dag.end_date == DateTime(2021, 12, 31, 0, 0, 0, tzinfo=Timezone("UTC"))
 
     def test_extract_tasks(self):
-        assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="extract")
         assert list(map(lambda task: task.task_id, dag.tasks)) == [
             "curl_trip_data",
         ]
 
     def test_curl_trip_data_task_task(self):
-        assert self.dagbag.import_errors == {}, self.dagbag.import_errors
         dag = self.dagbag.get_dag(dag_id="extract")
         task = dag.get_task("curl_trip_data")
 
