@@ -18,7 +18,7 @@ def time() -> dict:
     # Replace `dt = None` with the current time
     pass  # YOUR CODE HERE
 
-# YOUR CODE HERE
+pass  # YOUR CODE HERE
 def get_rural_population(country: str, year: int):
     df = rural.load_rural_csv()
     # Fill the `value` of the rural population percentage for the right country and year
