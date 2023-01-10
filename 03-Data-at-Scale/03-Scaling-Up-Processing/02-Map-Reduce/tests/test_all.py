@@ -1,7 +1,7 @@
 import os
 import pathlib
 
-from lwmr import impl_python, impl_mapreduce, impl_beam
+from lwmr import impl_python, impl_mapreduce
 
 TXT = "I love apples, bananas and apples"
 
@@ -11,26 +11,22 @@ def test_txt_file_exists():
     txt_fp = os.path.join(parent_dir, "data", "The_Data_Engineering_Cookbook.txt")
     assert os.path.isfile(
         txt_fp
-    ), "Please download the file https://storage.googleapis.com/lewagon-data-engineering-bootcamp-assets/datasets/data-engineering-cookbook-book/The_Data_Engineering_Cookbook.txt under ./data/"
+    ), "Please download the file https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W3D3-processing/The_Data_Engineering_Cookbook.txt under ./data/"
 
 
 def test_python_impl():
     cnt = impl_python.count_words(TXT)
-    assert cnt.get("apples") == 2, "'Apples' is expected to be found 2 times"
-    assert cnt.get("I") == 1, "'I' is expected to be found 1 time"
+    print(cnt)
+    assert cnt.get("apples") == 2, "'apples' is expected to be found 2 times"
+    assert cnt.get("i") == 1, "'i' is expected to be found 1 time"
 
+def get_test_file_path():
+    parent_dir = pathlib.Path(os.path.realpath(__file__)).parent
+    path_test_file = os.path.join(parent_dir,"sample.txt")
+    return path_test_file
 
 def test_mapreduce_impl():
-    cnt = impl_mapreduce.count_words(TXT)
-    assert cnt.get("apples") == 2, "'Apples' is expected to be found 2 times"
-    assert cnt.get("I") == 1, "'I' is expected to be found 1 time"
 
-
-def test_beam_impl():
-    tmp_fp = "/tmp/beam-test.txt"
-    with open(tmp_fp, "w") as f:
-        f.write(TXT)
-    cnt = impl_beam.count_words(tmp_fp)
-    print("BEAM", cnt)
+    cnt = impl_mapreduce.count_words_mapreduce([get_test_file_path()])
     assert cnt.get("apples") == 2, "'Apples' is expected to be found 2 times"
-    assert cnt.get("I") == 1, "'I' is expected to be found 1 time"
+    assert cnt.get("i") == 1, "'I' is expected to be found 1 time"
