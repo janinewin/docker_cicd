@@ -239,9 +239,9 @@ channel.close()
 python api/proto_rpc_client.py # Should return "Api client received: h:10 m:35 s:56"
 ```
 
-# 3️⃣ Pimp your APIs! 🍕
+# 3️⃣ Add a new "Rural" end-point 🏋️‍♀️
 
-## 3.1) One more endpoint in FastAPI
+## 3.1) Add endpoint in FastAPI
 
 In your FastAPI app, add a `GET` endpoint `GET /country/:country/year/:year` that returns the `Rural population (% of total population)` for a given country and year. The data that is used is loaded from a `S3` bucket in `rural.py`. You need to use pandas to retrieve the value from the `Value` column given the year and country that is used as input variables for the API.
 
@@ -253,18 +253,44 @@ In your FastAPI app, add a `GET` endpoint `GET /country/:country/year/:year` tha
 
 ## 3.2) And now in gRPC
 
-If you've reached this part, congratulations. You should have all the ingredients to make your gRPC API fancier. A few steps to follow, as a guide:
+If you've reached this part, congratulations. You should have all the ingredients to make your gRPC API fancier. 
 
-1. **Task 1**. Add 2 Protobuf messages
-  - A query `CountryYearRequest` that has a `country` and a `year` field.
-  - And a response `CountryYearResponse` that has one field `value`.
+**❓ Try to code your RPC so as to achieve this (from the point of view of a client)**
 
-2. **Task 2**. Still in the `protos/api.proto` file. Add an `rpc` endpoint in the `service Api` that takes the `CountryYearRequest` as input and returns a `CountryYearResponse`.
+```bash
+python api/rural_client.py --country="Germany" --year="2017" # The share of rural population in Germany in year 2017 is 22.74%
+```
 
-3. **Task 3**. Recompile the Protobuf code with `make compile-proto` to generate the latest stubs (the 2 `generated_proto/api_pb2*.py` files)
+Try to do everything on your own! Just know that you can add more messages to a proto file
+```javascript
+// My first endpoint to get current time 
+service TimeService{
+  ...
+  }
 
-4. **Task 4**. Now implement the request in Python in `api/rural_server.py`.
+// My second endpoint to get share of rural population per country
+service ...
+```
 
-5. **Task 5**. Run the new server.
+<details>
+  <summary markdown='span'>💡 Hints 1 (if you need guided steps) </summary>
 
-6. **Task 6**. Adapt the `rural_client.py` file to test the request. 👏
+1. **Task 1**. Start by the Protobuf messages
+   - With a `CountryYearRequest` that has a `country` and a `year` field.
+   - And a `CountryYearResponse` that has one field `value`.
+   - And a `CountryYearService`  that takes the `CountryYearRequest` and returns th `CountryYearResponse`
+
+2. **Task 2**. Recompile the Protobuf code
+
+3. **Task 4**. Now implement the request in Python in `api/rural_server.py`.
+
+4. **Task 5**. Run the new server.
+
+5. **Task 6**. Adapt the `rural_client.py` file to test the request. 👏
+</details>
+
+<details>
+  <summary markdown='span'>💡 Hints 2 (if stuck with python CLI options "--country=...")</summary>
+
+Checkout python argparse https://docs.python.org/3/library/argparse.html
+</details>
