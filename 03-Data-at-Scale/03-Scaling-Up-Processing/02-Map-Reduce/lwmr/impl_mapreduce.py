@@ -66,9 +66,7 @@ def final_reduce(shuffled_words: List[Tuple[str, List[int]]]) -> Dict[str,int]:
     Output: {'Car': 2, 'Dear': 1}
     '''
     
-    #$CHALLENGIFY_BEGIN
-    return dict([count_for_one_word(shuffled_word) for shuffled_word in shuffled_words])
-    #$CHALLENGIFY_END
+    pass  # YOUR CODE HERE
 
 
 def count_words_mapreduce(txt_path_files: List[str]):
