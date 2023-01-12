@@ -34,15 +34,11 @@ def run(TOPIC_NAME, PROJECT_ID):
 
     #Instanciate a PublisherClient Class from pubsub_v1
     publisher = None
-    #$CHALLENGIFY_BEGIN
-    publisher = pubsub_v1.PublisherClient()
-    #$CHALLENGIFY_END
+    pass  # YOUR CODE HERE
 
     #Construct the subscription path using the method `topic_path` of publisher
     topic_path = None
-    #$CHALLENGIFY_BEGIN
-    topic_path = publisher.topic_path(PROJECT_ID,TOPIC_NAME)
-    #$CHALLENGIFY_END
+    pass  # YOUR CODE HERE
     print(f"Publishing messages in {topic_path}..\n")
 
 
@@ -56,9 +52,7 @@ def run(TOPIC_NAME, PROJECT_ID):
 
             #Publish message in topic using `publish` method
             #Carefull messages must be sent as a bytestring (encoded in 'utf-8')
-            #$CHALLENGIFY_BEGIN
-            publisher.publish(topic_path, data=message.encode('utf-8'))
-            #$CHALLENGIFY_END
+            pass  # YOUR CODE HERE
 
 
 

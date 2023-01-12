@@ -25,19 +25,14 @@ def strtime_window_rounded(str_datetime,window=15,fmt='%Y-%m-%d %H:%M:%S.%f'):
     datetime_rounded = datetime.datetime.utcfromtimestamp(timestamp_rounded)
     return datetime_rounded.strftime(fmt)
 
-#$DELETE_BEGIN
-class MapSessionWindow(beam.DoFn):
-    """Prints per session information"""
-    def process(self, element, window=beam.DoFn.WindowParam):
-        yield window.end.to_utc_datetime().strftime("%Y-%m-%d %H:%M:%S"),[element[0],float(element[1])]
-#$DELETE_END
+
 
 def aggregate_sensors(timestamp,sensor_values):
     """
     function to return agreggated values by mean within a dictionnary with one value for each sensor
     and the timestamp of the aggregation
     """
-    #$CHALLENGIFY_START
+    # $CHALLENGIFY_START
     df = pd.DataFrame(sensor_values)
     df.columns = ["Sensor","Value"]
     df["Timestamp"] = timestamp
@@ -50,7 +45,7 @@ def aggregate_sensors(timestamp,sensor_values):
     #dict_agg_data = df_agg.to_dict(orient='records')[0] #this is equivalent to the previous line
 
     return dict_agg_data
-    #$CHALLENGIFY_END
+    # $CHALLENGIFY_END
 
 class interpolateSensors(beam.DoFn):
     def process(self,sensorValues):
@@ -73,11 +68,7 @@ def run(subscription_name, output_table, interval=15.0, pipeline_args=None):
         data = (
 
             pipeline
-            #$CHALLENGIFY_BEGIN
-            | 'ReadData' >> beam.io.ReadFromPubSub(subscription=subscription_name)
-            | "Decode" >> beam.Map(lambda message: message.decode('utf-8'))
-            | "Convert to list" >> beam.Map(lambda message: message.split(","))
-            #$CHALLENGIFY_END
+            pass  # YOUR CODE HERE
         )
 
 
@@ -85,45 +76,15 @@ def run(subscription_name, output_table, interval=15.0, pipeline_args=None):
         # pipeline steps to window the data
         windowing = (
              data
-             #$CHALLENGIFY_BEGIN
-                | "Attach time" >> beam.Map(
-                    lambda element: beam.window.TimestampedValue(element,
-                                                str2timestamp(element[2])))
-                | "Map Time Rounded Key per Element" >> beam.Map(lambda element: (
-                                strtime_window_rounded(element[2]),
-                                [element[0], element[1]]))
-                | "Time Window of interval secs" >> beam.WindowInto(
-                  window.FixedWindows(interval)
-                 )
-             #$CHALLENGIFY_END
+             pass  # YOUR CODE HERE
         )
 
-        #$DELETE_BEGIN
-        #
-        #BONUS Beam Window
-        # windowing = (
-        #     data
-        #     | "to timestamp Values" >> beam.Map(
-        #         lambda element: beam.window.TimestampedValue([element[0], float(element[1])],
-        #                                                      str2timestamp(element[2])))
-        #     | "Time Window of interval secs with trigger" >> beam.WindowInto(
-        #         window.FixedWindows(interval),
-        #         trigger=Repeatedly(AfterProcessingTime(1 * 15)),
-        #         allowed_lateness=1800,
-        #         accumulation_mode=AccumulationMode.DISCARDING
-        #         )
-        #     | "Map Session" >> beam.ParDo(MapSessionWindow())
-        # )
-        #
-        #$DELETE_END
+        
 
         # pipeline steps to group and aggregate the data
         group = (
             windowing
-            # #$CHALLENGIFY_BEGIN
-            | "Group" >> beam.GroupByKey()
-            | "Average Over Time" >> beam.MapTuple(aggregate_sensors)
-            #$CHALLENGIFY_END
+            # pass  # YOUR CODE HERE
         )
 
         group | "Print debug" >> beam.Map(lambda x: print(x))
@@ -132,10 +93,7 @@ def run(subscription_name, output_table, interval=15.0, pipeline_args=None):
         # pipeline steps to write to big query
         out_bq = (
             group
-            # #$CHALLENGIFY_BEGIN
-            | "Write to Big Query" >> beam.io.gcp.bigquery.WriteToBigQuery(output_table,schema=schema,
-                    write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND)
-            #$CHALLENGIFY_END
+            # pass  # YOUR CODE HERE
         )
 
 if __name__ == "__main__":
@@ -149,9 +107,7 @@ if __name__ == "__main__":
     args, pipeline_args = parser.parse_known_args()
 
     subscription_name=''
-    #$CHALLENGIFY_BEGIN
-    subscription_name = f"projects/{args.project}/subscriptions/{args.subscription_name}"
-    #$CHALLENGIFY_END
+    pass  # YOUR CODE HERE
 
     run(
         subscription_name,

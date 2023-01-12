@@ -1,7 +1,12 @@
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W3D3-processing/pyspark/pyspark.jpeg" alt="drawing" width="400"/>
 
 ### 1️⃣ Set-up
-Go to https://community.cloud.databricks.com and set up an account. Databricks is a company that provides a cloud platform, allowing you to easily set up a Pyspark cluster for free.
+Go to https://community.cloud.databricks.com and set up an account.
+Don't choose a cloud provider, just use the free `community edition` (well hidden) 
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W3D3-processing/databrick-login.png">
+
+Databricks is a company that provides a cloud platform, allowing you to easily set up a Pyspark cluster for free.
 
 Once you have create an account. Go to the `compute` folder in Databricks and click on `Create compute` in order to create a cluster. Pick a name and choose the default settings. You will create an instance with 15gb of memory and 2 Cores, allowing you to do some minimal parallel processing 😀. While this cluster is being created, have a look at the Polars notebook 👇
 
