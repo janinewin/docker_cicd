@@ -1,28 +1,31 @@
 import os
 import ast
 
-def load_intermediate_output(folder,pattern):
+
+def load_intermediate_output(folder, pattern):
     list_files = os.listdir(folder)
-    file_path=""
+    file_path = ""
     for file in list_files:
-        if os.path.isfile(os.path.join(folder,file)):
+        if os.path.isfile(os.path.join(folder, file)):
             if pattern in file:
-                file_path=os.path.join(folder,file)
+                file_path = os.path.join(folder, file)
                 break
 
-    if len(file_path)>0:
+    if len(file_path) > 0:
 
-        l=[]
+        l = []
         with open(file_path) as f:
             l = f.readlines()
         return l
     return None
+
 
 def convert_string_eval(str_txt):
     try:
         return ast.literal_eval(str_txt.strip("\n"))
     except:
         return None
+
 
 def sort_lower(l):
 
