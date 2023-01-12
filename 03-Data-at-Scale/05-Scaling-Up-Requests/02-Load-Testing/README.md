@@ -32,7 +32,7 @@ app/
 
 Let's start by load testing the FastAPI server included with this exercise in the `app` folder.
 
-Disclaimer: this server is buggy 🤪 and we'll see how to monitor and address those issues during this exercise. So don't worry if this is not working flawlessly. That's exactly what you're here to fix!
+Disclaimer: **this server has a buggy endpoint**. We'll see how to monitor and address those issues during this exercise. So don't worry if this is not working flawlessly. That's exactly what you're here to fix!
 
 In order to load test, we'll use a package named [Locust](https://locust.io/). We'll create a docker compose stack to run our server and locust and create a small locust file that will simulate a user's behavior.
 
@@ -54,7 +54,7 @@ in the `docker-compose-task-1.yml` please do the following:
 
 [Documentation](https://docs.locust.io/en/stable/running-in-docker.html)
 
-Using the documentation, add the following snippet to your docker compose file. It creates a master and worker node to run the load testing. We won't need more.
+Using the documentation, add the following snippet to your docker compose file. It creates a master and worker node to run the load testing. 👇
 
 ```yaml
   master:
@@ -71,7 +71,8 @@ Using the documentation, add the following snippet to your docker compose file. 
       - ./:/mnt/locust
     command: -f /mnt/locust/locust.py --worker --master-host master
 ```
-You can adjust the host `-H http://03-load-testing-webapi-1:8000` as needed for Locust depending on your container and service name.
+
+❓ Adjust the host `-H http://03-load-testing-webapi-1:8000` as needed for Locust depending on your **service name.**
 
 
 **3. Build and test ⚙️**
@@ -90,13 +91,12 @@ It simply defines the simulated user behavior for locust to use.
 💻 It's your turn to complete the `WagonFakeUser` class:
 
 - Configure the wait time to be between 1,5; the user will wait between 1 & 5 seconds before firing a new request.
-- Add 4 tasks to hit the 4 endpoints of our server:
+- Add 3 tasks to hit the 3 endpoints of our server:
 
 ```
 task: index - GET /
-task: compute_addition - POST /addNumbers JSON Body: { "a": <random Int>[-1000, 1000], "b": <random Int>[-1000, 1000]}
+task: compute_addition - POST /addNumbers JSON Body: { "a": <random Int>[-150, 150], "b": <random Int>[-150, 150]}
 task: compute_fib - POST /computeFib JSON Body: { "iteration": <random Int>[0, 30]}
-task: kill_the_server - GET /oom
 ```
 
 - Adjust each task priority with a `@task(<PRIORITY>)` decorator. The higher the relative number, the most likely the simulated user will run it.
@@ -107,11 +107,9 @@ task: kill_the_server - GET /oom
 - Build and run the docker compose stack
 - Head to localhost:8000 -> you should see `hello world`
 - Head to localhost:8089 -> This is the locust interface
-- Configure the load test host. It should be in the form of:
-```
-http://03-load-testing-webapi-1:8000
-http://<your-service-name>:<export_port>
-```
+- Configure the load test host. It should how the right `host` to hit your `api` 👇
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W2D5/locust-home.png" width=700>
 
 Let's find the server breaking point; API failures are expected since the logic has an issue on purpose.
 (depending on your machine, the breaking point will be different)
@@ -127,9 +125,7 @@ The reason is that the server is running a single node and is not capable of han
 
 </details>
 
-</br>
-
-## 2️⃣ Handling more requests
+## 2️⃣ Handling more requests 🔥
 
 <details>
   <summary markdown='span'><strong>📝 Instructions (expand me)</strong></summary>
@@ -178,20 +174,21 @@ if you have a service receiving 1 RPS - it adds to 86400 requests a day (that's 
 
 `20 RPS` - 1.7 million requests a day
 
-Ikea.com had 209 Million visits in November 2022 [link](https://www.similarweb.com/website/ikea.com/#overview); this is equivalent to 80 RPS - were you able to beat Ikea.com today? 😬
+Ikea.com had 209 Million visits in November 2022 [link](https://www.similarweb.com/website/ikea.com/#overview); this is equivalent to 80 RPS - were you able to beat Ikea.com today? 😬 By the end our `vm` can handle 100 rps comfortably 👇 before finally crashing trying to go up to 200 🤯
+
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W2D5/locust-max.png">
 
 </details>
 
-</br>
 
-## 3️⃣ Logging
+## 3️⃣ Logging 📄
 
 <details>
   <summary markdown='span'><strong>📝 Instructions (expand me)</strong></summary>
 
-Now let's try to get some more logging going to debug our issues. Logging is a fairly complex topic and requires some attention to setup properly when using different systems together.
+Now let's try and improve our app's logging going to debug our issue. Logging is a fairly complex topic and requires some attention to setup properly when using different systems together.
 
-For us, we are using FastAPI -> Uvicorn -> Gunicorn, which means we have to *propagate* and handle the logs properly between each layer to be able to retrieve them.
+For us, we are using FastAPI -> Uvicorn -> Gunicorn, which means we have to **propagate*** and handle the logs properly between each layer to be able to retrieve them.
 
 Here we'll start from an already existing configuration and extend it. They are many ways of doing that, such as creating a [gunicorn config file](https://docs.gunicorn.org/en/stable/settings.html), a dict config or setting it in the code. We choose to do a specific `logging.conf` file to cleanly isolate the logging configuration from the rest of the system. ✨
 
@@ -201,91 +198,26 @@ Head to the `logging.conf` file. You will rely on the python [documentation](htt
 
 **1. Sections 🗃️**
 
-- Create the following sections
+First create the following sections at the top of `logging.conf`:
+
 1. `loggers` with 3 loggers `root`, `gunicorn.error`, `gunicorn.access`
 2. `handlers` with 3 handlers `console`, `error_file`, `access_file`
 3. `formatters` with 2 formatters `generic`, `access`
 
+You'll notice we have provided you with the **most of the required sections!**
+
 **2. Configuration 🛠️**
 
-_Loggers_
 
 Each logger must define a default configuration composed of a `level`, a `handler` and the `propagate=1` to forward logs to a parent logger, where one exists.
 
-```
-[logger_<name>]
-level=
-handlers=
-propagate=
-```
+❓ You need to define the final `root` logger with the correct configuration! We want it at debug level and output to the console!
 
-**Root Logger** should use:
 
-```
-- Debug level
-- console handler
-```
+We added the formatter for you - they define the format of the output and can be **finicky** to adjust. For a deep-dive, check the [Python Logging Cookbook](https://docs.python.org/3/howto/logging-cookbook.html). 📚
 
-**gunicorn.error** logger should use:
 
-```
-- Debug level
-- error_file and console handlers
-- Propagate set to true (1)
-- qualname=gunicorn.error
-```
-
-**gunicorn.access** logger should use:
-
-```
-- Debug level
-- error_file and console handlers
-- Propagate set to true (1)
-- qualname=gunicorn.access
-```
-
-_Formatters_
-
-Add the following formatters - they define the format of the output and can be finicky to adjust. For a deep-dive, check the [Python Logging Cookbook](https://docs.python.org/3/howto/logging-cookbook.html). 📚
-
-```
-[formatter_generic]
-format=%(asctime)s [%(process)d] [%(levelname)s] %(message)s
-datefmt=%Y-%m-%d %H:%M:%S
-class=logging.Formatter
-
-[formatter_access]
-format=%(message)s
-datefmt=%Y-%m-%d %H:%M:%S
-class=logging.Formatter
-```
-
-_Handlers_
-
-Our handlers are responsible for redirecting the log object to the appropriate output
-
-**console** handler should use:
-
-```
-StreamHandler class
-generic formatter
-sys.stdout only as output (args)
-```
-
-**error_file** handler should use:
-```
-logging.FileHandler class
-generic formatter
-'/app/app/logs/error.log' as the only output
-```
-
-**access_file** handler should use:
-
-```
-logging.FileHandler class
-access formatter
-'/app/app/logs/access.log' as the only output
-```
+Our handlers are responsible for redirecting the log object to the appropriate output for example to the correct `file`
 
 Your logging configuration should now be ready to be used. 🙌
 
@@ -336,9 +268,7 @@ grep -v -e 200  <file> # -v is invert match and -e is pattern matching
 
 </details>
 
-</br>
-
-## 4️⃣ Monitoring
+## 4️⃣ Monitoring 🔬
 
 <details>
   <summary markdown='span'><strong>📝 Instructions (expand me)</strong></summary>
@@ -409,9 +339,8 @@ Congrats, you have now all the tools to properly debug an app in production and 
 
 </details>
 
-</br>
 
-## 5️⃣ Fix the server
+## 5️⃣ Fix the server 🧰
 
 <details>
   <summary markdown='span'><strong>📝 Instructions (expand me)</strong></summary>
@@ -425,10 +354,6 @@ Find out why this simple addition is not working and correct it. The goal is to 
 **2. computeFib**
 
 Find out why the Fibonacci endpoint is slow for high iterations (>20). Try to fix it using memoization (i.e., caching) by adding a `compute_fast` method to the class. Hint: have you seen some other caching method used in this exercise already? 🤔
-
-**3. oom**
-
-The logic in this endpoint is not fixable; it is simply designed to quickly saturate the memory and make python crash. Fun! 🤪
 
 ### You did it! Let's test! 🛠️
 
@@ -445,8 +370,6 @@ In this exercise you went end-to-end from broken server, to:
 Time to commit and push your code and onto the next challenge 🏇
 
 </details>
-
-</br>
 
 ## 6️⃣ Optionals
 

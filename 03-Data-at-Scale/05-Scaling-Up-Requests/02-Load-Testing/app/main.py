@@ -53,7 +53,7 @@ async def addNumbers(item: AdditionInputModel):
     with warnings.catch_warnings():
         warnings.filterwarnings("error")
         try:
-            res = np.uint8(item.a) + np.uint8(item.b)
+            res = np.int32(item.a) + np.int32(item.b)
         except Warning as e:
             # Optional #1: to help the team (and yourself) debug this error, let's capture this event on Sentry
             
@@ -69,16 +69,6 @@ async def computeFib(item: FibInputModel):
     # Optional #2: create an info level log of the `compute_fast` method's cache info when this endpoint is called
     
     return {"result": res}
-
-
-# Complete python crash
-@app.get("/oom")
-async def oom():
-    sys.setrecursionlimit(1 << 30)
-    f = lambda f: f(f)
-    f(f)
-    return {"ok": True}
-
 
 if __name__ == "__main__":
     uvicorn.run(app)

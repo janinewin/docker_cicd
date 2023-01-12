@@ -32,10 +32,8 @@ For instance, take a program that downloads a 1GB file from the internet. Your c
 
 </details>
 
-</br>
 
-
-# 1️⃣ Key concepts
+# 1️⃣ Key concepts 🔑
 
 <details>
   <summary markdown='span'><strong>📝 Instructions (expand me)</strong></summary>
@@ -61,10 +59,8 @@ Now let's write our own example together! 🙌
 
 </details>
 
-</br>
 
-
-# 2️⃣ First Python `async` program
+# 2️⃣ First Python **async** program 💻
 
 <details>
   <summary markdown='span'><strong>📝 Instructions (expand me)</strong></summary>
@@ -120,8 +116,6 @@ Run `make test_sayhi` to test the code you've written so far. Remember to keep y
 Everything green? 🟢 Let's move on to a **scaling this API with serverless execution!**
 
 </details>
-
-</br>
 
 # 3️⃣ Serverless Scaling
 
@@ -297,7 +291,6 @@ Congrats! You should now have a production FastAPI running on Cloud Run 🥳 Che
 
 </details>
 
-</br>
 
 # 4️⃣ API Analytics
 
@@ -371,7 +364,6 @@ Now let's test some observations 🧐
   The calls all happen concurrently on 3 instances which can each accept 5 concurrent requests. Therefore running 4 requests or 5 requests on one instance shouldn't have a significant impact on the total runtime.
 </details>
 
-</br>
 
 ### Experiment 2 - `slow-run` and `standard-run`
 
