@@ -391,6 +391,8 @@ Now run `25` API calls to the `/slow-run` and `/standard-run` endpoints and answ
   That's right, but remember that `async` needs to be paired with `await` to tell the program what task can be put into the background and "waited for".
 
   In `fast_run` we tell the program that it can put the `asyncio.sleep` in the background with `await` keyword. But in `slow_run` we're using the synchronous `time.sleep` and not `await`'ing anything - hence the program just executes in a traditional synchronous Python way 🤷‍♂️
+
+  In fact, you might have even received a `429` error from Cloud Run, saying that there was too much traffic for your instances to handle - it's a mechanism of Cloud Run to prevent queueing up too many pending requests.
 </details>
 
 ❓ What's going on with the duration of 25 calls to `/standard-run`? 🧐
