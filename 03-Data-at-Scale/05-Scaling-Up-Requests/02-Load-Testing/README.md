@@ -63,7 +63,7 @@ Using the documentation, add the following snippet to your docker compose file. 
      - "8089:8089"
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/locust.py --master -H http://01-load-testing-webapi-1:8000
+    command: -f /mnt/locust/locust.py --master -H http://webapi:8000
 
   worker:
     image: locustio/locust
@@ -72,7 +72,7 @@ Using the documentation, add the following snippet to your docker compose file. 
     command: -f /mnt/locust/locust.py --worker --master-host master
 ```
 
-❓ Adjust the host `-H http://03-load-testing-webapi-1:8000` as needed for Locust depending on your **service name.**
+❓ Adjust the host `-H webapi:8000` as needed for Locust depending on your **service name.**
 
 
 **3. Build and test ⚙️**
