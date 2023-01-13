@@ -53,7 +53,8 @@ async def addNumbers(item: AdditionInputModel):
     with warnings.catch_warnings():
         warnings.filterwarnings("error")
         try:
-            res = np.int32(item.a) + np.int32(item.b)
+            res = np.uint16(item.a) + np.uint16(item.b)
+            
         except Warning as e:
             # Optional #1: to help the team (and yourself) debug this error, let's capture this event on Sentry
             
