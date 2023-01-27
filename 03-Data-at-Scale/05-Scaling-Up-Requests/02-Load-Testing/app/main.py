@@ -39,7 +39,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello World!"}
 
 
 # Calling this endpoint to see if the setup works. If yes, an error message will show in Sentry dashboard

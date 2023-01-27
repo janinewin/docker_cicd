@@ -200,9 +200,9 @@ Head to the `logging.conf` file. You will rely on the python [documentation](htt
 
 First create the following sections at the top of `logging.conf`:
 
-1. `loggers` with 3 loggers `root`, `gunicorn.error`, `gunicorn.access`
-2. `handlers` with 3 handlers `console`, `error_file`, `access_file`
-3. `formatters` with 2 formatters `generic`, `access`
+- 3 `loggers`: `root`, `gunicorn.error`, `gunicorn.access`
+- 3 `handlers`: `console`, `error_file`, `access_file`
+- 2 `formatters`: `generic`, `access`
 
 You'll notice we have provided you with the **most of the required sections!**
 
@@ -231,12 +231,12 @@ To use this configuration for our stack, we need to pass the location of our con
     <summary markdown='span'>💡 Answer</summary>
 
   ```
-    - LOG_LEVEL=DEBUG
-    - GUNICORN_CMD_ARGS="--log-config /app/app/logging.conf"
+  #.env
+  - LOG_LEVEL=DEBUG
+  - GUNICORN_CMD_ARGS=--log-config /app/app/logging.conf
   ```
   </details>
 
-  </br>
 
 - Run the stack, and trigger a load test; you should see the `.log` files appear and populate in your local file system in the `/app/logs` directory! 🙌
 
@@ -292,8 +292,6 @@ def get_settings():
     return Settings()
 ```
 
-*What's this [LRU cache](https://www.geeksforgeeks.org/lru-cache-implementation/)* you say?
-
 Our Settings model should be ready for usage 🙌
 
 **2. Create a sentry account 👤**
@@ -321,6 +319,11 @@ sentry_sdk.init(
 )
 app.add_middleware(SentryAsgiMiddleware)
 ```
+
+**🚨 Reduce your Locust RPS to a minimum (say, 10 max) so as not to use all your Sentry Monthly Free Credits! 🚨**
+- 10,000 transaction max / month
+- 5,000 error logs max / month
+
 
 **4. Monitoring 📈**
 

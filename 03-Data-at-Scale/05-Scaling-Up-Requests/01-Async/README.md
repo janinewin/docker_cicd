@@ -50,10 +50,42 @@ Python introduced in version 3+ two keywords: `async` and `await` that allow to 
 
 Typically, here's how you use them:
 
-- Instead of naming a function `def my_io_bound_function(...)` you name it `async def my_io_bound_function(...)`. It will "tell" the Python interpreter this function is mostly I/O bound and can be run on an event loop.
-- To call this function and tell the program to wait for the result, you don't just call it `my_io_bound_function(arg1, arg2)` but you prefix the call with `await`: `await my_io_bound_function(arg1, arg2)`.
+- Instead of naming a function `def call_api(...)` you name it `async def call_api(...)`. It will "tell" the Python interpreter this function is mostly I/O bound and can be run on an event loop.
+- To call this function and tell the program to wait for the result, you don't just call it `call_api(arg1, arg2)` but you prefix the call with `await call_api(arg1, arg2)`.
 
-**📚 Task: read this [StackOverflow post](https://stackoverflow.com/a/53420574)** about differences of sync and `async` function implementation with using `sleep`
+Then, to actually **run** these api calls, you need to call `asyncio.run(call_api(...))`
+
+```python
+async def call_api(address):
+    print(f"call_api {address} started...")
+    await asyncio.sleep(2)
+    print(f"call_api {address} done")
+
+asyncio.run(call_api("one"))
+# --> call_api http1 started... 
+# --> call_api http1 done
+```
+
+You can make 2 concurrent calls with `asyncio.gather()` before `run()`
+
+```python
+async def call_many_api():
+    await asyncio.gather(call_api("http1"), call_api("http2"))
+
+asyncio.run(call_many_api())
+# --> call_api http1 started... 
+# --> call_api http2 started...
+# --> call_api http1 done
+# --> call_api http2 done
+```
+
+⚠️ `asyncio.run()` is a new syntax (python >3.7), and you may find an older one on the internet where you manually call the event loop:
+
+```python
+# Equivalent (old syntax)
+loop = asyncio.get_event_loop()
+loop.run_until_complete(call_many_api())
+```
 
 Now let's write our own example together! 🙌
 

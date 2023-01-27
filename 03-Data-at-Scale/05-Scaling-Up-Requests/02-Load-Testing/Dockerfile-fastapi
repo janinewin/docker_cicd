@@ -9,7 +9,8 @@ ENV PYTHONUNBUFFERED 1
 #Setup workdir
 WORKDIR /app
 
-COPY ./  ./
+COPY app ./
+COPY pyproject.toml poetry.lock  ./
 
 RUN apt-get update \
     && apt-get -y upgrade \
