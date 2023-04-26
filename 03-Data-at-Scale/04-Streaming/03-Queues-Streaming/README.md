@@ -36,7 +36,6 @@ echo $TOPIC_NAME
 
 ❗If it is not working even after a `direnv reload`, make sure to have a `dotenv` line in your .envrc file
 
-<br>
 
 By default a subscription is created as `\<Topic id\>-sub`. **Let's publish** the first message in the console and pull it via the gcp console subscriber
 
@@ -44,27 +43,18 @@ We can see the Pub/Sub in action by clicking on your topic Id and clicking on Pu
 
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W3D4/0403-03-create_message.png" width=700>
 
-<br>
-<br>
-
 ❓ For now write “Hello World” in the message box **and click on Publish**
-<br>
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W3D4/0403-03-publish_message.png" width=700>
-
-<br>
 
 Once the message is published, we can go back to our subscription page to pull and receive the message. **Follow the instructions  in the image below** 👇
 
-<br>
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W3D4/0403-03-pull_message2.png" width=700>
 
-<br>
 
 ❗️ Once the message is **acknowledged** (**ack**), it is flushed from the **queue** and won't be sent anymore.
 
-Now That we Have seen how to subscribe to a message in the ui, let's code it in python 🐍. Where we can use it to receive high quantities of message s and apply transformations to them as they come in!
-<br>
-<br>
+Now that we Have seen how to subscribe to a message in the UI, let's code it in python 🐍. 
+It'll help receive high quantities of messages and apply transformations to them as they come in!
 
 # 2️⃣ Creating a subscriber 🤓
 
@@ -172,7 +162,7 @@ Let's first shutdown the **publisher** and then the **beam subscriber**, so that
 <summary markdown='span'>🕵️ Ack all messages in your queue</summary>
 
 ```bash
-gcloud pubsub subscriptions seek data-stream-sub --time "2025-01-01T00:00:00Z"
+gcloud pubsub subscriptions seek $SUBSCRIPTION_NAME --time "2025-01-01T00:00:00Z"
 ```
 
 </details>
@@ -200,16 +190,16 @@ Before, we had access to **all the data** before executing the transformation.
 🤔 During the streaming what could be problematic for grouping?
 
 <details>
-    <summary markdown='span'>💡 Explanation</summary>
+  <summary markdown='span'>💡 Explanations</summary>
 
 With an unbounded data set, it is impossible to collect all of the elements, since new elements are constantly being added and may be infinitely many<br>
 Beam’s default windowing behavior is to assign all elements of a PCollection to a single, global window.
 Before you use a grouping transform such as GroupByKey on an unbounded PCollection, you must at least set a non-global windowing function such as Fixed-time windows to gather data within a time window and trigger the grouping
 
 </details>
-<br>
 
-💡 Implement a windowing pipeline. You can have a look to this example in the [programming guide](https://beam.apache.org/documentation/programming-guide/#using-fixed-time-windows). Also refer to the **example** from the lecture.
+
+❓ **Implement a windowing pipeline**. You can have a look to this example in the [programming guide](https://beam.apache.org/documentation/programming-guide/#using-fixed-time-windows). Also refer to the **example** from the lecture.
 
 Our workflow is:
 - attach a timestamp

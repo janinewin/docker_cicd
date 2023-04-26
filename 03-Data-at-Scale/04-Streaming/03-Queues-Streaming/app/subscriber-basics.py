@@ -10,7 +10,7 @@ def callback(message: pubsub_v1.types.message):
     '''
     pass  # YOUR CODE HERE
 
-def run(SUBSCRIPTION_NAME, PROJECT_ID):
+def run(subscription_name: str, project_id: str):
 
     # 1. Instantiate a pubsub SubscriberClient Class named `subscriber`
     subscriber = None
@@ -37,15 +37,11 @@ def run(SUBSCRIPTION_NAME, PROJECT_ID):
 
 if __name__ == "__main__":
 
-
 	project_id=os.environ["PROJECT_ID"]
 	subscription_name = os.environ["SUBSCRIPTION_NAME"]
 
 	try:
-		run(
-		subscription_name,
-		project_id
-		)
+		run(subscription_name, project_id)
 	except KeyboardInterrupt:
 		print('Interrupted : Stopped Subscribing messages')
 		try:

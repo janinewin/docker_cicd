@@ -43,7 +43,7 @@ During this challenge, We are going to use the paradigm of Map/Reduce with Apach
 # 3️⃣ Read the data with Beam 🔦
 
 ❓ Let's Code the first part of the pipeline `data` in `app/beam_sample.py`:
-We'll use two 
+We'll use two
 ```python
     data = (
         pipeline
@@ -114,7 +114,7 @@ for a TimeStamped data, a good strategy of grouping is to create intervals to ga
 # PCollection in
 ['AtmP', '996.0840610169381', '2022-11-25 09:00:00.334685']
 ...
- 
+
 # PCollection out
 ('2022-11-25 09:00:15.000000', ['AtmP', 996.0840610169381])
 ...
@@ -148,9 +148,9 @@ With this tuple we are now ready to group!
 
 In the previous step, we already created a key for each element. Now, we just need to group & reduce these elements together by taking their mean within each 15-min time interval
 
-❓ Try to implement the `grouping` transform section so as to achieve the following, using Apache Beam  
+❓ Try to implement the `grouping` transform section so as to achieve the following, using Apache Beam
 - [`GroupByKey`]("https://beam.apache.org/documentation/transforms/python/aggregation/groupbykey/")
-- [`MapTuple`](https://beam.apache.org/documentation/transforms/python/elementwise/map/#:~:text=Eggplant%0A%F0%9F%8D%85Tomato%0A%F0%9F%A5%94Potato-,Example%205%3A%20MapTuple%20for%20key%2Dvalue%20pairs,-If%20your) 
+- [`MapTuple`](https://beam.apache.org/documentation/transforms/python/elementwise/map/#:~:text=Eggplant%0A%F0%9F%8D%85Tomato%0A%F0%9F%A5%94Potato-,Example%205%3A%20MapTuple%20for%20key%2Dvalue%20pairs,-If%20your)
 
 ```bash
 # PCollection in
@@ -169,7 +169,7 @@ In the previous step, we already created a key for each element. Now, we just ne
 
 💡 We advise you to work in two steps: print (or save) the output of the GroupByKey first, then only try work on aggretating the resulting group!
 
-💡 We advise you isolate the pure-python aggregation function logic in a separate `aggregate_sensors` !
+💡 We advise you isolate the pure-python aggregation function logic in a separate `utils.aggregate_sensors` function !
 
 <details>
   <summary markdown='span'>💡 Hints</summary>
@@ -194,7 +194,7 @@ make test_beam_output
 
 # 6️⃣ Let's Load the data into BigQuery
 
-❓ 💻  Create a _dataset_ in BigQuery and add 1 new _tables_, `stream-test` to the dataset. 
+❓ 💻  Create a _dataset_ in BigQuery and add 1 new _tables_, `stream-test` to the dataset.
 
 Under schema click on "Edit as text" and paste the following schema:
 
@@ -223,7 +223,7 @@ BQ_TABLE=<your-project-id>:<your-bq-dataset-name>.<your-table-name>
 ☝️ Here, we are still in **batch-processing** mode. Hence, we suggest you to use the argument `write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE` so that running the pipe is **indempotent**. A small annoying thing is that WRITE_TRUNCATE require a mandatory "temp" location folder in google cloud storage to load data **before** it's then sent to *BigQuery**. You can therefore create a bucker with `gsutil mb -l eu gs://$USER-deng-tmp` and then add the argument `custom_gcs_temp_location=gs://...`
 
 <details>
-  <summary markdown='span'> Google App Crendials Problems? </summary>
+  <summary markdown='span'> Google App Crendential Problems? </summary>
 
 Something we may have forgotten to do in the setup day is configure your [GOOGLE_APPLICATION_CREDENTIAL](https://cloud.google.com/sdk/gcloud/reference/auth/application-default/login) (not to be confused with your gcloud CLI crendentials which is already set).
 
