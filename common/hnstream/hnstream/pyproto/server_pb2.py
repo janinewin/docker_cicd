@@ -79,8 +79,7 @@ GetNextCommentsResponse = _reflection.GeneratedProtocolMessageType(
 _sym_db.RegisterMessage(GetNextCommentsResponse)
 
 _HNSTREAMER = DESCRIPTOR.services_by_name["Hnstreamer"]
-if _descriptor._USE_C_DESCRIPTORS == False:
-
+if _descriptor._USE_C_DESCRIPTORS is False:
     DESCRIPTOR._options = None
     _GETNEXTREQUEST._serialized_start = 26
     _GETNEXTREQUEST._serialized_end = 76

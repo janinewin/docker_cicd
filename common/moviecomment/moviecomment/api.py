@@ -25,7 +25,7 @@ def load_settings():
         n_movies=helper.count_lines(movies_fp),
         n_comments=helper.count_lines(comments_fp),
         movies_fp=movies_fp,
-        comments_fp=comments_fp
+        comments_fp=comments_fp,
     )
 
 
@@ -34,34 +34,27 @@ app.settings = load_settings()
 print(f"Loaded settings {app.settings}")
 
 
-def new_comments(n: int=DEFAULT_N) -> List[models.Comment]:
-    """
-    """
+def new_comments(n: int = DEFAULT_N) -> List[models.Comment]:
+    """ """
     movie_ids_str = helper.fetch_random_lines(
-        n=n,
-        total=app.settings.n_movies,
-        fp=app.settings.movies_fp
+        n=n, total=app.settings.n_movies, fp=app.settings.movies_fp
     )
     comments_str = helper.fetch_random_lines(
-        n=n,
-        total=app.settings.n_comments,
-        fp=app.settings.comments_fp
+        n=n, total=app.settings.n_comments, fp=app.settings.comments_fp
     )
 
     comments = []
     for movie_id_str, comment_row_str in zip(movie_ids_str, comments_str):
         comment, sentiment = helper.get_comment_sentiment_from_row(comment_row_str)
         rating = helper.random_rating(sentiment)
-        comments.append(models.Comment(
-            movie_id=int(movie_id_str),
-            comment=comment,
-            rating=rating
-        ))
+        comments.append(
+            models.Comment(movie_id=int(movie_id_str), comment=comment, rating=rating)
+        )
     return comments
 
 
 @app.get("/latest-comments")
-async def latest_comments(n: int=DEFAULT_N) -> models.LatestCommentsResponse:
+async def latest_comments(n: int = DEFAULT_N) -> models.LatestCommentsResponse:
     """
     API endpoints returning a JSON of `n` latest comments
     """
@@ -76,7 +69,6 @@ async def dump_csv(n: int):
     """
     fp = f"/tmp/{uuid.uuid4()}.csv"
 
-    i = 1
     with open(fp, "w") as f:
         fieldnames = ["id", "movie_id", "rating", "comment"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -86,12 +78,14 @@ async def dump_csv(n: int):
         for _ in range(n // DEFAULT_N):
             comments: List[models.Comment] = new_comments(DEFAULT_N)
             for comment in comments:
-                writer.writerow({
-                    "id": idx,
-                    "movie_id": comment.movie_id,
-                    "comment": comment.comment,
-                    "rating": comment.rating
-                })
+                writer.writerow(
+                    {
+                        "id": idx,
+                        "movie_id": comment.movie_id,
+                        "comment": comment.comment,
+                        "rating": comment.rating,
+                    }
+                )
                 idx += 1
 
     return {"fp": fp}
