@@ -56,7 +56,7 @@ Have a look at the tests/ folder:
 
 Run
 ```
-make tests
+make test
 ```
 It should PASS (hopefully 😅), and you should see a new `test_output.txt` file created.
 This file is used by Kitt to track your progress during the day. But for that to happen, you need to push your code to github first!
