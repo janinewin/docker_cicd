@@ -1,8 +1,10 @@
-import requests
+
+# Make sure to add the correct imports here
 from typing import Optional, Union, List
 
 
 def get_pokemon(limit: int = 100, offset: int = 0) -> dict:
+    """Get a list of pokemon. Return a dictionary containing the results. Limit the results to `limit` and offset by `offset`"""
     pass  # YOUR CODE HERE
 
 

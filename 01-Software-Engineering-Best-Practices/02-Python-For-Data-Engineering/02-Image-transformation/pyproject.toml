@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "02-image-transformations"
+version = "0.1.0"
+description = ""
+authors = ["Oliver Giles <oliver.giles@lewagon.org>"]
+readme = "README.md"
+packages = [{include = "image_processing"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "<1.24"
+pillow = "^9.5.0"
+tensorflow = "<2.11"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.3.1"
+pytest-mock = "^3.11.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
