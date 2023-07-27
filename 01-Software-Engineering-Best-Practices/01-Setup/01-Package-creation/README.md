@@ -192,10 +192,12 @@ GEMFURY_TOKEN=<your token>
 **Now to publish to your private repository you can follow this workflow!**
 
 ```bash
+# Configure poetry to read your Gemfury repositories:
 poetry config repositories.fury https://pypi.fury.io/<user.github_nickname>/
 
-poetry config http-basic.fury $GEMFURY_TOKEN ""
+poetry config http-basic.fury $GEMFURY_TOKEN
 
+# Push the package and any future build versions with:
 poetry publish --build --repository fury
 ```
 
