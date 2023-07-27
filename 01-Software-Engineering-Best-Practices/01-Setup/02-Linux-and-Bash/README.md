@@ -75,7 +75,7 @@ You should see that someone is connected.
 You might notice you get permission denied when trying to move the files into the folder you can fix this with sudo (💡 a useful trick if you forget a sudo is running `sudo !!` runs the previous command but with sudo prepended).You need this because the root user is the only user that can edit the root directory (along with everything on the system). Running `sudo` allows you to imitate this user to run one command (a more in-depth look at [root](http://www.linfo.org/root.html)). This control over absolutely everything on the system is one of the most powerful things about linux but you also must be careful not to overwrite key files as there is a lack of guard rails.
 
 <details>
-  <summary markdown='span'>💡 Why do/user/local ?</summary>
+  <summary markdown='span'>💡 Why do/usr/local ?</summary>
 
 If you want a quick explanation of most of the folders in the root directory (i.e. the highest folder in the system) this 2 min video explains the [linux filesystem](https://www.youtube.com/watch?v=42iQKuQodW4) at a high level.
 
@@ -89,7 +89,7 @@ Next we need something to trigger our script, this is where **services** come in
 ❓ Start off by creating a `check_ssh.service` file which triggers our script:
 
 <details>
-    <summary markdown='span'>💡 Service example</summary>
+  <summary markdown='span'>💡 Service example</summary>
 
 ```bash
 [Unit]
@@ -108,7 +108,7 @@ WantedBy=multi-user.target
 ❓ Now create a `check_ssh.timer` file to trigger our service every 10 seconds
 
 <details>
-    <summary markdown='span'>💡 Timer example</summary>
+  <summary markdown='span'>💡 Timer example</summary>
 
 ```bash
 [Unit]
@@ -129,7 +129,7 @@ WantedBy=timers.target
 
 Now you can run `sudo systemctl daemon-reload` to make your service files available.
 
-Run `sudo systemctl start <your_service>.service` to run the service once and check it does what you want it to. Then run `systemctl status test.service` to check if it is running! If you want more detailed logs you can use `sudo journalctl -r -u check_ssh` to see every output.
+Run `sudo systemctl start <your_service>.service` to run the service once and check it does what you want it to. Then run `systemctl status <your_service>.service` to check if it is running! If you want more detailed logs you can use `sudo journalctl -r -u check_ssh` to see every output.
 
 Next you want to use the timer **here are the key commands from systemctl.**
 - `start` (starts the service/timer)
@@ -167,7 +167,7 @@ This [website](https://crontab.guru/#0_20_*_*_*) is great for checking your synt
   <summary markdown='span'>💡 crontab solution</summary>
 
 ```bash
-0 20 * * * systemctl start check_ssh.time
+0 20 * * * systemctl start check_ssh.timer
 ````
 
 </details>
