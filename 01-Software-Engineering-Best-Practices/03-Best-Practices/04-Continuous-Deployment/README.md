@@ -1,4 +1,4 @@
-The DevOps graal that teams want to achieve is **Continuous Deployment**. The idea is to configure your hosting environment in such a way that every change in `master` which yields a green build on the Build Automation tool _can_ and _will_ be pushed to production as soon as possible.
+The DevOps grail that teams want to achieve is **Continuous Deployment**. The idea is to configure your hosting environment in such a way that every change in `master` which yields a green build on the Build Automation tool _can_ and _will_ be pushed to production as soon as possible.
 
 In this exercise, we will set up a [**PaaS**](https://en.wikipedia.org/wiki/Platform_as_a_service) to host our longest word game.
 
@@ -298,7 +298,7 @@ We are almost there. A quick recap gives us:
 1. A Pull Request status is updated by  Github Actions and gives context to reviewer
 1. We still need to **manually** run the `gcloud app deploy` command to deploy
 
-Let's automated this last part and reach the graal!
+Let's automated this last part and reach the grail!
 
 ## 3.1) Create new Github Action `cd.yml`
 
@@ -318,7 +318,7 @@ The only difficulty is to give GitHub VMs your Google Cloud Credentials.
   - Cloud Build Editor (roles/cloudbuild.builds.editor): to build the application
 - "Key" --> "Create new KEY" and download the JSON (keep it safe!)
 
-👉 Now, go to your github repo, "Settings", "Secrets", "Actions secrets"
+👉 Now, go to your github repo, "Settings", "Secrets and variables", "Actions"
 - Add this JSON as a new secret, name it for instance `GCP_SA_KEY`
 - You can now use the this key in your GHA using `'${{ secrets.GCP_SA_KEY }}'`
 

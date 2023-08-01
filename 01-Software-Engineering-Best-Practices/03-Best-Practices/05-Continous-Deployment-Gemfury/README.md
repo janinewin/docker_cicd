@@ -38,20 +38,20 @@ Lets test our function (ideally we would test all parts of our cli but lets stic
 The first step is to create a test file!
 
 ```bash
-touch test/test_vm_utils.py
+touch tests/test_vm_utils.py
 ```
 
 Next we want to create files which show the two states
 
 ```bash
-gcloud compute instances describe --zone=europe-west1-b ogiles1999-data-eng-vm > tests/<state>.txt
+gcloud compute instances describe --zone=europe-west1-b <user.github_nickname> > tests/<state>.txt
 ```
 
-Now inside `test/test_vm_utils.py` create a helper function which would return the same as calling our function!
+Now inside `tests/test_vm_utils.py` create a helper function which would return the same as calling our function!
 
 ```bash
 import pathlib
-from ogiles1999_de_toolkit.vm_utils import check_running
+from <user.github_nickname>_de_toolkit.vm_utils import check_running
 
 def fake_input(state):
     path = pathlib.Path(__file__).resolve().parent.joinpath(f'{state}.txt')
@@ -89,7 +89,9 @@ Now when you push again you should see green (ideally our ci would fully check o
 
 
 ### Implementing CD
+If you have set a Gemfury password, you will have to add another secret to github and set the relevent environment variable in `.fury-cd.yml`
 
+```bash
 cp .github/workflows/.python-ci.yml .github/workflows/.fury-cd.yml
 
 
@@ -97,4 +99,5 @@ cp .github/workflows/.python-ci.yml .github/workflows/.fury-cd.yml
 gh secret set GEMFURY_TOKEN --body "$GEMFURY_TOKEN"
 
 
- pipx uninstall <user.github_nickname>-de-toolkit && pipx install $_ --pip-args='--extra-index-url https://<deploy token>@repo.fury.io/<user.github_nickname>/'
+pipx uninstall <user.github_nickname>-de-toolkit && pipx install $_ --pip-args='--extra-index-url https://<deploy token>@repo.fury.io/<user.github_nickname>/'
+```

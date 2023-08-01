@@ -148,7 +148,7 @@ glog
 
 If you have a simple **static** website to host, GitHub provides a great solution: [GitHub Pages](https://pages.github.com/). You can turn a repository into a host provider!
 
-It is really simple to enable. On your `github-flow` repository, go to `Settings` > `Options` and scroll down until you reach the `GitHub Pages` section just before the `Danger Zone`.
+It is really simple to enable. On your `github-flow` repository, go to `Settings` tabs then `Pages` on the side nagivation menu.
 
 Under the `Source`, click on the dropdown list and select the `master` branch. Then click `Save`
 
