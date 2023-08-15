@@ -1,62 +1,62 @@
-🎯 We would like to have
-- our **Twitter api** running in a container in the cloud (**[Google Cloud Run](https://cloud.google.com/run)**)
-- ...accessing our **production database**, which is running on a managed SQL instance in the cloud(**[Google Cloud SQL](https://cloud.google.com/sql)**)
+🎯 In this exercise, we would like to get
+- our **Twitter API** running in a container in the cloud (**[Google Cloud Run](https://cloud.google.com/run)**)
+- ...accessing our **production database**, which is running on a managed SQL instance on the cloud(**[Google Cloud SQL](https://cloud.google.com/sql)**)
 
 
-✅ We have given you the solution to the `twitter_api` package as well as the associated `alembic` migration you built in unit 04 as starting point.
+✅ We have given you the solution to the `twitter_api` package as well as the associated `alembic` migration you built in unit 04 as a starting point.
 
 
-# 1️⃣ Setup a Google cloud sql instance
+# 1️⃣ Setup a Google cloud SQL instance
 
 First copy the `.env.sample` into a new `.env`. You will notice we have a few extra environment variables than our original twitter app! Fill:
 - `POSTGRES_PASSWORD` with the password you want.
 - `LOCATION` where your VM is located (e.g. europe-west1)
 
-Then, go to [gcp console UI - SQL section](https://console.cloud.google.com/sql/choose-instance-engine), and create a DB with the following property
+Then, go to [gcp console UI - SQL section](https://console.cloud.google.com/sql/choose-instance-engine), and create a DB with the following properties
 - instanceID=twitter-prod
 - root-password=$POSTGRES_PASSWORD
 - database-version=POSTGRES_14
 - region=$LOCATION
-- connections: 
+- connections:
     - Private IP
-    - default network
-    - Allocated IP range: USe automatically assigned IP range
+    - Default network
+    - Allocated IP range: Use the automatically assigned IP range
 
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D5/cloudSQL.png" width=500>
 
-**about networks ☝️**
+**About networks ☝️**
 
-- Here, we tell GCP not to give any public ip to our database: there is no need for anyone external to be able to access the database directly except through the api. This way even if we somehow leak our password no-one can connect without also breaking into GCP 🔐
+- Here, we tell the GCP not to assign any public IP address to our database: there is no need for anyone external to be able to access the database directly except through the API. This way, even if we somehow leak our password, no-one will be able to connect without breaking into our GCP first 🔐
 
-- We picked "default" as it is the same network across all your current GCP project's services (which includes your beloved VM). We could equally have created a separate private network just for the app for even more isolation!
+- We picked the "default" option because it is the same network as all your other GCP project's services (which include your beloved VM). We could have created a separate private network just for the app if we wanted even more isolation!
 
 # 2️⃣ Setup the tables
 
 ## 2.1) Connection
 
-Lets connect! **We need the private ip** of our sql instance so we can run, so that the DB is not accessible through anyone on with the IP on public internet.
+Let's connect! **We need the private IP** of our SQL instance, so we can run it, and so the DB isn't accessible through a public internet's IP address.
 
 ```bash
 gcloud sql instances describe twitter-prod | grep ipAddress
 ```
 
-and now you have the ip address to populate into your `.env` `$POSTGRES_IP` as well (+`direnv reload`)!
+and, now, you have the IP address to populate into your `.env` `$POSTGRES_IP` as well as (+`direnv reload`)!
 
 
-Now connect with `psql`, as usual via the default "postgres" user and db
+Now connect with `psql`, as usual via the default "postgres" user and DB
 
 ```bash
 psql "hostaddr=$POSTGRES_IP port=5432 user=postgres dbname=postgres password=$POSTGRES_PASSWORD"
 ```
 ☝️ We used the string syntax instead of the usual `psql --host=$POSTGRES_IP --port=...` but it doesn't matter
 
- 🎉 You are now inside the newly created cloud sql instance
-- Here, connecting via DBeaver from our local machine is not so easy as it is outside our google project virtual private network (whereas your VM is).
-- Hopefully, `psql` should be plenty in order to verify the creation of our tables!
+ 🎉 You are now inside the newly created cloud SQL instance
+- Here, connecting via DBeaver from our local machine is not as easy as it is outside our google project virtual private network (whereas your VM is).
+- Hopefully, `psql` should be sufficient to verify the creation of our tables!
 
 ## 2.2) Database creation
 
-If we try to create our database in `psql` it won't work. For `cloud sql`, we have to create our database via gcloud as well. Run the command below it says to create a `twitter-prod-db` database on the `twitter-prod` instance:
+If we try to create our database in `psql`, it won't work. For `cloud sql`, we have to create our database via gcloud as well. Run the command below. It says to create a `twitter-prod-db` database on the `twitter-prod` instance:
 
 ```bash
 gcloud sql databases create twitter-prod-db --instance=twitter-prod
@@ -66,9 +66,9 @@ Add this new DB name `twitter-prod-db` to your `.env` at `$POSTGRES_DATABASE_NAM
 
 ## 2.3) Table creation
 
-Now we have our twitter-prod-db database in our twitter postgres instance! **We can use alembic to create the tables we created locally yesterday directly onto our new cloud sql instance.**. As in previous unit 04, we already have a revision history (the revisions will also populate a few rows in each table), and populated `alembic/env.py` file so as to connect it to your $POSTGRES_DATABASE_URL (line:23)
+Now, we have our `twitter-prod-db` database in our twitter postgres instance! **We can use alembic to create the yesterday's tables directly onto our new cloud SQL instance.**. As in unit 04, we already have a revision history (the revisions will also populate a few rows in each table), and populated `alembic/env.py` file so as to connect it to your `$POSTGRES_DATABASE_URL` (line:23)
 
-❓ Now apply the migration to the database and connect and check with `psql` that the databases look how you would expect.
+❓ Now apply the migration to the database and connect and check with `psql` that the databases look the way you would expect.
 
 
 <details>
@@ -80,7 +80,7 @@ alembic upgrade head
 
 </details>
 
-❗️ Now you should see the utility of alembic keeping track of all your migration files: Being able to replicate our setup from our local `dev` environment we were on yesterday, to our `prod` database today, is super powerful!
+❗️ Now you should see how alembic helps you to keep track of all your migration files: Being able to replicate our setup from yesterday's local `dev` environment to our `prod` database today is super powerful!
 
 
 # 3️⃣ Containerize API
@@ -88,7 +88,7 @@ alembic upgrade head
 🎯 We want to be able to call our twitter API from our local machine's chrome app --> through our VM --> through our container inside the VM --> to Google cloud SQL !
 
 ❓Create a new `Dockerfile` and bring the code over.
-- You have a great re-usable framework for a docker container from the previous exercise if you need inspiration
+- You have a great re-usable framework for a Docker container from the previous exercise if you need inspiration
 - The image needs to build well from the challenge root folder
 ```bash
 docker build --tag=twitter .
@@ -98,15 +98,15 @@ docker build --tag=twitter .
 docker run twitter
 ```
 
-❗️ You may see an error: This is because in your container (and contrary to your VM), the `.envrc` is not activating and therefore not loading the `.env` file into shell ENV variables. We could install direnv in the container, but it makes more sense to use docker to populate the environment only at run time:
+❗️ You may see an error: This is because in your container (and contrary to your VM), the `.envrc` is not activating and therefore not loading the `.env` file into shell ENV variables. We could install direnv in the container, but it makes more sense to use Docker to populate the environment only at run time:
 
 ```bash
 docker run --env-file=.env twitter
 ```
 
-☝️ Now that we are populating the environment at run time, we don't need the `.env` to be copied into the container, nor do we want it to be for security reason anyway
+☝️ Now that we are populating the environment at run time, we don't need the `.env` to be copied into the container, nor do we want it to be there for security reasons
 
-Here is where the concept of a `.Dockerignore` file becomes useful create one and it functions like a `.gitignore`. For example create one with the following and rebuild and rerun the container, if you attach a shell to the container you should see no `.env` files but the environment variables from it still available!
+Here is where the concept of a `.Dockerignore` file becomes useful (it functions like a `.gitignore`). For example, create one with the following, and rebuild, and rerun the container. If you attached a shell to the container, you should see no `.env` files, yet its environment variables will still be available!
 
 ```bash
 alembic
@@ -118,25 +118,25 @@ alembic
 ```
 ☝️ Always try to keep your image as lean as possible
 
-Now lets publish the port to make our api available
+Now lets publish the port to make our API available
 
 ```bash
 docker run --env-file=.env -p 8010:8000 twitter
 ```
 
-We are mapping 8010 on our vm to 8000 inside the container. If we forward the port to our host machine we can now check out our running twitter app. All looks good, try an endpoint. Amazing we are plugged to our hosted database! Lets go one step further and run our api on cloud run.
+We are mapping 8010 on our VM to 8000 inside the container. If we forward the port to our host machine, we can now check out our running twitter app. When all looks good, try an endpoint. Amazing, we are now plugged into our hosted database! Let's go one step further and run our API on cloud run.
 
 🎉 **You should be able to read the list of all tweets by calling `GET /tweets` from your local machine's chrome app --> through your VM --> through your container --> to Google cloud SQL !**
 
 
 # 4️⃣ Put your app in production through Google Cloud Run
 
-🎯 Final step, we want to get rid of our VM entirely and run our app on Google Cloud Run!
-🎯 We want to call our twitter API from our local machine's chrome app --> pinging our container directly inside Google Cloud Run --> pinging Google cloud SQL !
+🎯 Final step - we want to get rid of our VM entirely and run our app on Google Cloud Run!
+🎯 We want to call our twitter API from our local machine's chrome app --> pinging our container directly inside the Google Cloud Run --> pinging Google cloud SQL !
 
 ### Push to cloud run
 
-First lets populate our related values in our `.env` file:
+First, let's populate our related values in our `.env` file:
 
 ```bash
 LOCATION=<USE_SAME_ZONE_THAN_YOUR_G_CLOUD_SQL>
@@ -162,8 +162,8 @@ docker push $IMAGE_FULL_TAG
 
 ### Create a Virtual Private Connection (VPC)
 
-Here there is one additional complexity: we need to create a vpc connector to describe to cloud run where to route internal traffic.
-So far, our VM was in the same VPC than your GCloud SQL, but for Cloud Run it's different:
+Now comes one additional complexity: we need to create a VPC connector to describe to the cloud run where to route the internal traffic.
+So far, our VM was in the same VPC as your GCloud SQL, but it's different for Cloud Run:
 
 Here is the gcloud command below to create a VPC named "twitter-connector":
 
@@ -176,12 +176,12 @@ gcloud compute networks vpc-access connectors create twitter-connector \
 
 📚 Take a minute to read the [docs](https://cloud.google.com/run/docs/deploying)
 
-You should see the couple of extra arguments from the lecture we'll have to use:
+You should see a couple of extra arguments from the lecture we'll have to use:
 
-- `add-cloudsql-instances`: Speak by itself !
+- `add-cloudsql-instances`: Speaks by itself!
 - `vpc-connector`: Needed when our cloudsql instance is on a Private IP network as we have [docs](https://cloud.google.com/sql/docs/mysql/connect-run?authuser=1#private-ip)
 - `allow-unauthenticated`: We want our Twitter API to be publicly available (just for this challenge)
-- `set-env-vars`: We need to pass the same env variable than when locally running Docker. However, gcloud does not accept "--env-file=.env" syntax, so we can either pass each variable manually, or create a yml with env variable. We decided to pass the required variables manually.
+- `set-env-vars`: We need to pass the same env variable as when locally running Docker. However, gcloud does not accept "--env-file=.env" syntax, so we can either pass each variable manually or create a yml with env variable. We decided to pass the required variables manually.
 
 
 ```bash
@@ -194,7 +194,7 @@ gcloud run deploy twitter-prod \
 --set-env-vars POSTGRES_DATABASE_URL=$POSTGRES_DATABASE_URL
 ```
 
-The region we are putting our database, cloud run and database in the same region to minimise latency!
+For the region, we put cloud run and the database in the same region to minimise latency!
 
 ❗️ This still won't work: Try to see if you can spot the error message:
 > _The user-provided container failed to start and listen on the port defined provided by the PORT=8080 environment variable_
@@ -202,12 +202,12 @@ The region we are putting our database, cloud run and database in the same regio
 <details>
 <summary markdown='span'>💡 Hint to the failure</summary>
 
-Cloud run needs our api to start on the `$PORT`, a special env variable that will be injected by cloud run at runtime. You need to update your Dockerfile with $PORT instead of hard-coding the port number.
+Cloud run needs our API to start on the `$PORT`, a special env variable that will be injected by cloud run at runtime. You need to update your Dockerfile with $PORT instead of hard-coding the port number.
 
 
 </details>
 
-🏁 Once you have fixed everything locally push and re-reun the deploy command you should be able to access your api managed by cloud run connected to your managed database!
+🏁 Once you have fixed everything locally, push and re-reun the deploy command. You should be able to access your API managed by cloud run connected to your managed database!
 
 # 5️⃣ Shut down everything that costs money
 Go to [console.cloud.google.com](console.cloud.google.com) and try to shutdown the following services using the web user interface
