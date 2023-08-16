@@ -22,10 +22,11 @@ You will learn to:
 By the end of this exercise, you should be able to:
 - Understand the concept of a base image
 - Understand the concept of layers
-- Know how to create a functional & lean Docker image, leveraging the concepts of caching and multi stage builds
 - Be familiar with the concept of a Docker image & container
+- Know how to create a functional & lean Docker image
+- Leverage the concept of caching for faster development cycles
 - Build, run & push Docker images
-- Use GCP container registry
+- Use GCP Artifact Registry
 
 # Task 1️⃣ - Layers 🥞
 This task illustrates the concept of layers. We will purposely write a bad Dockerfile to highlight the internal structure of an image.
@@ -96,7 +97,7 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
     <details>
       <summary markdown='span'>💡 Hint</summary>
 
-    You could save space deleting the files and directories in `/var/lib/apt/lists/`.
+    You could save space deleting the files and directories in `/var/lib/apt/lists/`
     </details>
 1. Push image to [Google Artifact Registry](https://cloud.google.com/artifact-registry/docs/Docker/pushing-and-pulling)
     - Set the following variables in your terminal:
@@ -134,7 +135,7 @@ This task illustrates the concept of layers. We will purposely write a bad Docke
 
 # Task 2️⃣ - Caching 👻 - easy wins
 
-This tasks illustrates the concept of caching and unwanted dependencies installed via regular commands. When doing a simple `apt install` or `pip install`, by default those package managers install quantity of life dependencies to make any development work easy. To reduce the size of a Docker image, one can easily trim down the fat by installing **only** what's necessary and using as few layers as possible.
+This tasks illustrates the concept of caching and unwanted dependencies installed via regular commands. When doing a simple `apt install` or `pip install`, by default those package managers install quantity of life dependencies to make any development work easy. To reduce the size of a Docker image, you can trim down the fat by installing **only** what's necessary and using as few layers as possible.
 
 **❓ Refactor the Dockerfile written in task 1 to save some space**
 
@@ -221,7 +222,7 @@ Previously, we have installed our own version of python, pip and other dependenc
 1. Run the container to make sure it’s functional -- it should start the fastapi server listening on the localhost interface and port 8000 - Head to [localhost:8000](http:localhost:8000). You should see `Hello World`
 1. Inspect the size and layers with `dive`
     ```bash
-    Docker run --rm -it /var/run/Docker.sock:/var/run/Docker.soc wagoodman/dive:latest <your_image_name:tag>
+    Docker run --rm -it -v /var/run/Docker.sock:/var/run/Docker.sock wagoodman/dive:latest <your_image_name:tag>
     ```
 1. Inspect the layers, check the image size, check the wasted space.
 
