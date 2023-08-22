@@ -1,0 +1,22 @@
+version: "3.2"
+services:
+  rabbitmq:
+    image: rabbitmq:3.10.6-management
+    container_name: rmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=rmq
+    env_file:
+      - .env
+  clickhouse:
+    image: clickhouse/clickhouse-server:23.7.4.5-alpine
+    ports:
+      - 9000:9000
+    environment:
+      - CLICKHOUSE_DB=chat
+      - CLICKHOUSE_USER=rmq
+      - CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1
+    env_file:
+      - .env

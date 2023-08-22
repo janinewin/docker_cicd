@@ -1,0 +1,13 @@
+version: "3.2"
+services:
+  rabbitmq:
+    image: rabbitmq:3.10.6-management
+    container_name: rmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=rmq
+    env_file:
+      - .env
+# YOUR CODE HERE
