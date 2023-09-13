@@ -33,10 +33,7 @@ def write_image(writer, image, label):
         ),
         "label": tf.train.Feature(int64_list=tf.train.Int64List(value=[label])),
     }
-    # CHALLENGIFY_BEGIN
-    example = tf.train.Example(features=tf.train.Features(feature=feature))
-    writer.write(example.SerializeToString())
-    # CHALLENGIFY_END
+    pass  # YOUR CODE HERE
 
 
 def main():
