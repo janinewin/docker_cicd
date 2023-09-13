@@ -55,7 +55,7 @@ Use the pathlib library to navigate the directory structure and glob to find all
 Once you think your function works you can test it with this command:
 
 ```bash
-pytest tests/test_image_processing.py::test_get_image_paths
+pytest tests/test_process.py::TestImageProcessing::test_get_image_paths
 ```
 
 # Process image
@@ -75,7 +75,7 @@ def process_image(path: str) -> np.ndarray:
 Test your function with this command:
 
 ```bash
-pytest tests/test_image_processing.py::test_process_image
+pytest tests/test_processpy::TestImageProcessing::test_process_image
 ```
 
 # Write image
@@ -95,7 +95,7 @@ def write_image(writer, image, label):
 Test your function with this command:
 
 ```bash
-pytest tests/test_image_processing.py::test_write_image
+pytest tests/test_process.py::TestImageProcessing::test_write_image
 ```
 
 # Final Steps
