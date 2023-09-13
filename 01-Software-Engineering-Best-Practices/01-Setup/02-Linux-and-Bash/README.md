@@ -2,7 +2,7 @@
 
 🎯 The goal of this exercise is to create a **background service** on your virtual machine. Here we will write a script which checks whether you are connected via ssh and if not shutdown the vm in order to **prevent unwanted spending by leaving the vm running overnight!**
 
-A **service** in linux is program that runs in the background outside of users which are not intended to be directly interacted with most of the time (sometimes they are also referred to as **Daemons**).
+A **service** in linux is a program that runs in the background outside of users which are not intended to be directly interacted with most of the time (sometimes they are also referred to as **Daemons**).
 
 🔎 Lets see which ones are currently on the virtual machine:
 
