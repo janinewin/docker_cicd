@@ -2,7 +2,7 @@ import pandas as pd
 from pathlib import Path
 
 
-def write_category_distribution(combined_df: pd.DataFrame, data_path: Path):
+def write_category_distribution(combined_df: pd.DataFrame, data_path: Path) -> None:
     """
     Generates a CSV file of the book categories distribution.
 

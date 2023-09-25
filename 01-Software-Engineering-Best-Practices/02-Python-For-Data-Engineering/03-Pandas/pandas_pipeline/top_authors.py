@@ -2,7 +2,7 @@ import pandas as pd
 from pathlib import Path
 
 
-def write_author_impact_analysis(combined_df: pd.DataFrame, data_path: Path):
+def write_author_impact_analysis(combined_df: pd.DataFrame, data_path: Path) -> None:
     """
     Generates a CSV file of the top 10 most impactful authors based on their average review score and number of reviews.
 
