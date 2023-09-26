@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "02-Upload"
+version = "0.1.0"
+description = ""
+authors = ["Oliver Giles <oliver.giles@lewagon.org>"]
+readme = "README.md"
+packages = [{include = "scraper"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+beautifulsoup4 = "^4.12.2"
+requests = "^2.31.0"
+pandas = "^1.5.3"
+requests-mock = "^1.11.0"
+pytest = "^7.4.2"
+google-cloud-storage = "^2.11.0"
+great-expectations = "^0.17.19"
+jupyter = "^1.0.0"
+google-cloud-datacatalog = "^3.15.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning:",
+]
