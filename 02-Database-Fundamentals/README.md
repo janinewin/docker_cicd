@@ -1,5 +1,3 @@
-## Database Fundamentals
-
 Congratulations on making it past week 1!
 This week is about getting to grips with relational databases!
 
