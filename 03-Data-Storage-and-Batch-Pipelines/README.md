@@ -1,5 +1,3 @@
-## Data Storage and Batch Pipelines
-
 Congratulations on making it through the fundamentals. Let's now get to the good stuff!
 This week is about the ins and outs of data pipelines, ETL and more!
 
