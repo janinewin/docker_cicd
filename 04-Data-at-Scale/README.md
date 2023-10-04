@@ -1,5 +1,3 @@
-## Data at Scale
-
 Congratulations, you now have most of what it takes to handle most data engineering tasks. Let's now delve into the holy grail of data engineering - scaling!
 This week is all about scaling up your solutions through different optimization strategies!
 
