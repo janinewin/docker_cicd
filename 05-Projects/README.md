@@ -1,5 +1,3 @@
-## Data at Scale
-
 Congratulations, you are basically data engineers now! You now have a chance to put your newly gained skills to use and build cool things!
 This week will introduce you to some additional mini concepts as well as giving you some space to work on your projects!
 
