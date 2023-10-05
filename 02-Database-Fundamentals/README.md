@@ -7,3 +7,4 @@ During this module, you will encounter the following topics:
 2. Data Warehousing
 3. Advanced SQL
 4. Backend and Database Management
+5. Docker and Deployment
