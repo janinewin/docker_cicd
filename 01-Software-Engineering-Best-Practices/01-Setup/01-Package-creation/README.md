@@ -126,9 +126,6 @@ Commands:
   stop     Stop your vm
 ```
 
-
-</details>
-
 <br>
 
 # 2️⃣ Publish to pypi
@@ -136,7 +133,7 @@ Commands:
 
 🎯 Now we have our cli we want to publish it to make available from any computer with python without needing the `.py` files.
 
-The python package index (know as pypi) is where packages that you can install directly with `pip` or in our case `poetry` so that your package can available on a new setup without having to re-clone the repository.
+The python package index (know as pypi) is where packages that you can install directly with `pip` or in our case `poetry` so that your package can be available on a new setup without having to re-clone the repository.
 
 <br>
 
