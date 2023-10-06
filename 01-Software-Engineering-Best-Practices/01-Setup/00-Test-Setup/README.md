@@ -67,5 +67,5 @@ git commit -m "010100 done"
 git push origin main
 ```
 
-👉 Go check on your progress status on kitt's challenge page top right corner! It should be green
+👉 Go check on your progress status on Kitt's challenge page top right corner! It should be green
 Don't forget to follow the progress of your buddy of the day and help him out if needs be!

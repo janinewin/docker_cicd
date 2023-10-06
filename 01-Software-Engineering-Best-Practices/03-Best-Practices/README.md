@@ -1,1 +1,1 @@
-Best practices for github flow, testing, ci and cd
+Best practices for Github flow, testing, CI and CD

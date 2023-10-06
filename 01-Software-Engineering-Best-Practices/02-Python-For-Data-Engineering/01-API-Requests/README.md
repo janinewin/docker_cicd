@@ -5,7 +5,7 @@
 ## Introduction
 
 
-We will be using the PokeApi to access information about pokemon, here is the [documentation](https://pokeapi.co/docs/v2). We will begin with some basic calls and then move into functions which require multiple requests to get the proper information!
+We will be using the PokeApi to access information about pokemon. Here is the [documentation](https://pokeapi.co/docs/v2). We will begin with some basic calls and then move into functions which require multiple requests to get the proper information!
 
 ## Advice for writing api calls
 
@@ -75,7 +75,7 @@ tests/test_lookup.py .                                                          
 
 **If you do move on to the next section!**
 
-If not try to read the message and understand why your function is not passing the test go back an iterate and try to update your function till it passes! Using the output of tests to write your code is a really important practice when working on a large codebase with lots of other engineers.
+If not, try to read the message and understand why your function is not passing the test. Go back an iteration and try to update your function until it passes! Using the output of tests to write your code is a really important practice when working on a large codebase with lots of other engineers.
 
 ## Code the other functions
 

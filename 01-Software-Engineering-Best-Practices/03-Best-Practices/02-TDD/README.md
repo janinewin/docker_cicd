@@ -54,9 +54,9 @@ In the TDD paradigm, one question we always ask is:
 Asking this question means you need to think about your code like a black box. It will take some parameters in entry and you will observe the output, comparing them to an expected result.
 
 
-## 1️⃣ Test n°1: Creating a valid Game board.
+## Test n°1: Creating a valid Game board.
 
-### 1.1) Starting the project
+### Starting the project
 
 Now that we have a better idea of the object we want to build, we can start writing a test. First of all, let's create a new Python project using poetry:
 
@@ -74,7 +74,7 @@ code .
 - copy your `game.py` skeleton inside
 - setup VScode Python interpreter path to that created by poetry (`poetry env info --path` to see where it is)
 
-### 1.2) Testing Game().__init__
+### Testing Game().__init__
 
 ❓ **Try to write your first test**. Follow the 4 steps principles (some can be empty):
 
@@ -184,7 +184,7 @@ class Game:
 
 <br>
 
-## 2️⃣ Test n°2: Checking the validity of a word
+## Test n°2: Checking the validity of a word
 
 Let's move to the second method of our `Game` class, using the same feedback loop
 
@@ -274,7 +274,7 @@ A possible implementation is:
 <br>
 
 
-## 3️⃣ Style
+## Style
 
 Make sure to make `pylint` happy:
 

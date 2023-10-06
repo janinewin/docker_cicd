@@ -2,7 +2,7 @@ The DevOps grail that teams want to achieve is **Continuous Deployment**. The id
 
 In this exercise, we will set up a [**PaaS**](https://en.wikipedia.org/wiki/Platform_as_a_service) to host our longest word game.
 
-# 1️⃣ HTTP server
+# HTTP server
 
 Before pushing our code to a hosting provider, we would like to be able to interact with it. The easiest way to do this is to encapsulate the game around a small HTTP server.
 
@@ -143,7 +143,7 @@ body {
 }
 ```
 
-Phew! 🥵 Now let's try this, head over to your browser and reload the page. Can you see the grid with a form? Awesome!
+Phew! Now let's try this! Head over to your browser and reload the page. Can you see the grid with a form? Awesome!
 
 If you try to play, you will get an error. It's because we have not implemented the `/check` endpoint yet (the one where the form gets submitted to).
 Let's do it :
@@ -219,7 +219,7 @@ git push origin http-server
 ```
 
 
-# 2️⃣ Deployment with Google App Engine (GAE)
+# Deployment with Google App Engine (GAE)
 
 We'll put our app in production on a live server accessible through world-wide-web.
 
@@ -243,7 +243,7 @@ According to the [Google App Engine docs](https://cloud.google.com/appengine/doc
 ```
 
 
-#### 2.1) `main.py`
+#### `main.py`
 This entrypoint should simply call your app instantiated in `wsgi.py`
 
 ```python
@@ -256,14 +256,14 @@ if __name__ == '__main__':
 
 ```
 
-#### 2.2) `requirements.txt`
+#### `requirements.txt`
 
 Google AE is not taking into account the modern poetry syntax but is going to try to "pip install -r requirements.txt" the good old way. Therefore, we need to convert `poetry.lock` into `requirements.txt` format:
 
 ```bash
 poetry export --without-hashes --output requirements.txt
 ```
-#### 2.3) `app.yaml`
+#### `app.yaml`
 ```bash
 touch app.yaml
 ```
@@ -280,7 +280,7 @@ handlers: # Define how to handle incoming requests. Here, any request will be ha
 
 🎉 And that's it! There are tons of other potential configuration parameters to play with for a real app, (how to scale, how to handle secrets etc...) but we don't need them today!
 
-#### d) Deploy
+#### Deploy
 
 ```bash
 gcloud app deploy
@@ -288,7 +288,7 @@ gcloud app deploy
 Should give you a public https address with your game playing!
 
 
-# 3️⃣ Continuous Deployment with Google App Engine + Gihub Actions
+# Continuous Deployment with Google App Engine + Gihub Actions
 
 We are almost there. A quick recap gives us:
 
@@ -300,7 +300,7 @@ We are almost there. A quick recap gives us:
 
 Let's automated this last part and reach the grail!
 
-## 3.1) Create new Github Action `cd.yml`
+## Create new Github Action `cd.yml`
 
 We want to create a GHA that is going to "gcloud app deploy" at each "push" on "master".
 
@@ -357,7 +357,7 @@ jobs:
 
 ```
 
-## 3.2) Let's test it!
+## Let's test it!
 
  That's it! But is it really working?
 
@@ -401,7 +401,7 @@ Go to github.com:
 This kind of development with small feature branches which are automatically deployed to production as soon as they are merged to master might not work for big feature which need several steps, several pull request, etc. You don't want to keep a feature branch open for weeks as the Pull Request would be basically horrible to review, and merging it back to `master` would be a nightmare. We still encourage small pull requests, but hide the feature being developed behind a [**feature toggle**](https://en.wikipedia.org/wiki/Feature_toggle).
 
 
-# 5️⃣(Optional) Score & Session
+# (Optional) Score & Session
 
 
 If this is done as well, you can try to implement a feature in the Longest Word Game: a global **score**! The idea is that every time a user finds a valid word, you increment points (1 point per letter). As HTTP is stateless, you need to use the Flask extension [Flask-Session](https://flask-session.readthedocs.io/en/latest/) to handle the concept of **session** (with `SESSION_TYPE='filesystem'`).

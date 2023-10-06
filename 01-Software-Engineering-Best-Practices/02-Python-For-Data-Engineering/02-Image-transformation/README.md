@@ -15,7 +15,7 @@ We will be using a dataset of chest X-ray images to create a TFRecord file. The 
 
 # Getting the data
 
-We are going to be using kaggle an online community and platform for data scientists and machine learning practitioners that offers datasets, competitions, notebooks, and learning resources. Most importantly **lots of great datasets are shared here!**
+We are going to be using Kaggle, an online community and platform for data scientists and machine learning practitioners that offers datasets, competitions, notebooks, and learning resources. Most importantly **lots of great datasets are shared here!**
 
 Install the cli 👇
 ```bash
@@ -42,7 +42,7 @@ def get_image_paths() -> list:
     pass  # YOUR CODE HERE
 ```
 
-❓ Try and implement `get_image_paths`, test using the `__main__` block as you go if you like!
+Try and implement `get_image_paths`, test using the `__main__` block as you go if you like!
 
 
 <details>

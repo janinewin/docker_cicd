@@ -4,7 +4,7 @@ Having tests on a repository gives you a tremendous advantage: you can set up [*
 
 The goal of this exercise is to link our version control software with a build automation tool. The idea is that you want the build automation to run every time a commit reaches the version control, in any branch, a build is triggered to give feedback to the developers as soon as possible if this commit is _green_ or _red_ (meaning the tests are passing / the build can complete).
 
-## 1️⃣ Tools
+## Tools
 
 As for version control software, there are many tools available to achieve Continuous Integration:
 
@@ -15,7 +15,7 @@ As for version control software, there are many tools available to achieve Conti
 
 To keep this exercise simple, we will use Github Actions, as it integrates perfectly with GitHub (and you'll see that's important) without any configuration effort on the developer's side. Plus, it's **free** for public GitHub repositories!
 
-## 2️⃣ Service installation
+## Service installation
 
 We will deploy the repository you created in the previous exercise:
 
@@ -34,7 +34,7 @@ code . # Let's work directly on your package for this challenge
 ```
 
 
-## 3️⃣ Worfklow CI
+## Worfklow CI
 
 You now need to write a CI configuration file. Those tools are _generic_, they can build programs in many languages, with many frameworks. We need to be specific and explain to Github Actions that our project is a Python 3 one, that we use `poetry` to handle external dependencies and that we use `nosetests` to run tests.
 
@@ -98,7 +98,7 @@ You can view the actions in browser or through the cli with `gh run watch`!
 
 📚 Take 10min to read this [Github Docs](https://docs.github.com/en/actions/using-workflows/about-workflows) to better understand how workflows work
 
-## 4️⃣ Continuous Integration & Pull Request
+## Continuous Integration & Pull Request
 
 Let's enhance our Game with a refined validation. Right now, you can win with the following scenario:
 

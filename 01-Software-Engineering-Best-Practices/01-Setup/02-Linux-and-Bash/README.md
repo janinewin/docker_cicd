@@ -1,4 +1,4 @@
-# 1️⃣ Basics of services
+# 1️. Basics of services
 
 🎯 The goal of this exercise is to create a **background service** on your virtual machine. Here we will write a script which checks whether you are connected via ssh and if not shutdown the vm in order to **prevent unwanted spending by leaving the vm running overnight!**
 
@@ -18,20 +18,20 @@ systemctl list-units --type=service | grep running
 
 ❗️ Two important bash motifs are shown in this command:
 
-**a) The pipe `|`** which takes the standard output of one command and passes it as the input to the next one!
+**The pipe `|`** which takes the standard output of one command and passes it as the input to the next one!
 This is easy to confuse with passing it as an argument but for example if we do
 ```
 echo 5 | echo
 ```
 we get nothing as the standard input does not affect echo.
 
-**b) [grep](https://www.gnu.org/software/grep/manual/grep.html)** which searches the input it receives for a pattern, in this example lines with `running` in them and returns only the lines matching the pattern.
+**[grep](https://www.gnu.org/software/grep/manual/grep.html)** which searches the input it receives for a pattern, in this example lines with `running` in them and returns only the lines matching the pattern.
 
 From our command above and you will notice a couple of services that we are using already, the ssh.service is what is running in the background to allow ssh operate. **You'll also see two things we have installed docker and postgres which both run in background as services!**
 
 If you had a lot more services and it was hard to see what was running you could also use `grep` to check whether postgres was there for example!
 
-# 2️⃣ Creating a script
+# 2️. Creating a script
 
 ❓ Let's start by creating a `check_ssh.sh` script which checks whether any users are currently connected, `echo` if there are and otherwise `poweroff` the VM!
 
@@ -82,7 +82,7 @@ If you want a quick explanation of most of the folders in the root directory (i.
 </details>
 
 
-# 3️⃣ Creating a service
+# 3️. Creating a service
 
 Next we need something to trigger our script, this is where **services** come in!
 
@@ -103,7 +103,7 @@ WantedBy=multi-user.target
 ```
 </details>
 
-# 4️⃣ Creating a timer
+# 4️. Creating a timer
 
 ❓ Now create a `check_ssh.timer` file to trigger our service every 10 seconds
 
@@ -123,7 +123,7 @@ WantedBy=timers.target
 ```
 </details>
 
-# 5️⃣ Running the service
+# 5️. Running the service
 
 ❗️ **Move these `check_ssh.service` and `check_ssh.timer` in the `/etc/systemd/system` directory**.
 
@@ -144,7 +144,7 @@ sudo systemctl enable --now <your_service>.timer
 
 In general though we don't want to run the service during the day after we have rebooted the vm as we can be presumed to be using it then, so lets use a different approach! Disable the service and move on to next section.
 
-# 6️⃣ Cron 🕘
+# 6️. Cron
 
 Cron is an alternative way of running commands at a **specific time** of day, there are pros and cons to both but it is good to understand both. Cron is good for running short scripts at a particular time whereas services are much better for long running processes or process that have to be executed very often!
 

@@ -6,19 +6,19 @@
 - create static github pages
 
 
-## 0️⃣ Some reading
+## Some reading
 
-In 2011, Scott Chacon, one of the original founder of GitHub wrote a [blog article](http://scottchacon.com/2011/08/31/github-flow.html) where he first introduced the concept of Github flow, that he summarizes as follow:
+In 2011, Scott Chacon, one of the original founder of GitHub wrote a [blog article](http://scottchacon.com/2011/08/31/github-flow.html) where he first introduced the concept of Github flow, that he summarizes as follows:
 ```markdown
 - Anything in the master branch is deployable
-- To work on something new, create a descriptively named branch off of master (ie: new-oauth2-scopes)
+- To work on something new, create a descriptively named branch from the master (ie: new-oauth2-scopes)
 - Commit to that branch locally and regularly push your work to the same named branch on the server
 - When you need feedback or help, or you think the branch is ready for merging, open a pull request
 - After someone else has reviewed and signed off on the feature, you can merge it into master
-- Once it is merged and pushed to `master`, you can and should deploy immediately
+- Once it is merged and pushed to `master`, you should deploy immediately
 ```
 
-## 1️⃣ Create repo
+## Create repo
 
 Before we actually do our first commit, we need to create a GitHub repository!
 Execute the following line one by one, make sure you understand them well!
@@ -39,9 +39,9 @@ git push origin master
 
 Use `gh browse` you should see the commit and two files!
 
-## 2️⃣ Your first Pull Request
+## Your first Pull Request
 
-Let's start working on this repository. Before touching the code, we must create a **feature branch**. Our goal is here is to add a basic HTML skeleton to the project. We can do this:
+Let's start working on this repository. Before touching the code, we must create a **feature branch**. Our goal here is to add a basic HTML skeleton to the project. We can do this:
 
 ```bash
 git checkout -b html-skeleton
@@ -108,7 +108,7 @@ Now head to your repository on GitHub and refresh the page. You should see this:
 
 Click on the green button to create your first pull request.
 
-## 3️⃣ PR Review
+## PR Review
 
 You now need someone to look at your code, give some feedback and eventually merge it (a rule when using the GitHub flow is that someone other than the author should merge a Pull Request).
 
@@ -144,7 +144,7 @@ glog
 ```
 💡 By the way, `glog` is an alias given to you by "oh-my-zsh" terminal plugin. Check out the true command with `which glog`
 
-## 4️⃣ Simple Deployment (with Github pages)
+## Simple Deployment (with Github pages)
 
 If you have a simple **static** website to host, GitHub provides a great solution: [GitHub Pages](https://pages.github.com/). You can turn a repository into a host provider!
 
@@ -166,7 +166,7 @@ If you own a domain, GitHub Pages also supports [`CNAME`](https://help.github.co
 
 Github pages can be super useful for holding documentation which is normally all a static site!
 
-## 5️⃣ Final thoughts
+## Final thoughts
 
 📚 Github summarized this flow in a [guide](https://guides.github.com/introduction/flow/) that you may want to read now or bookmark for later.
 
