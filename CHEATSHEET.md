@@ -52,7 +52,7 @@ You'll notice there are `Makefile` in each of the exercises' directory. Here's a
 
 Essentially, the `make <command>` command looks for a `Makefile` file in the directory it's run, and a `<command>: ...` task in it. If found, the commands in that block will be run.
 
-There is a `make.inc` file at the root of the repository, which is included in all subsequent `Makefile`. This avoid copy/pasting this same code everywhere!
+There is a `make.inc` file at the root of the repository, which is included in all subsequent `Makefile`. This avoids copy/pasting this same code everywhere!
 
 Try running
 - `make install`: will install the Poetry packages for you (should already be done)
@@ -61,7 +61,7 @@ Try running
 
 ## .PHONY?
 
-By default, targets correspond to the name of a file. For instance if you run `make say-hi`, `make` will look for a file named `say-hi`. But not if you add `.PHONY: say-hi` above your target. It's a bit of a strange an unelegant terminology, but it's good practice. This explains why you'll find a lot of `.PHONY` in our Makefiles.
+By default, targets correspond to the name of a file. For instance if you run `make say-hi`, `make` will look for a file named `say-hi`. But not if you add `.PHONY: say-hi` above your target. It's a bit of a strange and unelegant terminology, but it's good practice. This explains why you'll find a lot of `.PHONY` in our Makefiles.
 
 ## Tests 🚫
 
@@ -350,7 +350,7 @@ Add the following to your docker-compose.yml file
 ```yml
 my_service_name:
   <...>
-  stdin_open: true # eq. to docker run -i 
+  stdin_open: true # eq. to docker run -i
   tty: true        # eq. to docker run -t
 ```
 

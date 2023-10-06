@@ -11,7 +11,7 @@ https://docs.python.org/3/tutorial/modules.html
 
 
 ```bash
-poetry new ~/code/<user.github_nickname>/<user.github_nickname>-de-toolkit && cd $_
+poetry new ~/code/<user.github_nickname>/<user.lower_github_nickname>-de-toolkit && cd $_
 ```
 
 ☝️ Here we are using poetry to create a new package. Another useful terminal command is `$_`, which is the most recent parameter. In this case, the folder we've just created with `poetry new` lets us `cd` right into it.
@@ -21,7 +21,7 @@ Then, open this folder in your VS code Explorer, so that you see your package AN
 code -a . # open the folder in another workspace in the same VS code
 ```
 
-At this point, we will have our README.md, basic pyproject.toml, <user.github_nickname>_de_toolkit to populate, and a tests folder if needed.
+At this point, we will have our README.md, basic pyproject.toml, <user.lower_github_nickname>_de_toolkit to populate, and a tests folder if needed.
 
 Lets add [click](https://click.palletsprojects.com/en/8.1.x/) to our project to help develop our CLI:
 ```bash
@@ -31,7 +31,7 @@ poetry add click
 ❓ Now, **create** a main file to create our entry point and populate it with the code below:
 
 ```bash
-touch <user.github_nickname>_de_toolkit/main.py
+touch <user.lower_github_nickname>_de_toolkit/main.py
 ```
 
 ```python
@@ -48,13 +48,13 @@ if __name__ == '__main__':
 
 Here, we are setting up the skeleton of a CLI using [group](https://click.palletsprojects.com/en/8.1.x/commands/). This is where we will add other commands to flesh it out.
 
-Now, if you run `poetry run python <user.github_nickname>_de_toolkit/main.py`, you should see an empty documentation appear. One of the great features of click is how it uses doc strings in order to generate readable CLI feedback!
+Now, if you run `poetry run python <user.lower_github_nickname>_de_toolkit/main.py`, you should see an empty documentation appear. One of the great features of click is how it uses doc strings in order to generate readable CLI feedback!
 
 💡 **Let's alias** this long command. Add a line to our `pyproject.toml` to create alias `deng`:
 
 ```toml
 [tool.poetry.scripts]
-deng = '<user.github_nickname>_de_toolkit.main:cli'
+deng = '<user.lower_github_nickname>_de_toolkit.main:cli'
 ```
 Now, we can run our CLI with `poetry run deng` instead 👌
 
@@ -68,7 +68,7 @@ At the end, we'll want to use it as follows, from your local machine:
 2️⃣ `deng stop`: Stop the vm (using `gcloud`)
 3️⃣ `deng connect` Connect directly to VScode inside your challenge folder!
 
-❓ Create a new file `touch <user.github_nickname>_de_toolkit/vm.py` to contain our vm commands and **Try to implement these** in the function shells below using the inbuilt [subprocess](https://docs.python.org/3/library/subprocess.html) module!
+❓ Create a new file `touch <user.lower_github_nickname>_de_toolkit/vm.py` to contain our vm commands and **Try to implement these** in the function shells below using the inbuilt [subprocess](https://docs.python.org/3/library/subprocess.html) module!
 
 ```python
 import click
@@ -86,7 +86,7 @@ def stop():
 
 @click.command()
 def connect():
-    """Connect to your vm in vscode inside your ~/code/<user.github_nickname>/folder """
+    """Connect to your vm in vscode inside your ~/code/<user.lower_github_nickname>/folder """
     # your code here
 ```
 
@@ -190,9 +190,9 @@ GEMFURY_TOKEN=<your token>
 
 ```bash
 # Configure poetry to read your Gemfury repositories:
-poetry config repositories.fury https://pypi.fury.io/<user.github_nickname>/
+poetry config repositories.fury https://pypi.fury.io/<user.lower_github_nickname>/
 
-poetry config http-basic.fury $GEMFURY_TOKEN
+poetry config http-basic.fury $GEMFURY_TOKEN ""
 
 # Push the package and any future build versions with:
 poetry publish --build --repository fury
@@ -201,8 +201,8 @@ poetry publish --build --repository fury
 Then, to use your packages from your private repo in another package, all you need to do is:
 
 ```bash
-poetry source add fury https://pypi.fury.io/<user.github_nickname>/
-poetry add --source fury <user.github_nickname>_de_toolkit
+poetry source add fury https://pypi.fury.io/<user.lower_github_nickname>/
+poetry add --source fury <user.lower_github_nickname>_de_toolkit
 ```
 
 You can see that this workflow is slightly more long-winded than publishing to pypi, but it is something you only need to do at the start or end of projects and can add a lot of flexibility to how you distribute python packages around your team.
@@ -222,7 +222,7 @@ Option 1: Create a `~/.pip/pip.conf` with these credentials below:
 ```bash
 [global]
 trusted-host = pypi.fury.io
-extra-index-url = https://<YOUR_GEMFURY_TOKEN_HERE>@repo.fury.io/<user.github_nickname>/
+extra-index-url = https://<YOUR_GEMFURY_TOKEN_HERE>@repo.fury.io/<user.lower_github_nickname>/
 ```
 pip will now use Gemfury instead of piPy whenever the package name exists on the former:
 ```bash
@@ -233,9 +233,9 @@ Option 2: Just give the gemfury as a one-off, with pip or pipx
 
 ```bash
 # Inside your local python virtualenv
-pip install <user.github_nickname>-de-toolkit --index-url https://<your-token>@repo.fury.io/<gemfury-username>/
+pip install <user.lower_github_nickname>-de-toolkit --index-url https://<your-token>@repo.fury.io/<gemfury-username>/
 # OR globally with pipx
-pipx install <user.github_nickname>-de-toolkit --pip-args='--extra-index-url https://<YOUR_GEMFURY_TOKEN_HERE>@repo.fury.io/<user.github_nickname>/'
+pipx install <user.lower_github_nickname>-de-toolkit --pip-args='--extra-index-url https://<YOUR_GEMFURY_TOKEN_HERE>@repo.fury.io/<user.lower_github_nickname>/'
 ```
 
 👉 Try to `deng connect` !
