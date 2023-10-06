@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "01-docker"
+version = "0.1.0"
+description = "Week 1 Day 1 - Docker Advanced by Le Wagon"
+authors = ["S. Saunier <seb@lewagon.org>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "0.78.0"
+uvicorn = {extras = ["standard"], version = "^0.17.6"}
+python-dotenv = "^0.20.0"
+
+
+[tool.poetry.dev-dependencies]
+pytest = "7.1.2"
+ipython = "^8.4.0"
+black = "^22.3.0"
+isort = "^5.10.1"
+PyYAML = "^6.0"
+dockerfile = "^3.2.0"
+
+[tool.black]
+line-length = 160
+target-version = ["py38"]
+
+[tool.isort]
+profile = "black"
+line_length = 160
+multi_line_output = 3
+include_trailing_comma = true
+
+[virtualenvs]
+in-project = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
