@@ -1,6 +1,6 @@
 # Multi-stage Builds
 
-## 1️⃣ Build a single-stage image
+## Build a single-stage image
 
 First, run:
 
@@ -24,7 +24,7 @@ Now, let's see what benefits we get with a multistage build!
 
 <br>
 
-## 2️⃣ Build a multi-stage image
+## Build a multi-stage image
 
 Build your multi-stage image:
 
@@ -44,4 +44,4 @@ Once you've verified that it works the same, dive in and explore the image!
 docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest multi-stage
 ```
 
-🤯 This is quite an extreme example. Now imagine the power of multi-stage Docker builds when using a compiled language...
+This is quite an extreme example. Now imagine the power of multi-stage Docker builds when using a compiled language...

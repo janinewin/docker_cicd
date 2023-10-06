@@ -2,7 +2,7 @@
 
 As data scientists or engineers, packaging your code through Docker is key to ensure portability and reproducibility of your results on different hosts. This way, anyone that opens your code will be able to run without issues. Creating clean and extensible Docker images will also help DevOps engineers downstream as they run & test them inside CI/CD systems, or in production (Docker swarm, virtual instances, Kubernetes).
 
-# Goal 🎯
+# Goal
 This exercise will teach you the Docker fundamentals necessary to mount and operate a Docker container.
 You will learn to:
 - Create a `Dockerfile` based on the best practices
@@ -12,7 +12,7 @@ You will learn to:
 - Access containers & execute commands inside them with the CLI
 - Push images to remote Docker hubs (DockerHub, GCP Artifact Registry)
 
-# Part 1️⃣ - Layers 🥞
+# Layers
 This part illustrates the concept of layers. We will write a bad Dockerfile on purpose to highlight the internal structure of an image.
 
 Open this challenge in the VSS and head to the `Dockerfile-task-1` file. This will be your Dockerfile for this part of the challenge.
@@ -136,9 +136,9 @@ See more in this [explanation](https://stackoverflow.com/questions/59812009/what
 
 1. Shut down the server by using the shortcut `CTRL` + `c`
 
-**🧪 Test your code with `make testTask1`**
+**Test your code with `make testTask1`**
 
-# Part 2️⃣ - Caching 👻 - easy wins
+# Caching - easy wins
 
 This tasks illustrates the concept of caching and unwanted dependencies installed via regular commands. When doing a simple `apt install` or `pip install`, by default, those package managers install quantity of life dependencies to make any development work easy. To reduce the size of the Docker image, you can easily trim down the fat by installing **only** what's necessary and using as few layers as possible.
 
@@ -192,9 +192,9 @@ This tasks illustrates the concept of caching and unwanted dependencies installe
         Be careful, the image name differs from task 1
     </details>
 
-**🧪 Test your code with `make testTask2`**
+**Test your code with `make testTask2`**
 
-# Part 3️⃣ - The importance of a base image 🖼
+# The importance of a base image
 
 This task elaborates on the concept of a base image and how it can be used in real-life scenarios to spin up images/containers easily and efficiently. Previously, we have installed our own version of python, pip and other dependencies. However, the community has already built many robust base images. Using the right base image can save time, space and often headaches.
 
@@ -238,7 +238,7 @@ This task elaborates on the concept of a base image and how it can be used in re
     ```
 1. Inspect the layers, check the image size, and check the wasted space.
 
-**🧪 Test your code with `make testTask3-1`**
+**Test your code with `make testTask3-1`**
 
 ---
 
@@ -254,11 +254,11 @@ This task elaborates on the concept of a base image and how it can be used in re
     ```
 1. Inspect the layers, check the image size, check the wasted space.
 
-**🧪 Test your code with `make testTask3-2`**
+**Test your code with `make testTask3-2`**
 
 <br>
 
-# Part 4️⃣ - Inspect what's inside a running container!
+# Inspect what's inside a running container!
 
 So far, we've been focusing on inspecting built **images** with dive.
 Let's now *run* an image and inspect what's inside the running container!
@@ -276,7 +276,7 @@ docker run --rm -it -p 8000:8000 base-image-fastapi:dev /bin/bash
 
 It's gone! Containers are the running instances of `images` and they contain additional variables in memory only for the time that the container is running! You will soon see how to "persist" data inside the container...but before then, let's get to security!
 
-# Part 5️⃣ - Improve security
+# Improve security
 
 This task will fix an issue you might have already seen when building your container.
 
@@ -318,8 +318,8 @@ RUN pip install ...
 
 
 # 🏁 Congratulations for completing the challenge!
-- 🧪 Run the final `make test`
-- 💾 Save your work on GitHub even if you aren't completely finished so we can track your progress
+- Run the final `make test`
+- Save your work on GitHub even if you aren't completely finished so we can track your progress
 
 
 # Some cool tools (to keep for later)!

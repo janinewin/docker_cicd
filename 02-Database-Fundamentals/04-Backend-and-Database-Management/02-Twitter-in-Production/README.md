@@ -3,10 +3,10 @@
 - ...accessing our **production database**, which is running on a managed SQL instance on the cloud(**[Google Cloud SQL](https://cloud.google.com/sql)**)
 
 
-✅ We have given you the solution to the `twitter_api` package as well as the associated `alembic` migration you built in unit 04 as a starting point.
+We have given you the solution to the `twitter_api` package as well as the associated `alembic` migration you built in unit 04 as a starting point.
 
 
-# 1️⃣ Setup a Google cloud SQL instance
+# Setup a Google cloud SQL instance
 
 First copy the `.env.sample` into a new `.env`. You will notice we have a few extra environment variables than our original twitter app! Fill:
 - `POSTGRES_PASSWORD` with the password you want.
@@ -30,9 +30,9 @@ Then, go to [gcp console UI - SQL section](https://console.cloud.google.com/sql/
 
 - We picked the "default" option because it is the same network as all your other GCP project's services (which include your beloved VM). We could have created a separate private network just for the app if we wanted even more isolation!
 
-# 2️⃣ Setup the tables
+# Setup the tables
 
-## 2.1) Connection
+## Connection
 
 Let's connect! **We need the private IP** of our SQL instance, so we can run it, and so the DB isn't accessible through a public internet's IP address.
 
@@ -54,7 +54,7 @@ psql "hostaddr=$POSTGRES_IP port=5432 user=postgres dbname=postgres password=$PO
 - Here, connecting via DBeaver from our local machine is not as easy as it is outside our google project virtual private network (whereas your VM is).
 - Hopefully, `psql` should be sufficient to verify the creation of our tables!
 
-## 2.2) Database creation
+## Database creation
 
 If we try to create our database in `psql`, it won't work. For `cloud sql`, we have to create our database via gcloud as well. Run the command below. It says to create a `twitter-prod-db` database on the `twitter-prod` instance:
 
@@ -64,7 +64,7 @@ gcloud sql databases create twitter-prod-db --instance=twitter-prod
 
 Add this new DB name `twitter-prod-db` to your `.env` at `$POSTGRES_DATABASE_NAME`
 
-## 2.3) Table creation
+## Table creation
 
 Now, we have our `twitter-prod-db` database in our twitter postgres instance! **We can use alembic to create the yesterday's tables directly onto our new cloud SQL instance.**. As in unit 04, we already have a revision history (the revisions will also populate a few rows in each table), and populated `alembic/env.py` file so as to connect it to your `$POSTGRES_DATABASE_URL` (line:23)
 
@@ -83,7 +83,7 @@ alembic upgrade head
 ❗️ Now you should see how alembic helps you to keep track of all your migration files: Being able to replicate our setup from yesterday's local `dev` environment to our `prod` database today is super powerful!
 
 
-# 3️⃣ Containerize API
+# Containerize API
 
 🎯 We want to be able to call our twitter API from our local machine's chrome app --> through our VM --> through our container inside the VM --> to Google cloud SQL !
 
@@ -129,7 +129,7 @@ We are mapping 8010 on our VM to 8000 inside the container. If we forward the po
 🎉 **You should be able to read the list of all tweets by calling `GET /tweets` from your local machine's chrome app --> through your VM --> through your container --> to Google cloud SQL !**
 
 
-# 4️⃣ Put your app in production through Google Cloud Run
+# Put your app in production through Google Cloud Run
 
 🎯 Final step - we want to get rid of our VM entirely and run our app on Google Cloud Run!
 🎯 We want to call our twitter API from our local machine's chrome app --> pinging our container directly inside the Google Cloud Run --> pinging Google cloud SQL !
@@ -209,7 +209,7 @@ Cloud run needs our API to start on the `$PORT`, a special env variable that wil
 
 🏁 Once you have fixed everything locally, push and re-reun the deploy command. You should be able to access your API managed by cloud run connected to your managed database!
 
-# 5️⃣ Shut down everything that costs money
+# Shut down everything that costs money
 Go to [console.cloud.google.com](console.cloud.google.com) and try to shutdown the following services using the web user interface
 
 - Your Cloud Run twitter-prod instance
