@@ -1,9 +1,6 @@
-# Multistage builds
+## Recap
 
-Let's do a multistage build! 
+Two complicated exercises today let the class pick which one they would most enjoy!
 
-They can be useful when you need to compile a program and only use it's build artefact. With the multistage builds you can just grab the artefact and discard the build environment.
-
-Let's see how we do that.
-
-Inspiration from [Gabnotes](https://gabnotes.org/lighten-your-python-image-docker-multi-stage-builds/).
+- Option one: Explain the sharding exercise and demo the power and how it can help you scale
+- Option two: Explain docker under the hood
