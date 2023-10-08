@@ -5,6 +5,7 @@ import os
 # Load your username and password from the .env file
 pass  # YOUR CODE HERE
 
+
 def get_database() -> MongoClient:
     """
     Returns a database connection to the food database.
@@ -21,8 +22,7 @@ def get_database() -> MongoClient:
 
     # Create the database (if it does not exist) and return it
     # 😎 The MongoClient class has a dictionary-like interface for accessing databases
-    return client['restaurant']
-
+    return client["restaurant"]
 
 
 if __name__ == "__main__":

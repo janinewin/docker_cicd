@@ -4,17 +4,19 @@ from pymongo.collection import Collection
 from app.pymongo_get_database import get_database
 from typing import List, Dict
 
+
 def customer_below_age(customers: Collection, max: int) -> List[Dict]:
     """
     Finds customers below a certain age.
     :return: list of dictionaries representing the customers who are at most the given minimum age
     """
     customer_below_age = list(customers.find({"age": {"$lt": max}}))
-    #💡 By default the pymongo functionalities return a `pymongo.cursor.Cursor`, 
-    # because it allows for the efficient iteration over a large number of results. 
+    # 💡 By default the pymongo functionalities return a `pymongo.cursor.Cursor`,
+    # because it allows for the efficient iteration over a large number of results.
     # To see the values that are in the cursor, you can simply use the `list()` function
-    
+
     return customer_below_age
+
 
 def customer_above_age(customers: Collection, min_age: int) -> List[Dict]:
     """
@@ -22,6 +24,7 @@ def customer_above_age(customers: Collection, min_age: int) -> List[Dict]:
     :return: list of dictionaries representing the customers who are at least the given minimum age
     """
     pass  # YOUR CODE HERE
+
 
 def calculate_avg_age_per_gender(customers: Collection) -> List:
     """
@@ -38,6 +41,7 @@ def update_customers_membership(customers: Collection, membership: str):
     """
     pass  # YOUR CODE HERE
 
+
 def customers_sorted_by_age(customers: Collection) -> List[Dict]:
     """
     Finds customers and sorts them by age in descending order.
@@ -48,7 +52,6 @@ def customers_sorted_by_age(customers: Collection) -> List[Dict]:
 
 
 if __name__ == "__main__":
-
     db = get_database()
     customers = db["customers"]
 
