@@ -23,12 +23,15 @@ def get_db():
     finally:
         db.close()
 
+
 # App landing page
 @app.get("/")
 def read_root():
     return {"Le Wagon Twitter app": "Running"}
 
+
 ####### Users section #######
+
 
 @app.get("/users/{user_id}", response_model=schemas.User, tags=["users"])
 def read_user(user_id: int, db: Session = Depends(get_db)):
@@ -44,6 +47,7 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """get endpoint to read all the the users"""
     users = crud.read_users(db, skip=skip, limit=limit)
     return users
+
 
 @app.post("/users/", response_model=schemas.User, tags=["users"])
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
@@ -64,6 +68,7 @@ def create_tweet_for_user(
     """post endpoint to create a new tweet for a given user id"""
     return crud.create_tweet(db=db, tweet=tweet, user_id=user_id)
 
+
 @app.get("/tweets/", response_model=List[schemas.Tweet], tags=["tweets"])
 def read_tweets(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """get endpoint to read all the the tweets"""
@@ -71,7 +76,9 @@ def read_tweets(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return tweets
 
 
-@app.get("/users/{user_id}/tweets/", response_model=List[schemas.Tweet], tags=["tweets"])
+@app.get(
+    "/users/{user_id}/tweets/", response_model=List[schemas.Tweet], tags=["tweets"]
+)
 def read_users_tweets(user_id: int, db: Session = Depends(get_db)):
     """get endpoint to read all the the tweets for a given user id"""
     tweets = crud.read_users_tweets(db=db, user_id=user_id)
@@ -100,7 +107,10 @@ def read_user_likes(user_id: int, db: Session = Depends(get_db)):
     likes = crud.read_users_likes(db=db, user_id=user_id)
     return likes
 
-@app.get("/users/{user_id}/liked_tweets/", response_model=List[schemas.Tweet], tags=["likes"])
+
+@app.get(
+    "/users/{user_id}/liked_tweets/", response_model=List[schemas.Tweet], tags=["likes"]
+)
 def read_user_liked_tweets(user_id: int, db: Session = Depends(get_db)):
     """get endpoint to read all liked_tweets from a user"""
     tweets = crud.read_user_liked_tweets(db=db, user_id=user_id)

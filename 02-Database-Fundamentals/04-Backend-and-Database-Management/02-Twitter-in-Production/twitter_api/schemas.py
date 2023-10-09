@@ -18,7 +18,6 @@ class User(UserBase):
         orm_mode = True
 
 
-
 # Tweet section
 
 
@@ -36,7 +35,6 @@ class Tweet(TweetBase):
 
     class Config:
         orm_mode = True
-
 
 
 # Like section

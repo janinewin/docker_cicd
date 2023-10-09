@@ -13,11 +13,13 @@ pymongo = "^4.3.3"
 python-dotenv = "^0.21.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "7.1.2"
 ipython = "^8.4.0"
 black = "^22.3.0"
 isort = "^5.10.1"
 ipykernel = "^6.19.4"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

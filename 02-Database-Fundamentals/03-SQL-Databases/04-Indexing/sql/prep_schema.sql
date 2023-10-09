@@ -15,5 +15,5 @@ CREATE TABLE ikea_products (
   country TEXT,
   language TEXT,
   average_rating FLOAT,
-  reviews_count INTEGER 
+  reviews_count INTEGER
 );

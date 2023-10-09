@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship, declarative_base
 
 Base = declarative_base()
 
+
 class User(Base):
     """Class to represent the users table"""
 
@@ -17,6 +18,7 @@ class User(Base):
     # Relationships
     tweets = relationship("Tweet", back_populates="owner")
     likes = relationship("Like", back_populates="owner")
+
 
 class Tweet(Base):
     """Class to represent the tweets table"""

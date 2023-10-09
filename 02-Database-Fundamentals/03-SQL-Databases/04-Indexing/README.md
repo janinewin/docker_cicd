@@ -50,8 +50,7 @@ In this exercise, we'll build the functions one by one in `lwdb/db.py` and open 
 You can execute the sql commands from DBEAVER, or from your terminal with
 
 ```
-docker exec -it <name of your Postgres container> /bin/bash
-psql -U lewagon -d ikea
+psql -d ikea
 ```
 
 ❓ **Load the CSV data** into the Postgres table using our `prep_load.sql` command.
