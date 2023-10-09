@@ -2,6 +2,17 @@
 
 🎯 The goal of this exercise is to make some `GET` api calls via the python `requests` library
 
+## Before you get started
+
+If you did not setup the service to auto stop yesterday this command will setup a service to auto stop your instance when there is no ssh connection after a certain time of the day to save you money!
+
+This command will set it all up for you but if you want to change the time change the -h flag to the hour you want your machine to begin trying to stop!
+
+```
+wget https://wagon-public-datasets.s3.amazonaws.com/data-engineering/rustnap -O rustnap && sudo chmod +x rustnap && sudo ./rustnap register -h 20
+```
+
+
 ## Introduction
 
 
