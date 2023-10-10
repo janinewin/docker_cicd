@@ -109,7 +109,7 @@ See more in this [explanation](https://stackoverflow.com/questions/59812009/what
         LOCATION=europe-west1
         HOSTNAME="$LOCATION-Docker.pkg.dev"
         PROJECT_ID=<INSERT_YOUR_GCP_PROJECT_ID_HERE>
-        REPOSITORY=Docker-hub
+        REPOSITORY=docker-hub
         IMAGE_NAME=base-image-fastapi-ubuntu-fat
         IMAGE_TAG=test
         ```

@@ -247,7 +247,7 @@ According to the [Google App Engine docs](https://cloud.google.com/appengine/doc
 This entrypoint should simply call your app instantiated in `wsgi.py`
 
 ```python
-from longest_word.wsgi import app
+from wsgi import app
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
@@ -314,7 +314,7 @@ The only difficulty is to give GitHub VMs your Google Cloud Credentials.
 - Grant the following roles, according to the deploy-appengine [documentation](https://github.com/google-github-actions/deploy-appengine#authorization)
   - App Engine Admin (roles/appengine.appAdmin): can manage all App Engine resources
   - Service Account User (roles/iam.serviceAccountUser): to deploy as the service account
-  - Storage Admin (roles/compute.storageAdmin): to upload files
+  - Storage Admin (roles/storage.admin): to upload files
   - Cloud Build Editor (roles/cloudbuild.builds.editor): to build the application
 - "Key" --> "Create new KEY" and download the JSON (keep it safe!)
 
