@@ -22,7 +22,7 @@ def upload_to_lake(file_name) -> str:
 
     storage_client = storage.Client()
 
-    bucket_name = os.environ["LAKE_NAME"]
+    bucket_name = os.environ["LAKE_BUCKET"]
     bucket = storage_client.bucket(bucket_name)
 
     blob = bucket.blob(blob_path)

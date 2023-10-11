@@ -4,39 +4,18 @@ from scraper.scrape import scrape_hn
 
 
 def test_scrape_hn():
-    mocked_html = """
-    <html>
-        <body>
-            <span class="titleline">
-                <a href="https://example.com/story1">Story 1</a>
-                <span class="sitestr">example.com</span>
-            </span>
-            <span class="subline">
-                <span class="score">100 points</span>
-                <a class="hnuser">User1</a>
-                <a>50&nbsp;comments</a>
-            </span>
-            <span class="titleline">
-                <a href="https://example.com/story2">Story 2</a>
-                <span class="sitestr">example2.com</span>
-            </span>
-            <span class="subline">
-                <span class="score">50 points</span>
-                <a class="hnuser">User2</a>
-            </span>
-        </body>
-    </html>
-    """
+    with open(f"tests/test_html.txt", "r", encoding="utf-8") as f:
+        mocked_html = f.read()
 
     with requests_mock.Mocker() as m:
-        m.get("https://news.ycombinator.com/news?day=2023-09-20", text=mocked_html)
+        m.get("https://news.ycombinator.com/front?day=2023-09-20", text=mocked_html)
 
         df = scrape_hn("2023-09-20")
 
         assert isinstance(
             df, pd.DataFrame
         ), "Expected the result to be an instance of pandas DataFrame"
-        assert df.shape[0] == 2, "Expected 2 stories in the DataFrame"
+        assert df.shape[0] == 30, "Expected 2 stories in the DataFrame"
 
         assert df.iloc[0]["rank"] == 1, "Expected rank of the first story to be 1"
         assert (

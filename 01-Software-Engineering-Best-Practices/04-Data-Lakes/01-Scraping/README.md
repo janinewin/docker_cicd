@@ -2,13 +2,13 @@
 
 🏁 The goal for today is to setup a process which
 
-1. scrapes stories from [hackernews](https://news.ycombinator.com/front)
-2. Uploads them to our lake
-3. Verifies the data quality
-4. Transforms the data
-5. Allows scoped access to the data
+1. Scrape stories from [hackernews](https://news.ycombinator.com/front)
+2. Upload them to a data lake
+3. Verify the quality of the data
+4. Transform the data
+5. Allow scoped access to the data
 
-The first challenge will be about scraping the data we will use beautiful soup for this!
+The first challenge will be about scraping the data from [hackernews](https://news.ycombinator.com/front). We will use a popular Python web scraping library, 🍜 [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/).
 
 
 ## Introduction to Web Scraping
@@ -17,11 +17,11 @@ Web scraping is the process of extracting data from websites. This involves maki
 
 ## BeautifulSoup
 
-🍜 [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/) is a Python library widely used for web scraping purposes. It parses HTML and XML documents and extracts data in a hierarchical and readable manner.
+🍜 [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/) is a Python library widely used for web scraping. It parses HTML and XML documents and extracts data in a hierarchical and readable manner.
 
 ### Basic Example with BeautifulSoup
 
-Consider the following scenario: You want to extract the title of a Wikipedia page.
+Consider the following scenario: You want to extract the title of a Wikipedia page. This is how you would execute that in code with BeautifulSoup!
 
 ```python
 import requests
@@ -41,11 +41,11 @@ print(title)  # Outputs: Web scraping - Wikipedia
 
    a. In the `scrape.py` file, initialize the `scrape_hn(date: str) -> pd.DataFrame` function.
 
-   b. Make a GET request to the HN website to retrieve the top stories for the given date.
+   b. Make a GET request to the [hackernews](https://news.ycombinator.com/front) website to retrieve the top stories for the given date.
 
    c. Check the response status. If it's not 200 (HTTP OK), handle the error gracefully.
 
-   > 💡 **Hint**: Use the `requests` library for making HTTP requests. Remember to check the status code of the response to ensure the request was successful.
+   > 💡 **Hint**: Use the `requests` library for making HTTP requests. Have a look at the [documentation](https://requests.readthedocs.io/en/latest/user/quickstart/) for how to check the `Response Status Code`.
 
 ### 2. Parsing the HTML:
 
@@ -53,7 +53,7 @@ print(title)  # Outputs: Web scraping - Wikipedia
 
    b. Locate the relevant HTML elements containing story details, like titles, links, and author names.
 
-   c. Extract the data and store it in an appropriate data structure, such as a list of dictionaries.
+   c. Extract the data and store it in an appropriate data structure - a list of dictionaries.
 
    > 💡 **Hint**: You can use the browser's developer tools to inspect the HTML structure of the Hacker News website. This will help you identify the tags and classes containing the desired information.
 
@@ -63,7 +63,7 @@ print(title)  # Outputs: Web scraping - Wikipedia
 
    b. In the `main.py` file, call the `scrape_hn` function to fetch the data for the current date.
 
-   c. Save the DataFrame to a CSV file named "stories.csv".
+   c. Save the DataFrame to a CSV file named `stories.csv`.
 
    > 💡 **Hint**: Pandas provides a convenient `to_csv` method to save DataFrames to CSV files. Remember to set `index=False` to avoid saving the DataFrame index to the CSV.
 
@@ -73,14 +73,16 @@ print(title)  # Outputs: Web scraping - Wikipedia
 
    b. Consider adding retries or delays to respect the website's terms and prevent overloading it.
 
-   > 💡 **Hint**: The `try` and `except` blocks in Python can be used to catch and handle exceptions. You can catch specific exceptions (like `requests.exceptions.RequestException`) to handle known issues.
+   > 💡 **Hint**: The `try` and `except` blocks in Python can be used to catch and handle exceptions. It is best practice to always catch a specific exception (like `requests.exceptions.RequestException`) to handle known issues.
 
-## 🏁 Completion
+## 🏁 Finish
 
-Once you are done with the challenge, you can run the following command to check your code:
+Once you are done with the challenge, run the following command to check your code:
 
 ```bash
 make test
 ```
 
-If it passes you can push to git! Now you are extracting `stories.csv` from HN you are ready to move on and begin uploading the data to our lake!
+If it passes, run `main.py` directly and have a look at the `csv` it creates to make sure it's working as intended!
+
+Now you are extracting `stories.csv` from [hackernews](https://news.ycombinator.com/front). You are ready to move on and begin uploading data to your lake!

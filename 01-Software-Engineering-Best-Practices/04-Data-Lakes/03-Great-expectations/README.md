@@ -1,6 +1,8 @@
 # Maintaining data quality with great expectations
 
-🎯 Your primary task in this exercise is to flesh out the `run_expectations` function within the `expectations.py` file. This function will harness the power of Great Expectations to validate the quality of a given DataFrame. In general once you set up quality checks you either stop the pipeline or add reporting in our case because we are scraping we don't want to delete what we have but will notify a channel about when it fails!
+🎯 Your primary task in this exercise is to complete the `run_expectations` function within the `expectations.py` file. This function will harness the power of Great Expectations to validate the quality of a given DataFrame.
+
+Typically, once you set up quality checks you would either stop the pipeline or add reporting. In our case, because we are scraping, we don't want to delete the data we have already scraped, but will notify a channel about when it fails!
 
 ## Step-by-step Challenge
 
@@ -12,13 +14,13 @@
 great_expectations init
 ```
 
-this will create all of the files needed to manage our expectations!
+This will create all of the files needed to manage our expectations!
 
-Duplicate your `.env` from the previous exercise!
+❗ Duplicate your `.env` from the previous exercise and copy across the `stories.csv` - we'll need them both!
 
-### 1. Understand the Context:
+### 1. Understanding the Context:
 
-Before you delve into writing the code, you need to grasp the "context" in Great Expectations. The context provides access to all configurations and functions.
+Before you delve into writing the code, you need to grasp the "context" in Great Expectations. The context is the primary access point to all configurations and functions that we'll use for validating our data.
 
 To initialize the Great Expectations context, you'll use a method from the Great Expectations library. The context will be your primary interface for most operations.
 
@@ -32,6 +34,8 @@ context = gx.get_context()
 ### 2. Setup our expectations:
 
 Open `data-source.ipynb` and define the expectations!
+
+In this step we will create a `validator` and save it for later use in our scraper pipeline! Make sure you complete the validations for each column!
 
 
 ### 3. Use the expectation suite:
@@ -174,12 +178,12 @@ else:
 
 </details>
 
-### 4. Testing the function:
+### 4. Testing 🧪:
 
 Run the pipeline with
 
 ```bash
-python scraper/pipeline.py
+python scraper/main.py
 ```
 
 And checkout the results in the channel and the data docs!
@@ -191,6 +195,6 @@ make test
 ```
 
 
-## Finish 🎯
+## 🏁 Finish
 
-We are now using great expectation to maintain the quality of our data. This is a slow process but is essential to preventing your data lake from becoming a data swamp!
+We are now using great expectation to maintain the quality of our data. This is a slow process but is essential to preventing your data lake from becoming a data swamp! Don't forget to push your results up to github!
