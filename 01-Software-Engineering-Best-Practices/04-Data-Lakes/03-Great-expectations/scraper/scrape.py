@@ -41,7 +41,6 @@ def scrape_hn(date: str) -> pd.DataFrame:
     sub_lines = soup.find_all("span", class_="subline")
 
     for rank, (title_line, sub_line) in enumerate(zip(title_lines, sub_lines), 1):
-        rank = rank
         title_tag = title_line.find("a")
         title = title_tag.text
         try:

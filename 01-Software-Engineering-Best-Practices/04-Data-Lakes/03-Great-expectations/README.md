@@ -180,7 +180,7 @@ else:
 
 ### 4. Testing 🧪:
 
-Run the pipeline with
+Run the code with
 
 ```bash
 python scraper/main.py
