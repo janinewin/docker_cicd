@@ -53,8 +53,8 @@ Here's a basic guide to deploying a multi-file Cloud Function:
    gcloud functions deploy my_cloud_function \
      --runtime python310 \
      --trigger-http \
-     --allow-unauthenticated
-     --set-env-vars "KEY=VALUE"
+     --allow-unauthenticated \
+     --set-env-vars "KEY=VALUE" \
      --memory 256MB
    ```
 
