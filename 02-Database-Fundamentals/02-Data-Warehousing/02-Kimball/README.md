@@ -22,7 +22,7 @@ These types of questions are hard to answer alone, so take some time to discuss 
 <details>
 <summary markdown='span'>💡 One solution (feel free to follow your own design)</summary>
 
-**Data Engineer's Action**: To tackle this request, you decide to create a sales-focused data mart. You should identify the following dimension tables: `TerritoryDim`, `SpecialOfferDim`, and `DateDim`. Your central fact table is `Fact_Sales`, which holds the key metrics like `SalesAmount`, `Quantity`, and foreign keys to dimension tables for a first fact table. We normally want to go the finest grain possible, ie. item by item.
+**Data Engineer's Action**: To tackle this request, you decide to create a sales-focused data mart. You identify the following dimension tables: `TerritoryDim`, `SpecialOfferDim`, and `DateDim`. Your central fact table is `Fact_Sales`, which holds the key metrics like `SalesAmount`, `Quantity`, and foreign keys to dimension tables for a first fact table. We normally want to go the finest grain possible, ie. item by item.
 
 
 </details>
