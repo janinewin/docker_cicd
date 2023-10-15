@@ -4,7 +4,7 @@ Database access patterns determine what to optimize for. A database gives us man
 
 We will use our beloved Postgres database, and load the [Ikea dataset](https://www.kaggle.com/datasets/crawlfeeds/ikea-us-products-dataset).
 
-# 0️⃣ Setup
+# Setup
 
 In this exercise, we'll build the functions one by one in `lwdb/db.py` and open them in an IPython notebook `challenge.ipynb`
 
@@ -17,11 +17,11 @@ In this exercise, we'll build the functions one by one in `lwdb/db.py` and open 
 </details>
 
 
-# 1️⃣ Data Loading
+# Data Loading
 
 ## Investigate data
 
-❓ Do you know a way to inspect your JSON in the CLI ?
+❓ Do you know a way to inspect your JSON in the CLI?
 
 <details>
   <summary markdown='span'>💡 Hint</summary>
@@ -34,7 +34,7 @@ In this exercise, we'll build the functions one by one in `lwdb/db.py` and open 
   ```
 </details>
 
-❓ Let's investigate it in Pandas first by loading json to pandas in your notebook. Look at the columns, do they look like they all have the right type? Cast the 3 numerical columns (`product_price`, `average_rating`, `reviews_count`) with string type to `float` or `"Int64"` using `pandas.to_numeric` and `df[column].astype("Int64")`.
+❓ Let's investigate it in Pandas first by loading JSON to Pandas in your notebook. Look at the columns, do they look like they all have the right type? Cast the 3 numerical columns (`product_price`, `average_rating`, `reviews_count`) with string type to `float` or `"Int64"` using `pandas.to_numeric` and `df[column].astype("Int64")`.
 
 ❓ Save this dataframe in two following formats, then compare disk space with `du` linux tool and conclude!
 - "data/ikea-cols.parquet" (column major format)
@@ -47,7 +47,7 @@ In this exercise, we'll build the functions one by one in `lwdb/db.py` and open 
 
 ❓ **Create the schema** mapping the CSV schema using `./sql/prep_schema.sql` are already given to you.
 
-You can execute the sql commands from DBEAVER, or from your terminal with
+You can execute the sql commands from dbeaveeer, or from your terminal with
 
 ```
 psql -d ikea
@@ -55,17 +55,17 @@ psql -d ikea
 
 ❓ **Load the CSV data** into the Postgres table using our `prep_load.sql` command.
 
-In module 01, we were using psql `\copy` utility instead of SQL `COPY` statement because psql didn't have read access priviledge to our linux CM. Why can we use `COPY` here?
+In module 01, we were using psql `\copy` utility instead of SQL `COPY` statement because psql didn't have read access privilege to our linux CM. Why can we use `COPY` here?
 
 <details>
-  <summary markdown='span'>💡 Hints</summary>
+  <summary markdown='span'>Hint</summary>
 
 Because we are inside a container this time!
 </details>
 
 🧪 `Make test` should pass few more tests
 
-# 2️⃣ Query time!
+# Query time!
 
 ## Without indexing
 Let's write a few queries to this medium-sized database to test their speed.
@@ -77,7 +77,7 @@ Let's write a few queries to this medium-sized database to test their speed.
 **❓ Count the number of products** mentioning the words `chair` and `armrest` in the `raw_product_details` column.
 - Write the query to `sql/search-chair.sql`
 
-Do you think we can do better? Let's try 🐙!
+Do you think we can do better? Let's try!
 
 ## With indexing
 

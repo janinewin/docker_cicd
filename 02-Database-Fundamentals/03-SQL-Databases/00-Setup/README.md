@@ -10,7 +10,7 @@ Lets start today by setting up our own postgres db on our virtual machine and co
 
 ### Getting started
 
-We installed postgres and saw that it was running as a service on setup day but lets check that is still the case!
+We installed postgres and saw that it was running as a service on setup day, but lets check that it is still the case!
 ```bash
 service postgresql status
 ```
@@ -27,7 +27,7 @@ sudo service postgresql restart
 
 The simplest way to interact with postgres is with its terminal based front-end: [psql](https://www.postgresql.org/docs/current/app-psql.html)
 
-Lets try connect with just:
+Let's try connect with just:
 ```bash
 psql
 ```
@@ -38,7 +38,7 @@ You should see an error like this one:
 
 Why? `psql` will try to connect to the database as a postgres user with the same name as your _current linux username_ (to check what what your linux username is, run `echo $USER` from the terminal). We can create a postgres user that matches our linux username to make our workflow as easy as possible!
 
-Luckily there is a linux user on our virtual machine called "postgres". Lets login as the "postgres" linux user to create our new postgres user. To understand the command below, run `tldr sudo`
+Luckily, there is a linux user on our virtual machine called "postgres". Let's login as the "postgres" linux user to create our new postgres user. To understand the command below, run `tldr sudo`
 
 ```bash
 sudo --login --user=postgres psql
@@ -55,7 +55,7 @@ CREATE USER <username> WITH SUPERUSER PASSWORD '<choose a password here>';
 # it's mandatory when executing statements in psql
 ```
 
-☝️ We have created this postgres user a _superuser_, but in general you should try to only assign the appropriate [role attributes](https://www.postgresql.org/docs/current/role-attributes.html) (for example creating a user with the appropriate connection limit to prevent your database being overwhelmed)
+☝️ We have created this postgres user a _superuser_, but in general you should try to only assign the appropriate [role attributes](https://www.postgresql.org/docs/current/role-attributes.html) (for example creating a user with the appropriate connection limit to prevent your database being overwhelmed).
 
 👉 Write down your postgres user password in a `.env` file in this challenge folder. We'll need it later on.
 
@@ -66,13 +66,13 @@ POSTGRES_PASSWORD='the password you just chose'
 
 We now have our postgres user (postgres also provides `createuser` cli but you won't always have direct access to the terminal when using managed postgres solutions).
 
-Now lets log out and log back into the default `postgres` db as our new user.
+Now let's log out and log back into the default `postgres` db as our new user.
 ```bash
 \q
 ```
 This `\q` is a special postgres command to shortcut important actions known as [meta commands](https://www.postgresql.org/docs/current/app-psql.html)!
 
-Now we can log back in with our newly created user. Because we created one with our username we can do:
+Now we can log back in with our newly created user. Since we created one with our username, we can do:
 
 
 ```bash
@@ -80,20 +80,20 @@ psql postgres # which is equivalent to `psql --username=$USER postgres`
 ```
 
 
-Lets check our current user with a sql query
+Let's check our current user with an SQL query
 ```sql
 SELECT current_user;
 ```
 
-Now our next step is to create a new database!
+Now, our next step is to create a new database!
 ```sql
 CREATE DATABASE school;
 ```
-If we list the databases you should see your newly created school database
+If we list the databases, you should see your newly created school database
 ```bash
 \l
 ```
-Lets connect to that one instead of the default postgres one:
+Let's connect to that one instead of the default postgres one:
 ```bash
 \c school
 ```
@@ -101,7 +101,7 @@ If we check the tables in the school db
 ```bash
 \d
 ```
-None should be returned, lets create some tables and records in postgres next.
+None should be returned. Let's create some tables and records in postgres next.
 
 
 ### Creating tables
@@ -126,7 +126,7 @@ VALUES
     , (2, 'Kelly', 'Slater', 101);
 ```
 
-If you run this query and then run `\d` you should now see a `students` table appearing, which you can now query:
+If you run this query and then run `\d`, you should now see a `students` table appearing, which you can now query:
 ```sql
 SELECT * FROM students;
 ```
@@ -135,7 +135,7 @@ SELECT * FROM students;
 
 While `psql` is very powerful, it would be easier for us to work in a more user focused tool, especially as our queries get more complicated. We'll use [DBeaver](https://dbeaver.io/).
 
-First lets check which port our postgres server is running on (default is 5432)
+First, let's check which port our postgres server is running on (default is 5432)
 ```bash
 \conninfo
 ```
@@ -163,7 +163,7 @@ At this point, port 5432 on your virtual machine is being forwarded to port 5432
 
 __Step 3:__
 
-Open dbeaver and click the new connection button in the top left and select postgres.
+Open dbeaver and click the new connection button in the top left, then select postgres.
 
 ![new conn](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D3/dbeaver-new-conn.png)
 
@@ -184,14 +184,13 @@ Fill out the postgres connection page. Key inputs are in the red boxes:
 
 __Step 5:__
 
-You should now see the database on the navigator at the side. Create a script
-and rerun our original query and you should see the same output as when you ran it in `psql`.
+You should now see the database on the navigator at the side. Create a script and rerun our original query. You should see the same output as when you ran it in `psql`.
 
 ![connected](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D3/connected-dbeaver.png)
 
 ### Bringing in data
 
-We are up and running in dbeaver! Time to bring in data from external source. Lets load `teacher.csv` into a new table in our db!
+We are up and running in dbeaver! Time to bring in data from external source. Let's load `teacher.csv` into a new table in our db!
 
 We need to create a table that the teacher data will be inserted into. This table will have 2 columns: `id` - which will be an integer, and `name` - a variable length character type, that we will limit to 50 characters.
 
@@ -206,7 +205,7 @@ CREATE TABLE teachers (
 )
 ```
 
-If you run this script again. It should fail with the error: `relation "teachers" already exists`. That’s why we generally don’t use the `CREATE TABLE` statement by itself, it's more common to be used with another command depending on the use case.
+If you run this script again, it should fail with the error: `relation "teachers" already exists`. That’s why we generally don’t use the `CREATE TABLE` statement by itself. It's more common to use it with another command depending on the use case.
 
 If we didn't want to overwrite an existing table, we could check to see if the table already exists:
 ```sql
@@ -216,7 +215,7 @@ CREATE TABLE IF NOT EXISTS teachers (
 )
 ```
 
-Which will not do anything if the table has already been created.
+This will not do anything if the table has already been created.
 
 Alternatively, we could fully delete the table and recreate it:
 ```sql
@@ -227,9 +226,9 @@ CREATE TABLE teachers (
 )
 ```
 
-Which could be a way to change the table schema.
+This could be a way to change the table schema.
 
-Let's load the data from the csv file into the table by running the follow command in `psql`:
+Let's load the data from the CSV file into the table by running the follow command in `psql`:
 ```bash
 # fist connect to psql
 > psql --user=your_db_superuser_name -d school

@@ -4,11 +4,11 @@ This exercise will try and take some of the magic away from containers and guide
 
 🎯 By the end you should be able to use your script to enter a isolated `bash` shell in a new independent file system with all the required files for ubuntu!
 
-## 1️⃣ Starting our project
+## Starting our project
 
 Same workflow as usual with poetry so we have somewhere to install packages. We don't want to hook into poetry for reasons that will be demonstrated later so when you need to run just use `poetry run`! Here the only non standard library package we will be using for this exercise is `requests`!
 
-## 2️⃣ Getting ubuntu
+## Getting ubuntu
 
 To start our container off we are going to stick to ubuntu for simplicity but you could extend what we do here to fetch any of the files for any container on Docker Hub.
 
@@ -127,7 +127,7 @@ You can also add a call to cleanup the `ubuntu.tar` but it is not necessary as o
 
 <br>
 
-## 3️⃣ Temporary directory
+## Temporary directory
 
 Now we have the files we need, lets also create somewhere to put those files. We don't want to have to manage creating and cleaning up lots of folders ourselves so lets use the inbuilt [tempfile](https://docs.python.org/3/library/tempfile.html) module!
 
@@ -162,9 +162,9 @@ There are a lot of layers of isolation that we would need in order to fully comp
 Lets do this step by step! 🧗
 
 
-## 4️⃣ Isolated file system
+## Isolated file system
 
-### 4.1 Startup script
+### Startup script
 Next we need to work on isolating our file system. 🗄️
 
 Here we are going to go with the 'naive' approach of using [`chroot`](https://wiki.archlinux.org/title/chroot)!
@@ -189,11 +189,11 @@ subprocess.run(["mv", "startup.sh", temp_dir_path])
 ```
 </details>
 
-### 4.2 Chroot 📍
+### Chroot
 
 Next we want to work on making the root of our container's file system at our temporary directory.
 
-❓ Now we have our script in the temporary directory, move into the temp directory and run `chroot`, plus our terminal command (you will need to run the Python script as root to make it work 😅)!
+❓ Now we have our script in the temporary directory, move into the temp directory and run `chroot`, plus our terminal command (you will need to run the Python script as root to make it work)!
 
 Don't forget to update the `__main__` block as well to use `run` write the command, `arg`, passed as an argument or read it from `sys.argv[1]`.
 
@@ -219,7 +219,7 @@ sudo $(poetry env info -p)/bin/python pyocker/main.py pwd # if you used sys.argv
 
 Now you should be able to run `pyocker/main.py` with `ls` or `pwd` and see your isolated file system!
 
-### 4.3 Cleaning up the process 🧹
+### Cleaning up the process
 
 Now if you run your script with `/bin/bash` instead you can explore your container! You can notice one issue here the hostname is still the same which might not be ideal.
 
@@ -234,7 +234,7 @@ mount -t proc proc
 
 We are now ready to isolate the processes. For now when shutting down your container you will get an error you can ignore that for now!
 
-## 5️⃣ Isolating the process 🥷
+## Isolating the process
 
 The final step we are going to cover is about isolating the process from the rest of the processes on the system.
 
@@ -255,7 +255,7 @@ unshare -mpfu chroot
 
 ❗️ Now if you enter the container and run `ps -aux` process 1 should be our startup script. We have isolated the process so it cannot see anything else running on our machine!
 
-## 6️⃣ Putting it all together 🎁
+## Putting it all together
 
 🏁 We can now run:
 
@@ -265,7 +265,7 @@ sudo $(poetry env info -p)/bin/python pyocker/main.py /bin/bash # run("/bin/bash
 
 Giving us a container running with our created `cgroup`, with a new file system, and isolated PID! 🙌
 
-## 7️⃣ Still to do 😅
+## Still to do
 
 This is a pretty great level of isolation, especially for one exercise but there are a few things still to do if we wanted to take it further.
 
@@ -276,4 +276,4 @@ This is a pretty great level of isolation, especially for one exercise but there
 - Chroot is slightly `naive` and you can break out of it (you can instead use a more advanced tool like [firejail](https://firejail.wordpress.com/)).
 - Setup a union file system ([read more here](https://martinheinz.dev/blog/44)). At the moment each container takes up the space of the `ubuntu.tar` on memory!
 
-## Congrats on finishing this optional challenge! 🏋️‍♂️
+## Congrats on finishing this challenge! 🏋️

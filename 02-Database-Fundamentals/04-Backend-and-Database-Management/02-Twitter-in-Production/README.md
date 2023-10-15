@@ -3,12 +3,12 @@
 - ...accessing our **production database**, which is running on a managed SQL instance on the cloud(**[Google Cloud SQL](https://cloud.google.com/sql)**)
 
 
-We have given you the solution to the `twitter_api` package as well as the associated `alembic` migration you built in unit 04 as a starting point.
+We have given you the solution to the `twitter_api` package as well as the associated `alembic` migration you previouslt built as our starting point.
 
 
 # Setup a Google cloud SQL instance
 
-First copy the `.env.sample` into a new `.env`. You will notice we have a few extra environment variables than our original twitter app! Fill:
+First, copy the `.env.sample` into a new `.env`. You will notice we have a few extra environment variables than our original twitter app! Fill:
 - `POSTGRES_PASSWORD` with the password you want.
 - `LOCATION` where your VM is located (e.g. europe-west1)
 
@@ -43,7 +43,7 @@ gcloud sql instances describe twitter-prod | grep ipAddress
 and, now, you have the IP address to populate into your `.env` `$POSTGRES_IP` as well as (+`direnv reload`)!
 
 
-Now connect with `psql`, as usual via the default "postgres" user and DB
+Now, connect with `psql`, as usual via the default "postgres" user and DB
 
 ```bash
 psql "hostaddr=$POSTGRES_IP port=5432 user=postgres dbname=postgres password=$POSTGRES_PASSWORD"
@@ -118,13 +118,15 @@ alembic
 ```
 ☝️ Always try to keep your image as lean as possible
 
-Now lets publish the port to make our API available
+Now, let's publish the port to make our API available
 
 ```bash
 docker run --env-file=.env -p 8010:8000 twitter
 ```
 
-We are mapping 8010 on our VM to 8000 inside the container. If we forward the port to our host machine, we can now check out our running twitter app. When all looks good, try an endpoint. Amazing, we are now plugged into our hosted database! Let's go one step further and run our API on cloud run.
+We are mapping 8010 on our VM to 8000 inside the container. If we forward the port to our host machine, we can now check out our running Twitter app. When all looks good, try an endpoint.
+
+Amazing, we are now plugged into our hosted database! Let's go one step further and run our API on cloud run.
 
 🎉 **You should be able to read the list of all tweets by calling `GET /tweets` from your local machine's chrome app --> through your VM --> through your container --> to Google cloud SQL !**
 
@@ -148,7 +150,7 @@ IMAGE_TAG=prod
 IMAGE_FULL_TAG=$HOSTNAME/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:$IMAGE_TAG
 ```
 
-❓ Now tag and push our image on cloud run
+❓ Now, tag and push our image on cloud run
 
 <details>
 <summary markdown='span'>🎁 solution</summary>
@@ -163,7 +165,7 @@ docker push $IMAGE_FULL_TAG
 ### Create a Virtual Private Connection (VPC)
 
 Now comes one additional complexity: we need to create a VPC connector to describe to the cloud run where to route the internal traffic.
-So far, our VM was in the same VPC as your GCloud SQL, but it's different for Cloud Run:
+So far, our VM has been in the same VPC as your GCloud SQL, but it's different for Cloud Run:
 
 Here is the gcloud command below to create a VPC named "twitter-connector":
 
@@ -202,7 +204,7 @@ For the region, we put cloud run and the database in the same region to minimise
 <details>
 <summary markdown='span'>💡 Hint to the failure</summary>
 
-Cloud run needs our API to start on the `$PORT`, a special env variable that will be injected by cloud run at runtime. You need to update your Dockerfile with $PORT instead of hard-coding the port number.
+Cloud run needs our API to start on the `$PORT`, a special env variable that will be injected by cloud run at runtime. You need to update your Dockerfile with `$PORT` instead of hard-coding the port number.
 
 
 </details>

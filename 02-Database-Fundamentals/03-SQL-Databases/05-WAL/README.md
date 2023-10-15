@@ -4,7 +4,7 @@
 
 **What it is**: Change Data Capture (CDC) is a technique used to identify and capture changes made to a data source, be it a database, log file, or other forms of data storage.
 
-**Relevance for Data Engineers**:
+**❓ Relevance for Data Engineers**:
 
 1. **Real-Time Data Integration**: CDC enables real-time data integration between operational databases and data warehouses or analytics platforms.
 2. **Event Sourcing**: It's crucial for architectures like CQRS (Command Query Responsibility Segregation) that rely on an event log.

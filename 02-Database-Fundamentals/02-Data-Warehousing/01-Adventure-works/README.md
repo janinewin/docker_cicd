@@ -1,11 +1,11 @@
 ## Setup the data
 
-AdventureWorks is a full database example provided by microsoft representing a made up bike company AdventureWorks Cycles. We will begin by uploading the data to big query and then work on creating some usable data marts!
+AdventureWorks is a full database example provided by Microsoft and representing a made up bike company AdventureWorks Cycles. We will begin by uploading the data to Big Query and then work on creating some usable data marts!
 
 
 ### Download the data
 
-First we will dowload the data from the microsoft github repository.
+First, we will download the data from the Microsoft Github repository.
 
 ```bash
 wget https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorks-oltp-install-script.zip
@@ -17,19 +17,19 @@ Create a data folder and unzip the data into it
 mkdir -p data/original && unzip AdventureWorks-oltp-install-script.zip -d data/original
 ```
 
-The formatting of some of the csvs is not ideal for us so there is a script to convert the csvs to a more usable format.
+The formatting of some of the CSVs is not ideal for u. Luckily, there is a script to convert the CSVs to a more usable format.
 
 ```bash
 mkdir -p data/processed && python pipeline/process_csvs.py
 ```
 
-We are going to focus primarily on sales to limit ourselves there is one csv that is not quite right go check out
-`data/processed/store.csv` what looks wrong?
+We are going to focus primarily on sales to limit ourselves. There is one CSV that is not quite right. Check out
+`data/processed/store.csv`, what do you think is wrong with it?
 
 <details>
-<summary markdown='span'>Answer</summary>
+<summary markdown='span'>Hint</summary>
 
-The fourth column is xml which is not that useful to us! We will need to fix this before we can upload to big query.
+The fourth column is XML, which is not that useful to us! We will need to fix this before we can upload the file to Big Query.
 
 </details>
 
@@ -37,7 +37,7 @@ The fourth column is xml which is not that useful to us! We will need to fix thi
 
 Checkout the `pipeline/process_store.py`
 
-1. Fix `parse_xml_to_dict` there is an example for you to test it on in the `__main__` function you can check how the function is working using the `__main__` block it should output a dictionary with keys and values try using the imported ET module.
+1. Fix `parse_xml_to_dict`. There is an example for you to test it on in the `__main__` function. You can check how the function is working using the `__main__` block, which should output a dictionary with keys and values. Try using the imported ET module.
 
 <details>
 <summary markdown='span'>Processed dictionary</summary>
@@ -47,13 +47,9 @@ Checkout the `pipeline/process_store.py`
 </details>
 
 
-2.
+2. Update `main` to use the `parse_xml_to_dict` function. You should create a new store to CSV with the outfile, add each of the values from the dict as columns at the end of the CSV and remove the XML column!
 
-Updated `main` to use the `parse_xml_to_dict` function to create a new store to csv with the outfile add each of the values from the dict as columns at the end of the csv and remove the xml column!
-
-3.
-
-Updated the `__main__` block to run the `main` function and check the output csv looks correct!
+3. Update the `__main__` block to run the `main` function and check that the output CSV looks correct!
 
 The first row should look like this:
 
@@ -63,7 +59,7 @@ The first row should look like this:
 
 ### Create tables
 
-Lets create a raw dataset to put our data in before we start processing it to create our Mart!
+Let's create a raw dataset to put our data in before moving to data processing and creating our Mart!
 
 1. Create a dataset called `raw` in the EU region using `bq`
 
@@ -76,7 +72,7 @@ bq --location=EU mk --dataset raw
 
 </details>
 
-2. Checkout the `pipeline/schemas.py` you will see the schema for all of the tables, describing the columns they contain, related to sales now that store is fixed though it needs editing to add the new columns from the xml edit!
+2. Checkout the `pipeline/schemas.py`. You should see the schema for all of the tables, describing the columns they contain. Now that the store is fixed, they are related to sales now. However we still need to make some editing to add the new columns from the XML edit!
 
 <details>
 <summary markdown='span'>💡 Completed store schema</summary>
@@ -107,13 +103,13 @@ bq --location=EU mk --dataset raw
 
 ❓ Complete the inside of the loop of `main` inside `pipeline/create_tables.py` to create the tables using the schemas!
 
-Once that is completed you can run the script and checkout the created table in big query!
+Once that is completed, you can run the script and checkout the created table in Big Query!
 
 ### Upload the data
 
-Now we have all the data we want to add our data to the tables!
+Now that we have all the data, we want to add it to the tables!
 
-1. Checkout the `pipeline/upload_data.py` you will see the `main` function has a loop that iterates over the tables and uploads the data to the table.
+1. Checkout the `pipeline/upload_data.py`. You should see the `main` function has a loop that iterates over the tables and uploads the data to the table.
 
 2. ❓ Complete the loop to upload the data to the tables!
 
@@ -122,7 +118,7 @@ Now we have all the data we want to add our data to the tables!
 
 ### Query the data
 
-Now we have the data in the tables we can start to query it!
+Now that we have the data in the table, we can start to query it!
 
 ```
 bq query "SELECT * FROM raw.Store LIMIT 10;"
@@ -130,4 +126,4 @@ bq query "SELECT * FROM raw.Store LIMIT 10;"
 
 ### 🏁 Finished
 
-Now we have the data in big query we can start to create our data marts in the next exercise!
+Now we have the data in Big Query, we are all ready to create our data marts in the next exercise!

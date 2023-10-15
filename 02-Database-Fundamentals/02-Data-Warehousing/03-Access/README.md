@@ -1,6 +1,6 @@
 ## Access
 
-We have a data mart now we want to give an analyst access to it.
+So now we have a data mart. Next step is to give an analyst access to it.
 
 ### Features of the view
 

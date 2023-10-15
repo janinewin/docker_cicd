@@ -1,5 +1,5 @@
 ## Engineering context - Real life use
-This exercise builds on top of work we did with single docker containers. Often times you will need to assemble together multiple services offering different features.
+This exercise builds on top of work we did with single Docker containers. Often times you will need to assemble together multiple services offering different features.
 A perfect example as a data engineer, is a backend stack composed of:
 - a backend server (API, ORM, Migration tools), such as fastAPI+SQLAlchemy+Alembic or Django which is an all in one web framework.
 - a database which it is relational (PostgreSQL, MySQL) or NoSQL (Redis, MongoDB,...) or timeseries (InfluxDB, TimescaleDB)
@@ -8,7 +8,7 @@ A perfect example as a data engineer, is a backend stack composed of:
 
 Trying to do so in a piecewise manner is a hard project, usually distributed systems engineers (now more commonly called platform engineers) would tackle this.
 
-This is where orchestration comes to the rescue. Contrary to the previous Docker challenges where you worked on a single docker container to build a single service, Docker compose enables you to build complex services by containerising those individual, standalone services and having them collaborate.
+This is where orchestration comes to the rescue. Contrary to the previous Docker challenges where you worked on a single Docker container to build a single service, Docker compose enables you to build complex services by containerising those individual, standalone services and having them collaborate.
 
 Docker compose let's you do that with a simple `docker-compose.yml` file properly configured.
 
@@ -16,11 +16,11 @@ This way you don't need a platform expert to spin up your platform, you can stan
 
 ## End goal 🎯
 
-This exercise aims at validating the docker compose fundamentals necessary to stand up and operate a multi-container application.
+This exercise aims at validating the Docker compose fundamentals necessary to stand up and operate a multi-container application.
 To do so we will:
-- Pull a docker image remotely built
+- Pull a Docker image remotely built
 - Mount volumes to share data into a container
-- Create a docker network to allow the containers to communicate between other containers on the same network
+- Create a Docker network to allow the containers to communicate between other containers on the same network
 - Create multiple services: SQL DB + Web server
 - Configure those services via environement variables
 - Use the docker-compose CLI
@@ -31,18 +31,18 @@ To do so we will:
 - Alternatively, you can also use this base image `europe-west1-docker.pkg.dev/data-engineering-students/student-images/base-image-fastapi:dev`
 
 
-# 1️⃣ - Services 🤲
-This first task consists of creating your first service in your multi-container application. We will spin up the web API service that relies on the fastapi base image you previously built.
+# Services
+This first task consists of creating your first service in your multi-container application. We will spin up the web API service that relies on the FastAPI base image you previously built.
 We also want to mount a directory inside the container that will point to our app directory so that we can simply update our server's code and reload it right away without having to tear down and rebuild the stack.
 
 **❓ Create the web API service**
 
 1. Open the `docker-compose-1.yml` file
-1. Create a docker compose service named `webapi` with a [container name](https://docs.docker.com/compose/compose-file/05-services/#container_name) `fastapi` building the docker file included in this exercise named `dockerfile-fastapi`
+1. Create a Docker compose service named `webapi` with a [container name](https://docs.docker.com/compose/compose-file/05-services/#container_name) `fastapi` building the Docker file included in this exercise named `dockerfile-fastapi`
 1. Adjust the [restart policy](https://docs.docker.com/config/containers/start-containers-automatically/) to be `on-failure`
 1. Expose the [port](https://docs.docker.com/compose/compose-file/05-services/#ports) 8000 so you can access your container from outside
 1. Create a [volume](https://docs.docker.com/compose/compose-file/05-services/#volumes) mounting the directory `./api-no-database` into the container's directory `/app/api`
-1. Override the container's command adding the `--reload` flag to restart the fastapi server on file changes
+1. Override the container's command adding the `--reload` flag to restart the FastAPI server on file changes
     ```bash
     uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
     ```
@@ -62,7 +62,7 @@ We also want to mount a directory inside the container that will point to our ap
     **🧪 Test your code with `make testTask1`**
 
     **💾 Save your work in progress on GitHub**
-1. Now replace the local dockerfile used to build the stack by the remote [image](https://docs.docker.com/compose/compose-file/05-services/#image) you previously built `base-image-fastapi:dev`, remember to use the proper url to reference it.
+1. Now replace the local Dockerfile used to build the stack by the remote [image](https://docs.docker.com/compose/compose-file/05-services/#image) you previously built `base-image-fastapi:dev`, remember to use the proper url to reference it.
 1. Repeat steps 7, 8, & 9
 1. Enjoy!
 
@@ -70,13 +70,13 @@ We also want to mount a directory inside the container that will point to our ap
 
 **💾 Save your work in progress on GitHub**
 
-# 2️⃣ - Networking 🌉
-When creating a docker compose stack, by default Docker will create a single network of type `bridge` associated with your docker compose stack, with a default name of `<app_directory>_default`. Each container part of this network can reach out to each other using their container name (or the service name if no container name is defined).
+# Networking 🌉
+When creating a Docker compose stack, by default Docker will create a single network of type `bridge` associated with your Docker compose stack, with a default name of `<app_directory>_default`. Each container part of this network can reach out to each other using their container name (or the service name if no container name is defined).
 
-At times you can end up needing multiple networks in a docker compose stack to isolate services from each other, or to allow external services to access your internal stack networks.
-Remember that in networking (in or outside of docker) you should be very conservative in your choice to reduce the exposure area of your stack.
+At times, you can end up needing multiple networks in a Docker compose stack to isolate services from each other, or to allow external services to access your internal stack networks.
+Remember that in networking (in or outside of Docker) you should be very conservative in your choice to reduce the exposure area of your stack.
 
-**❓Create a docker network of type bridge and have our webapi service be part of this network.**
+**❓Create a Docker network of type bridge and have our webapi service be part of this network.**
 
 1. Copy the content of `docker-compose-1.yml` into `docker-compose-2.yml`
 1. Create a custom [network](https://docs.docker.com/compose/compose-file/05-services/#networks) named `backend`
@@ -102,13 +102,13 @@ Remember that in networking (in or outside of docker) you should be very conserv
 
 **💾 Save your work in progress on GitHub**
 
-# 3️⃣ - Database Service 🗄
-Now that you have a solid backbone for the docker compose stack, we can add an additional service - a PostgreSQL database service.
+# Database Service
+Now that you have a solid backbone for the Docker compose stack, we can add an additional service - a PostgreSQL database service.
 We want to achieve two goals here:
 - Configure the database properly by setting up a user, password and an actual database inside the container, using environment variables or a `.env` file
-- Connect the existing web server and the database by properly assigning the database to the network, creating a dependency on the web server with respect to the database, and to properly construct the url to reach the database inside the docker compose stack
+- Connect the existing web server and the database by properly assigning the database to the network, creating a dependency on the web server with respect to the database, and to properly construct the url to reach the database inside the Docker compose stack
 
-**❓ 3.1) Add a database service**
+**❓Add a database service**
 
 1. Copy the content of `docker-compose-2.yml` into `docker-compose-3.yml`
 1. We are now using the `app` folder instead of `api-no-database`. Change the mounted directory accordingly in the docker compose file
@@ -135,13 +135,13 @@ We want to achieve two goals here:
     - APP_DB_PASS=password
     - APP_DB_NAME=movies
     ```
-1. [Map port](https://docs.docker.com/compose/compose-file/05-services/#ports) port 5432 of your container (where postgres runs by default) into port 5433 of your host (the VM). Why 5433? Just to make you think more deeply about which one means what 😈
+1. [Map port](https://docs.docker.com/compose/compose-file/05-services/#ports) port 5432 of your container (where postgres runs by default) into port 5433 of your host (the VM). Why 5433? Just to make you think more deeply about which one means what
 
 1. Add network called `backend` of type `bridge` that links both `webapi` and `database`.
 
 1. Finally, we need to set a [`depends_on`](https://docs.docker.com/compose/compose-file/05-services/#depends_on) instruction to the `webapi` service so it depends on the `database` service
 
-🚀 Build and run the docker compose stack
+Build and run the Docker compose stack
 ```bash
 # Validate and run the docker-compose file
 docker compose -f docker-compose-3.yml config
@@ -155,11 +155,11 @@ docker container ls
 docker network ls
 ```
 
-❓**3.2) Try to access your webserver**
+❓**Try to access your webserver**
 
-🐛 It should not work and scream at you because can't connect to the DB!
+It should not work and scream at you because can't connect to the DB!
 
-Can you figure out why? Try to solve it by yourself if you can 🏋🏽‍♂️! (Think how the API is connecting to the database 😉)
+Can you figure out why? Try to solve it by yourself if you can! (Think how the API is connecting to the database)
 
 <details>
   <summary markdown='span'>💡 Hints</summary>
@@ -175,20 +175,18 @@ environment:
 
 💡 `+psycopg2` (the connection type) is not mandatory as its the default connector, yet it's preferrable to name it explicitly.
 
-💡 What is your database `<hostname>` in the context of docker compose?
+💡 What is your database `<hostname>` in the context of Docker compose?
 
 </details>
 
 Then, make sure you tear `down` your stack and spin it back `up` again with your `docker-compose3.yml`. You should now have access to the endpoint again!
 
-Voila! ✨
 
-
-# 4️⃣ - Connect to the database 🗄
+# Connect to the database
 
 **❓ Connect to the database**
 
-1. First check which port you forwarded in docker compose. If you haven't, add it now! For example:
+1. First check which port you forwarded in Docker compose. If you haven't, add it now! For example:
     ```yml
     ports:
     - 5432:5432
