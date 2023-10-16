@@ -4,22 +4,22 @@ You'll reproduce the steps done in `00-Setup` but with some more complex files.
 The goal is to have a database structure ready to then execute SQL queries on it in the challenges `02-SQL-Basics`, `03-SQL-Advanced` sections.
 
 
-# 1️⃣ Setup
+# Setup
 
-### 1) **Download [The IMDB Movies Dataset](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/movies_dataset/archive.zip)**
+### **Download [The IMDB Movies Dataset](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/movies_dataset/archive.zip)**
 
-Copy the 2 files into your VM in this challenge's subfolder: `./data/`  
+Copy the 2 files into your VM in this challenge's subfolder: `./data/`
 
     - `movies_metadata.csv`
     - `ratings.csv`
 
-💡 Once locally dowloaded, you can copy them inside your VM via either `scp` (like a pro) or drag-and-drop (thanks to VS code!)
+Once locally dowloaded, you can copy them inside your VM via either `scp` (like a pro) or drag-and-drop (thanks to VS code!)
 
-💡 You can quickly explore the dataset on [Kaggle](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?resource=download&select=ratings.csv) if you want
+You can quickly explore the dataset on [Kaggle](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?resource=download&select=ratings.csv) if you want
 
-### 2️) **Create a new postgres database called `movies`**, in which we'll later load each CSV in separate tables
+### **Create a new postgres database called `movies`**, in which we'll later load each CSV in separate tables
 
-💡 A nice shortcut actually does the job is
+A nice shortcut actually does the job is
 ```bash
 createdb "movies"
 ```
@@ -29,14 +29,14 @@ Check that it worked with
 psql movies # then \l to list your databases and check you are the owner
 ```
 
-### 3) Lastly, connect it to DBEAVER as per previous challenge
+### Lastly, connect it to dbeaver as per previous challenge
 And copy your`.env` file from the previous challenge inside this challenge's folder, so you'll be able to run the tests, which will connect to your database.
 
 
-# 2️⃣ `ratings.csv`
+# `ratings.csv`
 
-## 2.1) Create the corresponding table `ratings` using SQL commands
-- The columns should be named differently than in the csv (camelCase is not a standard way of naming fields in tables. snake_case is preferred)
+## Create the corresponding table `ratings` using SQL commands
+- The columns should be named differently than in the CSV (camelCase is not a standard way of naming fields in tables. snake_case is preferred)
     - user_id
     - movie_id
     - rating
@@ -50,22 +50,22 @@ And copy your`.env` file from the previous challenge inside this challenge's fol
     - `DATE` - self explanatory
 - Running the same SQL script again after the table is already created should not fail
 
-💡 To execute your queries, you can either use local DBEAVER connection, or your terminal running `psql movies`
+To execute your queries, you can either use local dbeaver connection, or your terminal running `psql movies`
 
-💡 To explore the structure of the CSV file, you can use bash commands to extract only the first 3 rows (`tldr head`)
+To explore the structure of the CSV file, you can use bash commands to extract only the first 3 rows (`tldr head`)
 
 🧪 **Write down your query in `ratings_create.sql` when you are done, and test your results with `make test`** (test_2 should pass)
 
-## 2.2) Load the data from the csv in the destination table
+## Load the data from the CSV in the destination table
 
 - Write down your query in `ratings_copy.sql`.
-- 💡 The file path to the CSV should be absolute for DBEAVER
+- 💡 The file path to the CSV should be absolute for dbeaver
 - ❗️ It should take a while: the file is almost 1GB large and contains more than 26 million rows
 
 
-## 2.3) Create a better `timestamp` column
-Right now, timestamp is stored as an "epoch" as `INT` (check what it means online)
-We want date in `TIMESTAMP` in more readable `YYYY-MM-DD HH:MI:SS` format instead!
+## Create a better `timestamp` column
+Right now, the timestamp is stored as an "epoch" as `INT` (check what it means online)
+We want the date in `TIMESTAMP` to be in a more readable `YYYY-MM-DD HH:MI:SS` format instead!
 
 - Create a new column called `created_at_utc`
 - Then, load its converted timestamp equivalent!
@@ -84,7 +84,7 @@ We want date in `TIMESTAMP` in more readable `YYYY-MM-DD HH:MI:SS` format instea
 <br>
 
 
-# 3️⃣ `movies_metadata.csv`
+# `movies_metadata.csv`
 
 Let's do the same: create & fill a `movies_metadata` table.
 
@@ -94,12 +94,12 @@ Let's do the same: create & fill a `movies_metadata` table.
 cat data/movies_metadata.csv | head -n 2
 ```
 
-🤯 There are 24 columns to manually create, each with its own data type!
+There are 24 columns to manually create, each with its own data type!
 
-Hopefully, there exists nice tools to load CSV automatically
+Thankfully, there exists nice tools to load CSV automatically
 
 
-## 3.1) create and load automatically with `csvkit`
+## Create and load automatically with `csvkit`
 
 We have pip-installed for you the amazing [csvkit](https://csvkit.readthedocs.io/en/latest/tutorial/1_getting_started) package (check your `pyproject.toml` file !)
 
@@ -109,7 +109,7 @@ Run the following to let csvkit analyse your CSV to create the long SQL CREATE T
 csvsql -i postgresql data/movies_metadata.csv
 ```
 
-Now that we have the query, we could copy-paste it in DBEAVER and load data as before...But hey, let's make a script that automatically does this for you! 🎭
+Now that we have the query, we could copy-paste it in dbeaver and load data as before...But hey, let's make a script that automatically does this for you!
 
 Copy-paste this script in your terminal, we'll explain it below
 
@@ -132,7 +132,7 @@ csv_to_postgres () {
 
 🔎 **This is quite a long command so lets break it down!**
 
-It's meant to be run as follow:
+It's meant to be run as follows:
 
 ```bash
 csv_to_postgres movies data/movies_metadata.csv movies_metadata
@@ -149,7 +149,7 @@ csv_to_postgres movies data/movies_metadata.csv movies_metadata
   - Write a sql command to drop the table if it exists
   - Then use `psql -d $1 -a -c $drop_command` to execute the command into our database
 
-- Next we create the table with our auto generated schema:
+- Next, we create the table with our auto generated schema:
   - `tmp=$(mktemp)` creates us a temporary file we can use without having to worry about its cleanup!
   - `csvsql -i postgresql $2` is the most important command here this will generate us a schema based on our input csv. This command is great on its own if you want to use it to generate a schema and work from there to audit that everything lines up as you expect but without manually working through everything!
   - We then pipe that to our temporary file `> $tmp`
@@ -161,4 +161,4 @@ csv_to_postgres movies data/movies_metadata.csv movies_metadata
 
 🧪 **Execute the command and test the outcome with `make test`**: test_3 should pass.
 
-🏁 Commit and push your challenge so we can keep track of your progress (don't worry, we 'gitignored' csvs already)
+🏁 Commit and push your challenge so we can keep track of your progress (don't worry, we 'gitignored' CSVs already)

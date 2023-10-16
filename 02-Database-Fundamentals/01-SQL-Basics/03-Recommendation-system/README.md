@@ -1,8 +1,6 @@
 # Recommendation System
 
-The goal of this exercise will be to leverage the full text search capacity of postgres to build a recommendation system for films. We will be using the same database as before so bring across your `.env`
-
-We will be using the same database as before so bring across your `.env`
+The goal of this exercise will be to leverage the full text search capacity of Postgres to build a recommendation system for films. We will be using the same database as before, so bring across your `.env`
 
 ```bash
 cp ../01-Setup/.env .
@@ -24,7 +22,7 @@ Find films in the Pagila database that are related to the word "Cat" based on th
 3. Utilize the `ts_rank` function to rank your results by relevance.
 4. Sort your results by the rank in descending order.
 
-Once you have a query put it in `text_search_query.sql` and run
+Once you have a query, put it in `text_search_query.sql` and run
 
 ```bash
 make test
@@ -58,7 +56,7 @@ Improve the original query by using `ts_rank_cd` instead of `ts_rank` this time 
 
 1. Use the `ts_rank_cd` function to rank your results by relevance.
 
-Once you have a query put it in `improved_text_search_query.sql` and run
+Once you have a query, put it in `improved_text_search_query.sql` and run
 
 ```bash
 make test
@@ -67,8 +65,6 @@ make test
 ### Task 4 (optional) Put it in a python script
 
 Try to implement the recommendation.py script following the doc strings
-
-
 
 
 ## 🏁 Finished

@@ -1,6 +1,6 @@
 # Kimball
 
-We have our raw dataset it is time to follow the kimball approach
+We have our raw dataset, which means that it is time to follow the Kimball approach!
 
 ## Designing the mart
 
@@ -17,12 +17,12 @@ You now need to answer the following questions:
 ❓ Design Question: What is the grain of the data mart?
 ❓ Design Question: What is the best way to model the data mart?
 
-These types of questions are hard to answer alone discuss with your teammates and come up with a solution.
+These types of questions are hard to answer alone, so take some time to discuss with your teammates and come up with a solution.
 
 <details>
 <summary markdown='span'>💡 One solution (feel free to follow your own design)</summary>
 
-**Data Engineer's Action**: To tackle this request, you decide to create a sales-focused data mart. You identify the following dimension tables: `TerritoryDim`, `SpecialOfferDim, and `DateDim`. Your central fact table is `Fact_Sales`, which holds the key metrics like `SalesAmount`, `Quantity`, and foreign keys to dimension tables for a first fact table we normally want to go the finest grain possible to item by item
+**Data Engineer's Action**: To tackle this request, you decide to create a sales-focused data mart. You identify the following dimension tables: `TerritoryDim`, `SpecialOfferDim`, and `DateDim`. Your central fact table is `Fact_Sales`, which holds the key metrics like `SalesAmount`, `Quantity`, and foreign keys to dimension tables for a first fact table. We normally want to go the finest grain possible, ie. item by item.
 
 
 </details>
@@ -30,7 +30,7 @@ These types of questions are hard to answer alone discuss with your teammates an
 
 **Build the tables**
 
-❓ Build the  fact and dimension tables in a new dataset called sales_mart
+❓ Build the fact and dimension tables in a new dataset called `sales_mart`
 
 
 **Build the queries**
@@ -70,7 +70,7 @@ Volume Discount 11 to 14
 
 ### Follow up requests
 
-We find ourselves making lots of queries at a granularity of territory per month and we want to optimize our queries therefore we decide to create a new table that will be a snapshot of the sales per month and territory.
+We find ourselves making lots of queries at a granularity of territory per month and we want to optimize our queries. We decide to create a new table that will be a snapshot of the sales per month and territory.
 
 ❓ Create a new fact table called `MonthlySalesSnapshotFact` that will be a snapshot of the sales per month and territory.
 
@@ -98,8 +98,8 @@ By creating a specialized table like `MonthlySalesSnapshotFact`, you align well 
 
 ### Optional
 
-Instead of setting up a star schema you could attempt to model the data using a snowflake schema. This is a more complex schema but it can be more flexible and easier to maintain. If you want to go even further you could try to add another business unit and build a galaxy schema. The best way to understand data warehousing is to take the time to build one yourself don't be afraid to make mistakes.
+Instead of setting up a star schema, you could attempt to model the data using a snowflake schema. This is a more complex schema but it can be more flexible and easier option to maintain. If you want to go even further, you could try to add another business unit and build a galaxy schema. The best way to understand data warehousing is to take the time to build one yourself - don't be afraid to make mistakes!
 
-The kimball group has a lot of resources on data warehousing and dimensional modeling. You can find them here:
+The Kimball group has a lot of resources on data warehousing and dimensional modeling. You can find them here:
 
 https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/

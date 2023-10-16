@@ -20,7 +20,7 @@ Install graph viz
 sudo apt install graphviz
 ```
 
-Run schema spy and launch the index.html and explore the docs!
+Run the schema spy and launch the index.html. Take some time to explore the docs!
 
 ```bash
 java -jar schemaspy-6.2.4.jar -t pgsql -dp postgresql-42.6.0.jar -db pagila -host 0.0.0.0:5410 -u $POSTGRES_USER -p $POSTGRES_PASSWORD -o output

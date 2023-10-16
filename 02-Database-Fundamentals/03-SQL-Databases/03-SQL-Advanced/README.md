@@ -1,6 +1,6 @@
 ## 🎯 Goal
 
-Now we're switching to a more "Data Analyst" type of question. Provided the data is clean (your data engineers have written a bunch of tests upstream in the pipeline, and they're all green), you're being asked from a business stakeholder to answer a couple of questions about the film industry.
+Now we're switching to a field more relevant for "Data Analysts". Provided the data is clean (your data engineers have written a bunch of tests upstream in the pipeline, and they're all green), you're being asked from a business stakeholder to answer a couple of questions about the film industry.
 
 What we're trying to get out of this analysis is whether producers manage to produce movies that are more and more profitable over time.
 
@@ -9,11 +9,11 @@ Concepts:
 - Window Functions (`OVER`)
 - Mathematical operations on columns
 
-## 💻 Tasks
+## Tasks
 
 First, copy you `.env` file from the previous challenge inside this challenge's folder, so you'll be able to run the tests, which will connect to your database.
 
-1️⃣ **❓ Write a query** that provides the absolute profit done by each movie, as well as its profit percentage (rounded with 2 decimals), for the movies that have both a `budget` and a `revenue` populated - meaning those 2 fields are not empty, and not equal to 0. Rank the movies by the most profitable ones in terms of profit percentage. The profit percentage is defined as `(Revenue - Budget) / Budget`.
+**❓ Write a query** that provides the absolute profit done by each movie, as well as its profit percentage (rounded with 2 decimals), for the movies that have both a `budget` and a `revenue` populated - meaning those 2 fields are not empty, and not equal to 0. Rank the movies by the most profitable ones in terms of profit percentage. The profit percentage is defined as `(Revenue - Budget) / Budget`.
 
 Your output should at least contain 3 fields :
 - the `id` of the movie
@@ -21,13 +21,13 @@ Your output should at least contain 3 fields :
 - and a `profit_percentage`
 
 
-🤔 The data still seems not very clean: there are records where the `budget` and the `revenue` are extremely low, and don't seem to reflect the reality. **❓ Rewrite this query**, focusing on movies that have both a `budget` and a `revenue` > 10,000.
+The data still seems to not be that clean: there are records where the `budget` and the `revenue` are extremely low, and don't seem to reflect the reality. **❓ Rewrite this query**, focusing on movies that have both a `budget` and a `revenue` > 10,000.
 
 🧪 Store your code in `exercice-1.sql` and `pytest tests/test_exercice_1.py` to check your results
 
 <br>
 
-2️⃣ **❓ What's the average absolute profit, the average revenue, and the average profit percentage per year?**
+**❓ What's the average absolute profit, the average revenue, and the average profit percentage per year?**
 - Order your output by the most recent year, still excluding movies with a `budget` or a `revenue` <= 10 000.
 - The output of the query should be 4 columns:
     - `release_year`
@@ -39,7 +39,7 @@ Your output should at least contain 3 fields :
 
 <br>
 
-3️⃣ As a followup from the previous question, let's focus on temporal dynamics: **❓ What's the % of growth year over year for the `avg_profit_absolute`?**.
+As a follow up from the previous question, let's focus on temporal dynamics: **❓ What's the % of growth year over year for the `avg_profit_absolute`?**.
 - Add this new columns to the previous output. You should have 5 columns:
     - `release_year`
     - `avg_revenue`
@@ -58,7 +58,7 @@ Checkout `LEAD()` SQL function
 <br>
 
 
-4️⃣ Since question 1, we've been excluding movies where the `revenue` or the `budget` were not populated well because < 10,000$. This challenges a lot the conclusions we could draw from our analysis. The underlying concept we're addressing here is called "Data Quality".
+Since question 1, we've been excluding movies where the `revenue` or the `budget` were not populated well because < 10,000$. This challenges a lot the conclusions we could draw from our analysis. The underlying concept we're addressing here is called "Data Quality".
 
 **❓Could you evaluate the % of bad data that populates this profit table**.
 
@@ -71,7 +71,7 @@ Checkout `LEAD()` SQL function
 
 <br>
 
-**🏁 Congratulation for the day ! 🧪 `make test` to check all your results at once, and _Push_ your code so we can track your progress!**
+**🏁 Congratulations for making it here! 🧪 `make test` to check all your results at once, and _Push_ your code so we can track your progress!**
 
 
 ## Optional: Read and understand our tests
