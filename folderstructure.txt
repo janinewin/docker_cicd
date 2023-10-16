@@ -1,0 +1,1863 @@
+.
+├── 01-Software-Engineering-Best-Practices
+│   ├── 01-Setup
+│   │   ├── 00-Test-Setup
+│   │   │   ├── app
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── main.py
+│   │   │   ├── .envrc
+│   │   │   ├── .envsample
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_your_function.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 01-Package-creation
+│   │   │   └── README.md
+│   │   ├── 02-Linux-and-Bash
+│   │   │   └── README.md
+│   │   └── README.md
+│   ├── 02-Python-For-Data-Engineering
+│   │   ├── 01-API-Requests
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pokemon
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── lookup.py
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_lookup.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 02-Image-transformation
+│   │   │   ├── .envrc
+│   │   │   ├── .gitignore
+│   │   │   ├── image_processing
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── process.py
+│   │   │   │   └── read.py
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_process.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 03-Pandas
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── pandas_pipeline
+│   │   │   │   ├── best_books.py
+│   │   │   │   ├── category_distribution.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── load.py
+│   │   │   │   ├── pipeline.py
+│   │   │   │   ├── review_years.py
+│   │   │   │   ├── top_authors.py
+│   │   │   │   └── utils
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   └── test_pipeline.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── etc
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 04-Dash
+│   │   │   ├── dashboard.py
+│   │   │   ├── .envrc
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── etc
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 05-Recap
+│   │   │   ├── .envrc
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── recap.ipynb
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── etc
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   └── README.md
+│   ├── 03-Best-Practices
+│   │   ├── 01-Github-Flow
+│   │   │   └── README.md
+│   │   ├── 02-TDD
+│   │   │   └── README.md
+│   │   ├── 03-Continuous-Integration
+│   │   │   └── README.md
+│   │   ├── 04-Continuous-Deployment
+│   │   │   └── README.md
+│   │   ├── 05-Continous-Deployment-Gemfury
+│   │   │   ├── .github
+│   │   │   │   └── workflows
+│   │   │   └── README.md
+│   │   ├── 06-Recap
+│   │   │   └── README.md
+│   │   ├── old
+│   │   │   └── Jenkins
+│   │   │       └── README.md
+│   │   └── README.md
+│   ├── 04-Data-Lakes
+│   │   ├── 01-Scraping
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── scraper
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── main.py
+│   │   │   │   └── scrape.py
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_html.txt
+│   │   │   │   └── test_scrape.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 02-Upload
+│   │   │   ├── .envrc
+│   │   │   ├── .env.sample
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── scraper
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── main.py
+│   │   │   │   ├── scrape.py
+│   │   │   │   └── upload.py
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_upload.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 03-Great-expectations
+│   │   │   ├── data-source.ipynb
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── scraper
+│   │   │   │   ├── expectations.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── main.py
+│   │   │   │   ├── scrape.py
+│   │   │   │   └── upload.py
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_expectations.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── etc
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 04-Tagging
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── scraper
+│   │   │   │   ├── expectations.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── main.py
+│   │   │   │   ├── scrape.py
+│   │   │   │   ├── tag.py
+│   │   │   │   └── upload.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── etc
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 05-Automation
+│   │   │   ├── .gitignore
+│   │   │   └── README.md
+│   │   ├── 06-Amundsen
+│   │   │   ├── .envrc
+│   │   │   ├── .gitignore
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   └── README.md
+│   ├── 05-Docker-and-Deployment
+│   │   ├── 01-Docker-101
+│   │   │   ├── makefile
+│   │   │   ├── README.md
+│   │   │   └── tests
+│   │   │       ├── __init__.py
+│   │   │       └── test_pass.py
+│   │   ├── 02-Dockerfile
+│   │   │   ├── app
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── main.py
+│   │   │   ├── dockerfile-nonroot
+│   │   │   ├── dockerfile-task-1
+│   │   │   ├── dockerfile-task-2
+│   │   │   ├── dockerfile-task-3-1
+│   │   │   ├── dockerfile-task-3-2
+│   │   │   ├── .dockerignore
+│   │   │   ├── .envrc
+│   │   │   ├── makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_task_1.py
+│   │   │   │   ├── test_task_2.py
+│   │   │   │   └── test_task_3.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 03-Deployment
+│   │   │   ├── app
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── main.py
+│   │   │   ├── Dockerfile
+│   │   │   ├── .dockerignore
+│   │   │   ├── .envrc
+│   │   │   ├── .env.sample
+│   │   │   ├── makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 04-CI-CD
+│   │   │   └── README.md
+│   │   ├── 05-Multistage-builds
+│   │   │   ├── Dockerfile-multi-stage
+│   │   │   ├── Dockerfile-single-stage
+│   │   │   ├── main.go
+│   │   │   ├── python
+│   │   │   │   ├── Dockerfile.big
+│   │   │   │   ├── Dockerfile.multi
+│   │   │   │   ├── .envrc
+│   │   │   │   ├── main.py
+│   │   │   │   ├── poetry.lock
+│   │   │   │   ├── pyproject.toml
+│   │   │   │   └── .venv
+│   │   │   └── README.md
+│   │   └── README.md
+│   └── README.md
+├── 02-Database-Fundamentals
+│   ├── 01-SQL-Basics
+│   │   ├── 01-Setup
+│   │   │   ├── actor_query.sql
+│   │   │   ├── .envrc
+│   │   │   ├── .env.sample
+│   │   │   ├── Makefile
+│   │   │   ├── monthly_revenue_query.sql
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── rentals_query.sql
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_queries.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 02-Querying
+│   │   │   ├── category_performance_query.sql
+│   │   │   ├── co_stars_query.sql
+│   │   │   ├── .envrc
+│   │   │   ├── last_rental_query.sql
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── rental_duration_query.sql
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_queries.py
+│   │   │   ├── .venv
+│   │   │   │   ├── bin
+│   │   │   │   ├── .gitignore
+│   │   │   │   ├── lib
+│   │   │   │   └── pyvenv.cfg
+│   │   │   └── weekly_trends_query.sql
+│   │   ├── 03-Recommendation-system
+│   │   │   ├── .envrc
+│   │   │   ├── improved_text_search_query.sql
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── recommendation.py
+│   │   │   ├── recommendation_query.sql
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_queries.py
+│   │   │   ├── text_search_query.sql
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 04-Create-SQL
+│   │   │   ├── .envrc
+│   │   │   ├── lwsql
+│   │   │   │   ├── btree.py
+│   │   │   │   ├── db.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── parser.py
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   └── tests
+│   │   │       ├── __init__.py
+│   │   │       ├── test_db.py
+│   │   │       └── test_parser.py
+│   │   ├── README.md
+│   │   └── Recap
+│   │       ├── .envrc
+│   │       ├── output
+│   │       │   └── .gitkeep
+│   │       └── README.md
+│   ├── 02-Data-Warehousing
+│   │   ├── 01-Adventure-works
+│   │   │   ├── .envrc
+│   │   │   ├── .env.sample
+│   │   │   ├── .gitignore
+│   │   │   ├── pipeline
+│   │   │   │   ├── create_tables.py
+│   │   │   │   ├── process_csvs.py
+│   │   │   │   ├── process_store.py
+│   │   │   │   ├── schemas.py
+│   │   │   │   └── upload_data.py
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 02-Kimball
+│   │   │   └── README.md
+│   │   ├── 03-Access
+│   │   │   ├── README.md
+│   │   │   └── view.sql
+│   │   ├── README.md
+│   │   └── Recap
+│   │       └── README.md
+│   ├── 03-SQL-Databases
+│   │   ├── 00-Setup
+│   │   │   ├── .envrc
+│   │   │   ├── .env-sample
+│   │   │   ├── .gitignore
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── teacher.csv
+│   │   │   ├── tests
+│   │   │   │   └── test_db.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 01-Movies-DB
+│   │   │   ├── data
+│   │   │   │   └── .gitkeep
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── ratings_copy.sql
+│   │   │   ├── ratings_create.sql
+│   │   │   ├── ratings_update.sql
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── test_2.py
+│   │   │   │   └── test_3.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 02-SQL-Basics
+│   │   │   ├── .envrc
+│   │   │   ├── exercice-1.sql
+│   │   │   ├── exercice-2.sql
+│   │   │   ├── exercice-3.sql
+│   │   │   ├── exercice-4-1.sql
+│   │   │   ├── exercice-4-2.sql
+│   │   │   ├── exercice-5.sql
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_exercice_4_1.py
+│   │   │   │   └── test_exercice_5.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 03-SQL-Advanced
+│   │   │   ├── .envrc
+│   │   │   ├── exercice-1.sql
+│   │   │   ├── exercice-2.sql
+│   │   │   ├── exercice-3.sql
+│   │   │   ├── exercice-4.sql
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_exercice_1.py
+│   │   │   │   ├── test_exercice_2.py
+│   │   │   │   ├── test_exercice_3.py
+│   │   │   │   └── test_exercice_4.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 04-Indexing
+│   │   │   ├── challenge.ipynb
+│   │   │   ├── .envrc
+│   │   │   ├── .gitignore
+│   │   │   ├── lwdb
+│   │   │   │   ├── db.py
+│   │   │   │   └── __init__.py
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── sql
+│   │   │   │   ├── add_text_col.sql
+│   │   │   │   ├── index_btree.sql
+│   │   │   │   ├── index_textsearch.sql
+│   │   │   │   ├── prep_load.sql
+│   │   │   │   ├── prep_schema.sql
+│   │   │   │   ├── search-chair-indexed.sql
+│   │   │   │   └── search-chair.sql
+│   │   │   ├── tests
+│   │   │   │   └── test_all.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 05-WAL
+│   │   │   ├── cdc.py
+│   │   │   ├── .envrc
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── README.md
+│   │   └── Recap
+│   │       ├── exercise-1.dbml
+│   │       ├── exercise-2.sql
+│   │       └── README.md
+│   ├── 04-Backend-and-Database-Management
+│   │   ├── 01-Twitter-CRUD
+│   │   │   ├── .envrc
+│   │   │   ├── .env.sample
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_db.py
+│   │   │   ├── twitter_api
+│   │   │   │   ├── crud.py
+│   │   │   │   ├── database.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── main.py
+│   │   │   │   ├── models.py
+│   │   │   │   └── schemas.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 02-Twitter-in-Production
+│   │   │   ├── alembic
+│   │   │   │   ├── env.py
+│   │   │   │   ├── README
+│   │   │   │   ├── script.py.mako
+│   │   │   │   └── versions
+│   │   │   ├── alembic.ini
+│   │   │   ├── Dockerfile
+│   │   │   ├── .dockerignore
+│   │   │   ├── .envrc
+│   │   │   ├── .env.sample
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── twitter_api
+│   │   │   │   ├── crud.py
+│   │   │   │   ├── database.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── main.py
+│   │   │   │   ├── models.py
+│   │   │   │   └── schemas.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── README.md
+│   │   └── Recap
+│   │       └── README.md
+│   ├── 05-Docker-compose
+│   │   ├── 01-Docker-Compose
+│   │   │   ├── api
+│   │   │   │   ├── database.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── main.py
+│   │   │   ├── api-no-database
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── main.py
+│   │   │   ├── database
+│   │   │   │   └── 01-init.sh
+│   │   │   ├── docker-compose-1.yml
+│   │   │   ├── docker-compose-2.yml
+│   │   │   ├── docker-compose-3.yml
+│   │   │   ├── dockerfile-fastapi
+│   │   │   ├── .dockerignore
+│   │   │   ├── .envrc
+│   │   │   ├── makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── test_task_1.py
+│   │   │   │   ├── test_task_2.py
+│   │   │   │   └── test_task_3.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 02-Twitter-sharding
+│   │   │   ├── database
+│   │   │   │   └── 01-init.sh
+│   │   │   ├── docker-compose.yml
+│   │   │   ├── dockerfile-fastapi
+│   │   │   ├── .dockerignore
+│   │   │   ├── .envrc
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tweets_api
+│   │   │   │   ├── crud.py
+│   │   │   │   ├── database.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── main.py
+│   │   │   │   ├── models.py
+│   │   │   │   └── schemas.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 03-Docker-under-the-hood
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 04-Recap
+│   │   │   └── README.md
+│   │   └── README.md
+│   └── README.md
+├── 03-Data-Storage-and-Batch-Pipelines
+│   ├── 01-ETL-and-introduction-to-Airflow
+│   │   ├── 01-Breaking-Bad
+│   │   │   ├── dags
+│   │   │   │   ├── breaking_bad_quotes.py
+│   │   │   │   └── .gitkeep
+│   │   │   ├── data
+│   │   │   │   └── .gitkeep
+│   │   │   ├── docker-compose.yml
+│   │   │   ├── Dockerfile
+│   │   │   ├── .envrc
+│   │   │   ├── .gitignore
+│   │   │   ├── logs
+│   │   │   │   └── .gitkeep
+│   │   │   ├── makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── scripts
+│   │   │   │   └── entrypoint.sh
+│   │   │   ├── tests
+│   │   │   │   ├── data
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── lewagonde.py
+│   │   │   │   ├── temp
+│   │   │   │   ├── test_dag_config.py
+│   │   │   │   ├── test_docker_compose.py
+│   │   │   │   ├── test_dockerfile.py
+│   │   │   │   ├── test_python_functions.py
+│   │   │   │   ├── test_setup.py
+│   │   │   │   └── test_tasks_configs.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 02-Local-ETL
+│   │   │   ├── dags
+│   │   │   │   └── local_etl.py
+│   │   │   ├── docker-compose.yml
+│   │   │   ├── Dockerfile
+│   │   │   ├── .envrc
+│   │   │   ├── env-template
+│   │   │   ├── .gitignore
+│   │   │   ├── makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── scripts
+│   │   │   │   ├── entrypoint.sh
+│   │   │   │   └── init_connections.sh
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── scripts
+│   │   │   │   ├── temp
+│   │   │   │   ├── test_dag_config.py
+│   │   │   │   ├── test_python_functions.py
+│   │   │   │   └── test_tasks_configs.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── README.md
+│   │   └── Recap
+│   │       └── README.md
+│   ├── 02-ELT-DBT
+│   │   ├── 01-Setup-DBT
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_dbt_profile.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 02-DBT-Basics
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── stg_hackernews_comment.sql
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_hackernews_full.py
+│   │   │   │   └── test_hackernews_story_comment.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 03-DBT-Advanced
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_dbt_documentation_file_created.py
+│   │   │   │   ├── test_dbt_documentation_file_populated.py
+│   │   │   │   ├── test_dbt_package_exists.py
+│   │   │   │   └── test_mart_user.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 04-DBT-Optimization-Optional
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_dbt_project_created.py
+│   │   │   │   ├── test_dbt_variable_created.py
+│   │   │   │   ├── test_sql_macro_file_created.py
+│   │   │   │   └── test_sql_macros_created.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 05-Recap
+│   │   │   └── README.md
+│   │   ├── dbt_lewagon_post_setup
+│   │   │   ├── analyses
+│   │   │   │   └── .gitkeep
+│   │   │   ├── data
+│   │   │   │   └── .gitkeep
+│   │   │   ├── dbt_project.yml
+│   │   │   ├── .gitignore
+│   │   │   ├── macros
+│   │   │   │   ├── .gitkeep
+│   │   │   │   └── meta
+│   │   │   ├── models
+│   │   │   │   └── example
+│   │   │   ├── README.md
+│   │   │   ├── snapshots
+│   │   │   │   └── .gitkeep
+│   │   │   └── tests
+│   │   │       └── .gitkeep
+│   │   ├── .gitignore
+│   │   └── README.md
+│   ├── 03-Pipeline-Orchestration
+│   │   ├── 01-Advanced-Airflow
+│   │   │   ├── dags
+│   │   │   │   ├── extract.py
+│   │   │   │   ├── load.py
+│   │   │   │   └── transform.py
+│   │   │   ├── data
+│   │   │   │   ├── bronze
+│   │   │   │   └── silver
+│   │   │   ├── docker-compose.yml
+│   │   │   ├── Dockerfile
+│   │   │   ├── .envrc
+│   │   │   ├── env-template
+│   │   │   ├── .gitignore
+│   │   │   ├── logs
+│   │   │   │   └── .gitkeep
+│   │   │   ├── makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── scripts
+│   │   │   │   └── entrypoint.sh
+│   │   │   ├── tests
+│   │   │   │   ├── data
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── lewagonde.py
+│   │   │   │   ├── scripts
+│   │   │   │   ├── test_extract_dag.py
+│   │   │   │   ├── test_load_dag.py
+│   │   │   │   └── test_transform_dag.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 02-DBT-in-Airflow
+│   │   │   ├── dags
+│   │   │   │   ├── advanced
+│   │   │   │   ├── basic
+│   │   │   │   └── __init__.py
+│   │   │   ├── data
+│   │   │   │   └── .gitkeep
+│   │   │   ├── dbt_lewagon
+│   │   │   │   ├── analyses
+│   │   │   │   ├── dbt_project.yml
+│   │   │   │   ├── macros
+│   │   │   │   ├── manifest.json
+│   │   │   │   ├── models
+│   │   │   │   ├── seeds
+│   │   │   │   ├── snapshots
+│   │   │   │   └── tests
+│   │   │   ├── docker-compose.yml
+│   │   │   ├── Dockerfile
+│   │   │   ├── .envrc
+│   │   │   ├── env-template
+│   │   │   ├── .gitignore
+│   │   │   ├── logs
+│   │   │   │   └── .gitkeep
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── scripts
+│   │   │   │   └── entrypoint.sh
+│   │   │   ├── tests
+│   │   │   │   ├── advanced
+│   │   │   │   ├── basic
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── lewagonde.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 03-Recap
+│   │   │   └── README.md
+│   │   └── README.md
+│   ├── 04-Visualization-Best-Practices
+│   │   ├── 00-Metabase
+│   │   │   ├── database
+│   │   │   │   └── init
+│   │   │   ├── docker-compose.yml
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── etc
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 01-Streamlit
+│   │   │   ├── docker-compose-advanced.yml
+│   │   │   ├── docker-compose-basic.yml
+│   │   │   ├── Dockerfile
+│   │   │   ├── .envrc
+│   │   │   ├── f1dashboard
+│   │   │   │   ├── advanced
+│   │   │   │   ├── advanced.py
+│   │   │   │   ├── basic.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── pages
+│   │   │   ├── .gitignore
+│   │   │   ├── Makefile
+│   │   │   ├── notebook
+│   │   │   │   └── debug.ipynb
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── .readthedocs.yaml
+│   │   │   ├── .streamlit
+│   │   │   │   └── config.toml
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── etc
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── .gitignore
+│   │   ├── Makefile
+│   │   ├── README.md
+│   │   └── Recap
+│   │       └── README.md
+│   ├── 05-Kubernetes
+│   │   ├── 01-Minikube-Kubectl
+│   │   │   ├── api
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── main.py
+│   │   │   ├── Dockerfile
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_your_function.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 02-Streamlit-K8s-Deployment
+│   │   │   ├── Dockerfile
+│   │   │   ├── .dockerignore
+│   │   │   ├── f1dashboard
+│   │   │   │   ├── advanced
+│   │   │   │   ├── advanced.py
+│   │   │   │   ├── basic.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── pages
+│   │   │   ├── .gitignore
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── etc
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 03-Kompose
+│   │   │   ├── backend
+│   │   │   │   ├── config.py
+│   │   │   │   ├── Dockerfile
+│   │   │   │   ├── getmodels.sh
+│   │   │   │   ├── inference.py
+│   │   │   │   ├── main.py
+│   │   │   │   ├── README.md
+│   │   │   │   └── requirements.txt
+│   │   │   ├── docker-compose-solution.yaml
+│   │   │   ├── docker-compose.yaml
+│   │   │   ├── frontend
+│   │   │   │   ├── Dockerfile
+│   │   │   │   ├── main.py
+│   │   │   │   ├── README.md
+│   │   │   │   └── requirements.txt
+│   │   │   └── README.md
+│   │   ├── 04-Sidecar
+│   │   │   ├── README.md
+│   │   │   ├── style-deployment.yml
+│   │   │   └── style-service.yml
+│   │   ├── 05-Helm
+│   │   │   ├── .env.copy
+│   │   │   ├── .envrc
+│   │   │   ├── .gitignore
+│   │   │   ├── helm-values.yaml.copy
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── README.md
+│   │   └── Recap
+│   │       └── README.md
+│   └── README.md
+├── 04-Data-at-Scale
+│   ├── 01-Spark-Basics
+│   │   ├── 01-Python-Vectorization
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── python_vectorization.ipynb
+│   │   │   ├── README.md
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 02-Map-Reduce
+│   │   │   ├── .envrc
+│   │   │   ├── .gitignore
+│   │   │   ├── lwmr
+│   │   │   │   ├── impl_mapreduce.py
+│   │   │   │   ├── impl_python.py
+│   │   │   │   └── text_processing.py
+│   │   │   ├── Makefile
+│   │   │   ├── perf.yml
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── sample.txt
+│   │   │   │   └── test_all.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 03-Python-Distribution
+│   │   │   ├── .envrc
+│   │   │   ├── poetry.lock
+│   │   │   ├── polars
+│   │   │   │   └── polars_vs_pandas.ipynb
+│   │   │   ├── pyproject.toml
+│   │   │   ├── pyspark
+│   │   │   │   └── pyspark.ipynb
+│   │   │   ├── README.md
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── etc
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 04-Dask-K8s
+│   │   │   ├── config.yaml
+│   │   │   ├── dask.ipynb
+│   │   │   ├── .envrc
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── etc
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── old
+│   │   │   ├── 03-Image-Transformation
+│   │   │   │   ├── Dockerfile
+│   │   │   │   ├── .envrc
+│   │   │   │   ├── .gitignore
+│   │   │   │   ├── lwface
+│   │   │   │   ├── Makefile
+│   │   │   │   ├── poetry.lock
+│   │   │   │   ├── pyproject.toml
+│   │   │   │   ├── README.md
+│   │   │   │   ├── tests
+│   │   │   │   └── .venv
+│   │   │   └── 04-Beam-Advanced
+│   │   │       ├── .envrc
+│   │   │       ├── Makefile
+│   │   │       ├── poetry.lock
+│   │   │       ├── pyproject.toml
+│   │   │       └── README.md
+│   │   ├── README.md
+│   │   └── Recap
+│   │       └── README.md
+│   ├── 02-Spark-Advanced
+│   │   ├── 01-NYC-Taxis
+│   │   │   ├── dags
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── spark_pipeline.py
+│   │   │   ├── docker-compose.yml
+│   │   │   ├── Dockerfile
+│   │   │   ├── .dockerignore
+│   │   │   ├── .envrc
+│   │   │   ├── .env.sample
+│   │   │   ├── .gitignore
+│   │   │   ├── Makefile
+│   │   │   ├── notebooks
+│   │   │   │   └── test.ipynb
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── scripts
+│   │   │   │   └── entrypoint.sh
+│   │   │   ├── taxi_spark
+│   │   │   │   ├── functions
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── jobs
+│   │   │   └── tests
+│   │   │       ├── conftest.py
+│   │   │       ├── __init__.py
+│   │   │       └── test_taxi_spark
+│   │   └── README.md
+│   ├── 03-Streaming
+│   │   ├── 01-Chatroom
+│   │   │   ├── docker-compose.yml
+│   │   │   ├── .envrc
+│   │   │   ├── env-template
+│   │   │   ├── lwqueue
+│   │   │   │   ├── message.py
+│   │   │   │   ├── rabbitmq.py
+│   │   │   │   ├── rabbitmq_send_message.py
+│   │   │   │   ├── rabbitmq_subscriber.py
+│   │   │   │   └── ui.py
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── test_all.py
+│   │   │   │   └── _x
+│   │   │   ├── tests.json
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 02-Chatroom-analytics
+│   │   │   ├── docker-compose.yml
+│   │   │   ├── .envrc
+│   │   │   ├── env-template
+│   │   │   ├── lwqueue
+│   │   │   │   ├── clickhouse_queries.py
+│   │   │   │   ├── message.py
+│   │   │   │   ├── rabbitmq_clickhouse.py
+│   │   │   │   ├── rabbitmq.py
+│   │   │   │   ├── rabbitmq_send_message.py
+│   │   │   │   ├── rabbitmq_subscriber.py
+│   │   │   │   └── ui.py
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── generate_hashes.py
+│   │   │   │   ├── test_all.py
+│   │   │   │   └── _x
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       └── pyvenv.cfg
+│   │   ├── 03-Rabbit-mq
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   └── README.md
+│   │   └── Recap
+│   │       └── README.md
+│   ├── 04-Stream-Processing
+│   │   ├── 01-Data-Generation
+│   │   │   ├── .envrc
+│   │   │   ├── Makefile
+│   │   │   ├── notebook
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── visualize.ipynb
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   └── tests
+│   │   │       ├── __init__.py
+│   │   │       └── test_your_function.py
+│   │   ├── 02-Beam-Transformations
+│   │   │   ├── app
+│   │   │   │   ├── beam_sample.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── utils.py
+│   │   │   ├── .envrc
+│   │   │   ├── .env.sample
+│   │   │   ├── .gitignore
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_beam_output.py
+│   │   │   │   ├── test_beam_read.py
+│   │   │   │   ├── test_beam_windowing.py
+│   │   │   │   └── utils.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 03-Queues-Streaming
+│   │   │   ├── app
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── publisher.py
+│   │   │   │   ├── subscriber-basics.py
+│   │   │   │   ├── subscriber-beam.py
+│   │   │   │   └── utils.py
+│   │   │   ├── .envrc
+│   │   │   ├── .env.sample
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_your_function.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 04-Serialization
+│   │   │   ├── api
+│   │   │   │   ├── generated_proto
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── proto_rpc_client.py
+│   │   │   │   ├── proto_rpc_server.py
+│   │   │   │   ├── protos
+│   │   │   │   ├── rest_api.py
+│   │   │   │   ├── rural_client.py
+│   │   │   │   ├── rural.py
+│   │   │   │   └── rural_server.py
+│   │   │   ├── .envrc
+│   │   │   ├── .gitignore
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_all.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── etc
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── README.md
+│   │   └── Recap
+│   │       ├── Dockerfile
+│   │       ├── .envrc
+│   │       ├── lwrecap
+│   │       │   └── monolith
+│   │       ├── Makefile
+│   │       ├── poetry.lock
+│   │       ├── pyproject.toml
+│   │       ├── README.md
+│   │       └── .venv
+│   │           ├── bin
+│   │           ├── .gitignore
+│   │           ├── lib
+│   │           ├── pyvenv.cfg
+│   │           └── share
+│   ├── 05-Scaling-Up-Requests
+│   │   ├── 01-Async
+│   │   │   ├── Dockerfile
+│   │   │   ├── .dockerignore
+│   │   │   ├── .envrc
+│   │   │   ├── lwasync
+│   │   │   │   ├── client_asynchronous.py
+│   │   │   │   ├── client_synchronous.py
+│   │   │   │   └── server.py
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── test_sayhi.py
+│   │   │   │   └── test_serverless.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 02-Load-Testing
+│   │   │   ├── app
+│   │   │   │   ├── config.py
+│   │   │   │   ├── fibonacci.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── logging.conf
+│   │   │   │   ├── logs
+│   │   │   │   ├── main.py
+│   │   │   │   └── request_models.py
+│   │   │   ├── docker-compose-task-1.yml
+│   │   │   ├── docker-compose-task-2.yml
+│   │   │   ├── Dockerfile-fastapi
+│   │   │   ├── Dockerfile-gunicorn-poetry
+│   │   │   ├── .dockerignore
+│   │   │   ├── .envrc
+│   │   │   ├── .env.sample
+│   │   │   ├── locust.py
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── test_docker_compose.py
+│   │   │   │   └── test_logging_conf.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 03-Architecture
+│   │   │   └── README.md
+│   │   ├── Optional-03-Logstash
+│   │   │   ├── api
+│   │   │   │   ├── database.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── main.py
+│   │   │   ├── database
+│   │   │   │   └── 01-init.sh
+│   │   │   ├── docker-compose.yml
+│   │   │   ├── dockerfile-fastapi
+│   │   │   ├── .dockerignore
+│   │   │   ├── .envrc
+│   │   │   ├── .env.sample
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── include
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   └── README.md
+│   └── README.md
+├── 05-Projects
+│   ├── 01-Project-Kickoff
+│   │   ├── 01-Project-Kickoff
+│   │   │   └── README.md
+│   │   └── README.md
+│   ├── 02-Infrastructure-As-Code
+│   │   ├── 01-Terraform-Demo
+│   │   │   ├── .gitignore
+│   │   │   ├── modules
+│   │   │   │   └── vm
+│   │   │   ├── production
+│   │   │   │   ├── backend.tf.example
+│   │   │   │   ├── main.tf
+│   │   │   │   ├── provider.tf
+│   │   │   │   ├── terraform.tfvars
+│   │   │   │   └── variables.tf
+│   │   │   └── README.md
+│   │   └── README.md
+│   ├── 03-Graph-Databases
+│   │   ├── 01-Neo4J
+│   │   │   ├── docker-compose.yml
+│   │   │   ├── .envrc
+│   │   │   ├── env-template
+│   │   │   ├── .gitignore
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   └── test_all.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── etc
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   ├── 02-Dgraph-Demo
+│   │   │   ├── infrastructure
+│   │   │   │   ├── firewall.tf
+│   │   │   │   ├── .gitignore
+│   │   │   │   ├── master.sh
+│   │   │   │   ├── master.tf
+│   │   │   │   ├── provider.tf
+│   │   │   │   ├── terraform.tfvars
+│   │   │   │   ├── variables.tf
+│   │   │   │   ├── vpc.tf
+│   │   │   │   ├── worker.sh
+│   │   │   │   └── worker.tf
+│   │   │   └── README.md
+│   │   └── README.md
+│   ├── 04-No-SQl-Databases
+│   │   ├── 01-ScyllaDB
+│   │   │   └── README.md
+│   │   ├── 02-MongoDB
+│   │   │   ├── answers
+│   │   │   │   └── README.md
+│   │   │   ├── app
+│   │   │   │   ├── ingest.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── pymongo_get_database.py
+│   │   │   │   └── query.py
+│   │   │   ├── data
+│   │   │   │   └── .gitignore
+│   │   │   ├── docker-compose.yaml
+│   │   │   ├── .envrc
+│   │   │   ├── env-template
+│   │   │   ├── .gitignore
+│   │   │   ├── Makefile
+│   │   │   ├── poetry.lock
+│   │   │   ├── pyproject.toml
+│   │   │   ├── README.md
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_query.py
+│   │   │   └── .venv
+│   │   │       ├── bin
+│   │   │       ├── .gitignore
+│   │   │       ├── lib
+│   │   │       ├── pyvenv.cfg
+│   │   │       └── share
+│   │   └── README.md
+│   ├── 05-Demo-Day
+│   │   └── README.md
+│   └── README.md
+├── CHEATSHEET.md
+├── common
+│   ├── docker
+│   │   ├── Dockerfile.python.base
+│   │   └── Makefile
+│   ├── hnstream
+│   │   ├── client.py
+│   │   ├── Dockerfile
+│   │   ├── .envrc
+│   │   ├── hnstream
+│   │   │   ├── bq.py
+│   │   │   ├── __init__.py
+│   │   │   ├── pyproto
+│   │   │   │   ├── server_pb2_grpc.py
+│   │   │   │   └── server_pb2.py
+│   │   │   └── queries.py
+│   │   ├── Makefile
+│   │   ├── poetry.lock
+│   │   ├── proto
+│   │   │   └── server.proto
+│   │   ├── pyproject.toml
+│   │   ├── README.md
+│   │   ├── server.py
+│   │   ├── tests
+│   │   │   ├── __init__.py
+│   │   │   └── test_hnstream.py
+│   │   └── .venv
+│   │       ├── bin
+│   │       │   ├── activate
+│   │       │   ├── activate.csh
+│   │       │   ├── activate.fish
+│   │       │   ├── activate.nu
+│   │       │   ├── activate.ps1
+│   │       │   ├── activate_this.py
+│   │       │   ├── black
+│   │       │   ├── blackd
+│   │       │   ├── f2py
+│   │       │   ├── f2py3
+│   │       │   ├── f2py3.8
+│   │       │   ├── fixup_bigquery_storage_v1_keywords.py
+│   │       │   ├── ipython
+│   │       │   ├── ipython3
+│   │       │   ├── isort
+│   │       │   ├── isort-identify-imports
+│   │       │   ├── normalizer
+│   │       │   ├── pip
+│   │       │   ├── pip3
+│   │       │   ├── pip-3.8
+│   │       │   ├── pip3.8
+│   │       │   ├── plasma_store
+│   │       │   ├── pygmentize
+│   │       │   ├── pyrsa-decrypt
+│   │       │   ├── pyrsa-encrypt
+│   │       │   ├── pyrsa-keygen
+│   │       │   ├── pyrsa-priv2pub
+│   │       │   ├── pyrsa-sign
+│   │       │   ├── pyrsa-verify
+│   │       │   ├── py.test
+│   │       │   ├── pytest
+│   │       │   ├── python -> /home/janine.windhoff/.pyenv/versions/3.8.14/bin/python3.8
+│   │       │   ├── python3 -> python
+│   │       │   ├── python3.8 -> python
+│   │       │   ├── wheel
+│   │       │   ├── wheel3
+│   │       │   ├── wheel-3.8
+│   │       │   └── wheel3.8
+│   │       ├── .gitignore
+│   │       ├── lib
+│   │       │   └── python3.8
+│   │       ├── pyvenv.cfg
+│   │       └── share
+│   │           └── man
+│   ├── lewagonde
+│   │   ├── .envrc
+│   │   ├── lewagonde
+│   │   │   ├── __init__.py
+│   │   │   └── lewagonde.py
+│   │   ├── poetry.lock
+│   │   ├── pyproject.toml
+│   │   ├── README.md
+│   │   ├── tests
+│   │   │   ├── __init__.py
+│   │   │   └── test_lewagonde.py
+│   │   └── .venv
+│   │       ├── bin
+│   │       │   ├── activate
+│   │       │   ├── activate.csh
+│   │       │   ├── activate.fish
+│   │       │   ├── activate.nu
+│   │       │   ├── activate.ps1
+│   │       │   ├── activate_this.py
+│   │       │   ├── black
+│   │       │   ├── blackd
+│   │       │   ├── f2py
+│   │       │   ├── f2py3
+│   │       │   ├── f2py3.8
+│   │       │   ├── ipython
+│   │       │   ├── ipython3
+│   │       │   ├── isort
+│   │       │   ├── isort-identify-imports
+│   │       │   ├── pip
+│   │       │   ├── pip3
+│   │       │   ├── pip-3.8
+│   │       │   ├── pip3.8
+│   │       │   ├── pygmentize
+│   │       │   ├── py.test
+│   │       │   ├── pytest
+│   │       │   ├── python -> /home/janine.windhoff/.pyenv/versions/3.8.14/bin/python3.8
+│   │       │   ├── python3 -> python
+│   │       │   ├── python3.8 -> python
+│   │       │   ├── wheel
+│   │       │   ├── wheel3
+│   │       │   ├── wheel-3.8
+│   │       │   └── wheel3.8
+│   │       ├── .gitignore
+│   │       ├── lib
+│   │       │   └── python3.8
+│   │       ├── pyvenv.cfg
+│   │       └── share
+│   │           └── man
+│   └── moviecomment
+│       ├── Dockerfile
+│       ├── .envrc
+│       ├── Makefile
+│       ├── moviecomment
+│       │   ├── api.py
+│       │   ├── helper.py
+│       │   ├── __init__.py
+│       │   └── models.py
+│       ├── poetry.lock
+│       ├── pyproject.toml
+│       ├── README.md
+│       ├── tests
+│       │   ├── __init__.py
+│       │   └── test_moviecomment.py
+│       └── .venv
+│           ├── bin
+│           │   ├── activate
+│           │   ├── activate.csh
+│           │   ├── activate.fish
+│           │   ├── activate.nu
+│           │   ├── activate.ps1
+│           │   ├── activate_this.py
+│           │   ├── black
+│           │   ├── blackd
+│           │   ├── dotenv
+│           │   ├── ipython
+│           │   ├── ipython3
+│           │   ├── isort
+│           │   ├── isort-identify-imports
+│           │   ├── pip
+│           │   ├── pip3
+│           │   ├── pip-3.8
+│           │   ├── pip3.8
+│           │   ├── pygmentize
+│           │   ├── py.test
+│           │   ├── pytest
+│           │   ├── python -> /home/janine.windhoff/.pyenv/versions/3.8.14/bin/python3.8
+│           │   ├── python3 -> python
+│           │   ├── python3.8 -> python
+│           │   ├── uvicorn
+│           │   ├── watchgod
+│           │   ├── wheel
+│           │   ├── wheel3
+│           │   ├── wheel-3.8
+│           │   └── wheel3.8
+│           ├── .gitignore
+│           ├── lib
+│           │   └── python3.8
+│           ├── pyvenv.cfg
+│           └── share
+│               └── man
+├── direnvrc-template
+├── folderstructure.txt
+├── .git
+│   ├── branches
+│   ├── COMMIT_EDITMSG
+│   ├── config
+│   ├── description
+│   ├── FETCH_HEAD
+│   ├── HEAD
+│   ├── hooks
+│   │   ├── applypatch-msg.sample
+│   │   ├── commit-msg.sample
+│   │   ├── fsmonitor-watchman.sample
+│   │   ├── post-update.sample
+│   │   ├── pre-applypatch.sample
+│   │   ├── pre-commit.sample
+│   │   ├── pre-merge-commit.sample
+│   │   ├── prepare-commit-msg.sample
+│   │   ├── pre-push.sample
+│   │   ├── pre-rebase.sample
+│   │   ├── pre-receive.sample
+│   │   ├── push-to-checkout.sample
+│   │   └── update.sample
+│   ├── index
+│   ├── info
+│   │   └── exclude
+│   ├── logs
+│   │   ├── HEAD
+│   │   └── refs
+│   │       ├── heads
+│   │       │   └── main
+│   │       └── remotes
+│   │           ├── origin
+│   │           └── upstream
+│   ├── objects
+│   │   ├── 01
+│   │   │   └── 2be8b952ef87452ab07fa82cb1ce8c276b9ccb
+│   │   ├── 02
+│   │   │   └── 33d88dbad05b8dc1cbad3f878228b3b2d6ad4d
+│   │   ├── 03
+│   │   │   └── 1c7bbabef414fd2bc252e0ba4fd1c709f9d4df
+│   │   ├── 0a
+│   │   │   └── 894ebb1399aee947907efd22747f94075310ae
+│   │   ├── 0b
+│   │   │   ├── bc459e303b59f72ee918b5f9ace92714792100
+│   │   │   └── c5d2de936612484a2c5633aafcf6bd2e6cabec
+│   │   ├── 12
+│   │   │   └── 6ac0f07cb8cee7e61284d75b02ee3e991cfef0
+│   │   ├── 13
+│   │   │   └── e7db4d6dea1148bffcea182bdaf00abd0957df
+│   │   ├── 18
+│   │   │   └── ca2c0bb9b96b9eae19e27ca99e6507bba9dd2b
+│   │   ├── 1c
+│   │   │   └── 496f179ee97313acb10ffd84edec6b009e60a8
+│   │   ├── 23
+│   │   │   └── 79802ee15de5285af498031b1654a1b6595861
+│   │   ├── 25
+│   │   │   └── efa146038f160b3b09569372ccca205a402720
+│   │   ├── 27
+│   │   │   └── ccb1d5e87ba0a04f705aea23a42ee6ce29b689
+│   │   ├── 2b
+│   │   │   └── 47680d54df38952f481ce7182a906219aeb08a
+│   │   ├── 33
+│   │   │   └── 20e51800d4d756d9b9d20bf5f5407e78f64ae0
+│   │   ├── 3a
+│   │   │   └── 4740e8e4846b41ba55611821c9ab2594d100e5
+│   │   ├── 3f
+│   │   │   └── 04c6815416c5c20d7cf0f23ab87e4f930f67a5
+│   │   ├── 40
+│   │   │   ├── 13723da6d06b3ceaa7eb7148252c49fbfabf1c
+│   │   │   └── a3afb7bad09fec0718b62070b4949fe34977fc
+│   │   ├── 41
+│   │   │   ├── 4611da57904e23d2c9bae186c0c4f77f18ab7b
+│   │   │   └── 97c8ed421fd579ae11ea34d3a390ea442b910b
+│   │   ├── 43
+│   │   │   └── bf98113d198113baca6ef82fa05d0a338c76a1
+│   │   ├── 44
+│   │   │   └── aa9a181190be1b97f85b9eac6111ef2e7c29d3
+│   │   ├── 4b
+│   │   │   └── 57a83cac8954bdb55d85769cfd4454f53f365c
+│   │   ├── 50
+│   │   │   └── c552df7b07c94a1c5644c3ee1aec32ac1d863d
+│   │   ├── 56
+│   │   │   └── 23f392c79f912fedd7f217af8d7b9a440b006f
+│   │   ├── 58
+│   │   │   └── ede39cdef87dc39f4982690973c23c2006afd3
+│   │   ├── 64
+│   │   │   └── bb678429434d37f0db28a62a3721637fd9a576
+│   │   ├── 6c
+│   │   │   ├── 46b6886ffabcc9d5aa46ef0dfa9da356df05fa
+│   │   │   └── 9d881edb9540aa535b19fc6afac0647fe31ca3
+│   │   ├── 72
+│   │   │   └── 48c19080ebd349fba38cd2fbd1715924c929ca
+│   │   ├── 74
+│   │   │   └── 196e9672889165a3c3402576103a29bd42b39c
+│   │   ├── 77
+│   │   │   └── 455c9af17c2aa0b53b89acfbc8144d65dbea79
+│   │   ├── 7f
+│   │   │   └── 2bd5cad3bf65230c6ee4b04355e65b59e1eaf0
+│   │   ├── 80
+│   │   │   └── b47f35a4ab619e6f65b44a9ecb0d07ef684cb8
+│   │   ├── 81
+│   │   │   └── fe5c128a76b7ea55fd05d47444f868ca4515fc
+│   │   ├── 85
+│   │   │   └── 6225828751dc8b1b41eb63ee26fff23c21ec74
+│   │   ├── 87
+│   │   │   └── 94842e654af0c2cfdbdecab77e7e22c33e5a15
+│   │   ├── 8e
+│   │   │   └── b2f4f38950f7da86dd6e68f371751ad30b610d
+│   │   ├── 90
+│   │   │   └── e5b881b7d846509fdb66a8e450ed75c8d3e420
+│   │   ├── 91
+│   │   │   └── 57aad5955af640b317a4a5bb62f134a58408da
+│   │   ├── 95
+│   │   │   └── 6ead703da98723b233a6beeb48b198c5788ec3
+│   │   ├── 9a
+│   │   │   └── 58fc03797aa58eea570d4d93656929453db96d
+│   │   ├── 9f
+│   │   │   ├── 7082eaeb050c5dca6f6e7bcb944e45f83bcc87
+│   │   │   └── 995ec6fb971ca00c314ed47f6506369edbe818
+│   │   ├── a2
+│   │   │   └── 685e1852e9a7af5c9ab8ad5b559c829826e722
+│   │   ├── a5
+│   │   │   └── 0305bab3a54e1e13cfb752e45b805d6e1426c8
+│   │   ├── aa
+│   │   │   └── 7dd29cb62eeb96cf068ee768ea0a7506463c1b
+│   │   ├── b0
+│   │   │   └── e263ed4db0d813fd9b8599b78a27e15489d967
+│   │   ├── b4
+│   │   │   ├── 41f8c33a6792f059bc57324002746c3297acf3
+│   │   │   ├── c0c46193ad6c8b3acf854bf511974ffc28b9f9
+│   │   │   └── e03a5053c4d2d7790852f7616b129a15a59b76
+│   │   ├── b5
+│   │   │   └── 4b819a452237fe8fadeaf7448da77ec339d24b
+│   │   ├── bb
+│   │   │   └── ef14c721df37cf0a0c875e075e5dc33df0a680
+│   │   ├── c1
+│   │   │   └── 311dc41db8ab50491b74ff919002e76c1bc971
+│   │   ├── c2
+│   │   │   └── ee28e3a182a5f4d941033f9dc28c413dc17a77
+│   │   ├── c5
+│   │   │   └── 8a20486adfba224e2db4e278ad016e7529c327
+│   │   ├── c8
+│   │   │   └── ed875e4661df079aeb2430b59199e19396a718
+│   │   ├── cb
+│   │   │   └── eb778ef6c1c7e9985ebbdb7768e002466216a3
+│   │   ├── cd
+│   │   │   └── 2c710d198d976379cfce29f79137913740d310
+│   │   ├── df
+│   │   │   └── f195689bc8ef5190041f7f3221926170cd25ef
+│   │   ├── e0
+│   │   │   ├── 026b3ca5659dd611c38201b37ee64c8f168c85
+│   │   │   ├── 386362aabe44f8523774970a8e85fd5de0176d
+│   │   │   └── 937db3ece890f30082146bae88da589a3afa9c
+│   │   ├── e4
+│   │   │   └── 7db6f5c94a94e38b49c58dedaffa1b0dd0cc74
+│   │   ├── e6
+│   │   │   ├── 2980f3e09894231dfe588d85926cb24229a8ae
+│   │   │   └── a1e251e0ede081c7ce8fb2ab9abff580837988
+│   │   ├── e7
+│   │   │   └── dc27af5249c45e2256fe6eaf4be5ad093eeb4e
+│   │   ├── ec
+│   │   │   └── 66ac4cea43af72932fafd3ea3bb7643ca8b9bb
+│   │   ├── f0
+│   │   │   └── fda61734f80431ab460f22cc256a482b204fea
+│   │   ├── f5
+│   │   │   └── 461f132875b6dfd853c662c70e4c5c2fdfc204
+│   │   ├── f9
+│   │   │   └── 4d30c132a5185a2bc10a8e6b6c43bfa9da0bbe
+│   │   ├── fb
+│   │   │   └── 04ecc3aba72829229f9f8d4f087d7891e6164b
+│   │   ├── fe
+│   │   │   └── 9373081182d8c3e59bcab0b5906f78e108254d
+│   │   ├── ff
+│   │   │   └── 2c169b77a0c22be49fcce875a8c1645e5a46aa
+│   │   ├── info
+│   │   └── pack
+│   │       ├── pack-adb26547d97542447b12bf093c497ac316239f3a.idx
+│   │       └── pack-adb26547d97542447b12bf093c497ac316239f3a.pack
+│   ├── ORIG_HEAD
+│   ├── packed-refs
+│   └── refs
+│       ├── heads
+│       │   └── main
+│       ├── remotes
+│       │   ├── origin
+│       │   │   └── HEAD
+│       │   └── upstream
+│       │       ├── 0202
+│       │       ├── 02-02-02_Kimball-nourbenhassen-review
+│       │       ├── 0204
+│       │       ├── 02-content-consolidation
+│       │       ├── 030303-spark-fix
+│       │       ├── 0303-pipeline-orchestration-sara-UPDATE
+│       │       ├── create-sql
+│       │       ├── fix-day-1-bugs
+│       │       ├── lorcanrae-01020x-readme-typo
+│       │       ├── main
+│       │       ├── main-five-week
+│       │       ├── main-ikea2022
+│       │       ├── main-three-weeks
+│       │       ├── move-twitter-prod
+│       │       ├── ogiles1999-010101-readme-typos
+│       │       ├── ogiles1999-add-recap-to-0102
+│       │       ├── ogiles1999-linux-bash-missing-a
+│       │       ├── ogiles1999-missing-tags-image-transformation
+│       │       ├── oli-devcontainer
+│       │       ├── sara-kahankova-patch-1
+│       │       ├── sara-kahankova-patch-1-1
+│       │       ├── sara-kahankova-patch-2
+│       │       ├── sara-kahankova-patch-3
+│       │       ├── sara-kahankova-patch-5
+│       │       └── sara-kahankova-patch-6
+│       └── tags
+├── .github
+│   ├── CODEOWNERS
+│   └── ISSUE_TEMPLATE
+│       └── beta-test.md
+├── .gitignore
+├── Makefile
+├── make.inc
+├── README.md
+├── READY
+└── yapf
+    └── style
+
+645 directories, 1215 files
