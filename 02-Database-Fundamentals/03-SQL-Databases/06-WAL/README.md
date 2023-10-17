@@ -61,3 +61,8 @@ Data engineers find both CDC and WAL critical for building robust, real-time dat
 ## Step 2: Create a python script to read the WAL
 
 ❓ Try to implement cdc.py using the doc strings!
+
+
+### Step 3: Understand the logs
+
+The logs might look a bit cryptic you can read exactly what they mean in the postgres docs https://www.postgresql.org/docs/15/protocol-logicalrep-message-formats.html

@@ -42,6 +42,25 @@ def start_or_create_replication(cursor, slot_name, options):
 
 
 class LoggedConsumer(object):
+    """
+        Consumer class to process messages from the replication stream and log them.
+
+    Attributes:
+    -----------
+    logger : logging.Logger
+        A logging object to write log messages.
+
+    Methods:
+    --------
+    __call__(msg)
+        Process and log each replication message.
+
+    Example:
+    --------
+    >>> consumer = LoggedConsumer(logger)
+    >>> cur.consume_stream(consumer)
+    """
+
     pass  # YOUR CODE HERE
 
 

@@ -8,7 +8,9 @@ packages = [{include = "05_wal"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-psycopg2-binary = "^2.9.9"
+psycopg2-binary = "2.9.9"
+ipython = "^8.0.0"
+pypgoutput = {git = "https://github.com/ogiles1999/pypgoutput.git"}
 
 
 [build-system]

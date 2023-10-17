@@ -43,7 +43,8 @@ In this exercise, we'll build the functions one by one in `lwdb/db.py` and open 
 
 ## Start a database
 
-❓ **Start the Postgres database** using Docker-Compose after adding your `.env` as per template
+
+❓ **create a new database** named `ikea` using the `psql` in your db!
 
 ❓ **Create the schema** mapping the CSV schema using `./sql/prep_schema.sql` are already given to you.
 
@@ -53,15 +54,7 @@ You can execute the sql commands from dbeaveeer, or from your terminal with
 psql -d ikea
 ```
 
-❓ **Load the CSV data** into the Postgres table using our `prep_load.sql` command.
-
-In module 01, we were using psql `\copy` utility instead of SQL `COPY` statement because psql didn't have read access privilege to our linux CM. Why can we use `COPY` here?
-
-<details>
-  <summary markdown='span'>Hint</summary>
-
-Because we are inside a container this time!
-</details>
+❓ **Load the CSV data** into the Postgres table!
 
 🧪 `Make test` should pass few more tests
 

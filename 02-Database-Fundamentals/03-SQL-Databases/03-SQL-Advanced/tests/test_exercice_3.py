@@ -18,10 +18,24 @@ with open(exercice_3, "r") as f:
         dbname="movies",
     )
 
+
 def test_correct_columns_and_size():
-    expected_columns = set(["release_year", "avg_revenue", "avg_profit_absolute", "avg_profit_absolute_perc_growth_yoy", "avg_profit_perc"])
-    assert expected_columns == set(df_3.columns), "Some key columns are missing, or are mispelled"
+    expected_columns = set(
+        [
+            "release_year",
+            "avg_revenue",
+            "avg_profit_absolute",
+            "avg_profit_absolute_perc_growth_yoy",
+            "avg_profit_perc",
+        ]
+    )
+    assert expected_columns == set(
+        df_3.columns
+    ), "Some key columns are missing, or are mispelled"
+
 
 def test_correct_yoy_values():
-    truth_2017 = df_3.loc[df_3["release_year"] == 2017, "avg_profit_absolute_perc_growth_yoy"][0]
+    truth_2017 = df_3.loc[
+        df_3["release_year"] == 2017, "avg_profit_absolute_perc_growth_yoy"
+    ].reset_index(drop=True)[0]
     assert truth_2017 == 75, "Wrong percentage growth for 2017"
