@@ -36,7 +36,7 @@ You should see an error like this one:
 
 ![no db](https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D3/psql-no-db.png)
 
-Why? `psql` will try to connect to the database as a postgres user with the same name as your _current linux username_ (to check what what your linux username is, run `echo $USER` from the terminal). We can create a postgres user that matches our linux username to make our workflow as easy as possible!
+Why? `psql` will try to connect to the database as a postgres user with the same name as your _current linux username_ (to check what what your linux username is, run `echo $USER` or `whoami` from the terminal). We can create a postgres user that matches our linux username to make our workflow as easy as possible!
 
 Luckily, there is a linux user on our virtual machine called "postgres". Let's login as the "postgres" linux user to create our new postgres user. To understand the command below, run `tldr sudo`
 
@@ -66,7 +66,8 @@ POSTGRES_PASSWORD='the password you just chose'
 
 We now have our postgres user (postgres also provides `createuser` cli but you won't always have direct access to the terminal when using managed postgres solutions).
 
-Now let's log out and log back into the default `postgres` db as our new user.
+Now let's log out of postgres (as the _linux_ "postgres" user and postgres "postgres" user) and log back in to postgres as the new user we just created. First we need to exit the current `psql` session:
+
 ```bash
 \q
 ```
@@ -85,28 +86,29 @@ Let's check our current user with an SQL query
 SELECT current_user;
 ```
 
-Now, our next step is to create a new database!
+If that query returns the username that we just created, our next step is to create a new database!
 ```sql
 CREATE DATABASE school;
 ```
-If we list the databases, you should see your newly created school database
+If we list the databases, you should see your newly created `school` database. Use the following meta command to list all databases:
 ```bash
 \l
 ```
-Let's connect to that one instead of the default postgres one:
+Let's connect to the `school` database instead of the default postgres database:
 ```bash
 \c school
 ```
-If we check the tables in the school db
+
+We can see what tables exist in the `school` database with the following meta command:
 ```bash
 \d
 ```
-None should be returned. Let's create some tables and records in postgres next.
+None should be returned. Let's create some tables and insert some records in postgres next.
 
 
 ### Creating tables
 
-One way would be with a simple sql script:
+One way would be with a sql script:
 ```sql
 CREATE TABLE students (
     id          INTEGER PRIMARY KEY,
@@ -133,9 +135,9 @@ SELECT * FROM students;
 
 ### Dbeaver
 
-While `psql` is very powerful, it would be easier for us to work in a more user focused tool, especially as our queries get more complicated. We'll use [DBeaver](https://dbeaver.io/).
+While `psql` is very powerful, it would be easier for us to work in a more user focused tool, especially as our queries get more complicated. We'll use [DBeaver](https://dbeaver.io/) as our SQL client - but to get the data from our `postgres` server hosted on virtual machine to DBeaver on our local computer, we need to forward some ports!
 
-First, let's check which port our postgres server is running on (default is 5432)
+First, let's check which port our postgres server is running on (default is 5432) with the following meta command in `psql`:
 ```bash
 \conninfo
 ```
@@ -153,7 +155,7 @@ In VSCode, click on PORTS next to your TERMINAL section.
 __Step 2:__
 
 Enter 5432, and press Enter. By default, it auto populates the Local Address section with the value localhost:5432
-(if you see a different value then 5432 is probably occupied on your local machine - that is totally fine. You can use the local port number of your choice).
+(if you see a different value then 5432, port 5432 on your local machine is probably occupied by another service - that is totally fine. You can use the local port number of your choice).
 
 At this point, port 5432 on your virtual machine is being forwarded to port 5432 on your local machine.
 
@@ -176,7 +178,7 @@ Fill out the postgres connection page. Key inputs are in the red boxes:
 - database: school
 - port: the port you forwarded to
 - username: your created user
-- password: your created password
+- password: your created password (check your `.env`!)
 
 <br>
 
@@ -202,17 +204,17 @@ Run the following script to create this table:
 CREATE TABLE teachers (
       id      INTEGER
     , name    VARCHAR(50)
-)
+);
 ```
 
-If you run this script again, it should fail with the error: `relation "teachers" already exists`. That’s why we generally don’t use the `CREATE TABLE` statement by itself. It's more common to use it with another command depending on the use case.
+If you run this script again, it should fail with the error: `relation "teachers" already exists`. That is why we generally don’t use the `CREATE TABLE` statement by itself. It is more common to use it with another command depending on the use case.
 
 If we didn't want to overwrite an existing table, we could check to see if the table already exists:
 ```sql
 CREATE TABLE IF NOT EXISTS teachers (
       id      INTEGER
     , name    VARCHAR(50)
-)
+);
 ```
 
 This will not do anything if the table has already been created.
@@ -223,7 +225,7 @@ DROP TABLE IF EXISTS teachers;
 CREATE TABLE teachers (
       id      INTEGER
     , name    VARCHAR(50)
-)
+);
 ```
 
 This could be a way to change the table schema.
@@ -246,7 +248,7 @@ readlink -f <file>
 ```sql
 school=#
 \copy teachers
-FROM '</home/..../absolute/path/to/teachers.csv>'
+FROM '</home/.../absolute/path/to/teachers.csv>'
 DELIMITER ','
 CSV HEADER;
 ```
@@ -255,7 +257,7 @@ CSV HEADER;
 
 Now that our data has been copied into our tables, it's important to check the global structure of your database. Modern SQL clients enable a clean, high level view of the entirety of your database, with tree-like explorers and other features, but it can be good to confirm with a sql query.
 
-Execute the following in the SQL query interface to see a list of all columns in every table:
+Execute the following in DBeaver to see a list of all columns in every table:
 ```sql
 SELECT *
 FROM INFORMATION_SCHEMA.COLUMNS
@@ -263,7 +265,7 @@ WHERE table_schema = 'public'
 ORDER BY table_name, ordinal_position
 ```
 
-Now we have a fully functional postgres database and a workflow when we want to
+We now have a fully functional postgres database and a workflow when we want to
 create new databases and tables!
 
-🏁 Run `make test` to create test_output.txt, then git add, commit and push so we can track your progress!
+🏁 🧪 Run `make test` to create test_output.txt. Then git add, commit, and push so your progress is tracked on Kitt!
