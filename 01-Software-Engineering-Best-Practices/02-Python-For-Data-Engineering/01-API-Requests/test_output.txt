@@ -1,0 +1,13 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.14, pytest-7.3.1, pluggy-1.0.0 -- /home/janine.windhoff/code/janinewin/data-engineering-challenges/01-Software-Engineering-Best-Practices/02-Python-For-Data-Engineering/01-API-Requests/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/janine.windhoff/code/janinewin/data-engineering-challenges/01-Software-Engineering-Best-Practices/02-Python-For-Data-Engineering/01-API-Requests
+collecting ... collected 5 items
+
+tests/test_lookup.py::test_import_requests PASSED                        [ 20%]
+tests/test_lookup.py::test_get_pokemon PASSED                            [ 40%]
+tests/test_lookup.py::test_check_pokemon_move PASSED                     [ 60%]
+tests/test_lookup.py::test_get_pokemon_types PASSED                      [ 80%]
+tests/test_lookup.py::test_get_evolutions PASSED                         [100%]
+
+============================== 5 passed in 2.98s ===============================

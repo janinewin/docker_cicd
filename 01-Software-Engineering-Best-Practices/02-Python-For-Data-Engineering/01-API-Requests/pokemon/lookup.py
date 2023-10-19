@@ -26,30 +26,17 @@ def get_pokemon_types(
     Get all pokemon of a given type `type_one`. Return a list of pokemon names.
     If `type_two` is given return only the Pokemon of type_one and type_two.
     """
-    params = {"limit": 5, "offset": 0}
     result = []
-    response = requests.get("https://pokeapi.co/api/v2/pokemon/", params = params).json()
-    #print(response)
+    response_t_one = requests.get("https://pokeapi.co/api/v2/type/"+type_one).json()
+    for pk in response_t_one["pokemon"]: result.append(pk["pokemon"]["name"])
 
-    #next = True
-    #while next:
-    pokemon = response["results"]
-    for poke in pokemon:
-        p = requests.get(poke["url"]).json()
-        types = []
-        print(p["types"]["type"])
-    #    for type in p["types"]:
-    #        types.append(type["type"]["name"])
-    #    if (type_two == None and type_one in types) or (type_two != None and type_one in types and type_two in types):
-    #        result.append(p["name"])
-    #    if response["next"] == None: next = False
-    #    response = requests.get(response["next"]).json()
+    if type_two != None:
+        response_t_two = requests.get("https://pokeapi.co/api/v2/type/"+type_two).json()
+        tmp = []
+        for pk in response_t_two["pokemon"]:
+            if pk["pokemon"]["name"] in result: tmp.append(pk["pokemon"]["name"])
+        result = tmp
 
-
-    #for poke in pokemon:
-    #    print(poke["types"])
-        #for type in poke["types"]:
-        #    print(type)
     return result
 
 
@@ -61,6 +48,19 @@ def get_evolutions(name: str) -> dict:
     If the pokemon does not evolve from or into another pokemon
     do not include the relevant key.
     """
-    pass  # YOUR CODE HERE
+    result = {}
+    response = requests.get("https://pokeapi.co/api/v2/pokemon-species/"+name).json()
+    if response["evolves_from_species"]: result["from"] = response["evolves_from_species"]["name"]
 
-print(get_pokemon_types())
+    ev_chain = requests.get(response["evolution_chain"]["url"]).json()
+    branch = ev_chain["chain"]
+    to_not_found = True
+    while to_not_found:
+        if branch["species"]["name"] == name:
+            evols = []
+            for e in branch["evolves_to"]:
+                evols.append(e["species"]["name"])
+            if len(evols) > 0: result["to"] = evols
+            to_not_found = False
+        else: branch = branch["evolves_to"][0]
+    return result
