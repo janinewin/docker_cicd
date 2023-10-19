@@ -13,14 +13,28 @@ def get_image_paths() -> list:
     Returns a list of all image paths in the data directory inside tuples of the form (label, path) with
     1 for PNEUMONIA and 0 for NORMAL. Make sure that the list is shuffled
     """
-    pass  # YOUR CODE HERE
+    result = []
+    #raw_paths = DATA_PATH.glob('**/*.jpeg')
+    #for path in raw_paths:
+    #    if "/PNEUMONIA/" in str(path): result.append((1, path))
+    #    elif "/NORMAL/" in str(path): result.append((0, path))
+
+    for path in DATA_PATH.glob('**/PNEUMONIA/*.jpeg'):
+        result.append((1, path))
+    for path in DATA_PATH.glob('**/NORMAL/*.jpeg'):
+        result.append((0, path))
+    random.shuffle(result)
+
+    return result
 
 
 def process_image(path: str) -> np.ndarray:
     """
     Returns a numpy array of shape (256, 256, 1) with the image data from the given path
     """
-    pass  # YOUR CODE HERE
+    result = np.array(Image.open(path).resize((256,256)))
+    result = np.reshape(result, (256,256,1))
+    return result
 
 
 def write_image(writer, image, label):
@@ -44,4 +58,4 @@ def main():
 
 
 if __name__ == "__main__":
-    print(get_image_paths())
+    print(process_image('/home/janine.windhoff/code/janinewin/data-engineering-challenges/01-Software-Engineering-Best-Practices/02-Python-For-Data-Engineering/02-Image-transformation/data/chest_xray/chest_xray/train/PNEUMONIA/person1465_virus_2530.jpeg'))
