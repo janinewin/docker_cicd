@@ -8,4 +8,4 @@ webserver_config.py
 tests/temp/*
 !tests/temp/.gitkeep
 !**/.gitkeep
-!**/tests/data/*
+!tests/data/*

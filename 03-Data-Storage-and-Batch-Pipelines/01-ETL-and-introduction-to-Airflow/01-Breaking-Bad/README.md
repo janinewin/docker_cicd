@@ -103,8 +103,8 @@ If this doesn't work:
 
 ```bash
 # You don't need to pass these tests if your docker-compose runs correctly - they are too strict
-pytest -v tests/test_dockerfile
-pytest -v tests/test_docker_compose
+pytest -v tests/test_dockerfile.py
+pytest -v tests/test_docker_compose.py
 ```
 
 Now, visit [localhost](http://localhost:8080/home). Have a look to the `scripts/entrypoint.sh` to find the login and password to use!
