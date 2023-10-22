@@ -18,13 +18,11 @@ def get_image_paths() -> list:
     #for path in raw_paths:
     #    if "/PNEUMONIA/" in str(path): result.append((1, path))
     #    elif "/NORMAL/" in str(path): result.append((0, path))
-
     for path in DATA_PATH.glob('**/PNEUMONIA/*.jpeg'):
         result.append((1, path))
     for path in DATA_PATH.glob('**/NORMAL/*.jpeg'):
         result.append((0, path))
     random.shuffle(result)
-
     return result
 
 
@@ -32,8 +30,9 @@ def process_image(path: str) -> np.ndarray:
     """
     Returns a numpy array of shape (256, 256, 1) with the image data from the given path
     """
-    result = np.array(Image.open(path).resize((256,256)))
-    result = np.reshape(result, (256,256,1))
+    arr = np.array(Image.open(path))
+    img = np.resize(arr, (256,256))
+    result = np.reshape(img, (256,256,1))
     return result
 
 
@@ -47,7 +46,8 @@ def write_image(writer, image, label):
         ),
         "label": tf.train.Feature(int64_list=tf.train.Int64List(value=[label])),
     }
-    pass  # YOUR CODE HERE
+    exp = tf.train.Example(features=tf.train.Features(feature=feature)).SerializeToString()
+    writer.write(exp)
 
 
 def main():
@@ -58,4 +58,5 @@ def main():
 
 
 if __name__ == "__main__":
-    print(process_image('/home/janine.windhoff/code/janinewin/data-engineering-challenges/01-Software-Engineering-Best-Practices/02-Python-For-Data-Engineering/02-Image-transformation/data/chest_xray/chest_xray/train/PNEUMONIA/person1465_virus_2530.jpeg'))
+    test_img = process_image('/home/janine.windhoff/code/janinewin/data-engineering-challenges/01-Software-Engineering-Best-Practices/02-Python-For-Data-Engineering/02-Image-transformation/data/chest_xray/chest_xray/train/PNEUMONIA/person1465_virus_2530.jpeg')
+    print(write_image(tf.io.TFRecordWriter("dataset.tfrecords"), test_img, 1))
