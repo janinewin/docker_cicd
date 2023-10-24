@@ -15,7 +15,7 @@ The *actual datasets and models* will then be saved in Big Query.
 We already created a dbt project (`dbt_lewagon`) for you that contains the basic models coming from `dbt init`, which will be enough to test your setup.
 
 ## Dockerfile
-First, let's note that we already added `dbt-core` and `dbt-bigquery` to your `pyproject.toml` (that Airflow will use). 
+First, let's note that we already added `dbt-core` and `dbt-bigquery` to your `pyproject.toml` (that Airflow will use).
 
 Then, there are several environment variables for Airflow to know in which folders to look up when running `dbt` commands. Open your `Dockerfile` and add the following lines after `ENV AIRFLOW_HOME=/app/airflow`:
 
@@ -104,7 +104,7 @@ Once you are confident with what you've done, run the tests:
 make test_dag_and_task_basic
 ```
 
->💡 This setup would scale with any other dbt_projects: Just replace the `dbt_lewagon` folder with the project that you've done in the previous day, make sure that it runs properly and go to BigQuery to check that your models have been created :) 
+>💡 This setup would scale with any other dbt_projects: Just replace the `dbt_lewagon` folder with the project that you've done in the previous day, make sure that it runs properly and go to BigQuery to check that your models have been created :)
 
 🧪 Run all tests at once and git add, commit and your `test_output.txt`!
 
@@ -156,7 +156,7 @@ As always, once your confident with what you have done, try to run it and see if
 Then, run the following command:
 
 ```
-test_dag_and_task_advanced
+make test_dag_and_task_advanced
 ```
 
 Again, once done, do not hesitate to make it work with your own models.
