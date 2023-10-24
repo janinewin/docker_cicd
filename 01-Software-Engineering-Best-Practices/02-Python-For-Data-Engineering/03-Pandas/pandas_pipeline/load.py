@@ -21,10 +21,20 @@ def load_data(data_path: Path) -> pd.DataFrame:
     Raises:
     - FileNotFoundError: If either of the CSV files is missing in the specified path.
     """
-    pass  # YOUR CODE HERE
+    try:
+        dt_df = pd.read_csv(data_path + "/books_data.csv")
+        print("books_data loaded")
+        rt_df = pd.read_csv(data_path + "/Books_rating.csv")
+        print("books_rating loaded")
+        combined_df = pd.merge(dt_df, rt_df, "inner", "Title")
+        print("df merged")
+        #print(combined_df.info())
+        return combined_df
+    except FileNotFoundError:
+        print("One or both files are missing ..")
 
 
 
 
 if __name__ == "__main__":
-    load_data()
+    load_data("./data")

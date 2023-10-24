@@ -31,9 +31,9 @@ def process_image(path: str) -> np.ndarray:
     Returns a numpy array of shape (256, 256, 1) with the image data from the given path
     """
     arr = np.array(Image.open(path))
-    img = np.resize(arr, (256,256))
-    result = np.reshape(img, (256,256,1))
-    return result
+    arr = np.resize(arr, (256,256))
+    arr = np.reshape(arr, (256,256,1))
+    return arr
 
 
 def write_image(writer, image, label):

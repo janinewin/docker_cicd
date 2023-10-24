@@ -1,5 +1,6 @@
 import pandas as pd
 from pathlib import Path
+import load
 
 
 def write_best_performing_books(combined_df: pd.DataFrame, data_path: Path) -> None:
@@ -26,4 +27,33 @@ def write_best_performing_books(combined_df: pd.DataFrame, data_path: Path) -> N
     Returns:
     - None: Writes the result to the specified path.
     """
-    pass  # YOUR CODE HERE
+    df = combined_df[["Title", "review/score", "ratingsCount", "authors"]].rename({"Title": "title", "review/score": "average_review_score", "ratingsCount": "number_of_reviews", "authors": "author"}, axis=1)
+    print(df.head())
+    df = df.query("number_of_reviews >= 25")
+
+    #df["author"] = [", ".join(map(str, l)) for l in df["authors"]]
+
+    #df.rename(columns={"Title": "title", "review/score": "average_review_score", "ratingsCount": "number_of_reviews", "authors": "author"}, inplace=True)
+    #print(df.head())
+    df = df[["title", "average_review_score", "number_of_reviews", "author"]].groupby(["title", "number_of_reviews", "author"]).mean()
+    #df = df[["Title", "review/score", "ratingsCount", "authors"]].groupby(["Title", "ratingsCount", "authors"]).mean()
+    print(df.head())
+    #df = df.reset_index(drop=True)
+    #df = df.astype({"authors": str})
+    #df.replace(["[", "]"], "")
+
+    #df.groupby(["title", "number_of_reviews", "author"]).mean()
+    #df = df.drop_duplicates()
+
+    df = df.sort_values("average_review_score", ascending=False)
+    df = df[["title", "average_review_score", "number_of_reviews", "author"]]
+    print(df.head())
+    df = df.head(10)
+    #df = df[["title", "average_review_score", "number_of_reviews", "author"]]
+
+    df.to_csv(data_path + "/best_performing_books.csv") #, index=False)
+
+
+if __name__ == "__main__":
+    df = load.load_data("./data")
+    write_best_performing_books(df, "./data")
