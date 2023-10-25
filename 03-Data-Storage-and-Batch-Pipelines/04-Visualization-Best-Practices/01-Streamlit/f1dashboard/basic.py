@@ -69,7 +69,7 @@ def summary_statistics(data):
     pass  # YOUR CODE HERE
 
 
-@st.experimental_memo
+@st.cache_data
 def top_drivers():
     """
     Get the top 5 drivers with the most points.
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     lewis_years = lewis_over_the_years()
 
     # Convert the year column to datetime
-    lewis_years['year'] = pd.to_datetime(lewis_years['year'],format='%Y')
+    lewis_years["year"] = pd.to_datetime(lewis_years["year"], format="%Y")
 
     st.warning("Create a line chart with the lewis_years, use the Altair library")
     pass  # YOUR CODE HERE

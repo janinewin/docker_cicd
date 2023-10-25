@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-from advanced.database import F1Database
+from f1dashboard.advanced.database import F1Database
 
 
 class F1Queries:
@@ -9,7 +9,7 @@ class F1Queries:
 
     # # Perform query.
     # # Uses st.experimental_memo to only rerun when the query changes or after 10 min.
-    @st.experimental_memo(ttl=600)
+    @st.cache_data(ttl=600)
     def _run_query(_self, query):
         """
         Base utility method queries a database using pandas and returning a dataframe
