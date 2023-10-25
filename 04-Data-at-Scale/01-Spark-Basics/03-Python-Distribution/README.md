@@ -1,7 +1,7 @@
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W3D3-processing/pyspark/pyspark.jpeg" alt="drawing" width="400"/>
 
 ### 1️⃣ Set-up
-Go to https://community.cloud.databricks.com and set up an account.
+Go to https://www.databricks.com/try-databricks and set up an account.
 Don't choose a cloud provider, just use the free `community edition` (well hidden) 
 
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W3D3-processing/databrick-login.png">
