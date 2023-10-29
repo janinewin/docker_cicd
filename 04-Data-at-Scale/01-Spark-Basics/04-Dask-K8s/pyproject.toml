@@ -14,6 +14,7 @@ pyarrow = "10.0.1"
 jupyter = "^1.0.0"
 polars = "^0.15.14"
 cloudpickle = "2.0.0"
+pyyaml = "^6.0.1"
 
 
 [build-system]
