@@ -19,24 +19,31 @@ from airflow.providers.google.cloud.transfers.local_to_gcs import (
 )
 def spark_pipeline_dag():
     """
-    Airflow DAG for executing a Spark pipeline on Google Cloud Dataproc.
+    Airflow DAG to execute a Spark pipeline on Google Cloud Dataproc.
 
     Steps:
-    1. Copies Python Wheel package to GCS: `copy_wheel_to_gcs`
-    2. Copies job scripts to GCS: `copy_jobs_to_gcs`
-    3. Executes write to raw data job: `write_to_raw_batch`
-    4. Transforms staging data: `staging_transform_batch`
-    5. Creates processed data: `create_processed_batch`
+    1. `create_dataproc_cluster`: Creates a Dataproc cluster in the specified Google Cloud region.
+    2. `copy_wheel_to_gcs`: Copies Python Wheel package to Google Cloud Storage (GCS).
+    3. `copy_jobs_to_gcs`: Copies Spark job scripts to GCS.
+    4. `write_to_raw`: Executes the Spark job to write raw data to GCS.
+    5. `staging_transform`: Executes the Spark job to transform staged data.
+    6. `create_processed`: Executes the Spark job to generate processed data.
+    7. `delete_dataproc_cluster`: Deletes the Dataproc cluster.
 
     Parameters:
-    - UUID: Unique identifier for the DAG run.
-    - BUCKET_NAME: Google Cloud Storage bucket name.
-    - PROJECT: Google Cloud Project ID.
-    - REGION: Google Cloud Region for Dataproc.
-    - NETWORK: VPC network for Dataproc.
-    - DATE: Data partition identifier.
-
+    - UUID (str): Auto-generated unique identifier for the DAG run.
+    - BUCKET_NAME (str): GCS bucket name where data and code are stored.
+    - PROJECT (str): Google Cloud Project ID.
+    - REGION (str): Dataproc cluster's region.
+    - NETWORK (str): VPC network for Dataproc.
+    - DATE (str): Data partition identifier (e.g., "2009-01").
     """
+    UUID = str(uuid.uuid4())
+    BUCKET_NAME = ""
+    PROJECT = ""
+    REGION = "europe-west1"
+    NETWORK = "spark-vpc"
+    DATE = "2009-01"
     pass  # YOUR CODE HERE
 
 

@@ -1,4 +1,6 @@
 import argparse
+
+
 from taxi_spark.functions.session import get_spark_session
 from taxi_spark.functions.calculations import (
     calculate_trip_duration,
@@ -51,9 +53,7 @@ def main() -> None:
     args = parser.parse_args()
 
     raw_uri = f"gs://{args.bucket}/raw/taxi_data/yellow_tripdata_{args.date}.parquet"
-    staging_uri = (
-        f"gs://{args.bucket}/staging/taxi_data/yellow_tripdata_{args.date}.parquet"
-    )
+    staging_uri = f"gs://{args.bucket}/staging/taxi_data/yellow_tripdata_{args.date}"
 
     staging_pipeline(raw_uri, staging_uri)
 

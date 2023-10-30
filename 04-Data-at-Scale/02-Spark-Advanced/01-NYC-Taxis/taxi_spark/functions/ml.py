@@ -1,5 +1,5 @@
 from pyspark.ml.feature import VectorAssembler
-from pyspark.ml.regression import LinearRegression
+from pyspark.ml.regression import LinearRegression, LinearRegressionModel
 from pyspark.sql import DataFrame
 
 
@@ -20,7 +20,7 @@ def prepare_features(df: DataFrame) -> DataFrame:
     return df
 
 
-def train_linear_regression(df: DataFrame) -> LinearRegression:
+def train_linear_regression(df: DataFrame) -> LinearRegressionModel:
     """
     Train a Linear Regression model using the 'features' and 'fare_amt' columns.
 

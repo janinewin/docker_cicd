@@ -1,10 +1,12 @@
 import argparse
 import requests
+import shutil
+import tempfile
+
+from google.cloud import storage
+
 from taxi_spark.functions.session import get_spark_session
 from taxi_spark.functions.schema import enforce_schema
-import tempfile
-import shutil
-from google.cloud import storage
 
 
 def upload_to_gcs(file_path, bucket_name, blob_name):

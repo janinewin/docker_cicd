@@ -50,10 +50,10 @@ def aggregate_metrics(df: DataFrame) -> DataFrame:
     Aggregate metrics like average fare, total passengers, etc., by 'pickup_date' and 'time_bin'.
 
     Parameters:
-    - df (DataFrame): Input DataFrame with 'fare_amt', 'passenger_count', and 'haversine_distance'.
+    - df (DataFrame): Input DataFrame with 'pickup_date', 'time_bin', 'fare_amt', 'passenger_count', and 'haversine_distance'.
 
     Returns:
-    - DataFrame: DataFrame with aggregated metrics.
+    - DataFrame: DataFrame with aggregated metrics: 'avg_fare', 'total_passengers', 'total_trips' and 'avg_distance'.
     """
     pass  # YOUR CODE HERE
 
