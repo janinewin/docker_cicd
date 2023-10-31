@@ -26,4 +26,35 @@ def scrape_hn(date: str) -> pd.DataFrame:
     - Exits the program with a message if the response status code from HN is not 200.
 
     """
-    pass  # YOUR CODE HERE
+    url = "https://news.ycombinator.com/front?day=" + date
+    response = requests.get(url)
+    if response.status_code != 200:
+        print("There has been an Error while requesting the website.")
+        return None
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    result = pd.DataFrame(columns=["rank", "title", "site", "link", "score", "author", "comments_number"])
+
+    titles = soup.findAll(name="tr", class_="athing")
+    scores = soup.findAll(name="td", class_="subtext")
+
+    for i, title in enumerate(titles):
+        rank = i+1
+        ttl = title.find("span", {"class": "titleline"}).a.text
+        site = title.find("span", {"class": "sitestr"}).text
+        link = title.find("span", {"class": "titleline"}).a["href"]
+        score = int(scores[i].find("span", {"class": "score"}).text.replace(" points", ""))
+        author = scores[i].find("a", {"class": "hnuser"}).text
+        try: cmts_number = int(scores[i].find_all("a")[-1].text.replace("comments", ""))
+        except: cmts_number = 0
+        #if scores[i].find_all("a")[-1].text == "discuss": cmts_number = 0
+        #else: cmts_number = int(scores[i].find_all("a")[-1].text.replace("comments", ""))
+
+        new_row = {"rank": rank, "title": ttl, "site": site , "link": link, "score": score, "author": author, "comments_number": cmts_number}
+
+        result = result.append(new_row, ignore_index=True)
+
+    return result
+
+if __name__ == "__main__":
+    scrape_hn("2023-10-30")

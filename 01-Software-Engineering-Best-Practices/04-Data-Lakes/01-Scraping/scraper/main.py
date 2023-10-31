@@ -6,7 +6,6 @@ def main():
     """
     Call the scrape_hn() function to fetch data for the current date and save to stories.csv
     """
-    pass # YOUR CODE HERE
     # $CHALLENGIFY_BEGIN
     date_today = datetime.now().strftime("%Y-%m-%d")
     stories_df = scrape_hn(date_today)

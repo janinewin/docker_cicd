@@ -1,0 +1,10 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.14, pytest-7.4.2, pluggy-1.3.0 -- /home/janine.windhoff/code/janinewin/data-engineering-challenges/01-Software-Engineering-Best-Practices/04-Data-Lakes/01-Scraping/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/janine.windhoff/code/janinewin/data-engineering-challenges/01-Software-Engineering-Best-Practices/04-Data-Lakes/01-Scraping
+plugins: requests-mock-1.11.0
+collecting ... collected 1 item
+
+tests/test_scrape.py::test_scrape_hn PASSED                              [100%]
+
+======================== 1 passed, 30 warnings in 0.70s ========================

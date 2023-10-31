@@ -1,0 +1,2077 @@
+<html lang="en" op="front">
+ <head>
+  <meta content="origin" name="referrer"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="news.css?cpkBP8EFQ35GO3jeHolU" rel="stylesheet" type="text/css"/>
+  <link href="favicon.ico" rel="shortcut icon"/>
+  <title>
+   2023-09-28 front | Hacker News
+  </title>
+ </head>
+ <body>
+  <center>
+   <table bgcolor="#f6f6ef" border="0" cellpadding="0" cellspacing="0" id="hnmain" width="85%">
+    <tr>
+     <td bgcolor="#ff6600">
+      <table border="0" cellpadding="0" cellspacing="0" style="padding:2px" width="100%">
+       <tr>
+        <td style="width:18px;padding-right:4px">
+         <a href="https://news.ycombinator.com">
+          <img height="18" src="y18.svg" style="border:1px white solid; display:block" width="18"/>
+         </a>
+        </td>
+        <td style="line-height:12pt; height:10px;">
+         <span class="pagetop">
+          <b class="hnname">
+           <a href="news">
+            Hacker News
+           </a>
+          </b>
+          <a href="newest">
+           new
+          </a>
+          |
+          <a href="front">
+           past
+          </a>
+          |
+          <a href="newcomments">
+           comments
+          </a>
+          |
+          <a href="ask">
+           ask
+          </a>
+          |
+          <a href="show">
+           show
+          </a>
+          |
+          <a href="jobs">
+           jobs
+          </a>
+          |
+          <a href="submit">
+           submit
+          </a>
+          |
+          <font color="#ffffff">
+           2023-09-28
+          </font>
+         </span>
+        </td>
+        <td style="text-align:right;padding-right:4px;">
+         <span class="pagetop">
+          <a href="login?goto=front%3Fday%3D2023-09-28">
+           login
+          </a>
+         </span>
+        </td>
+       </tr>
+      </table>
+     </td>
+    </tr>
+    <tr id="pagespace" style="height:10px" title="2023-09-28 front">
+    </tr>
+    <tr>
+     <td>
+      <div style="margin-left:36px; margin-top:6px; margin-bottom:14px">
+       Stories from September 28, 2023
+       <div style="margin-top:9px">
+        Go back a
+        <span class="hnmore">
+         <a href="front?day=2023-09-27">
+          day
+         </a>
+        </span>
+        ,
+        <span class="hnmore">
+         <a href="front?day=2023-08-28">
+          month
+         </a>
+        </span>
+        , or
+        <span class="hnmore">
+         <a href="front?day=2022-09-28">
+          year
+         </a>
+        </span>
+        . Go forward a
+        <span class="hnmore">
+         <a href="front?day=2023-09-29">
+          day
+         </a>
+        </span>
+        or
+        <span class="hnmore">
+         <a href="front?day=2023-10-28">
+          month
+         </a>
+        </span>
+        .
+       </div>
+      </div>
+      <table border="0" cellpadding="0" cellspacing="0">
+       <tr class="athing" id="37691232">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          1.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37691232&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37691232">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://jamesbvaughan.com/southwest-wifi/" rel="noreferrer">
+           WiFi without internet on a Southwest flight
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=jamesbvaughan.com">
+            <span class="sitestr">
+             jamesbvaughan.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37691232">
+           1756 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=jamesbvaughan">
+           jamesbvaughan
+          </a>
+          <span class="age" title="2023-09-28T15:42:05">
+           <a href="item?id=37691232">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37691232">
+          </span>
+          |
+          <a href="hide?id=37691232&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37691232">
+           652 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37685580">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          2.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37685580&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37685580">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://www.raspberrypi.com/products/raspberry-pi-5/" rel="noreferrer">
+           Raspberry Pi 5
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=raspberrypi.com">
+            <span class="sitestr">
+             raspberrypi.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37685580">
+           1674 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=chabes">
+           chabes
+          </a>
+          <span class="age" title="2023-09-28T05:29:21">
+           <a href="item?id=37685580">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37685580">
+          </span>
+          |
+          <a href="hide?id=37685580&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37685580">
+           1022 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37694414">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          3.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37694414&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37694414">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://librepcb.org/" rel="noreferrer">
+           LibrePCB
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=librepcb.org">
+            <span class="sitestr">
+             librepcb.org
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37694414">
+           453 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=WallyFunk">
+           WallyFunk
+          </a>
+          <span class="age" title="2023-09-28T19:23:04">
+           <a href="item?id=37694414">
+            32 days ago
+           </a>
+          </span>
+          <span id="unv_37694414">
+          </span>
+          |
+          <a href="hide?id=37694414&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37694414">
+           183 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37682273">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          4.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37682273&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37682273">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="http://www.technoblogy.com/show?3Z2Y" rel="noreferrer">
+           Lisp Badge LE
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=technoblogy.com">
+            <span class="sitestr">
+             technoblogy.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37682273">
+           271 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=rcarmo">
+           rcarmo
+          </a>
+          <span class="age" title="2023-09-27T22:27:11">
+           <a href="item?id=37682273">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37682273">
+          </span>
+          |
+          <a href="hide?id=37682273&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37682273">
+           48 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37695245">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          5.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37695245&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37695245">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://xlinux.nist.gov/dads/" rel="noreferrer">
+           Dictionary of Algorithms and Data Structures
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=nist.gov">
+            <span class="sitestr">
+             nist.gov
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37695245">
+           409 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=gballan">
+           gballan
+          </a>
+          <span class="age" title="2023-09-28T20:19:26">
+           <a href="item?id=37695245">
+            32 days ago
+           </a>
+          </span>
+          <span id="unv_37695245">
+          </span>
+          |
+          <a href="hide?id=37695245&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37695245">
+           42 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37681004">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          6.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37681004&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37681004">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://news.mit.edu/2023/desalination-system-could-produce-freshwater-cheaper-0927" rel="noreferrer">
+           Desalination system could produce freshwater that is cheaper than tap water
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=news.mit.edu">
+            <span class="sitestr">
+             news.mit.edu
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37681004">
+           344 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=abathur">
+           abathur
+          </a>
+          <span class="age" title="2023-09-27T20:41:43">
+           <a href="item?id=37681004">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37681004">
+          </span>
+          |
+          <a href="hide?id=37681004&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37681004">
+           191 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37684986">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          7.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37684986&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37684986">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://retrocomputing.stackexchange.com/questions/19655/why-does-trying-to-break-into-the-nt-3-1-kernel-reboot-my-486dx4-machine" rel="noreferrer">
+           Why does trying to break into the NT 3.1 kernel reboot my 486DX4 machine?
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=retrocomputing.stackexchange.com">
+            <span class="sitestr">
+             retrocomputing.stackexchange.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37684986">
+           435 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=segfaultbuserr">
+           segfaultbuserr
+          </a>
+          <span class="age" title="2023-09-28T03:45:14">
+           <a href="item?id=37684986">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37684986">
+          </span>
+          |
+          <a href="hide?id=37684986&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37684986">
+           106 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37694333">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          8.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37694333&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37694333">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://amtrakexplorer.com/" rel="noreferrer">
+           Amtrak Explorer
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=amtrakexplorer.com">
+            <span class="sitestr">
+             amtrakexplorer.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37694333">
+           303 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=admp">
+           admp
+          </a>
+          <span class="age" title="2023-09-28T19:17:33">
+           <a href="item?id=37694333">
+            32 days ago
+           </a>
+          </span>
+          <span id="unv_37694333">
+          </span>
+          |
+          <a href="hide?id=37694333&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37694333">
+           239 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37695530">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          9.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37695530&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37695530">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://github.com/fill3d/fill">
+           Show HN: Generative Fill with AI and 3D
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=github.com/fill3d">
+            <span class="sitestr">
+             github.com/fill3d
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37695530">
+           360 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=olokobayusuf">
+           olokobayusuf
+          </a>
+          <span class="age" title="2023-09-28T20:41:30">
+           <a href="item?id=37695530">
+            32 days ago
+           </a>
+          </span>
+          <span id="unv_37695530">
+          </span>
+          |
+          <a href="hide?id=37695530&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37695530">
+           102 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37692335">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          10.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37692335&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37692335">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://www.publicbooks.org/publishers-and-scholars-unite/" rel="noreferrer">
+           Universities have disinvested from their presses just as much as their libraries
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=publicbooks.org">
+            <span class="sitestr">
+             publicbooks.org
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37692335">
+           208 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=theoldlove">
+           theoldlove
+          </a>
+          <span class="age" title="2023-09-28T16:52:54">
+           <a href="item?id=37692335">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37692335">
+          </span>
+          |
+          <a href="hide?id=37692335&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37692335">
+           163 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37695035">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          11.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37695035&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37695035">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://rocknerd.co.uk/2023/09/28/bandcamp-has-been-sold-to-songtradr/" rel="noreferrer">
+           Bandcamp has been sold to Songtradr. What does this mean for the musicians?
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=rocknerd.co.uk">
+            <span class="sitestr">
+             rocknerd.co.uk
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37695035">
+           333 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=davidgerard">
+           davidgerard
+          </a>
+          <span class="age" title="2023-09-28T20:04:13">
+           <a href="item?id=37695035">
+            32 days ago
+           </a>
+          </span>
+          <span id="unv_37695035">
+          </span>
+          |
+          <a href="hide?id=37695035&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37695035">
+           242 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37695165">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          12.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37695165&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37695165">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://redbadger.github.io/crux/" rel="noreferrer">
+           Crux: Cross-platform app development in Rust
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=redbadger.github.io">
+            <span class="sitestr">
+             redbadger.github.io
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37695165">
+           186 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=homarp">
+           homarp
+          </a>
+          <span class="age" title="2023-09-28T20:13:28">
+           <a href="item?id=37695165">
+            32 days ago
+           </a>
+          </span>
+          <span id="unv_37695165">
+          </span>
+          |
+          <a href="hide?id=37695165&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37695165">
+           117 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37688887">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          13.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37688887&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37688887">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://www.freerdp.com/" rel="noreferrer">
+           FreeRDP: A remote desktop protocol implementation
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=freerdp.com">
+            <span class="sitestr">
+             freerdp.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37688887">
+           270 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=gjvc">
+           gjvc
+          </a>
+          <span class="age" title="2023-09-28T12:48:14">
+           <a href="item?id=37688887">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37688887">
+          </span>
+          |
+          <a href="hide?id=37688887&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37688887">
+           146 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37686121">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          14.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37686121&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37686121">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/" rel="noreferrer">
+           As We May Think (1945)
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=theatlantic.com">
+            <span class="sitestr">
+             theatlantic.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37686121">
+           217 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=tosh">
+           tosh
+          </a>
+          <span class="age" title="2023-09-28T06:38:52">
+           <a href="item?id=37686121">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37686121">
+          </span>
+          |
+          <a href="hide?id=37686121&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37686121">
+           55 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37687846">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          15.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37687846&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37687846">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://chromium.googlesource.com/chromium/src/+/main/docs/security/research/graphics/webgpu_technical_report.md" rel="noreferrer">
+           WebGPU Technical Report
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=googlesource.com">
+            <span class="sitestr">
+             googlesource.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37687846">
+           221 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=ibobev">
+           ibobev
+          </a>
+          <span class="age" title="2023-09-28T10:59:01">
+           <a href="item?id=37687846">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37687846">
+          </span>
+          |
+          <a href="hide?id=37687846&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37687846">
+           42 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37685653">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          16.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37685653&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37685653">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://github.com/alexandru-dinu/igcc">
+           Interactive GCC (igcc) is a read-eval-print loop (REPL) for C/C++
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=github.com/alexandru-dinu">
+            <span class="sitestr">
+             github.com/alexandru-dinu
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37685653">
+           170 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=pr337h4m">
+           pr337h4m
+          </a>
+          <span class="age" title="2023-09-28T05:39:35">
+           <a href="item?id=37685653">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37685653">
+          </span>
+          |
+          <a href="hide?id=37685653&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37685653">
+           69 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37682286">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          17.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37682286&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37682286">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://carton.run" rel="noreferrer">
+           Show HN: Carton – Run any ML model from any programming language
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=carton.run">
+            <span class="sitestr">
+             carton.run
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37682286">
+           196 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=vpanyam">
+           vpanyam
+          </a>
+          <span class="age" title="2023-09-27T22:28:25">
+           <a href="item?id=37682286">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37682286">
+          </span>
+          |
+          <a href="hide?id=37682286&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37682286">
+           53 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37691057">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          18.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37691057&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37691057">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://www.smithsonianmag.com/air-space-magazine/airliner-repair-247-9974457/" rel="noreferrer">
+           Airliner Repair, 24/7 Boeing’s traveling fix-it team (2008)
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=smithsonianmag.com">
+            <span class="sitestr">
+             smithsonianmag.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37691057">
+           153 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=taubek">
+           taubek
+          </a>
+          <span class="age" title="2023-09-28T15:31:03">
+           <a href="item?id=37691057">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37691057">
+          </span>
+          |
+          <a href="hide?id=37691057&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37691057">
+           97 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37687060">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          19.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37687060&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37687060">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://noyaml.com/" rel="noreferrer">
+           That's a Lot of YAML
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=noyaml.com">
+            <span class="sitestr">
+             noyaml.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37687060">
+           429 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=edward">
+           edward
+          </a>
+          <span class="age" title="2023-09-28T08:57:52">
+           <a href="item?id=37687060">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37687060">
+          </span>
+          |
+          <a href="hide?id=37687060&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37687060">
+           478 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37693766">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          20.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37693766&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37693766">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://retrocomputing.stackexchange.com/questions/27741/how-were-the-signs-for-logical-and-arithmetic-operators-decided" rel="noreferrer">
+           How were the signs for logical and arithmetic operators decided?
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=retrocomputing.stackexchange.com">
+            <span class="sitestr">
+             retrocomputing.stackexchange.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37693766">
+           144 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=edent">
+           edent
+          </a>
+          <span class="age" title="2023-09-28T18:36:23">
+           <a href="item?id=37693766">
+            32 days ago
+           </a>
+          </span>
+          <span id="unv_37693766">
+          </span>
+          |
+          <a href="hide?id=37693766&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37693766">
+           36 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37682912">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          21.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37682912&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37682912">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://hachyderm.io/@danderson/111136144708450117" rel="noreferrer">
+           There's a mechanical watch feature called a “hack”
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=hachyderm.io">
+            <span class="sitestr">
+             hachyderm.io
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37682912">
+           140 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=luu">
+           luu
+          </a>
+          <span class="age" title="2023-09-27T23:27:05">
+           <a href="item?id=37682912">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37682912">
+          </span>
+          |
+          <a href="hide?id=37682912&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37682912">
+           106 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37688341">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          22.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37688341&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37688341">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://swiftrocks.com/how-async-await-works-internally-in-swift" rel="noreferrer">
+           How async/await works internally in Swift
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=swiftrocks.com">
+            <span class="sitestr">
+             swiftrocks.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37688341">
+           148 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=ingve">
+           ingve
+          </a>
+          <span class="age" title="2023-09-28T12:00:22">
+           <a href="item?id=37688341">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37688341">
+          </span>
+          |
+          <a href="hide?id=37688341&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37688341">
+           47 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37675003">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          23.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37675003&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37675003">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://phys.org/news/2023-09-jwst-massive-compact-quiescent-galaxy.html" rel="noreferrer">
+           JWST discovers massive and compact quiescent galaxy
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=phys.org">
+            <span class="sitestr">
+             phys.org
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37675003">
+           126 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=wglb">
+           wglb
+          </a>
+          <span class="age" title="2023-09-27T14:17:13">
+           <a href="item?id=37675003">
+            34 days ago
+           </a>
+          </span>
+          <span id="unv_37675003">
+          </span>
+          |
+          <a href="hide?id=37675003&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37675003">
+           70 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37686633">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          24.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37686633&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37686633">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://effectivetypescript.com/2023/09/27/closure-compiler/" rel="noreferrer">
+           The saga of the Closure compiler, and why TypeScript won
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=effectivetypescript.com">
+            <span class="sitestr">
+             effectivetypescript.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37686633">
+           169 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=Fudgel">
+           Fudgel
+          </a>
+          <span class="age" title="2023-09-28T07:55:38">
+           <a href="item?id=37686633">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37686633">
+          </span>
+          |
+          <a href="hide?id=37686633&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37686633">
+           90 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37694910">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          25.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37694910&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37694910">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://github.com/Kautenja/RackNES">
+           RackNES: NES Module for VCV Rack
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=github.com/kautenja">
+            <span class="sitestr">
+             github.com/kautenja
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37694910">
+           104 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=gregsadetsky">
+           gregsadetsky
+          </a>
+          <span class="age" title="2023-09-28T19:55:54">
+           <a href="item?id=37694910">
+            32 days ago
+           </a>
+          </span>
+          <span id="unv_37694910">
+          </span>
+          |
+          <a href="hide?id=37694910&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37694910">
+           25 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37690320">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          26.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37690320&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37690320">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://tidyfirst.substack.com/p/coding-in-the-debugger" rel="noreferrer">
+           Coding in the Debugger (2007)
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=tidyfirst.substack.com">
+            <span class="sitestr">
+             tidyfirst.substack.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37690320">
+           75 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=KentBeck">
+           KentBeck
+          </a>
+          <span class="age" title="2023-09-28T14:48:51">
+           <a href="item?id=37690320">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37690320">
+          </span>
+          |
+          <a href="hide?id=37690320&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37690320">
+           31 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37685375">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          27.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37685375&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37685375">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://en.wikipedia.org/wiki/Prophetic_perfect_tense" rel="noreferrer">
+           Prophetic Perfect Tense
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=wikipedia.org">
+            <span class="sitestr">
+             wikipedia.org
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37685375">
+           154 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=drdee">
+           drdee
+          </a>
+          <span class="age" title="2023-09-28T04:53:08">
+           <a href="item?id=37685375">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37685375">
+          </span>
+          |
+          <a href="hide?id=37685375&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37685375">
+           96 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37686977">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          28.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37686977&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37686977">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://www.nature.com/articles/s41586-023-06585-5" rel="noreferrer">
+           Inhibition of fatty acid oxidation enables heart regeneration in adult mice
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=nature.com">
+            <span class="sitestr">
+             nature.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37686977">
+           190 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=birriel">
+           birriel
+          </a>
+          <span class="age" title="2023-09-28T08:43:48">
+           <a href="item?id=37686977">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37686977">
+          </span>
+          |
+          <a href="hide?id=37686977&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37686977">
+           129 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37686641">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          29.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37686641&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37686641">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://rackhackers.com/" rel="noreferrer">
+           Upcycled Bicycle Panniers DIY
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=rackhackers.com">
+            <span class="sitestr">
+             rackhackers.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37686641">
+           132 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=pixiemaster">
+           pixiemaster
+          </a>
+          <span class="age" title="2023-09-28T07:56:44">
+           <a href="item?id=37686641">
+            33 days ago
+           </a>
+          </span>
+          <span id="unv_37686641">
+          </span>
+          |
+          <a href="hide?id=37686641&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37686641">
+           64 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="athing" id="37673271">
+        <td align="right" class="title" valign="top">
+         <span class="rank">
+          30.
+         </span>
+        </td>
+        <td class="votelinks" valign="top">
+         <center>
+          <a href="vote?id=37673271&amp;how=up&amp;goto=front%3Fday%3D2023-09-28" id="up_37673271">
+           <div class="votearrow" title="upvote">
+           </div>
+          </a>
+         </center>
+        </td>
+        <td class="title">
+         <span class="titleline">
+          <a href="https://www.thecollector.com/persuasive-technques-antiquity/" rel="noreferrer">
+           Techniques in Persuasion from Antiquity
+          </a>
+          <span class="sitebit comhead">
+           (
+           <a href="from?site=thecollector.com">
+            <span class="sitestr">
+             thecollector.com
+            </span>
+           </a>
+           )
+          </span>
+         </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="subtext">
+         <span class="subline">
+          <span class="score" id="score_37673271">
+           71 points
+          </span>
+          by
+          <a class="hnuser" href="user?id=Tomte">
+           Tomte
+          </a>
+          <span class="age" title="2023-09-27T11:45:22">
+           <a href="item?id=37673271">
+            34 days ago
+           </a>
+          </span>
+          <span id="unv_37673271">
+          </span>
+          |
+          <a href="hide?id=37673271&amp;goto=front%3Fday%3D2023-09-28">
+           hide
+          </a>
+          |
+          <a href="item?id=37673271">
+           13 comments
+          </a>
+         </span>
+        </td>
+       </tr>
+       <tr class="spacer" style="height:5px">
+       </tr>
+       <tr class="morespace" style="height:10px">
+       </tr>
+       <tr>
+        <td colspan="2">
+        </td>
+        <td class="title">
+         <a class="morelink" href="front?day=2023-09-28&amp;p=2" rel="next">
+          More
+         </a>
+        </td>
+       </tr>
+      </table>
+     </td>
+    </tr>
+    <tr>
+     <td>
+      <img height="10" src="s.gif" width="0"/>
+      <table cellpadding="1" cellspacing="0" width="100%">
+       <tr>
+        <td bgcolor="#ff6600">
+        </td>
+       </tr>
+      </table>
+      <br/>
+      <center>
+       <span class="yclinks">
+        <a href="newsguidelines.html">
+         Guidelines
+        </a>
+        |
+        <a href="newsfaq.html">
+         FAQ
+        </a>
+        |
+        <a href="lists">
+         Lists
+        </a>
+        |
+        <a href="https://github.com/HackerNews/API">
+         API
+        </a>
+        |
+        <a href="security.html">
+         Security
+        </a>
+        |
+        <a href="https://www.ycombinator.com/legal/">
+         Legal
+        </a>
+        |
+        <a href="https://www.ycombinator.com/apply/">
+         Apply to YC
+        </a>
+        |
+        <a href="mailto:hn@ycombinator.com">
+         Contact
+        </a>
+       </span>
+       <br/>
+       <br/>
+       <form action="//hn.algolia.com/" method="get">
+        Search:
+        <input autocapitalize="off" autocomplete="false" autocorrect="off" name="q" size="17" spellcheck="false" type="text"/>
+       </form>
+      </center>
+     </td>
+    </tr>
+   </table>
+  </center>
+ </body>
+ <script src="hn.js?cpkBP8EFQ35GO3jeHolU" type="text/javascript">
+ </script>
+</html>
