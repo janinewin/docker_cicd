@@ -17,5 +17,4 @@ RUN chmod +x scripts/entrypoint.sh
 RUN pip3 install --upgrade --no-cache-dir pip \
     && pip3 install poetry \
     && poetry install --without dev \
-    && poetry run pip install https://downloads.apache.org/airflow/providers/apache_airflow_providers_google-10.9.0-py3-none-any.whl \
     && poetry build --format wheel

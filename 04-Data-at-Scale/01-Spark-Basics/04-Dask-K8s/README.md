@@ -1,6 +1,8 @@
 # Dask on K8s
 
-🎯 We have seen **dask** distribute over multiple cores on a single machine, now the goal is to distribute computation across multiple machines by leveraging **dask** with **k8s**.
+🎯 Now the goal is to distribute computation across multiple machines by leveraging **dask** with **k8s**.
+
+Dask is a parallel computing library in Python that enables distributed computing and is designed to integrate seamlessly with NumPy, Pandas, and scikit-learn. It allows you to scale from a single machine to a cluster.
 
 We will be able to process over **1,000,000,000** cells of new york taxi data in around **10 seconds** 💪
 
@@ -11,10 +13,10 @@ We will be able to process over **1,000,000,000** cells of new york taxi data in
 
 Lets start by creating a cluster with a lot of **cpus** ideal for distributing our task across!
 
-🚨 **Cost alert** 🚨 
-> This will create **6 machines** (of `e2-standard-4`): 2 nodes in each of the 3 node-locations
+🚨 **Cost alert** 🚨
+> This will create **4 machines** (of `e2-standard-2`): 2 nodes in each of the 2 node-locations
 
-- VM cost: 6 * $0.134/hour
+- VM cost: 4 * $0.134/hour
 - GKE overhead: $0.1/hour
 - Total = $0.904/hour
 - est. total for challenge ~ $1
@@ -23,15 +25,16 @@ Lets start by creating a cluster with a lot of **cpus** ideal for distributing o
 
 ```bash
 gcloud container clusters create mydaskcluster \
---machine-type e2-standard-4 \
+--machine-type e2-standard-2 \
 --num-nodes 2 \
+--disk-size "30" \
 --zone=europe-west1-b \
---node-locations=europe-west1-b,europe-west1-c,europe-west1-d
+--node-locations=europe-west1-b,europe-west1-c
 ```
 
 ```bash
 # TO DELETE IT LATER ON
-gcloud container clusters delete mydaskcluster --zone=europe-west-1b
+gcloud container clusters delete mydaskcluster --zone=europe-west1-b
 ```
 
 ⏰ Keep reading while its provisionning (it can take 10min)
@@ -56,12 +59,12 @@ We are telling the cluster what the **worker** pods need in terms of **resources
 
 </details>
 
-⏰ Hopefully the **GKE cluster** is done provisioning by now! 
+⏰ Hopefully the **GKE cluster** is done provisioning by now!
 
 Kubectl should be now configured to apply your commands to this GKE cluster
 
-```
-k config current-context
+```bash
+kubectl config current-context
 ```
 
 Checkout the nodes:
@@ -109,7 +112,7 @@ This lets us access the dashboard which will allow us to track the computations 
 
 ❓ **Open up `dask.ipynb` with `jupyter` (not vscode) and follow the notebook!**
 
-Some jupyter dask extensions doesn't run in VScode 
+Some jupyter dask extensions doesn't run in VScode
 
 ## 4️⃣ Taking it further 🕵️
 
@@ -118,5 +121,5 @@ Some jupyter dask extensions doesn't run in VScode
 ## 🏁 Delete your cluster 🚨
 
 ```bash
-gcloud container clusters delete mydaskcluster --zone=europe-west-1b
+gcloud container clusters delete mydaskcluster --zone=europe-west1-b
 ````

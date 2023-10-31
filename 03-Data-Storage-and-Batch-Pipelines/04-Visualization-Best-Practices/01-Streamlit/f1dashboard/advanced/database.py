@@ -9,7 +9,7 @@ class F1Database:
     ) -> None:
         self.db_connection = self.init_connection(URL.create(**st.secrets["postgres"]))
 
-    @st.experimental_singleton
+    @st.cache_resource
     def init_connection(_self, credentials):
         """Create the database connection using the right credentials
 

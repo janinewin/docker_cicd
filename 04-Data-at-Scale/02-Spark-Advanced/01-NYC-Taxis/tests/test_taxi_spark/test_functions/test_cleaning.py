@@ -1,12 +1,3 @@
-from taxi_spark.functions.cleaning import (
-    remove_duplicates,
-    handle_nulls,
-    type_casting,
-    normalize_strings,
-    format_dates,
-    filter_coordinates,
-    rename_columns,
-)
 from pyspark.sql import functions as F
 from pyspark.sql.types import (
     StructType,
@@ -15,6 +6,16 @@ from pyspark.sql.types import (
     IntegerType,
     FloatType,
     TimestampType,
+)
+
+from taxi_spark.functions.cleaning import (
+    remove_duplicates,
+    handle_nulls,
+    type_casting,
+    normalize_strings,
+    format_dates,
+    filter_coordinates,
+    rename_columns,
 )
 
 

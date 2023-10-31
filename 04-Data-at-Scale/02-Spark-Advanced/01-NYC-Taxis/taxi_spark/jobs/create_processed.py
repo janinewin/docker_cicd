@@ -1,3 +1,5 @@
+import argparse
+
 from taxi_spark.functions.ml import prepare_features, train_linear_regression
 from taxi_spark.functions.processing import (
     add_pickup_date,
@@ -7,16 +9,17 @@ from taxi_spark.functions.processing import (
     sort_by_date_and_time,
 )
 from taxi_spark.functions.session import get_spark_session
-import argparse
 
 
-def create_processed_pipeline(staging_uri: str, processed_uri: str, date) -> None:
+def create_processed_pipeline(
+    staging_uri: str, processed_uri_prefix: str, date
+) -> None:
     """
     Process raw data and create machine learning models.
 
     Parameters:
     - staging_uri (str): URI where the staging data is stored.
-    - processed_uri (str): URI where the processed data and models will be saved.
+    - processed_uri_prefix (str): URI where the processed data and models will be saved.
     - date (str/int/DateType): Date identifier for the data being processed.
 
     Output:
@@ -30,7 +33,7 @@ def create_processed_pipeline(staging_uri: str, processed_uri: str, date) -> Non
     5. Writes enhanced DataFrame to a parquet file.
 
     Example:
-    >>> create_processed_pipeline("gs://staging/data", "gs://processed/data", "2021-01-01")
+    >>> create_processed_pipeline("gs://staging/data/data_1", "gs://processed/data", "2021-01-01")
     """
     pass  # YOUR CODE HERE
 
@@ -47,12 +50,10 @@ def main() -> None:
     parser.add_argument("--bucket", required=True, help="GCS bucket name")
     args = parser.parse_args()
 
-    raw_uri = (
-        f"gs://{args.bucket}/staging/taxi_data/yellow_tripdata_{args.date}.parquet"
-    )
-    processed_uri = f"gs://{args.bucket}/processed/taxi_data/"
+    raw_uri = f"gs://{args.bucket}/staging/taxi_data/yellow_tripdata_{args.date}"
+    processed_uri_prefix = f"gs://{args.bucket}/processed/taxi_data"
 
-    create_processed_pipeline(raw_uri, processed_uri, args.date)
+    create_processed_pipeline(raw_uri, processed_uri_prefix, args.date)
 
 
 if __name__ == "__main__":

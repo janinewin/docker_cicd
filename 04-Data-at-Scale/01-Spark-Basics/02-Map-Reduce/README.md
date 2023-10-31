@@ -113,7 +113,7 @@ The ouput is ultimately the count of words going through the 3 steps: Map/Shuffl
 <details>
   <summary markdown='span'>💡 Hint</summary>
 
-  The `shuffle`function part needs to gather all the words together it cannot run easily in multiple process
+  The `shuffle` function part needs to gather all the words together it cannot run easily in multiple process
 
 </details>
 

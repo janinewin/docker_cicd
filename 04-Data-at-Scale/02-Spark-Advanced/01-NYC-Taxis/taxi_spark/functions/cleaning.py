@@ -1,5 +1,5 @@
-from pyspark.sql import DataFrame, functions as F
 import re
+from pyspark.sql import DataFrame, functions as F
 
 
 def remove_duplicates(df: DataFrame) -> DataFrame:

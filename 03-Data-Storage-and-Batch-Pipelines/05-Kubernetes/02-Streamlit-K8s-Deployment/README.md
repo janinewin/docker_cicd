@@ -1,4 +1,4 @@
-🎯 The goal of this exercise is to put the Streamlit F1 dashboard in production on Kubernetes (k8s), deployed on Google Kubernetes Engine (GKE). 
+🎯 The goal of this exercise is to put the Streamlit F1 dashboard in production on Kubernetes (k8s), deployed on Google Kubernetes Engine (GKE).
 
 # 0️⃣ Context
 
@@ -9,13 +9,13 @@ This time, we'll have to deal with 2 separate containers:
 - streamlit (to build from our local Dockerfile)
 - postgres (to build form official dockerhub image)
 
-Compared with 1 `docker-compose.yml`, K8s will requires us to explode configuration into many configurations files! 
+Compared with 1 `docker-compose.yml`, K8s will requires us to explode configuration into many configurations files!
 
 - 4 for Streamlit
   - service
-  - deployment  
+  - deployment
   - secret
-  
+
 - 6 for Postgres
   - service
   - deployment (statefulset)
@@ -29,11 +29,11 @@ Compared with 1 `docker-compose.yml`, K8s will requires us to explode configurat
   - volumes cloud
   - volumes cloud claim
 
-🔍 Through this we will see a number of important concepts in k8s such as 
+🔍 Through this we will see a number of important concepts in k8s such as
 - secrets
 - volumes
 - communication between services
-- scaling 
+- scaling
 
 
 Let's do it! 🏎️
@@ -293,7 +293,7 @@ volumes:
     claimName: postgres-volume-claim
 ```
 
-The `volumes` section brings our claim into this yaml with the name `postgres-mount`.  
+The `volumes` section brings our claim into this yaml with the name `postgres-mount`.
 Then inside our container definition we use `volumeMounts` to describe where the volume should be mounted inside the container!
 
 ## 2.5) Connecting it all together 🧰
@@ -352,7 +352,7 @@ Now we are ready to plug in Streamlit! 🧑‍🎨
 
 ## 3.1) Service
 
-❓ Now try create your own `streamlit-service.yaml` and populate it with a `LoadBalancer` service, with name `streamlit-service` and selector `app: streamlit`. What port should you it target ? 
+❓ Now try create your own `streamlit-service.yaml` and populate it with a `LoadBalancer` service, with name `streamlit-service` and selector `app: streamlit`. What port should you it target ?
 
 <img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W1D5/load-balancer.png" width=400>
 
@@ -443,7 +443,7 @@ spec:
     metadata:
       labels:
         app: streamlit
-    
+
     spec:
       containers:
       - name: streamlit-container
@@ -455,8 +455,8 @@ spec:
             readOnly: true
         ports:
         - containerPort: 8501
-        args: # Add the ["command", "you", "want", "to", "run"] to start the advanced.py dashboard   
-      
+        args: # Add the ["command", "you", "want", "to", "run"] to start the advanced.py dashboard
+
       # 👇 We add the secrets into the container by treating them as a volume
       volumes:
         - name: streamlit-secrets
@@ -490,6 +490,14 @@ kubectl port-forward services/<service_name> <VM_localhost_port>:<k8s_service_po
 
 <details>
   <summary markdown='span'> Open me! </summary>
+
+## 4.0 Setup
+
+We will need an extension to help us interact via kubectl -> gke
+
+```bash
+gcloud components install gke-gcloud-auth-plugin
+```
 
 ## 4.1 Creating the cluster
 
@@ -529,7 +537,7 @@ allowedTopologies:
           - europe-west1-c
 ```
 
-🤯 This is one of the biggest areas of change when moving to the cloud.  
+🤯 This is one of the biggest areas of change when moving to the cloud.
 - We are now describing the type of storage we want to take, based on a standardized API called "storage.k8s.io/v1"
 - GCP is going to be reading our API call to provide the storage as we want it to be
 
@@ -581,7 +589,7 @@ If everything go correctly you should see the pods running with:
 kubectl get po
 ```
 
-🍾 You can also see them in VScode extensions, and in [GCP console](https://console.cloud.google.com/kubernetes/workload_/gcloud/europe-west1/streamlit-f1). 
+🍾 You can also see them in VScode extensions, and in [GCP console](https://console.cloud.google.com/kubernetes/workload_/gcloud/europe-west1/streamlit-f1).
 
 ❓ Try to find your public internet https address of your app running on GCP! You should also be able to find it with
 
