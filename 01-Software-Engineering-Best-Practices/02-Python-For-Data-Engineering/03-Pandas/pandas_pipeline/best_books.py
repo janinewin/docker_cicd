@@ -27,31 +27,21 @@ def write_best_performing_books(combined_df: pd.DataFrame, data_path: Path) -> N
     Returns:
     - None: Writes the result to the specified path.
     """
-    df = combined_df[["Title", "review/score", "ratingsCount", "authors"]].rename({"Title": "title", "review/score": "average_review_score", "ratingsCount": "number_of_reviews", "authors": "author"}, axis=1)
-    print(df.head())
-    df = df.query("number_of_reviews >= 25")
+    df = combined_df[["Title", "authors", "review/score"]].rename({"Title": "title"}, axis=1)
 
-    #df["author"] = [", ".join(map(str, l)) for l in df["authors"]]
+    df["number_of_reviews"] = 1
+    df = df.groupby(["title", "authors"], as_index=False).sum()
+    df["average_review_score"] = df["review/score"] / df["number_of_reviews"]
 
-    #df.rename(columns={"Title": "title", "review/score": "average_review_score", "ratingsCount": "number_of_reviews", "authors": "author"}, inplace=True)
-    #print(df.head())
-    df = df[["title", "average_review_score", "number_of_reviews", "author"]].groupby(["title", "number_of_reviews", "author"]).mean()
-    #df = df[["Title", "review/score", "ratingsCount", "authors"]].groupby(["Title", "ratingsCount", "authors"]).mean()
-    print(df.head())
-    #df = df.reset_index(drop=True)
-    #df = df.astype({"authors": str})
-    #df.replace(["[", "]"], "")
+    df = df[(df.number_of_reviews >= 25)]
+    df = df.sort_values(["average_review_score", "number_of_reviews"], ascending=False)
+    df = df.head(50)
 
-    #df.groupby(["title", "number_of_reviews", "author"]).mean()
-    #df = df.drop_duplicates()
+    df["author"] = df["authors"].str.replace("[", "")
+    df["author"] = df["author"].str.replace("]", "")
 
-    df = df.sort_values("average_review_score", ascending=False)
-    df = df[["title", "average_review_score", "number_of_reviews", "author"]]
-    print(df.head())
-    df = df.head(10)
-    #df = df[["title", "average_review_score", "number_of_reviews", "author"]]
+    df[["title", "average_review_score", "number_of_reviews", "author"]].to_csv(data_path + "/best_performing_books.csv", index=False)
 
-    df.to_csv(data_path + "/best_performing_books.csv") #, index=False)
 
 
 if __name__ == "__main__":
