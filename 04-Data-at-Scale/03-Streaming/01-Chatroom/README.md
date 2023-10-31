@@ -216,7 +216,7 @@ We wouldn't want to share our root user password though
 <summary markdown='span'>Solution 💡</summary>
 
 ```bash
- docker exec -it 1762a18a68da <your rabbit mq container> add_user messaging_user abc123
+ docker exec -it <your rabbit mq container> add_user messaging_user abc123
 docker exec -it <your rabbit mq container> rabbitmqctl set_permissions -p / messaging_user ".*" "" "^$"
 ```
 
