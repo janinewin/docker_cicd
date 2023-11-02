@@ -1,0 +1,12 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.14, pytest-7.4.2, pluggy-1.3.0 -- /home/janine.windhoff/code/janinewin/data-engineering-challenges/01-Software-Engineering-Best-Practices/04-Data-Lakes/02-Upload/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/janine.windhoff/code/janinewin/data-engineering-challenges/01-Software-Engineering-Best-Practices/04-Data-Lakes/02-Upload
+configfile: pyproject.toml
+plugins: requests-mock-1.11.0
+collecting ... collected 2 items
+
+tests/test_upload.py::test_bucket_exists PASSED                          [ 50%]
+tests/test_upload.py::test_blob_exists PASSED                            [100%]
+
+============================== 2 passed in 4.19s ===============================
