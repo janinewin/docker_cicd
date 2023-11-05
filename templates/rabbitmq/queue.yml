@@ -1,0 +1,10 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: Queue
+metadata:
+  name: my-queue
+  namespace: default
+spec:
+  name: my-queue-name
+  vhost: /
+  rabbitmqClusterReference:
+    name: my-release-rabbitmq
