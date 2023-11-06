@@ -74,7 +74,7 @@ def run_expectations(df: pd.DataFrame):
     )
     checkpoint_result = checkpoint.run()
     context.build_data_docs()
-    print()
+    #print()
 
     failures = []
     for expectation_result in checkpoint_result.list_validation_results():
@@ -84,5 +84,6 @@ def run_expectations(df: pd.DataFrame):
     if failures:
         for failure in failures:
             send_message("Expectation failed!")
+            send_message("site")
     else:
         send_message("All expectations passed!")
