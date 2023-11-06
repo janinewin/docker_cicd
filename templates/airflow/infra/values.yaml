@@ -1,0 +1,47 @@
+executor: "KubernetesExecutor"
+
+postgresql:
+  enabled: false
+
+serviceAccount:
+  create: false
+  name: airflow-cloudsql-proxy
+
+data:
+  metadataSecretName: airflow-db-credentials
+
+dags:
+  gitSync:
+    enabled: true
+    repo: "https://github.com/"
+    branch: main
+    credentialsSecret: git-credentials
+    subPath: ""
+
+webserver:
+  service:
+    type: LoadBalancer
+  resources:
+    requests:
+      cpu: 500m
+      memory: 4Gi
+    limits:
+      cpu: 500m
+      memory: 4Gi
+
+scheduler:
+  livenessProbe:
+    initialDelaySeconds: 300
+    timeoutSeconds: 20
+    failureThreshold: 5
+    periodSeconds: 60
+    command: ~
+
+
+pgbouncer:
+  enabled: true
+
+redis:
+  enabled: false
+
+webserverSecretKeySecretName: airflow-webserver-secret
