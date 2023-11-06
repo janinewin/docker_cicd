@@ -58,4 +58,31 @@ def run_expectations(df: pd.DataFrame):
     -------
     None
     """
-    pass  # YOUR CODE HERE
+    context = gx.get_context()
+
+    datasource = context.sources.add_or_update_pandas(name="hn_df")
+    data_asset = datasource.add_dataframe_asset(name="hn_df")
+    batch_request = data_asset.build_batch_request(dataframe=df)
+    checkpoint = context.add_or_update_checkpoint(
+        name="check_hn",
+        validations=[
+            {
+                "batch_request": batch_request,
+                "expectation_suite_name": "hn_expectation_suite"
+            }
+        ],
+    )
+    checkpoint_result = checkpoint.run()
+    context.build_data_docs()
+    print()
+
+    failures = []
+    for expectation_result in checkpoint_result.list_validation_results():
+        if not expectation_result["success"]:
+            failures.append(expectation_result)
+
+    if failures:
+        for failure in failures:
+            send_message("Expectation failed!")
+    else:
+        send_message("All expectations passed!")

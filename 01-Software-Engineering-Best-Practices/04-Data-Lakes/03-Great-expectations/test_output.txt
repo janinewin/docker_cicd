@@ -1,0 +1,88 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.14, pytest-7.4.2, pluggy-1.3.0 -- /home/janine.windhoff/code/janinewin/data-engineering-challenges/01-Software-Engineering-Best-Practices/04-Data-Lakes/03-Great-expectations/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/janine.windhoff/code/janinewin/data-engineering-challenges/01-Software-Engineering-Best-Practices/04-Data-Lakes/03-Great-expectations
+configfile: pyproject.toml
+plugins: anyio-4.0.0, requests-mock-1.11.0
+collecting ... collected 2 items
+
+tests/test_expectations.py::TestScraperExpectations::test_execution_of_expectations_all_passed FAILED [ 50%]
+tests/test_expectations.py::TestScraperExpectations::test_execution_of_expectations_some_failed FAILED [100%]
+
+=================================== FAILURES ===================================
+______ TestScraperExpectations.test_execution_of_expectations_all_passed _______
+
+self = <tests.test_expectations.TestScraperExpectations testMethod=test_execution_of_expectations_all_passed>
+mock_send_message = <MagicMock name='send_message' id='140562710893040'>
+
+    @patch("scraper.expectations.send_message")
+    def test_execution_of_expectations_all_passed(self, mock_send_message):
+        run_expectations(self.valid_df)
+>       mock_send_message.assert_called_once_with("All expectations passed!")
+
+tests/test_expectations.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../../../../.pyenv/versions/3.8.14/lib/python3.8/unittest/mock.py:925: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <MagicMock name='send_message' id='140562710893040'>
+args = ('All expectations passed!',), kwargs = {}
+expected = (('All expectations passed!',), {})
+actual = call('Expectation failed!')
+_error_message = <function NonCallableMock.assert_called_with.<locals>._error_message at 0x7fd74d3480d0>
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher((args, kwargs))
+        actual = self._call_matcher(self.call_args)
+        if expected != actual:
+            cause = expected if isinstance(expected, Exception) else None
+>           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_message('All expectations passed!')
+E           Actual: send_message('Expectation failed!')
+
+../../../../../../.pyenv/versions/3.8.14/lib/python3.8/unittest/mock.py:913: AssertionError
+----------------------------- Captured stdout call -----------------------------
+
+----------------------------- Captured stderr call -----------------------------
+Calculating Metrics:   0%|          | 0/85 [00:00<?, ?it/s]Calculating Metrics:   0%|          | 0/85 [00:00<?, ?it/s]Calculating Metrics:   2%|▏         | 2/85 [00:00<00:00, 1837.99it/s]Calculating Metrics:   2%|▏         | 2/85 [00:00<00:04, 19.96it/s]  Calculating Metrics:   2%|▏         | 2/85 [00:00<00:04, 19.96it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:04, 19.96it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:04, 19.96it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:04, 19.96it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:04, 19.96it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:04, 19.96it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:04, 19.96it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:04, 19.96it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:04, 19.96it/s]Calculating Metrics:  22%|██▏       | 19/85 [00:00<00:03, 18.98it/s]Calculating Metrics:  22%|██▏       | 19/85 [00:00<00:03, 18.98it/s]Calculating Metrics:  22%|██▏       | 19/85 [00:01<00:03, 18.98it/s]Calculating Metrics:  84%|████████▎ | 71/85 [00:01<00:00, 77.34it/s]Calculating Metrics:  84%|████████▎ | 71/85 [00:01<00:00, 77.34it/s]Calculating Metrics:  84%|████████▎ | 71/85 [00:01<00:00, 77.34it/s]Calculating Metrics:  88%|████████▊ | 75/85 [00:01<00:00, 77.34it/s]Calculating Metrics:  88%|████████▊ | 75/85 [00:01<00:00, 77.34it/s]Calculating Metrics:  88%|████████▊ | 75/85 [00:01<00:00, 77.34it/s]Calculating Metrics:  88%|████████▊ | 75/85 [00:01<00:00, 59.82it/s]
+______ TestScraperExpectations.test_execution_of_expectations_some_failed ______
+
+self = <tests.test_expectations.TestScraperExpectations testMethod=test_execution_of_expectations_some_failed>
+mock_send_message = <MagicMock name='send_message' id='140562689769040'>
+
+    @patch("scraper.expectations.send_message")
+    def test_execution_of_expectations_some_failed(self, mock_send_message):
+        run_expectations(self.invalid_df)
+        expected_call_site = "[call('Expectation failed!'), call('site')]"
+>       self.assertEqual(str(mock_send_message.call_args_list[:2]), expected_call_site)
+E       AssertionError: "[call('Expectation failed!')]" != "[call('Expectation failed!'), call('site')]"
+E       - [call('Expectation failed!')]
+E       + [call('Expectation failed!'), call('site')]
+E       ?                             ++++++++++++++
+
+tests/test_expectations.py:44: AssertionError
+----------------------------- Captured stdout call -----------------------------
+
+----------------------------- Captured stderr call -----------------------------
+Calculating Metrics:   0%|          | 0/85 [00:00<?, ?it/s]Calculating Metrics:   0%|          | 0/85 [00:00<?, ?it/s]Calculating Metrics:   2%|▏         | 2/85 [00:00<00:00, 2425.15it/s]Calculating Metrics:   2%|▏         | 2/85 [00:00<00:03, 21.27it/s]  Calculating Metrics:   4%|▎         | 3/85 [00:00<00:02, 31.73it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:05, 16.29it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:05, 16.29it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:05, 16.29it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:05, 16.29it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:05, 16.29it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:05, 16.29it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:05, 16.29it/s]Calculating Metrics:   4%|▎         | 3/85 [00:00<00:05, 16.29it/s]Calculating Metrics:  22%|██▏       | 19/85 [00:00<00:02, 22.80it/s]Calculating Metrics:  22%|██▏       | 19/85 [00:00<00:02, 22.80it/s]Calculating Metrics:  22%|██▏       | 19/85 [00:00<00:02, 22.80it/s]Calculating Metrics:  84%|████████▎ | 71/85 [00:00<00:00, 94.09it/s]Calculating Metrics:  84%|████████▎ | 71/85 [00:00<00:00, 94.09it/s]Calculating Metrics:  84%|████████▎ | 71/85 [00:01<00:00, 94.09it/s]Calculating Metrics:  88%|████████▊ | 75/85 [00:01<00:00, 94.09it/s]Calculating Metrics:  88%|████████▊ | 75/85 [00:01<00:00, 94.09it/s]Calculating Metrics:  88%|████████▊ | 75/85 [00:01<00:00, 94.09it/s]Calculating Metrics:  88%|████████▊ | 75/85 [00:01<00:00, 70.45it/s]
+=========================== short test summary info ============================
+FAILED tests/test_expectations.py::TestScraperExpectations::test_execution_of_expectations_all_passed
+FAILED tests/test_expectations.py::TestScraperExpectations::test_execution_of_expectations_some_failed
+============================== 2 failed in 14.29s ==============================
