@@ -8,15 +8,15 @@
 
 a. Cloud run service click setup continuous deployment
 
-<img src=https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D5/cloud-run-service.png>
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D5/cloud-run-service.png">
 
 b. Select your repo
 
-<img src=https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D5/cloud-run-select-repo.png width=500>
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D5/cloud-run-select-repo.png" width=500>
 
 c. Select the branch you want to deploy and the name of your dockefile
 
-<img src=https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D5/cloud-run-build-config.png width=500>
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D5/cloud-run-build-config.png" width=500>
 
 
 4. Go to the code and make a change to the response of the api
@@ -24,7 +24,7 @@ c. Select the branch you want to deploy and the name of your dockefile
 
 5. Push the code and go and view your repo and you will see the ci/cd pipeline in action automatically as an action!
 
-<img src=https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D5/repo-action.png>
+<img src="https://wagon-public-datasets.s3.amazonaws.com/data-engineering/W0D5/repo-action.png">
 
 Cloud Run and Cloud Build offer some safeguards against deploying broken containers:
 
