@@ -1,1 +1,22 @@
+FROM python:3.8.14-slim
 
+ARG DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED 1
+
+RUN apt-get -y update \
+  && apt-get -y install software-properties-common \
+  && add-apt-repository ppa:deadsnakes/ppa \
+  && pip install --no-cache-dir poetry \
+  && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY . /app/
+
+RUN poetry install --only main
+
+EXPOSE 8000
+
+ENTRYPOINT [ "poetry", "run" ]
+
+CMD uvicorn app.main:app --host 0.0.0.0 --port 8000

@@ -1,0 +1,5 @@
+Dockerfile*
+makefile
+Readme.md
+.pytest*
+.venv

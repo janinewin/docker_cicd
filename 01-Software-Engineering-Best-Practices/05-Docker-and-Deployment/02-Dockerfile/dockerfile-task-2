@@ -1,1 +1,24 @@
+FROM ubuntu:22.04
 
+ARG DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED 1
+
+RUN apt-get -y update \
+  && apt-get -y install software-properties-common \
+  && add-apt-repository ppa:deadsnakes/ppa \
+  && apt-get -y update \
+  && apt-get install --no-install-recommends -y python3.8 \
+  && apt-get install --no-install-recommends -y python3-pip \
+  && pip install --no-cache-dir fastapi==0.78.0 \
+  && pip install --no-cache-dir SQLAlchemy==1.4.36 \
+  && pip install --no-cache-dir Alembic==1.7.7 \
+  && pip install --no-cache-dir uvicorn==0.17.6 \
+  && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY . /app/
+
+EXPOSE 8000
+
+ENTRYPOINT [ "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000" ]
