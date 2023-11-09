@@ -9,6 +9,7 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get -y update \
     && apt-get -y upgrade \
     && apt-get clean \
+    && pip install --no-cache-dir poetry \
     && rm -rf /var/lib/apt/lists/* \
     && useradd --uid 10000 -ms /bin/bash runner
 
@@ -18,15 +19,14 @@ USER 10000
 
 ENV PATH="${PATH}:/home/runner/.local/bin"
 
-COPY ./  ./
+COPY . .
 
 RUN pip install --upgrade pip \
-    && pip install --no-cache-dir poetry \
-    && poetry install --only main
+  && poetry install --only main
 
 EXPOSE 8000
 
 ENTRYPOINT [ "poetry", "run" ]
 
 # YOUR CODE HERE
-#CMD uvicorn app.main:app --host 0.0.0.0 --port 8000
+CMD uvicorn app.main:app --host 0.0.0.0 --port $PORT
