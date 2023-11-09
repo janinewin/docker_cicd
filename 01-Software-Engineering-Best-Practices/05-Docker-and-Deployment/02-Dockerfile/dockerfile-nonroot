@@ -7,17 +7,17 @@ RUN apt-get -y update \
   && add-apt-repository ppa:deadsnakes/ppa \
   && pip install --no-cache-dir poetry \
   && rm -rf /var/lib/apt/lists/* \
-  && useradd -uid 10000 -ms /bin/bash runner
+  && useradd --uid 10000 -ms /bin/bash runner
 
-WORKDIR /home/runner/app
-
-COPY . /app/
-
-RUN poetry install --only main
+WORKDIR /home/runner/app/
 
 USER 10000
 
 ENV PATH="${PATH}:/home/runner.local/bin"
+
+COPY . .
+
+RUN poetry install --only main
 
 EXPOSE 8000
 
